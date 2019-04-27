@@ -93,7 +93,6 @@ namespace libcom {
         uint8_t c;
         for (int n = 0; n < 3; n++) {
             i >> c;
-            std::cout << "header: " << (int) c << std::endl;
             if (c != 0xFF) throw ParseError("malformed header");
         }
         uint8_t len;
@@ -110,9 +109,6 @@ namespace libcom {
         uint32_t expected = fletcher32(reinterpret_cast<const uint16_t*>(&p._buffer.front()), 
                                             p._buffer.size()/sizeof(uint16_t));
         if (checksum != expected) {
-            std::cout << (int) len << std::endl;
-            std::cout << p.hex() << std::endl;
-            std::cout << checksum << " " << expected << std::endl;
             throw ParseError("bad checksum");
         }
         return i;

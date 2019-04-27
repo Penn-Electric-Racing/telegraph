@@ -1,5 +1,7 @@
 #include "SerialPort.hpp"
 
+#include "Error.hpp"
+
 extern "C" {
 #include <fcntl.h>
 #include <unistd.h>
@@ -10,82 +12,101 @@ extern "C" {
 }
 #include <cstring>
 
-// these change per platform
-
-static int popen(const char* file, int baud, long timeout) {
-    int handle = open(file, O_RDWR | O_NOCTTY);
-    struct termios tty;
-    struct termios tty_old;
-    std::memset(&tty, 0, sizeof tty);
-
-    /* Error Handling */
-    if (tcgetattr ((int) handle, &tty ) != 0) {
-        throw "Could not get port attributes";
-    }
-
-    /* Save old tty parameters */
-    tty_old = tty;
-
-    /* Set Baud Rate */
-    speed_t speed = 0;
-    switch (baud) {
-        case 600:  speed = (speed_t) B600;  break;
-        case 2400: speed = (speed_t) B2400; break;
-        case 4800: speed = (speed_t) B4800; break;
-        case 9600: speed = (speed_t) B9600; break;
-        case 19200: speed = (speed_t) B19200; break;
-        case 38400: speed = (speed_t) B38400; break;
-        case 57600: speed = (speed_t) B57600; break;
-        case 115200: speed = (speed_t) B115200; break;
-        case 230400: speed = (speed_t) B230400; break;
-        case 460800: speed = (speed_t) B460800; break;
-        case 921600: speed = (speed_t) B921600; break;
-        default: throw "Unknown baud rate";
-    }
-    cfsetospeed (&tty, speed);
-    cfsetispeed (&tty, speed);
-
-    /* Setting other Port Stuff */
-    tty.c_cflag     &=  ~PARENB;            // Make 8n1
-    tty.c_cflag     &=  ~CSTOPB;
-    tty.c_cflag     &=  ~CSIZE;
-    tty.c_cflag     |=  CS8;
-
-    tty.c_cflag     &=  ~CRTSCTS;           // no flow control
-    tty.c_lflag     &=  ~ICANON;            // set non-canonical mode
-    tty.c_cc[VMIN]   =   0;                 // read doesn't block
-    tty.c_cc[VTIME]  =   0;                 // 0.1 seconds read timeout
-    tty.c_cflag     |=  CREAD | CLOCAL;     // turn on READ & ignore ctrl lines
-
-    /* Make raw */
-    cfmakeraw(&tty);
-
-    /* Flush Port, then applies attributes */
-    tcflush(handle, TCIFLUSH );
-    if ( tcsetattr(handle, TCSANOW, &tty ) != 0) {
-        throw "Error setting port attributes";
-    }
-    return handle;
-}
-
-static int pclose(int fd) {
-    return close(fd);
-}
-
-static ssize_t pwrite(int fd, const void* buf, size_t count) {
-    size_t n = write(fd, buf, count);
-    tcflush(fd, TCIFLUSH);
-    return n;
-}
-
-static ssize_t pread(int fd, void* buf, size_t count) {
-    return read(fd, buf, count);
-}
-
 // Underlying buffer for the port
 namespace libcom {
 
-    SerialBuf::SerialBuf(int handle, size_t rb, size_t put_back, size_t wb) :
+    // these change per platform
+    static serialhandle_t port_open(const char* file, int baud, long timeout) {
+        int fd = open(file, O_RDWR | O_NOCTTY);
+        struct termios tty;
+        struct termios tty_old;
+        std::memset(&tty, 0, sizeof tty);
+
+        /* Error Handling */
+        if (tcgetattr(fd, &tty ) != 0) {
+            throw "Could not get port attributes";
+        }
+
+        /* Save old tty parameters */
+        tty_old = tty;
+
+        /* Set Baud Rate */
+        speed_t speed = 0;
+        switch (baud) {
+            case 600:  speed = (speed_t) B600;  break;
+            case 2400: speed = (speed_t) B2400; break;
+            case 4800: speed = (speed_t) B4800; break;
+            case 9600: speed = (speed_t) B9600; break;
+            case 19200: speed = (speed_t) B19200; break;
+            case 38400: speed = (speed_t) B38400; break;
+            case 57600: speed = (speed_t) B57600; break;
+            case 115200: speed = (speed_t) B115200; break;
+            case 230400: speed = (speed_t) B230400; break;
+            case 460800: speed = (speed_t) B460800; break;
+            case 921600: speed = (speed_t) B921600; break;
+            default: throw "Unknown baud rate";
+        }
+        cfsetospeed (&tty, speed);
+        cfsetispeed (&tty, speed);
+
+        /* Setting other Port Stuff */
+        tty.c_cflag     &=  ~PARENB;            // Make 8n1
+        tty.c_cflag     &=  ~CSTOPB;
+        tty.c_cflag     &=  ~CSIZE;
+        tty.c_cflag     |=  CS8;
+
+        tty.c_cflag     &=  ~CRTSCTS;           // no flow control
+        tty.c_lflag     &=  ~ICANON;            // set non-canonical mode
+        tty.c_cc[VMIN]   =   1;                 // read doesn't block
+        tty.c_cc[VTIME]  =   1;                 // 0.1 seconds read timeout
+        tty.c_cflag     |=  CREAD | CLOCAL;     // turn on READ & ignore ctrl lines
+
+        /* Make raw */
+        cfmakeraw(&tty);
+
+        /* Flush Port, then applies attributes */
+        tcflush(fd, TCIFLUSH );
+        if ( tcsetattr(fd, TCSANOW, &tty ) != 0) {
+            throw "Error setting port attributes";
+        }
+
+        serialhandle_t handle;
+        handle.fd = fd;
+
+        FD_ZERO(&handle.set);
+        FD_SET(fd, &handle.set);
+
+        handle.timeout = timeout;
+
+        return handle;
+    }
+
+    static int port_close(serialhandle_t handle) {
+        return close(handle.fd);
+    }
+
+    static ssize_t port_write(serialhandle_t handle, const void* buf, size_t count) {
+        size_t n = write(handle.fd, buf, count);
+        tcflush(handle.fd, TCIFLUSH);
+        return n;
+    }
+
+    static ssize_t port_read(serialhandle_t handle, void* buf, size_t count) {
+        if (handle.timeout > 0) {
+            timeval timeout;
+            timeout.tv_sec = handle.timeout / 1000;
+            timeout.tv_usec = (handle.timeout % 1000) * 1000;
+            int rv = select(handle.fd + 1, &handle.set, nullptr, nullptr, &timeout);
+            if (rv < 0) return -2;
+            else if (rv == 0) return -1;
+            else return read(handle.fd, buf, count);
+        } else {
+            return read(handle.fd, buf, count);
+        }
+    }
+
+
+    SerialBuf::SerialBuf(serialhandle_t handle, size_t rb, size_t put_back, size_t wb) :
             _handle(handle), _put_back(16), _rb(nullptr), _wb(nullptr), _rb_size(0), _wb_size(0) {
         _rb_size = std::max(rb, put_back) + put_back;
         _wb_size = wb + 1;
@@ -119,14 +140,17 @@ namespace libcom {
 
         // start is now the start of the buffer, proper.
         // Read from fptr_ in to the provided buffer
-        std::cout << "reading " << (size_t) start << " " << _rb_size - (start - base) << std::endl;
-        size_t n = pread(_handle, start, _rb_size - (start - base));
-        std::cout << "n: " << (int) n << std::endl;
-        if (n == 0) return traits_type::eof();
+        size_t n = port_read(_handle, start, _rb_size - (start - base));
+        if (n == 0) {
+            return traits_type::eof();
+        } else if (n == -1) {
+            throw Timeout();
+        } else if (n < 0) {
+            throw IOError("Failed to read from port");
+        }
 
         // Set buffer pointers
         setg(base, start, start + n);
-
         return traits_type::to_int_type(*gptr());
     }
 
@@ -151,15 +175,19 @@ namespace libcom {
     SerialBuf::sync() {
         size_t n = pptr() - pbase();
         pbump(-n);
-        return pwrite(_handle, pbase(), n) ? 0 : -1;
+        return port_write(_handle, pbase(), n) ? 0 : -1;
     }
 
     // port wrapper
     SerialPort::SerialPort(const std::string& name, int baud, long timeout) : 
-                                    _handle(popen(name.c_str(), baud, timeout)),
+                                    _handle(port_open(name.c_str(), baud, timeout)),
                                     _buf(_handle, 1024, 16, 1024),
-                                    std::iostream(&_buf) {}
+                                    std::iostream(&_buf) {
+        // enable exceptions by default
+        exceptions(SerialPort::badbit | SerialPort::failbit);
+    }
+
     SerialPort::~SerialPort() {
-        pclose(_handle);
+        port_close(_handle);
     }
 }

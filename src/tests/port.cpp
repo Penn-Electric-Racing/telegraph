@@ -1,55 +1,40 @@
 #include <libcom/Msg.hpp>
 #include <libcom/Error.hpp>
-#include <libcom/SerialPort.hpp>
 #include <libcom/Param.hpp>
-#include <libcom/PacketProcessor.hpp>
+#include <libcom/Connection.hpp>
+#include <libcom/SerialPort.hpp>
+#include <libcom/XML.hpp>
 
 #include <sstream>
 #include <iostream>
 
 using namespace libcom;
 
-// parameters
-struct {
-    Param<bool> error { 1239, "sdl.error" };
-} sdl;
 
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        std::cout << "usage: port-test PerDos.xml" << std::endl;
+        return 0;
+    }
 
-int main() {
     // essentially a switchboard
     // where we can register Parameters
-    PacketProcessor proc;
-    proc += &sdl.error;
+    Connection conn;
 
-    sdl.error.requestHandler([] (bool b) {
-                std::cout << sdl.error.name() << " changed to " << b << std::endl;
-            });
+    std::vector<std::shared_ptr<GenericParam>> params = xml::readPerDosFile(argv[1]);
 
-    SerialPort port("/dev/ttyACM0", 230400);
+    for (const std::shared_ptr<GenericParam>& p : params) {
+        std::cout << "read: " << p->name() << std::endl;
+        p->updateHandler([&p] () {
+            std::cout << p->name() << " changed to " << p->valueStr() << std::endl;
+        });
+        conn += p; // will capture the shared_ptr in Connection
+    }
 
-    // write the (empty) message to the port
-    Msg m;
-    port << m << std::flush;
 
-    // read from the port
-    Msg::drain(port); // wait for first header
-    while (true) {
-        try {
-            // read a message
-            std::cout << "reading message" << std::endl;
-            port >> m;
-            std::cout << m.len() << std::endl;
-            Packet packet;
-            while (m.hasNext()) {
-                m >> packet; // read a packet
-                size_t off = packet.data() - m.data();
-                //std::cout << "  " << off << "  " << packet.id() << " " << packet.size() << std::endl;
-                proc.process(packet);
-            }
-        } catch (const ParseError& e) {
-            std::cout << "Error: " << e.what() << std::endl;
-            Msg::drain(port);
-        }
-    } while (true);
+    SerialPort port("/dev/ttyACM0", 230400, 100);
+    conn.run(&port);
+
+    return 0;
 }
 

@@ -4,8 +4,19 @@
 #include <string>
 #include <iostream>
 
+// for linux
+#include <sys/select.h>
+#include <sys/time.h>
+
 namespace libcom {
-    typedef int serialhandle_t;
+
+    // for linux
+    typedef struct {
+        int fd;
+        fd_set set;
+        long timeout;
+    } serialhandle_t;
+
     class SerialBuf : public std::streambuf {
     public:
         SerialBuf(serialhandle_t handle, size_t rb, size_t put_back, size_t wb);
@@ -26,7 +37,7 @@ namespace libcom {
     };
     class SerialPort : public std::iostream {
     public:
-        SerialPort(const std::string& name, int baud, long timeout=500);
+        SerialPort(const std::string& name, int baud, long timeout=-1);
         ~SerialPort();
     private:
         // underlying buffer
