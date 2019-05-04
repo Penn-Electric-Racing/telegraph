@@ -24,7 +24,7 @@ namespace libcom {
 
         /* Error Handling */
         if (tcgetattr(fd, &tty ) != 0) {
-            throw "Could not get port attributes";
+            throw IOError("Failed to open port");
         }
 
         /* Save old tty parameters */
@@ -44,7 +44,7 @@ namespace libcom {
             case 230400: speed = (speed_t) B230400; break;
             case 460800: speed = (speed_t) B460800; break;
             case 921600: speed = (speed_t) B921600; break;
-            default: throw "Unknown baud rate";
+            default: throw IOError("Unknown baud rate");
         }
         cfsetospeed (&tty, speed);
         cfsetispeed (&tty, speed);
@@ -67,7 +67,7 @@ namespace libcom {
         /* Flush Port, then applies attributes */
         tcflush(fd, TCIFLUSH );
         if ( tcsetattr(fd, TCSANOW, &tty ) != 0) {
-            throw "Error setting port attributes";
+            throw IOError("Error setting port attributes (check permissions)");
         }
 
         serialhandle_t handle;
@@ -162,7 +162,7 @@ namespace libcom {
             return traits_type::eof();
         }
         if (!std::less_equal<char *>()(pptr(), epptr())) {
-            throw "Buffer screwed up!";
+            throw IOError("Buffer screwed up!");
         }
         char c = traits_type::to_char_type(val);
         *pptr() = c;

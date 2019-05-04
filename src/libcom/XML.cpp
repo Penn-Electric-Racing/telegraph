@@ -4,6 +4,7 @@
 
 #include <pugixml.hpp>
 #include <iostream>
+#include <algorithm>
 
 namespace libcom::xml {
     std::vector<std::shared_ptr<GenericParam>>
@@ -21,6 +22,13 @@ namespace libcom::xml {
                 GenericParam::Id id = (GenericParam::Id) paramNode.attribute("Id").as_int();
                 std::string name = paramNode.attribute("AccessString").value();
                 std::string type = paramNode.attribute("Type").value();
+
+                // replace dots with slashes, [ with ( and ] with )
+                std::replace(name.begin(), name.end(), '.', '/');
+                std::replace(name.begin(), name.end(), '[', '/');
+                name.erase(std::remove(name.begin(), name.end(), ']'), name.end());
+                // prepend a slash
+                name = "/" + name;
 
                 std::shared_ptr<GenericParam> param;
                 if (type == "bool") param = std::make_shared<Param<bool>>(id, name);
