@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.9)
 
+set(CMAKE_CXX_STANDARD 17)
+
 project(libcom)
 
 add_subdirectory(extern)
@@ -7,6 +9,8 @@ add_subdirectory(extern)
 # cpp-hocon requires boost regex and leatherman
 find_package(Boost REQUIRED COMPONENTS regex REQUIRED)
 find_package(Leatherman COMPONENTS utils locale REQUIRED)
+
+find_package(Protobuf REQUIRED)
 
 file(GLOB_RECURSE LIBCOM_SOURCES "src/**.cpp")
 file(GLOB_RECURSE LIBCOM_HEADERS "src/**.hpp")

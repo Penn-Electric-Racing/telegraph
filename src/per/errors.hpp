@@ -10,6 +10,11 @@ namespace per {
         inline bad_type_error(const std::string& error) : std::logic_error(error) {}
     };
 
+    class missing_error: public std::logic_error {
+    public:
+        inline missing_error(const std::string& error) : std::logic_error(error) {}
+    };
+
     class parse_error : public std::logic_error {
     public:
         inline parse_error(const std::string& error) : std::logic_error(error) {}

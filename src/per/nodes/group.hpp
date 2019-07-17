@@ -2,7 +2,6 @@
 #define __PER_GROUP_HPP__
 
 #include "node.hpp"
-#include "../utils/signal.hpp"
 
 #include <memory>
 #include <vector>
@@ -19,15 +18,14 @@ namespace per {
         inline void set_schema(const std::string& schema) { schema_ = schema; }
         constexpr void set_version(int version) { version_ = version; }
 
-        void add_child(const node& node);
         void add_child(const std::shared_ptr<node>& node);
-
-        void remove_child(const node& node);
         void remove_child(const std::shared_ptr<node>& node);
 
-        signal<std::shared_ptr<node>> on_child_added;
-        signal<std::shared_ptr<node>> on_child_removed;
+        constexpr const std::vector<shared_node>& get_children() const { return children_; }
+
+        virtual void print(std::ostream& o, int ident) const override;
     private:
+
         std::string schema_;
         int version_;
 

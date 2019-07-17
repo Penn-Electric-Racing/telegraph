@@ -1,6 +1,6 @@
 #include "hocon.hpp"
 
-#include "errors.hpp"
+#include "../errors.hpp"
 
 #include <hocon/config.hpp>
 
@@ -63,6 +63,7 @@ namespace per {
     hocon_parser::parse_file(const std::string& file) {
         try {
             hocon::shared_config doc = hocon::config::parse_file_any_syntax(file);
+            doc = doc->resolve();
             return parse_value(doc->root());
         } catch (const hocon::config_exception& e) {
             throw parse_error(e.what());

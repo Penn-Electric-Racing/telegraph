@@ -3,6 +3,7 @@
 #include "../errors.hpp"
 
 #include <algorithm>
+#include <iomanip>
 
 namespace per {
 
@@ -16,7 +17,6 @@ namespace per {
         if (std::find(children_.begin(), children_.end(), node) != children_.end()) return;
 
         children_.push_back(node);
-        on_child_added(node);
     }
 
     void
@@ -24,6 +24,15 @@ namespace per {
         auto pos = std::find(children_.begin(), children_.end(), node);
         if (pos == children_.end()) return;
         children_.erase(pos);
-        on_child_removed(node);
+    }
+
+    void
+    group::print(std::ostream& o, int ident) const {
+        o << std::setfill(' ') << std::setw(ident) << "";
+        o << get_name() << ' ' << get_schema() << ' ' << get_version() << std::endl;
+        ident += 4;
+        for (auto& n : children_) {
+            n->print(o, ident);
+        }
     }
 }
