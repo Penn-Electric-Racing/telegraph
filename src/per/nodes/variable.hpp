@@ -9,7 +9,7 @@
 namespace per {
     class variable : public node {
     public:
-        class subscriber {
+        class subscription {
         public:
             virtual void notify(const std::function<void(value)>& func) = 0;
             // after unsubscribe is called, this subscription object
@@ -17,9 +17,10 @@ namespace per {
             virtual void unsubscribe() = 0;
         };
         // a variable source manages subscriptions
+        // note that one source might service multiple variables
         class source {
         public:
-            virtual subscriber* subscribe(variable* v, uint64_t rate) = 0;
+            virtual subscription* subscribe(variable* v, uint64_t interval) = 0;
         };
 
         variable();
@@ -32,8 +33,26 @@ namespace per {
         inline void set_source(source* s) { src_ = s; }
 
         // for getting access to the update stream you have to subscribe
-        // if this fails it will return a null subscriber
-        subscriber* subscribe(uint64_t rate=0);
+        // if this fails it will do so quietly 
+        // and return a null subscriber object
+        //
+        // on subscribe it is expected that 
+        // the data source will resend the
+        // last varaible state
+        //
+        // the interval specifies the largest allowable interval between
+        // state updates for debouncing values. A value of 0 indicates a
+        // realtime subscription 
+        // (i.e a message will immediately be sent to the CAN bus/forwarded over perdos
+        //  everytime the state changes)
+        //
+        // the underlying data source will handle how to keep subscriptions alive across
+        // multiple links the end user does not need to worry about that
+        //
+        // when you are done with the subscriber, you *must* call unsubscribe() or you
+        // will cause a memory leak where subscribers are never cleaned up
+        // and subscriptions are kept alive indefinitely
+        subscription* subscribe(uint64_t interval=0);
 
         void print(std::ostream& o, int ident) const override;
     private:

@@ -11,6 +11,7 @@ find_package(Boost REQUIRED COMPONENTS regex REQUIRED)
 find_package(Leatherman COMPONENTS utils locale REQUIRED)
 
 find_package(Protobuf REQUIRED)
+find_package(gRPC REQUIRED)
 
 file(GLOB_RECURSE LIBCOM_SOURCES "src/**.cpp")
 file(GLOB_RECURSE LIBCOM_HEADERS "src/**.hpp")

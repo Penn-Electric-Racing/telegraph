@@ -25,7 +25,6 @@ namespace per {
 
         virtual void print(std::ostream& o, int ident) const override;
     private:
-
         std::string schema_;
         int version_;
 

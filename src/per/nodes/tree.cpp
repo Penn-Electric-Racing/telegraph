@@ -10,10 +10,41 @@
 
 #include "../utils/json.hpp"
 
+#include <sstream>
+#include <string>
+#include <iostream>
+
 namespace per {
 
     tree::tree() : root_() {}
     tree::tree(const std::shared_ptr<group>& root) : root_(root) {}
+
+    shared_node
+    tree::find(const std::string& path) {
+        shared_node node = root_;
+        std::string name;
+        std::istringstream split(path);
+        while (std::getline(split, name, '/')) {
+            if (name.length() > 0) {
+                group* g = dynamic_cast<group*>(node.get());
+                if (g) {
+                    // TODO: Have a map in the group for children names
+                    bool found = false;
+                    for (auto& c : g->get_children()) {
+                        if (c->get_name() == name) {
+                            node = c;
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found) return nullptr;
+                } else {
+                    return nullptr;
+                }
+            }
+        }
+        return node;
+    }
 
     std::ostream& operator<<(std::ostream& o, const tree& t) {
         o << *t.root();

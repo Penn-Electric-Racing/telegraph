@@ -9,12 +9,14 @@
 namespace per {
     class dummy_source : public variable::source {
     public:
-        class subscriber : public variable::subscriber {
+        class subscription : public variable::subscription {
             friend class dummy_source;
         public:
-            inline subscriber(uint64_t interval, variable* v, 
+            inline subscription(uint64_t interval, variable* v, 
                                         dummy_source* src) : 
                         interval_(interval), src_(src), var_(v), funcs_() {}
+
+            void send(const value& v);
 
             void notify(const std::function<void(value)>& func) override;
             void unsubscribe() override;
@@ -27,12 +29,14 @@ namespace per {
 
         dummy_source();
 
-        void unsubscribe(subscriber* s);
+        void update(variable* var, const value& v);
 
-        variable::subscriber* subscribe(variable* v, uint64_t interval) override;
+        void unsubscribe(subscription* s);
+
+        variable::subscription* subscribe(variable* v, uint64_t interval) override;
     private:
-        std::unordered_set<subscriber*> subscribers_;
-        std::unordered_map<variable*, std::unordered_set<subscriber*>> vars_;
+        std::unordered_set<subscription*> subscribers_;
+        std::unordered_map<variable*, std::unordered_set<subscription*>> vars_;
     };
 }
 

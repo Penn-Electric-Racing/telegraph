@@ -6,13 +6,15 @@
 
 #include "../utils/json_fwd.hpp"
 
-namespace per {
-    class group;
+#include "node.hpp"
 
+namespace per {
     class tree {
     public:
         tree();
         tree(const std::shared_ptr<group>& root);
+
+        shared_node find(const std::string& path);
 
         const std::shared_ptr<group>& root() { return root_; }
         const std::shared_ptr<const group> root() const { return root_; }

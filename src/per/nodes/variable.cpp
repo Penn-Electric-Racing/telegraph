@@ -8,7 +8,7 @@ namespace per {
     variable::variable(const std::string& name, const type t) :
                             node(name), src_(nullptr), type_(t) {}
 
-    variable::subscriber*
+    variable::subscription*
     variable::subscribe(uint64_t rate) {
         if (!src_) return nullptr;
         return src_->subscribe(this, rate);
