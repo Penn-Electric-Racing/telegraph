@@ -16,7 +16,7 @@ int main(int argc, char** argv) {
 
     tree t = tree::unpack(j["root"]);
     std::cout << t << std::endl;
-    shared_node n = t.find("foo");
+    shared_node n = (*t.root())["foo"];
     shared_variable v = std::dynamic_pointer_cast<variable>(n);
     if (v) {
         std::cout << *v << std::endl;

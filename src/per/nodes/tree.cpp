@@ -19,6 +19,7 @@ namespace per {
     tree::tree() : root_() {}
     tree::tree(const std::shared_ptr<group>& root) : root_(root) {}
 
+    /*
     shared_node
     tree::find(const std::string& path) {
         shared_node node = root_;
@@ -45,6 +46,7 @@ namespace per {
         }
         return node;
     }
+    */
 
     std::ostream& operator<<(std::ostream& o, const tree& t) {
         o << *t.root();
@@ -99,11 +101,9 @@ namespace per {
     static
     shared_variable unpack_variable(const std::string& name, const json& json) {
         type t = unpack_type(json);
-        shared_variable v = std::make_shared<variable>(name, unpack_type(json));
-        if (json.is_object()) {
-            v->set_pretty(json.value("pretty", ""));
-            v->set_desc(json.value("desc", ""));
-        }
+        std::string pretty = json.is_object() ? json.value("pretty", "") : "";
+        std::string desc = json.is_object() ? json.value("desc", "") : "";
+        shared_variable v = std::make_shared<variable>(name, pretty, desc, unpack_type(json));
         return v;
     }
 
@@ -115,11 +115,10 @@ namespace per {
             if (json.find("arg") != json.end()) arg = unpack_type(json["arg"]);
             if (json.find("ret") != json.end()) ret = unpack_type(json["ret"]);
         } 
-        shared_action a = std::make_shared<action>(name, arg, ret);
-        if (json.is_object()) {
-            a->set_pretty(json.value("pretty", ""));
-            a->set_desc(json.value("desc", ""));
-        }
+        std::string pretty = json.is_object() ? json.value("pretty", "") : "";
+        std::string desc = json.is_object() ? json.value("desc", "") : "";
+
+        shared_action a = std::make_shared<action>(name, pretty, desc, arg, ret);
         return a;
     }
 
@@ -133,11 +132,11 @@ namespace per {
     shared_group unpack_group(const std::string& name, const json& json) {
         std::string schema = json.value("schema", "none");
         int version = json.value("version", 0);
+        std::string pretty = json.value("pretty", "");
+        std::string desc = json.value("desc", "");
 
-        shared_group g = std::make_shared<group>(name, schema, version);
+        shared_group g = std::make_shared<group>(name, pretty, desc, schema, version);
 
-        g->set_pretty(json.value("pretty", ""));
-        g->set_desc(json.value("desc", ""));
         for (const auto& item : json.items()) {
             const auto& key = item.key();
             if (key != "schema" && key != "version" &&
@@ -172,10 +171,7 @@ namespace per {
 
     tree
     tree::unpack(const json& json_root) {
-        shared_group root = std::make_shared<group>();
-        root->set_name("root");
-        root->set_schema("root");
-        root->set_version(json_root.value("version", 1));
+        shared_group root = std::make_shared<group>("root", "", "", "root", json_root.value("version", 1));
         for (const auto& item : json_root.items()) {
             if (item.key() == "version") continue;
             root->add_child(unpack_node(item.key(), item.value()));

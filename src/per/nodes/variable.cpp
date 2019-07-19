@@ -5,8 +5,9 @@
 #include <iomanip>
 
 namespace per {
-    variable::variable(const std::string& name, const type t) :
-                            node(name), src_(nullptr), type_(t) {}
+    variable::variable(const std::string& name, const std::string& pretty, const std::string& desc,
+                        const type t) :
+                            node(name, pretty, desc), src_(nullptr), type_(t) {}
 
     variable::subscription*
     variable::subscribe(uint64_t rate) {

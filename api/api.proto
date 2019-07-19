@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package libcom;
+
+// Represents a context
+service ContextManager {
+  // First returns deltas populating all available contexts
+  // then will send subsequent deltas if contexts get removed
+  rpc StreamContexts(Empty) returns (stream ContextDelta) {}
+
+  // Will first send all of the deltas needed to build up
+  // a tree for a context
+  rpc StreamTree(TreeRequest) returns (stream TreeDelta) {}
+
+  // canceling the stream stops the subscription
+  rpc Subscribe(SubscribeRequest) returns (stream Value) {}
+
+  // performs an action
+  rpc PerformAction(ActionRequest) returns (Value) {}
+}
+
+message Empty {}
+
+// Represents a datatype
+message Type {
+}
+
+// Represents a datapoint
+message Value {
+    uint64 timestamp = 1;
+    // unfortunately since
+    // there is only uint32/uint64 we need
+    // to use uint32 for uint8, uint16
+    oneof type {
+        uint32 ui8 = 2;
+        uint32 ui16 = 3;
+        uint32 ui32 = 4;
+        uint64 ui64 = 5;
+        int32 i8 = 6;
+        int32 i16 = 7;
+        int32 i32 = 8;
+        int64 i64 = 9;
+        float f = 10;
+        double d = 11;
+    }
+}
+
+// Represents a set of timestamp, datatype pairs
+message TimeSeries {
+}
+
+// ContextInfo contains all the information
+// about a specific context.
+// You can use the ID to fetch information about a context
+message ContextInfo {
+  int64 id = 1;
+  string name = 2;
+}
+
+// You get context delta events 
+// for when contexts have been added/removed
+message ContextDelta {
+}
+
+// Request the tree 
+// for a specific context ID
+message TreeRequest {
+    int64 tree_id = 1;
+}
+
+message TreeDelta {
+}
+
+// subscribe to a particular variable
+message SubscribeRequest {
+    int64 tree_id = 1;
+    int64 var_id = 2;
+    int64 interval = 3;
+}
+
+// for performing an action
+message ActionRequest {
+    int64 tree_id = 1;
+    int64 action_id = 2;
+    Value argument = 3;
+}
+

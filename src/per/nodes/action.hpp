@@ -11,9 +11,9 @@
 namespace per {
 
     // an action represents a callable interface
-    // where you can send a value 
+    // where you can send a value
     // and get a response value
-    // note that the value can be "empty"
+    // note that the value and return types can be "empty"
     // in which case this acts like a signal
     class action : public node {
     public:
@@ -22,9 +22,11 @@ namespace per {
             virtual value exec(const action* a, const value& v) = 0;
         };
 
-        action();
-        action(const std::string& name, 
-           const type& arg, const type& ret);
+        action(const std::string& name, const std::string& pretty, const std::string& desc,
+                   const type& arg, const type& ret);
+
+        constexpr const type& get_arg_type() const { return arg_; }
+        constexpr const type& get_ret_type() const { return ret_; }
 
         constexpr void set_executor(executor* ex) { executor_ = ex; }
 

@@ -23,8 +23,8 @@ namespace per {
             virtual subscription* subscribe(variable* v, uint64_t interval) = 0;
         };
 
-        variable();
-        variable(const std::string& name, const type t);
+        variable(const std::string& name, 
+                const std::string& pretty, const std::string& desc, const type t);
 
         inline void set_type(const type& t) { type_ = t; }
         constexpr const type& get_type() const { return type_; }

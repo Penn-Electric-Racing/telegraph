@@ -14,8 +14,6 @@ namespace per {
         tree();
         tree(const std::shared_ptr<group>& root);
 
-        shared_node find(const std::string& path);
-
         const std::shared_ptr<group>& root() { return root_; }
         const std::shared_ptr<const group> root() const { return root_; }
 

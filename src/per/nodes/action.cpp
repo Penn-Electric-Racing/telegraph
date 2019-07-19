@@ -5,9 +5,9 @@
 #include <iomanip>
 
 namespace per {
-    action::action() : node(), arg_(), ret_(), executor_() {}
-    action::action(const std::string& name, const type& arg, const type& ret) :
-                node(name), arg_(arg), ret_(ret), executor_() {}
+    action::action(const std::string& name, const std::string& pretty,
+                        const std::string& desc, const type& arg, const type& ret) :
+                node(name, pretty, desc), arg_(arg), ret_(ret), executor_() {}
 
     value
     action::execute(const value& v) {
