@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <card title="Hi" subtitle="Hello"/>
+    <grid id="graph-grid">
+      <tile header="Example Tile"/>
+    </grid>
   </div>
 </template>
 
 <script>
-import card from './components/card.vue'
+import Tile from './components/Tile.vue'
+import Grid from './components/Grid.vue'
 
 export default {
   name: 'app',
   components: {
-    card
+    Tile, Grid
   }
 }
 </script>
@@ -20,15 +23,24 @@ export default {
   font-family: "Poppins", sans-serif, "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  margin-top: 60px;
-}
 
-body {
   background-color: #1c1e2f;
   color: #b1b1b5;
+
+  width: 100%;
+  height: 100%;
+}
+
+#graph-grid {
+  width: 100%;
+  height: 100%;
+}
+
+html, body {
   border: 0;
   margin: 0;
+  width: 100%;
+  height: 100%;
 }
 
 h1 {

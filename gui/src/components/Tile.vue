@@ -1,23 +1,21 @@
 <template>
-    <div class="card">
-        <h1>{{ title }}</h1>
-        <h2>{{ subtitle }}</h2>
+    <div class="tile">
+        <h1>{{ header }}</h1>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'card',
+  name: 'tile',
   props: {
-    title: String,
-    subtitle: String
+    header: String
   }
 }
 </script>
 
 <style scoped>
 
-.card {
+.tile {
   position: relative;
   display: flex;
   flex-direction: column;
