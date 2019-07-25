@@ -19,6 +19,11 @@ namespace per {
     public:
         inline parse_error(const std::string& error) : std::logic_error(error) {}
     };
+
+    class tree_exists_error : public std::logic_error {
+    public:
+        inline tree_exists_error(const std::string& error) : std::logic_error(error) {}
+    };
 }
 
 #endif

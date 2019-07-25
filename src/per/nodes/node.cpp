@@ -3,7 +3,6 @@
 namespace per {
     node::node(const std::string& name, 
             const std::string& pretty, const std::string& desc) : 
-                node_added(), node_removed(),
                 name_(name), pretty_(pretty), desc_(desc), parent_() {}
 
     shared_node

@@ -55,11 +55,6 @@ namespace per {
         virtual void visit(const std::function<void(const shared_const_node&)>& visitor, bool preorder=true) const;
 
         virtual void print(std::ostream& o, int ident) const = 0;
-
-        // signals for when a node is added or removed
-        // anywhere in the tree
-        signal<const shared_node&> node_added;
-        signal<const shared_node&> node_removed;
     public:
         // note that name cannot change
         std::string name_;

@@ -8,12 +8,32 @@
 namespace per {
     group::group(const std::string& name, const std::string& pretty, const std::string& desc,
                     const std::string& schema, int version) :
-                    node(name, pretty, desc), schema_(schema), 
+                    node(name, pretty, desc), 
+                    on_add_child(), on_remove_child(),
+                    on_child_added(), on_child_removed(),
+                    schema_(schema), 
                     version_(version), children_() {}
 
     void
     group::add_child(const std::shared_ptr<node>& node) {
-        if (std::find(children_.begin(), children_.end(), node) != children_.end()) return;
+        if (std::find(children_.begin(), children_.end(), 
+                    node) != children_.end()) return;
+        on_add_child(node);
+        child_added(node);
+    }
+
+    void
+    group::remove_child(const std::shared_ptr<node>& node) {
+        auto pos = std::find(children_.begin(), children_.end(), node);
+        if (pos == children_.end()) return;
+        on_remove_child(node);
+        child_removed(node);
+    }
+
+    void
+    group::child_added(const std::shared_ptr<node>& node) {
+        if (std::find(children_.begin(), children_.end(), 
+                    node) != children_.end()) return;
         auto parent = node->get_parent().lock();
         if (parent != nullptr) {
             parent->remove_child(node);
@@ -22,29 +42,17 @@ namespace per {
         children_.push_back(node);
         named_children_[node->get_name()] = node;
 
-        child_added(node);
-        // now go through 
-        // all of the child nodes and signal a node added
-        // in an order such that the parents always get added
-        // first
-        node->visit([this](const shared_node& n) {
-                    child_added(n);
-        }, true);
+        on_child_added(node);
     }
 
     void
-    group::remove_child(const std::shared_ptr<node>& node) {
+    group::child_removed(const std::shared_ptr<node>& node) {
         auto pos = std::find(children_.begin(), children_.end(), node);
         if (pos == children_.end()) return;
         children_.erase(pos);
         named_children_.erase(node->get_name());
         node->set_parent(std::weak_ptr<group>());
-
-        // now go through all of the child nodes
-        // and signal a node removed
-        node->visit([this](const shared_node& n) {
-            child_removed(n);
-        }, false);
+        on_child_removed(node);
     }
 
     shared_node

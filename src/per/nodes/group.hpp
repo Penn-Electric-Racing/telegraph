@@ -19,20 +19,28 @@ namespace per {
         void add_child(const std::shared_ptr<node>& node);
         void remove_child(const std::shared_ptr<node>& node);
 
+        void child_added(const std::shared_ptr<node>& node);
+        void child_removed(const std::shared_ptr<node>& node);
+
         shared_node operator[](const std::string& name) override;
         shared_const_node operator[](const std::string& name) const override;
 
-        void visit(const std::function<void(const shared_node&)>& visitor, bool preorder=true) override;
-        void visit(const std::function<void(const shared_const_node&)>& visitor, bool preorder=true) const override;
+        void visit(const std::function<void(const shared_node&)>& visitor, 
+                        bool preorder=true) override;
+        void visit(const std::function<void(const shared_const_node&)>& visitor,
+                        bool preorder=true) const override;
+
         void print(std::ostream& o, int ident) const override;
 
-        signal<const shared_node&> child_added;
-        signal<const shared_node&> child_removed;
-    private:
-        // for propagating events up the node hierarchy
-        void notify_node_added(const shared_node& n);
-        void notify_node_remvoed(const shared_node& n);
+        // for listening to child add/remove requests
+        signal<const shared_node&> on_add_child;
+        signal<const shared_node&> on_remove_child;
 
+        // on child added/removed 
+        // (if connected to database, a remove person adding a node can trigger this)
+        signal<const shared_node&> on_child_added;
+        signal<const shared_node&> on_child_removed;
+    private:
         std::string schema_;
         int version_;
 
