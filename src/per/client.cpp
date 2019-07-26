@@ -1,7 +1,6 @@
 #include "client.hpp"
 #include "errors.hpp"
 
-#include <rethinkdb.h>
 #include <iostream>
 
 
@@ -52,16 +51,20 @@ namespace per {
     client::replace(const std::string& name, tree& tree) {
         R::Cursor c = R::db_list().contains(name).run(*conn_);
         // just drop/recreate the tables
-        if (c.to_datum().extract_boolean()) {
-            R::db(name).table_drop("nodes").run(*conn_);
-            R::db(name).table_drop("subscriptions").run(*conn_);
-            R::db(name).table_drop("actions").run(*conn_);
-            R::db(name).table_drop("log").run(*conn_);
+        if (!c.to_datum().extract_boolean()) {
+            add(name, tree);
+            return;
         }
+        R::db(name).table_drop("nodes").run(*conn_);
+        R::db(name).table_drop("subscriptions").run(*conn_);
+        R::db(name).table_drop("actions").run(*conn_);
+        R::db(name).table_drop("log").run(*conn_);
         R::db(name).table_create("nodes").run(*conn_);
         R::db(name).table_create("subscriptions").run(*conn_);
         R::db(name).table_create("actions").run(*conn_);
         R::db(name).table_create("log").run(*conn_);
+
+        R::db(name).table("nodes").changes();
     }
 
     void

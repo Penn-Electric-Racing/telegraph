@@ -4,10 +4,7 @@
 #include <vector>
 #include <string>
 #include <memory>
-
-namespace RethinkDB {
-    class Connection;
-}
+#include <rethinkdb.h>
 
 namespace per {
     class tree;
@@ -28,14 +25,9 @@ namespace per {
         // use forwarding to prevent copying the tree
         tree&& get(const std::string& name);
     private:
+        void insert(const std::shared_ptr<node>& n);
+
         std::shared_ptr<RethinkDB::Connection> conn_;
-
-        // the trees currently being replicated
-        // over the network
-
-        // note that this replication is two-way,
-        // so adding new nodes will result in them being
-        // added in the database
     };
 }
 #endif
