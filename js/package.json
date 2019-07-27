@@ -13,6 +13,7 @@
     "dump": "scripts/dump.mjs"
   },
   "dependencies": {
-    "rethinkdb": "^2.3.3"
+    "rethinkdb": "^2.3.3",
+    "signals": "^1.0.0"
   }
 }
