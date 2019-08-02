@@ -5,14 +5,14 @@ import {Tree, Node, Group, Variable, Action, Stream} from '../index.mjs'
 
 var c = new Client();
 
-var g = new Group("group", "Group", "A Group", "test/group", 1);
-var a = new Group("a", "bar", "flub", "g/test", 1);
-var b = new Group("b", "bar", "flub", "g/test", 1);
-g.add_child(a);
-var t = new Tree(g);
-
 (async () => {
   await c.connect("localhost", 28015);
-  await c.replace("live", t);
-  g.add_child(b);
+  console.log('connected');
+  let t = await c.get("live");
+  if (t == null) {
+    console.log('could not find tree');
+  } else {
+    console.log(t.toString());
+  }
 })();
+console.log('done');
