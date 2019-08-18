@@ -1,5 +1,4 @@
 #!/usr/bin/node --experimental-modules
-
 import {Client} from '../index.mjs'
 import {Tree, Node, Group, Variable, Action, Stream} from '../index.mjs'
 
@@ -16,10 +15,11 @@ function sleep(ms) {
   if (t == null) {
     console.log('could not find tree');
   } else {
-    while (true) {
-      console.log(t.toString());
-      await sleep(1000);
-    }
+    var v = t.find("/var");
+    var sub = v.subscribe(0, 100);
+    if (!sub) throw Error("Unable to create subscriber");
+    sub.addHandler(function(ts, value) {
+      console.log(ts + " " + value);
+    });
   }
 })();
-console.log('done');

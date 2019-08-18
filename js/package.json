@@ -11,7 +11,9 @@
   ],
   "scripts": {
     "create": "scripts/create.mjs",
-    "dump": "scripts/dump.mjs"
+    "dump": "scripts/dump.mjs",
+    "publish": "scripts/publish.mjs",
+    "subscribe": "scripts/subscribe.mjs"
   },
   "dependencies": {
     "rethinkdb": "^2.3.3",
