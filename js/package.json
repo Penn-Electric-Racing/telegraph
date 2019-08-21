@@ -10,13 +10,14 @@
     "bin/*"
   ],
   "scripts": {
-    "create": "scripts/create.mjs",
-    "dump": "scripts/dump.mjs",
-    "publish": "scripts/publish.mjs",
-    "subscribe": "scripts/subscribe.mjs"
+    "server": "scripts/server.mjs",
+    "client": "scripts/client.mjs"
   },
   "dependencies": {
-    "rethinkdb": "^2.3.3",
+    "@grpc/proto-loader": "^0.5.1",
+    "eslint": "^6.2.0",
+    "finalize": "^1.0.4",
+    "grpc": "^1.22.2",
     "signals": "^1.0.0"
   }
 }

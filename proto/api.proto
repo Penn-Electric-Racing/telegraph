@@ -1,0 +1,167 @@
+syntax = "proto3";
+
+package libcom;
+
+// Represents a context
+service ContextManager {
+  // First returns deltas populating all available contexts
+  // then will send subsequent deltas if contexts get removed
+  rpc StreamContexts(Empty) returns (stream ContextDelta) {}
+
+  // Will first send all of the deltas needed to build up
+  // a tree for a context
+  rpc StreamTree(TreeRequest) returns (stream TreeDelta) {}
+
+  // canceling the stream stops the subscription
+  rpc Subscribe(SubscribeRequest) returns (stream DataPoint) {}
+
+  // performs an action
+  rpc PerformAction(ActionRequest) returns (Value) {}
+}
+
+// ------------ General Utilities ---------------
+message Empty {}
+
+enum DeltaType {
+    ADDED = 0;
+    REMOVED = 1;
+
+    INITIAL = 2; // when initial types get sent over all are marked with initial
+    INITIALIZED = 3; // the last initial type gets the final delta type
+}
+
+// ------------ Type Utilities -----------------
+
+message Type {
+    enum Class {
+        INVALID = 0;
+        NONE = 1;
+        ENUM = 2;
+        BOOL = 3;
+        UINT8 = 4;
+        UINT16 = 5;
+        UINT32 = 6;
+        UINT64 = 7;
+        INT8 = 8;
+        INT16 = 9;
+        INT32 = 10;
+        INT64 = 11;
+        FLOAT = 12;
+        DOUBLE = 13;
+    }
+    Class type =  1;
+    repeated string labels = 2;
+}
+
+message Value {
+    oneof type {
+        bool b = 1;
+        uint32 en = 2;
+        uint32 ui8 = 3;
+        uint32 ui16 = 4;
+        uint32 ui32 = 5;
+        uint64 ui64 = 6;
+        int32 i8 = 7;
+        int32 i16 = 8;
+        int32 i32 = 9;
+        int64 i64 = 10;
+        float f = 11;
+        double d = 12;
+        Empty none = 13;
+    }
+}
+
+// Represents a datapoint
+message DataPoint {
+    uint64 timestamp = 1;
+    Value value = 2;
+}
+
+// -------------------- Context Specific Protobuffers -------------------
+
+// ContextInfo contains all the information
+// about a specific context.
+message ContextInfo {
+  int32 id = 1;
+  string name = 2;
+}
+
+// You get context delta events 
+// for when contexts have been added/removed
+message ContextDelta {
+    DeltaType type = 1;
+    ContextInfo context = 2;
+}
+
+// --------------- Tree Specific Protobuffers -------------------
+
+message Group {
+    int32 id = 1;
+    int32 parent = 2;
+    string name = 3;
+    string pretty = 4;
+    string desc = 5;
+
+    string schema = 6;
+    int32 version = 7;
+}
+
+message Variable {
+    int32 id = 1;
+    int32 parent = 2;
+    string name = 3;
+    string pretty = 4;
+    string desc = 5;
+
+    Type data_type = 6;
+}
+
+message Action {
+    int32 id = 1;
+    int32 parent = 2;
+    string name = 3;
+    string pretty = 4;
+    string desc = 5;
+
+    Type arg_type = 6;
+    Type ret_type = 7;
+}
+
+message Stream {
+    int32 id = 1;
+    int32 parent = 2;
+    string name = 3;
+    string pretty = 4;
+    string desc = 5;
+}
+
+// Request the tree 
+// for a specific context ID
+message TreeRequest {
+    int32 tree_id = 1;
+}
+
+message TreeDelta {
+    DeltaType type = 1;
+    oneof node {
+        int32 id = 2;
+        Group group = 3;
+        Variable var = 4;
+        Action action = 5;
+        Stream stream = 6;
+    }
+}
+
+// subscribe to a particular variable
+message SubscribeRequest {
+    int32 var_id = 1;
+    int32 min_interval = 2;
+    int64 max_interval = 3;
+}
+
+// for performing an action
+message ActionRequest {
+    int32 action_id = 2;
+    Value argument = 3;
+}
+
