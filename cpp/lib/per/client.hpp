@@ -7,8 +7,8 @@
 
 #include <grpcpp/grpcpp.h>
 
-#include <api.grpc.pb.h>
-#include <api.pb.h>
+#include "api.grpc.pb.h"
+#include "api.pb.h"
 
 namespace per {
     class tree;

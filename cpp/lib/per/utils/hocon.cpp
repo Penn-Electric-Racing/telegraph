@@ -2,10 +2,12 @@
 
 #include "../errors.hpp"
 
+#include <hocon/config_parse_options.hpp>
 #include <hocon/config.hpp>
 
 namespace per {
 
+    /*
     static json parse_value(const hocon::shared_value& val);
 
     static json parse_object(const hocon::shared_object& obj) {
@@ -57,14 +59,17 @@ namespace per {
             case hocon::config_value::type::UNSPECIFIED: throw std::logic_error("Got unspecified hocon object");
         }
         return json();
-    }
+    }*/
 
     json
     hocon_parser::parse_file(const std::string& file) {
         try {
-            hocon::shared_config doc = hocon::config::parse_file_any_syntax(file);
+            hocon::config_parse_options opts = 
+                hocon::config_parse_options::defaults().set_allow_missing(false);
+            hocon::shared_config doc = hocon::config::parse_file_any_syntax(file, opts);
             doc = doc->resolve();
-            return parse_value(doc->root());
+            json val = doc->root()->unwrapped(); 
+            return val;
         } catch (const hocon::config_exception& e) {
             throw parse_error(e.what());
         }

@@ -19,8 +19,8 @@ namespace per {
 
         constexpr const std::string& get_name() const { return name_; }
 
-        constexpr tree* get_tree() { return tree_; }
         constexpr const tree* get_tree() const { return tree_; }
+        constexpr tree* get_tree() { return tree_; }
 
         constexpr void set_tree(tree* tree) { tree_ = tree; }
 

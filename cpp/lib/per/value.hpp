@@ -61,6 +61,10 @@ namespace per {
     };
 
     template<>
+        constexpr bool unwrap<bool>(const value& v) {
+            return v.get_box().b;
+        }
+    template<>
         constexpr uint8_t unwrap<uint8_t>(const value& v) {
             return v.get_box().uint8;
         }
@@ -75,6 +79,30 @@ namespace per {
     template<>
         constexpr uint64_t unwrap<uint64_t>(const value& v) {
             return v.get_box().uint64;
+        }
+    template<>
+        constexpr int8_t unwrap<int8_t>(const value& v) {
+            return v.get_box().int8;
+        }
+    template<>
+        constexpr int16_t unwrap<int16_t>(const value& v) {
+            return v.get_box().int16;
+        }
+    template<>
+        constexpr int32_t unwrap<int32_t>(const value& v) {
+            return v.get_box().int32;
+        }
+    template<>
+        constexpr int64_t unwrap<int64_t>(const value& v) {
+            return v.get_box().int64;
+        }
+    template<>
+        constexpr float unwrap<float>(const value& v) {
+            return v.get_box().f;
+        }
+    template<>
+        constexpr double unwrap<double>(const value& v) {
+            return v.get_box().d;
         }
 
     std::ostream& operator<<(std::ostream& o, const value& v);
