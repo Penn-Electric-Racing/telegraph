@@ -9,86 +9,73 @@ namespace per {
     group::group(const std::string& name, const std::string& pretty, const std::string& desc,
                     const std::string& schema, int version) :
                     node(name, pretty, desc), 
-                    on_add_child(), on_remove_child(),
                     on_child_added(), on_child_removed(),
                     schema_(schema), 
-                    version_(version), children_() {}
+                    version_(version), children_(), children_map_() {}
 
-    void
-    group::add_child(const std::shared_ptr<node>& node) {
-        if (std::find(children_.begin(), children_.end(), 
-                    node) != children_.end()) return;
-        on_add_child(node);
-        child_added(node);
-    }
-
-    void
-    group::remove_child(const std::shared_ptr<node>& node) {
-        auto pos = std::find(children_.begin(), children_.end(), node);
-        if (pos == children_.end()) return;
-        on_remove_child(node);
-        child_removed(node);
-    }
-
-    void
-    group::child_added(const std::shared_ptr<node>& node) {
-        if (std::find(children_.begin(), children_.end(), 
-                    node) != children_.end()) return;
-        auto parent = node->get_parent().lock();
-        if (parent != nullptr) {
-            parent->remove_child(node);
+    group::~group() {
+        for (node* n : children_) {
+            delete n;
         }
-        node->set_parent(std::static_pointer_cast<group>(shared_from_this()));
-        children_.push_back(node);
-        named_children_[node->get_name()] = node;
-
-        on_child_added(node);
     }
 
     void
-    group::child_removed(const std::shared_ptr<node>& node) {
-        auto pos = std::find(children_.begin(), children_.end(), node);
+    group::add_child(node* n) {
+        //if (node == nullptr)
+        //if (children_map_[node->get_name()] != nullptr)
+        if (std::find(children_.begin(), children_.end(), n) != children_.end()) return;
+        auto parent = n->get_parent();
+        if (parent != nullptr) {
+            parent->remove_child(n);
+        }
+
+        n->set_parent(this);
+        children_.push_back(n);
+        children_map_[n->get_name()] = n;
+
+        on_child_added(n);
+        // go through all of the children
+        // of this node and call on_descendant_added
+        on_descendant_added(n);
+
+        // register the function to *this* object
+        // so we can easily remove it later
+        n->on_descendant_added.add(this, 
+                [this](node* d) {on_descendant_added(d);});
+        n->on_descendant_removed.add(this, 
+                [this](node* d) {on_descendant_removed(d);});
+    }
+
+    void
+    group::remove_child(node* n) {
+        auto pos = std::find(children_.begin(), children_.end(), n);
         if (pos == children_.end()) return;
         children_.erase(pos);
-        named_children_.erase(node->get_name());
-        node->set_parent(std::weak_ptr<group>());
-        on_child_removed(node);
+        children_map_.erase(n->get_name());
+        n->set_parent(nullptr);
+
+        n->on_descendant_added.remove(this);
+        n->on_descendant_removed.remove(this);
+
+        on_child_removed(n);
     }
 
-    shared_node
+    node* 
     group::operator[](const std::string& name) {
         try {
-            return named_children_.at(name);
+            return children_map_.at(name);
         } catch (const std::out_of_range& e) {
             return nullptr;
         }
     }
 
-    shared_const_node
+    const node*
     group::operator[](const std::string& name) const {
         try {
-            return named_children_.at(name);
+            return children_map_.at(name);
         } catch (const std::out_of_range& e) {
             return nullptr;
         }
-    }
-
-    void
-    group::visit(const std::function<void(const shared_node&)>& visitor, bool preorder) {
-        if (preorder) visitor(shared_from_this());
-        for (const auto&c : children_) {
-            c->visit(visitor, preorder);
-        }
-        if (!preorder) visitor(shared_from_this());
-    }
-
-    void
-    group::visit(const std::function<void(const shared_const_node&)>& visitor, bool preorder) const {
-        if (preorder) visitor(shared_from_this());
-        for (const auto&c : children_) {
-            ((const node*) c.get())->visit(visitor, preorder);
-        }
-        if (!preorder) visitor(shared_from_this());
     }
 
     void

@@ -2,22 +2,42 @@
 #define __PER_SIGNAL_HPP__
 
 #include <functional>
-#include <vector>
+#include <map>
 
 namespace per {
     template<typename... T>
         class signal {
             public:
                 signal() : listeners_() {}
-                void operator+=(const std::function<void(T...)> &cb) { listeners_.push_back(cb); }
+                signal<T...>& add(const std::function<void(T...)> &cb) { 
+                    listeners_[(void*)&cb] = cb;
+                    return *this;
+                }
+                /**
+                 * If you use this, the lambda will have to be removed using ptr
+                 */
+                signal<T...>& add(void* ptr, const std::function<void(T...)> &cb) {
+                    listeners_[ptr] = cb;
+                    return *this;
+                }
+
+                signal<T...>& remove(const std::function<void(T...)> &cb) {
+                    listeners_.erase(&cb);
+                    return *this;
+                }
+                signal<T...>& remove(void* ptr) {
+                    listeners_.erase(ptr);
+                    return *this;
+                }
+
                 void operator()(T... v) const { 
-                    std::vector<std::function<void(T...)>> ls(listeners_);
+                    std::map<void*, std::function<void(T...)>> ls(listeners_);
                     for (auto& l : ls) {
-                        l(v...);
+                        l.second(v...);
                     }
                 }
             private:
-                std::vector<std::function<void(T...)>> listeners_;
+                std::map<void*, std::function<void(T...)>> listeners_;
         };
 }
 

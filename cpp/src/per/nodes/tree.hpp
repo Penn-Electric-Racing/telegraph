@@ -12,14 +12,19 @@ namespace per {
     class tree {
     public:
         tree();
-        tree(const std::shared_ptr<group>& root);
+        tree(group* root);
+        ~tree();
 
-        const std::shared_ptr<group>& root() { return root_; }
-        const std::shared_ptr<const group> root() const { return root_; }
+        group* get_root() { return root_; }
+        const group* get_root() const { return root_; }
 
-        static tree unpack(const json& j);
+        // will return a new tree, allocated on the heap
+        // that you have to free yourself
+        static tree *unpack(const json& j);
+
+        signal<> on_dispose;
     private:
-        std::shared_ptr<group> root_;
+        group* root_;
     };
 
     std::ostream& operator<<(std::ostream& o, const tree& t);

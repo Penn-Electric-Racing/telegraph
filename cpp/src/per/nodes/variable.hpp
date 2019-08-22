@@ -3,24 +3,34 @@
 
 #include "node.hpp"
 #include "../value.hpp"
+#include "../datapoint.hpp"
 
 #include <functional>
+#include <memory>
 
 namespace per {
     class variable : public node {
     public:
         class subscription {
         public:
-            virtual void notify(const std::function<void(value)>& func) = 0;
-            // after unsubscribe is called, this subscription object
-            // will probably be deleted and should be considered an invalid pointer
-            virtual void unsubscribe() = 0;
-        };
-        // a variable source manages subscriptions
-        // note that one source might service multiple variables
-        class source {
-        public:
-            virtual subscription* subscribe(variable* v, uint64_t interval) = 0;
+            inline subscription(uint64_t min_interval, uint64_t max_interval) :
+                                    on_data(), on_cancel(), 
+                                    min_interval_(min_interval), max_interval_(max_interval), 
+                                    cancelled_(false) {}
+
+            constexpr bool is_cancelled() const { return cancelled_; }
+
+            constexpr uint64_t get_min_interval() const { return min_interval_; }
+            constexpr uint64_t get_max_interval() const { return max_interval_; }
+
+            inline void cancel() { on_cancel(); }
+
+            signal<datapoint> on_data;
+            signal<> on_cancel;
+        private:
+            uint64_t min_interval_;
+            uint64_t max_interval_;
+            bool cancelled_;
         };
 
         variable(const std::string& name, 
@@ -29,34 +39,12 @@ namespace per {
         inline void set_type(const type& t) { type_ = t; }
         constexpr const type& get_type() const { return type_; }
 
-        // set the subscription manager
-        inline void set_source(source* s) { src_ = s; }
+        std::shared_ptr<subscription> subscribe(uint64_t min_interval=0, uint64_t max_interval=0);
 
-        // for getting access to the update stream you have to subscribe
-        // if this fails it will do so quietly 
-        // and return a null subscriber object
-        //
-        // on subscribe it is expected that 
-        // the data source will resend the
-        // last varaible state
-        //
-        // the interval specifies the largest allowable interval between
-        // state updates for debouncing values. A value of 0 indicates a
-        // realtime subscription 
-        // (i.e a message will immediately be sent to the CAN bus/forwarded over perdos
-        //  everytime the state changes)
-        //
-        // the underlying data source will handle how to keep subscriptions alive across
-        // multiple links the end user does not need to worry about that
-        //
-        // when you are done with the subscriber, you *must* call unsubscribe() or you
-        // will cause a memory leak where subscribers are never cleaned up
-        // and subscriptions are kept alive indefinitely
-        subscription* subscribe(uint64_t interval=0);
+        void print(std::ostream& o, int ident=0) const override;
 
-        void print(std::ostream& o, int ident) const override;
+        signal<std::shared_ptr<subscription>&> on_subscribe;
     private:
-        source* src_;
         type type_;
     };
 }

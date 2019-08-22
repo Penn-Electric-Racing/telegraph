@@ -64,6 +64,18 @@ namespace per {
         constexpr uint8_t unwrap<uint8_t>(const value& v) {
             return v.get_box().uint8;
         }
+    template<>
+        constexpr uint16_t unwrap<uint16_t>(const value& v) {
+            return v.get_box().uint16;
+        }
+    template<>
+        constexpr uint32_t unwrap<uint32_t>(const value& v) {
+            return v.get_box().uint32;
+        }
+    template<>
+        constexpr uint64_t unwrap<uint64_t>(const value& v) {
+            return v.get_box().uint64;
+        }
 
     std::ostream& operator<<(std::ostream& o, const value& v);
 }

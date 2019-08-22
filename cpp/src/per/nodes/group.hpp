@@ -12,40 +12,27 @@ namespace per {
     public:
         group(const std::string& name, const std::string& pretty, const std::string& desc,
                 const std::string& schema, int version);
+        ~group();
 
         constexpr const std::string& get_schema() const { return schema_; }
         constexpr int get_version() const { return version_; }
 
-        void add_child(const std::shared_ptr<node>& node);
-        void remove_child(const std::shared_ptr<node>& node);
+        void add_child(node* node);
+        void remove_child(node* node);
 
-        void child_added(const std::shared_ptr<node>& node);
-        void child_removed(const std::shared_ptr<node>& node);
-
-        shared_node operator[](const std::string& name) override;
-        shared_const_node operator[](const std::string& name) const override;
-
-        void visit(const std::function<void(const shared_node&)>& visitor, 
-                        bool preorder=true) override;
-        void visit(const std::function<void(const shared_const_node&)>& visitor,
-                        bool preorder=true) const override;
+        node* operator[](const std::string& name) override;
+        const node* operator[](const std::string& name) const override;
 
         void print(std::ostream& o, int ident) const override;
 
-        // for listening to child add/remove requests
-        signal<const shared_node&> on_add_child;
-        signal<const shared_node&> on_remove_child;
-
-        // on child added/removed 
-        // (if connected to database, a remove person adding a node can trigger this)
-        signal<const shared_node&> on_child_added;
-        signal<const shared_node&> on_child_removed;
+        signal<node*&> on_child_added;
+        signal<node*&> on_child_removed;
     private:
         std::string schema_;
         int version_;
 
-        std::vector<shared_node> children_;
-        std::unordered_map<std::string, shared_node> named_children_;
+        std::vector<node*> children_; // a group owns the memory to the children
+        std::unordered_map<std::string, node*> children_map_;
     };
 }
 

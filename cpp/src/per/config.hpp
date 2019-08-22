@@ -8,9 +8,8 @@ namespace per {
     class config {
     public:
         // given a config json object, this will return a fully instantiated
-        // configuration object for a particular board
-        static std::shared_ptr<config> parse_config(const json& config,
-                                                    const shared_group& root);
+        // configuration object including all codegen related information
+        static std::unique_ptr<config> parse_config(const json& config);
     private:
     };
 }

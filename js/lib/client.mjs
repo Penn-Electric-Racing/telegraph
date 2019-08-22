@@ -166,7 +166,7 @@ export class Client {
                                         min_interval: sub.getMinInterval(),
                                         max_interval: sub.getMaxInterval()});
                 stream.on('data', (data) => {
-                  sub.data(data.timestamp, sub.getType().unpackValue(data.value));
+                  sub.data(parseInt(data.timestamp), sub.getType().unpackValue(data.value));
                 });
                 // if the server has ended the stream, 
                 // destroy the subscriber

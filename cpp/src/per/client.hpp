@@ -4,30 +4,23 @@
 #include <vector>
 #include <string>
 #include <memory>
-#include <rethinkdb.h>
+
+#include <grpcpp/grpcpp.h>
+
+#include <api.grpc.pb.h>
+#include <api.pb.h>
 
 namespace per {
     class tree;
+    class node;
     class client {
     public:
-        client(const std::string& host, int port);
-
-        // will give an error if a table with that name
-        // already exists
-        void add(const std::string& name, tree& tree);
-
-        // will delete a tree (by table)
-        // fails silently if tree does not exist
-        void remove(const std::string& name);
-
-        void replace(const std::string& name, tree& tree);
-
-        // use forwarding to prevent copying the tree
-        tree&& get(const std::string& name);
+        client(const std::string& bind);
+        ~client();
     private:
-        void insert(const std::shared_ptr<node>& n);
-
-        std::shared_ptr<RethinkDB::Connection> conn_;
+        grpc::ClientContext context_;
+        std::shared_ptr<grpc::Channel> channel_;
+        std::unique_ptr<libcom::ContextManager::Stub> stub_;
     };
 }
 #endif

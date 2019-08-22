@@ -15,41 +15,16 @@
 #include <iostream>
 
 namespace per {
-
     tree::tree() : root_() {}
-    tree::tree(const std::shared_ptr<group>& root) : root_(root) {}
+    tree::tree(group* root) : root_(root) {}
 
-    /*
-    shared_node
-    tree::find(const std::string& path) {
-        shared_node node = root_;
-        std::string name;
-        std::istringstream split(path);
-        while (std::getline(split, name, '/')) {
-            if (name.length() > 0) {
-                group* g = dynamic_cast<group*>(node.get());
-                if (g) {
-                    // TODO: Have a map in the group for children names
-                    bool found = false;
-                    for (auto& c : g->get_children()) {
-                        if (c->get_name() == name) {
-                            node = c;
-                            found = true;
-                            break;
-                        }
-                    }
-                    if (!found) return nullptr;
-                } else {
-                    return nullptr;
-                }
-            }
-        }
-        return node;
+    tree::~tree() {
+        on_dispose();
+        delete root_;
     }
-    */
 
     std::ostream& operator<<(std::ostream& o, const tree& t) {
-        o << *t.root();
+        o << *t.get_root();
         return o;
     }
 
@@ -72,7 +47,7 @@ namespace per {
         {"double", type::DOUBLE}
     };
 
-    static shared_node unpack_node(const std::string& name, const json& json);
+    static node* unpack_node(const std::string& name, const json& json);
 
     static
     type::type_class unpack_type_class(const std::string& tc) {
@@ -99,16 +74,15 @@ namespace per {
     }
 
     static
-    shared_variable unpack_variable(const std::string& name, const json& json) {
+    variable* unpack_variable(const std::string& name, const json& json) {
         type t = unpack_type(json);
         std::string pretty = json.is_object() ? json.value("pretty", "") : "";
         std::string desc = json.is_object() ? json.value("desc", "") : "";
-        shared_variable v = std::make_shared<variable>(name, pretty, desc, unpack_type(json));
-        return v;
+        return new variable(name, pretty, desc, unpack_type(json));
     }
 
     static
-    shared_action unpack_action(const std::string& name, const json& json) {
+    action* unpack_action(const std::string& name, const json& json) {
         type arg(type::NONE);
         type ret(type::NONE);
         if (json.is_object()) {
@@ -118,24 +92,23 @@ namespace per {
         std::string pretty = json.is_object() ? json.value("pretty", "") : "";
         std::string desc = json.is_object() ? json.value("desc", "") : "";
 
-        shared_action a = std::make_shared<action>(name, pretty, desc, arg, ret);
-        return a;
+        return new action(name, pretty, desc, arg, ret);
     }
 
     static
-    shared_action unpack_stream(const std::string& name, const json& json) {
+    action* unpack_stream(const std::string& name, const json& json) {
         throw parse_error("Cannot parse stream");
     }
 
 
     static
-    shared_group unpack_group(const std::string& name, const json& json) {
+    group* unpack_group(const std::string& name, const json& json) {
         std::string schema = json.value("schema", "none");
         int version = json.value("version", 0);
         std::string pretty = json.value("pretty", "");
         std::string desc = json.value("desc", "");
 
-        shared_group g = std::make_shared<group>(name, pretty, desc, schema, version);
+        group* g = new group(name, pretty, desc, schema, version);
 
         for (const auto& item : json.items()) {
             const auto& key = item.key();
@@ -150,7 +123,7 @@ namespace per {
     }
 
     static
-    shared_node unpack_node(const std::string& name, const json& json) {
+    node* unpack_node(const std::string& name, const json& json) {
         std::string type;
         if (json.is_string()) {
             type = json.get<std::string>();
@@ -169,13 +142,13 @@ namespace per {
         }
     }
 
-    tree
+    tree*
     tree::unpack(const json& json_root) {
-        shared_group root = std::make_shared<group>("root", "", "", "root", json_root.value("version", 1));
+        group* root = new group("root", "", "", "root", json_root.value("version", 1));
         for (const auto& item : json_root.items()) {
             if (item.key() == "version") continue;
             root->add_child(unpack_node(item.key(), item.value()));
         }
-        return root;
+        return new tree(root);
     }
 }
