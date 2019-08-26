@@ -4,13 +4,13 @@ cc_grpc_library(name="gen_grpc_api",
         srcs=["proto/api.proto"],
         deps=[])
 
-cc_library(name="lib",
+cc_library(name="telegraph",
         srcs=glob(["lib/**/*.hpp", "lib/**/*.cpp"]),
         includes=["proto", "lib"],
         copts=["-std=c++17"],
-        deps=[":gen_grpc_api", "@json//:lib", "@hocon//:lib"])
+        deps=[":gen_grpc_api", "@json//:json", "@hocon//:hocon"])
 
 cc_binary(name="test",
           srcs=glob(["main/test.cpp"]),
           copts=["-std=c++17"],
-          deps=[":lib"])
+          deps=[":telegraph"])

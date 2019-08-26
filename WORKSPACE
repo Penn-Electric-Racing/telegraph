@@ -6,13 +6,15 @@ http_archive(name='com_github_grpc_grpc',
     urls=['https://github.com/grpc/grpc/archive/v1.22.1.zip'],
     strip_prefix='grpc-1.22.1')
 
-local_repository(
-        name='json',
-        path='../json')
+http_archive(name='json',
+    sha256='541c34438fd54182e9cdc68dd20c898d766713ad6d901fb2c6e28ff1f1e7c10d',
+    urls=['https://github.com/nlohmann/json/releases/download/v3.7.0/include.zip'],
+    build_file='json.BUILD')
 
-local_repository(
-        name='hocon',
-        path='../hocon')
+http_archive(name='hocon',
+    sha256="b2cb3db5cfe02e8fb8a65cf89358912895b1a7efc852d83308af0811f221dbad",
+    urls=['https://github.com/Penn-Electric-Racing/hocon/archive/8865ebbe434bfe586385514204d7c51b4825785a.zip'],
+    strip_prefix='hocon-8865ebbe434bfe586385514204d7c51b4825785a')
 
 load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
 grpc_deps()
