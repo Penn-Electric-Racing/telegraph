@@ -15,7 +15,6 @@ namespace per {
         channel_ = grpc::CreateChannel(bind, grpc::InsecureChannelCredentials());
         stub_ = ContextManager::NewStub(channel_);
         // initiate the context deltas rpc
-        
         Empty e;
     }
     client::~client() {
