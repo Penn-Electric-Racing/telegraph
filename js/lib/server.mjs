@@ -17,7 +17,7 @@ var packageDefinition = protoLoader.loadSync(
     });
 var pkg_proto = grpc.loadPackageDefinition(packageDefinition);
 
-var api = pkg_proto.libcom;
+var api = pkg_proto.per.proto;
 
 // utility packing functions
 

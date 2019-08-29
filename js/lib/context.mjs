@@ -37,4 +37,8 @@ export class Context {
     this._tree = null;
     this.onDispose.dispatch();
   }
+
+  toString() {
+    return this._name;
+  }
 }

@@ -13,14 +13,22 @@
 namespace per {
     class tree;
     class node;
+
+    // the client has its own thread
     class client {
     public:
         client(const std::string& bind);
         ~client();
+
+        // start the thread before connecting,
+        // or the promises will never happen
+        void start();
+
+        void connect(const std::string& binding);
     private:
         grpc::ClientContext context_;
         std::shared_ptr<grpc::Channel> channel_;
-        std::unique_ptr<libcom::ContextManager::Stub> stub_;
+        std::unique_ptr<proto::ContextManager::Stub> stub_;
     };
 }
 #endif

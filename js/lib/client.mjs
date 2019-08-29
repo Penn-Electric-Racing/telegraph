@@ -5,6 +5,8 @@ import {default as grpc} from 'grpc'
 import {default as protoLoader} from '@grpc/proto-loader'
 import * as path  from 'path'
 
+import Signal from 'signals'
+
 var PROTO_PATH = path.resolve('../proto/api.proto');
 
 var packageDefinition = protoLoader.loadSync(PROTO_PATH, {keepCase: true, longs: String, enums: String, defaults: true, oneofs: true});
@@ -22,7 +24,7 @@ var packageDefinition = protoLoader.loadSync(
     });
 var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 
-var api = protoDescriptor.libcom;
+var api = protoDescriptor.per.proto;
 
 function unpackNode(nodeIdMap, idNodeMap, obj) {
   var parent = null;
@@ -63,6 +65,10 @@ export class Client {
     this._nodeIdMap = new Map();
 
     this._contexts = [];
+
+    this.contextAdded = new Signal();
+    this.contextRemoved = new Signal();
+
     this._contextStream = null;
   }
 
@@ -71,6 +77,13 @@ export class Client {
   getContexts() {
     return this._contexts;
   }
+  
+  removeListener(l) {
+    var idx = this._newCtxListeners.indexOf(l);
+    if (idx >= 0) {
+      this._newCtxListeners.splice(idx, 1);
+    }
+  }
 
   connect(binding) {
     return new Promise(function(resolve, reject) {
@@ -78,34 +91,40 @@ export class Client {
 
       this._contextStream = this._client.streamContexts();
       this._contextStream.on('data', function(delta) {
+        if (delta.type == 'INITIALIZED') {
+          resolve();
+          return;
+        }
         var ctx = new Context(delta.context.name);
         ctx._setTree(this._fetchTree.bind(this, ctx, delta.context.id));
 
         switch(delta.type) {
           case 'INITIAL':
             this._contexts.push(ctx);
+            this.contextAdded.dispatch(ctx);
             break;
           case 'ADDED':
             this._contexts.push(ctx);
+            this.contextAdded.dispatch(ctx);
             break;
           case 'REMOVED':
             var i = 0;
             for (; i < this._contexts.length; i++) {
               if (this._contexts[i].id == delta.context.id) {
-                this._contexts[i].dispose();
                 this._contexts.splice(i, 1);
+                this.contextRemoved.dispatch(this._contexts[i]);
+                this._contexts[i].dispose();
                 break;
               }
             }
-            break;
-          case 'INITIALIZED':
-            resolve();
             break;
         }
       }.bind(this));
       this._contextStream.on('end', function(end) {});
       this._contextStream.on('cancelled', function(end) {});
-      this._contextStream.on('error', function(err) {});
+      this._contextStream.on('error', function(err) {
+        if (err.code == 14) reject(new Error("Unable to connect"));
+      });
       this._contextStream.on('status', function(status) {
       });
     }.bind(this));
@@ -118,6 +137,7 @@ export class Client {
 
       // dispose of all the contexts and clear the context list
       for (let c of this._contexts) {
+        this.contextRemoved.dispatch(c);
         c.dispose();
       }
       this._contexts = [];

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package libcom;
+package per.proto;
 
 // Represents a context
 service ContextManager {

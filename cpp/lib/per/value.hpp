@@ -56,7 +56,6 @@ namespace per {
     private:
         type::type_class type_; // only the type class, 
                                 // see the stream for the actual type
-        uint64_t timestamp_; // nanoseconds UTC timestamp
         box value_;
     };
 
