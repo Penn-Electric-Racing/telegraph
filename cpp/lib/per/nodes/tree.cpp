@@ -13,19 +13,38 @@
 #include <sstream>
 #include <string>
 #include <iostream>
+#include <cassert>
 
 namespace per {
     tree::tree() : root_() {}
-    tree::tree(group* root) : root_(root) {}
+    tree::tree(group* root) : root_(root) {
+        assert(root != nullptr);
+        root_->on_descendant_added.add(this, [this] (node* n) { on_descendant_added(n); });
+        root_->on_descendant_removed.add(this, [this] (node* n) { on_descendant_removed(n); });
+    }
 
     tree::~tree() {
         on_dispose();
+        root_->on_descendant_added.remove(this);
+        root_->on_descendant_removed.remove(this);
         delete root_;
     }
 
     std::ostream& operator<<(std::ostream& o, const tree& t) {
         o << *t.get_root();
         return o;
+    }
+
+    std::vector<node*>
+    tree::nodes(bool postorder) {
+        if (!root_) return std::vector<node*>();
+        else return root_->descendants(true, postorder);
+    }
+
+    std::vector<const node*>
+    tree::nodes(bool postorder) const {
+        if (!root_) return std::vector<const node*>();
+        else return ((const node*) root_)->descendants(true, postorder);
     }
 
     // UNPACKING CODE

@@ -30,6 +30,16 @@ namespace per {
         return nullptr;
     }
 
+    void
+    node::add_descendants(std::vector<node*>* n, bool include_this, bool postorder) {
+        if (include_this) n->push_back(this);
+    }
+
+    void
+    node::add_descendants(std::vector<const node*>* n, bool include_this, bool postorder) const {
+        if (include_this) n->push_back(this);
+    }
+
     std::ostream& operator<<(std::ostream& o, const node& n) {
         n.print(o, 0);
         return o;

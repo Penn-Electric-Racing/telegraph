@@ -30,6 +30,7 @@ namespace per {
         }
 
         n->set_parent(this);
+        idx_map_[n] = children_.size();
         children_.push_back(n);
         children_map_[n->get_name()] = n;
 
@@ -50,6 +51,12 @@ namespace per {
     group::remove_child(node* n) {
         auto pos = std::find(children_.begin(), children_.end(), n);
         if (pos == children_.end()) return;
+        auto next = pos;
+        while (next != children_.end()) {
+            next++;
+            node* n = (*pos);
+            idx_map_[n] = idx_map_[n]--;
+        }
         children_.erase(pos);
         children_map_.erase(n->get_name());
         n->set_parent(nullptr);
@@ -81,10 +88,30 @@ namespace per {
     void
     group::print(std::ostream& o, int ident) const {
         o << std::setfill(' ') << std::setw(ident) << "";
-        o << get_name() << ' ' << get_schema() << ' ' << get_version() << std::endl;
+        o << get_name() << ' ' << get_schema() << ' ' << get_version();
         ident += 4;
         for (auto& n : children_) {
+            o << std::endl;
             n->print(o, ident);
         }
+    }
+    void
+    group::add_descendants(std::vector<node*>* nodes,
+                       bool include_this, bool postorder) {
+        if (include_this && !postorder) nodes->push_back(this);
+        for (auto& n : children_) {
+            n->add_descendants(nodes, true, postorder);
+        }
+        if (include_this && postorder) nodes->push_back(this);
+    }
+
+    void
+    group::add_descendants(std::vector<const node*>* nodes,
+                        bool include_this, bool postorder) const {
+        if (include_this && !postorder) nodes->push_back(this);
+        for (const node* n : children_) {
+            n->add_descendants(nodes, true, postorder);
+        }
+        if (include_this && postorder) nodes->push_back(this);
     }
 }

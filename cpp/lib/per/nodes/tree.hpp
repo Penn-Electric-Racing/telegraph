@@ -1,12 +1,14 @@
 #ifndef __PER_NODES_TREE__
 #define __PER_NODES_TREE__
 
-#include <memory>
-#include <ostream>
-
 #include "../utils/json_fwd.hpp"
 
 #include "node.hpp"
+
+#include <vector>
+#include <memory>
+#include <ostream>
+
 
 namespace per {
     class tree {
@@ -22,7 +24,13 @@ namespace per {
         // that you have to free yourself
         static tree *unpack(const json& j);
 
+        std::vector<node*> nodes(bool postorder = false);
+        std::vector<const node*> nodes(bool postorder = false) const;
+
         signal<> on_dispose;
+
+        signal<node*> on_descendant_added;
+        signal<node*> on_descendant_removed;
     private:
         group* root_;
     };

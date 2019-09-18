@@ -43,7 +43,7 @@ namespace per {
 
         void print(std::ostream& o, int ident=0) const override;
 
-        signal<std::shared_ptr<subscription>&> on_subscribe;
+        safe_signal<std::shared_ptr<subscription>&> on_subscribe;
     private:
         type type_;
     };

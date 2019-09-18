@@ -29,7 +29,11 @@ int main(int argc, char** argv) {
 
     server srv;
     srv.start("0.0.0.0:8000");
-    srv.add_context(ctx);
+
+    {
+        auto cl = srv.contexts.lock();
+        srv.contexts.add(ctx);
+    }
 
     srv.join();
 }

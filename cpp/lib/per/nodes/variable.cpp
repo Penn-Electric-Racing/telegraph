@@ -26,6 +26,6 @@ namespace per {
     void
     variable::print(std::ostream& o, int ident) const {
         o << std::setfill(' ') << std::setw(ident) << "";
-        o << type_.to_str() << ' ' << get_name() << std::endl;
+        o << type_.to_str() << ' ' << get_name();
     }
 }

@@ -1,6 +1,7 @@
 #ifndef __PER_NODE_HPP__
 #define __PER_NODE_HPP__
 
+#include <vector>
 #include <memory>
 #include <ostream>
 #include <functional>
@@ -34,15 +35,36 @@ namespace per {
         node* find(const std::string& path);
         const node* find(const std::string& path) const;
 
-        // will get a child based on a name
+        // will get a child based on a name or index
         virtual node* operator[](const std::string& name);
         virtual const node* operator[](const std::string& name) const;
+
+        inline std::vector<node*> descendants(bool include_this = false, 
+                                                bool postorder = false) { 
+            std::vector<node*> n; 
+            add_descendants(&n, include_this, postorder);
+            return n;
+        }
+
+        inline std::vector<const node*> descendants(bool include_this = false, 
+                                               bool postorder = false) const {
+            std::vector<const node*> n; 
+            add_descendants(&n, include_this, postorder);
+            return n;
+        }
 
         signal<node*> on_descendant_added;
         signal<node*> on_descendant_removed;
 
         signal<> on_dispose;
     protected:
+        virtual void add_descendants(std::vector<node*>* n, 
+                                 bool include_this=false, 
+                                 bool postorder=false);
+        virtual void add_descendants(std::vector<const node*>* n, 
+                                 bool include_this=false, 
+                                 bool postorder=false)  const;
+
         virtual void print(std::ostream& o, int ident=0) const = 0;
         constexpr void set_parent(group* parent) { parent_ = parent; }
 

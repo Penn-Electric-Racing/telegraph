@@ -14,6 +14,10 @@ namespace per {
     class tree;
     class node;
 
+    // TOOD: Not finished,
+    // some changes will have to be made to the context
+    // calls to allow fetching of trees explicitly
+
     // the client has its own thread
     class client {
     public:

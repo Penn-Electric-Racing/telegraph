@@ -18,6 +18,6 @@ namespace per {
     void
     action::print(std::ostream& o, int ident) const {
         o << std::setfill(' ') << std::setw(ident) << "";
-        o << arg_.to_str() << " -> " << ret_.to_str() << ' ' << get_name() << std::endl;
+        o << arg_.to_str() << " -> " << ret_.to_str() << ' ' << get_name();
     }
 }
