@@ -17,3 +17,8 @@ cc_binary(name="test",
           srcs=glob(["main/test.cpp"]),
           copts=["-std=c++17"],
           deps=[":telegraph"])
+
+cc_binary(name="generate",
+          srcs=glob(["main/generate.cpp"]),
+          copts=["-std=c++17"],
+          deps=[":telegraph"])

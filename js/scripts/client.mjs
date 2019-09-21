@@ -1,6 +1,6 @@
 #!/usr/bin/node --experimental-modules
 
-import {Client} from '../lib/client.mjs'
+import {Client, ClientError} from '../lib/client.mjs'
 import {Tree, Node, Group, Variable, Action} from '../lib/tree.mjs'
 
 
@@ -9,13 +9,28 @@ function sleep(ms) {
 }
 
 (async () => {
-  var c = new Client();
-  c.contextAdded.add((ctx) => { console.log('added: ' + ctx.getName()); })
-  c.contextRemoved.add((ctx) => { console.log('removed: ' + ctx.getName()); })
-  await c.connect('0.0.0.0:8000');
+  try {
+    var c = new Client();
+    c.contextAdded.add((ctx) => { console.log('added: ' + ctx.getName()); })
+    c.contextRemoved.add((ctx) => { console.log('removed: ' + ctx.getName()); })
+    await c.connect('0.0.0.0:8000');
 
+    // list the contexts
+    console.log("Contexts:");
+    for (let ctx of c.getContexts()) {
+      console.log(ctx.getName() + ":");
+      var tree = await ctx.get();
+      console.log(tree ? tree.toString() : 'no tree');
+      console.log("----------");
+      tree.dispose();
+    }
+  } catch (e) {
+    if (e instanceof ClientError) console.log(e.message);
+    else throw e;
+  }
+
+  /*
   var ctx = c.getContexts()[0];
-  var tree = await ctx.get();
   console.log(tree ? tree.toString() : 'no tree!');
   if (tree) {
     var v = tree.find('/b');
@@ -33,4 +48,5 @@ function sleep(ms) {
       });
     });
   }
+  */
 })();

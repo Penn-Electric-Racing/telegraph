@@ -1,18 +1,18 @@
-#include <per/utils/hocon.hpp>
+#include <telegraph/utils/hocon.hpp>
 
-#include <per/context.hpp>
-#include <per/server.hpp>
+#include <telegraph/context.hpp>
+#include <telegraph/server.hpp>
 
-#include <per/nodes/node.hpp>
-#include <per/nodes/variable.hpp>
-#include <per/nodes/group.hpp>
-#include <per/nodes/tree.hpp>
+#include <telegraph/nodes/node.hpp>
+#include <telegraph/nodes/variable.hpp>
+#include <telegraph/nodes/group.hpp>
+#include <telegraph/nodes/tree.hpp>
 
 #include <iostream>
 
 #include <filesystem>
 
-using namespace per;
+using namespace telegraph;
 
 
 int main(int argc, char** argv) {

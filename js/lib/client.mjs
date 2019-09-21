@@ -56,6 +56,13 @@ function unpackNode(nodeIdMap, idNodeMap, obj) {
   return [node, id];
 }
 
+export class ClientError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "ClientError";
+  }
+}
+
 export class Client {
   constructor() {
     this._client = null;
@@ -123,7 +130,7 @@ export class Client {
       this._contextStream.on('end', function(end) {});
       this._contextStream.on('cancelled', function(end) {});
       this._contextStream.on('error', function(err) {
-        if (err.code == 14) reject(new Error("Unable to connect"));
+        if (err.code == 14) reject(new ClientError("Unable to connect"));
       });
       this._contextStream.on('status', function(status) {
       });
@@ -177,6 +184,7 @@ export class Client {
           case 'ADDED':
           case 'INITIAL':
             let [added, addedId] = unpackNode(this._nodeIdMap, this._idNodeMap, delta);
+            if (!added) throw new ClientError("Received malformed node definition from server!");
             if (!added.getParent()) root = added;
 
             // if we have a variable, listen for new subscriptions
