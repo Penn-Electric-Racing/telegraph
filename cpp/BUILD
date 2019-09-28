@@ -9,8 +9,7 @@ cc_library(name="telegraph",
         includes=["proto", "lib"],
         copts=["-std=c++17"],
            deps=[':gen_grpc_api', '@com_github_grpc_grpc//:grpc++',
-                 '@json//:json', '@hocon//:hocon',
-                 '@continuable//:continuable', '@function2//:function2']
+                 '@json//:json', '@hocon//:hocon']
 )
 
 cc_binary(name="test",

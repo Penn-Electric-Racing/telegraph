@@ -106,14 +106,34 @@ namespace telegraph {
 
     std::string
     generator::generate_config(const config* c, const tree *t, const id_map& ids) const {
-        std::string code =;
+        std::string code =
             "struct " + c->get_name() + "_config {\n";
 
         for (const std::string& set_name : c->sets()) {
             const std::unordered_set<node*>& set = c->get(set_name);
-            // now generate the std::array
+            std::unordered_set<uint32_t> id_set;
+            for (node* n : set) {
+                int32_t id = ids[n];
+                if (id >= 0) id_set.insert(id);
+            }
+
+            std::string var = "constexpr const id_array<" + 
+                std::to_string(id_set.size()) + "> " + set_name + " = {";
+
+            bool first = true;
+            for (int32_t id : id_set) {
+                if (!first) var += ", ";
+                if (first) first = false;
+
+                var += std::to_string(id);
+            }
+            var += "};";
+
+            indent(var, 4);
+            code += var;
+            code += "\n";
         }
-        code += "};"
+        code += "};";
         return code;
     }
 

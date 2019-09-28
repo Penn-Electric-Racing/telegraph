@@ -15,7 +15,7 @@ namespace telegraph {
     std::string
     node::get_path() const {
         bool g = dynamic_cast<const group*>(this) != nullptr;
-        return (parent_ ? parent_->get_path() + "/" + name_ : "")
+        return (parent_ ? parent_->get_path() + name_ : "")
                 + (g ? "/" : "");
     }
 

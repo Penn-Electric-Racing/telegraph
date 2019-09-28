@@ -1,0 +1,4 @@
+#include <cinttypes>
+
+int main() {
+}

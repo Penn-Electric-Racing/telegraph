@@ -11,18 +11,6 @@ http_archive(name='json',
     urls=['https://github.com/nlohmann/json/releases/download/v3.7.0/include.zip'],
     build_file='json.BUILD')
 
-http_archive(name='function2',
-    #sha256='9d64b8822d30513084b22450675b71f272e8fbd489dd84c3837f66c09b6a95ec',
-    urls=['https://github.com/Naios/function2/archive/master.zip'],
-    build_file='function2.BUILD',
-    strip_prefix='function2-master')
-
-http_archive(name='continuable',
-    sha256='8db3c2ef85891b2c91095ff5806e6a5b20d02d3e43d09a984c16be565c0a45ed',
-    urls=['https://github.com/Naios/continuable/archive/3.0.0.zip'],
-    build_file='continuable.BUILD',
-    strip_prefix="continuable-3.0.0")
-
 http_archive(name='hocon',
     sha256="b2cb3db5cfe02e8fb8a65cf89358912895b1a7efc852d83308af0811f221dbad",
     urls=['https://github.com/Penn-Electric-Racing/hocon/archive/8865ebbe434bfe586385514204d7c51b4825785a.zip'],
@@ -30,3 +18,22 @@ http_archive(name='hocon',
 
 load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
 grpc_deps()
+
+
+http_archive(
+    sha256="c6cf91b827473eff2852258a93db8ec6ad0936fbdee82d0c750278529d711893",
+    name = "com_grail_bazel_toolchain",
+    strip_prefix = "bazel-toolchain-master",
+    urls = ["https://github.com/grailbio/bazel-toolchain/archive/master.tar.gz"],
+)
+
+load("@com_grail_bazel_toolchain//toolchain:rules.bzl", "llvm_toolchain")
+
+llvm_toolchain(
+    name = "llvm_toolchain",
+    llvm_version = "8.0.0",
+)
+
+load("@llvm_toolchain//:toolchains.bzl", "llvm_register_toolchains")
+
+llvm_register_toolchains()
