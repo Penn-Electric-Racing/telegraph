@@ -64,10 +64,22 @@ def stm32_executable(name, platform, srcs=[], deps=[],
 
 # jlink upload rule
 def jlink_upload_impl_(ctx):
-    pass
+    ctx.actions.do_nothing(mnemonic="CcCompile", inputs=ctx.files.binary)
+    ctx.actions.write(ctx.outputs.executable, is_executable=True, content = \
+        "#!/usr/bin/env bash\n" + \
+        "cd \"${0%/*}\"\n" + \
+        "JLinkGDBServer -select USB -device STM32F777VI " + \
+              "-if SWD -speed 1000 -ir -singlerun -strict &\n" + \
+        "sleep 1\n" + \
+        "arm-none-eabi-gdb -ex \"target remote tcp:localhost:2331\"" + \
+        " -ex \"set confirm off\"" + \
+        " -ex \"monitor reset\"" + \
+        " -ex \"monitor device STM32F777VI\"" + \
+        " -ex \"load file "+ ctx.files.binary[0].basename + "\"")
 
 jlink_upload = rule(
     implementation=jlink_upload_impl_,
+    executable=True,
     attrs={
         'binary': attr.label(mandatory=True)
     }
