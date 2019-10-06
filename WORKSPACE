@@ -19,9 +19,8 @@ http_archive(name='hocon',
 load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
 grpc_deps()
 
-
 http_archive(
-    sha256="c6cf91b827473eff2852258a93db8ec6ad0936fbdee82d0c750278529d711893",
+    sha256="41287ad7c4ea61b283d253460fc80e65738f8bd776a37586d28fb7a794d00d93",
     name = "com_grail_bazel_toolchain",
     strip_prefix = "bazel-toolchain-master",
     urls = ["https://github.com/grailbio/bazel-toolchain/archive/master.tar.gz"],
