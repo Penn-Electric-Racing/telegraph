@@ -1,0 +1,4 @@
+#ifndef __STM32_STDLIB_CINTTYPES__
+#define __STM32_STDLIB_CINTTYPES__
+
+#endif
