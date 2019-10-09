@@ -13,24 +13,6 @@ http_archive(name='com_github_grpc_grpc',
 load("@com_github_grpc_grpc//bazel:grpc_deps.bzl", "grpc_deps")
 grpc_deps()
 
-http_archive(
-    sha256="41287ad7c4ea61b283d253460fc80e65738f8bd776a37586d28fb7a794d00d93",
-    name = "com_grail_bazel_toolchain",
-    strip_prefix = "bazel-toolchain-master",
-    urls = ["https://github.com/grailbio/bazel-toolchain/archive/master.tar.gz"],
-)
-
-load("@com_grail_bazel_toolchain//toolchain:rules.bzl", "llvm_toolchain")
-
-llvm_toolchain(
-    name = "llvm_toolchain",
-    llvm_version = "8.0.0",
-)
-
-load("@llvm_toolchain//:toolchains.bzl", "llvm_register_toolchains")
-
-llvm_register_toolchains()
-
 load("//:deps.bzl", "telegraph_deps")
 telegraph_deps()
 
