@@ -5,7 +5,7 @@ def telegraph_deps():
     http_archive(name='json',
         sha256='541c34438fd54182e9cdc68dd20c898d766713ad6d901fb2c6e28ff1f1e7c10d',
         urls=['https://github.com/nlohmann/json/releases/download/v3.7.0/include.zip'],
-        build_file='json.BUILD')
+        build_file='@telegraph//:external/json.BUILD')
 
     http_archive(name='hocon',
         sha256="b2cb3db5cfe02e8fb8a65cf89358912895b1a7efc852d83308af0811f221dbad",

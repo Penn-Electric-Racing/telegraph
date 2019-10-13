@@ -20,4 +20,4 @@ cc_binary(name="test",
 cc_binary(name="generate",
           srcs=glob(["main/generate.cpp"]),
           copts=["-std=c++17"],
-          deps=[":telegraph"])
+          deps=[":telegraph"], visibility=["//visibility:public"])
