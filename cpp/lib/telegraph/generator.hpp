@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include <map>
 
 namespace telegraph {
     class node;
@@ -52,10 +53,17 @@ namespace telegraph {
         // does the generation and writes the files
         void run(const id_map& ids) const;
     private:
-        std::string generate_node(const node* n, const id_map& ids) const;
+        std::string generate_types(const tree* t) const;
+
+        std::string generate_node(const node* n, const id_map& ids,
+                                    const std::string& accessor_prefix,
+                                    std::map<int32_t, std::string>* id_accessors) const;
+
         std::string generate_tree(const tree* t, const id_map& ids) const;
+
         std::string generate_config(const config* c, 
                                     const tree* t, const id_map& ids) const;
+
         result generate_target(const target& t, const id_map& ids) const;
 
         // generator config

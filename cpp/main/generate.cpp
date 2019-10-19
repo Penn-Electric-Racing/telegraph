@@ -7,21 +7,22 @@
 
 #include <iostream>
 #include <vector>
+#include <filesystem>
 
 using namespace telegraph;
 
 int main(int argc, char** argv) {
     if (argc < 4) {
-        std::cerr << "Must pass file, config name, and output file";
+        std::cerr << "Must pass config file, config name, output file";
         return 1;
     }
-    char* dir = std::getenv("BUILD_WORKSPACE_DIRECTORY");
-    std::string file = (dir ? std::string(dir) : ".") + "/" + argv[1];
+
+    std::filesystem::path config_path = argv[1];
     std::string config_name = argv[2];
-    std::string output_file = argv[3];
+    std::filesystem::path output_path = argv[3];
 
     hocon_parser parser;
-    json j = parser.parse_file(file);
+    json j = parser.parse_file(config_path);
     
     tree* t = tree::unpack(j["root"]);
 
@@ -41,9 +42,9 @@ int main(int argc, char** argv) {
 
     // now create the generator
     generator g;
-    g.set_tree(output_file, t);
-    g.add_config(output_file, conf);
-    g.set_output_dir(dir);
+    g.set_tree(output_path.filename(), t);
+    g.add_config(output_path.filename(), conf);
+    g.set_output_dir(output_path.parent_path());
     g.run(ids);
 
     // delete the tree, will delete any children

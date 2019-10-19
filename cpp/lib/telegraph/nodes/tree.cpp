@@ -83,6 +83,9 @@ namespace telegraph {
             if (t.get_class() == type::ENUM) {
                 std::vector<std::string> strs = json.value<std::vector<std::string>>("labels", {});
                 t.set_labels(strs);
+                if (json.find("type_name") == json.end()) 
+                    throw parse_error("Enum type expects name");
+                t.set_name(json["type_name"]);
             }
         } else if (json.is_string()) {
             t = type(unpack_type_class(json.get<std::string>()));

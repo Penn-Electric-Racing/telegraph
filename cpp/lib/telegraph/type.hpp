@@ -19,6 +19,7 @@ namespace telegraph {
 
         constexpr type_class get_class() const { return class_; }
         constexpr const std::string& get_name() const { return name_; }
+        constexpr const std::vector<std::string>& get_labels() const { return labels_; }
 
         inline void add_label(const std::string& label) { labels_.push_back(label); }
         inline void set_labels(const std::vector<std::string> labels) { labels_ = labels; }
@@ -28,7 +29,7 @@ namespace telegraph {
         std::string to_str() const;
     private:
         type_class class_;
-        std::string name_;
+        std::string name_; // only set for enum types
         // contains the unit for this type
         // for for an enum the labels per value
         std::vector<std::string> labels_;

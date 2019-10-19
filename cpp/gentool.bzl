@@ -5,5 +5,3 @@ def generate_telegraph_headers(name, input, config, header_name):
             outs=[header_name],
             tools=["@telegraph//cpp:generate"],
             cmd="$(location @telegraph//cpp:generate) $< " + config + " $(location " + header_name + ")")
-
-
