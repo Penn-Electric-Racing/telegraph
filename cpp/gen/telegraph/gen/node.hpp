@@ -1,6 +1,8 @@
 #ifndef __TELEGRAPH_GEN_NODE_HPP__
 #define __TELEGRAPH_GEN_NODE_HPP__
 
+#include <stdint.h>
+
 namespace telegraph::gen {
     class node {
     public:
