@@ -22,14 +22,8 @@ cc_binary(name="generate",
           copts=["-std=c++17"],
           deps=[":telegraph"], visibility=["//visibility:public"])
 
-
-
-
-filegroup(name="gen_lib_srcs",
+cc_library(name="generate_support",
+          hdrs=glob(["gen/**/*.hpp"]),
           srcs=glob(["gen/**/*.cpp"]),
-          visibility=["//visibility:public"])
-
-cc_library(name="gen_lib_includes",
-          srcs=glob(["gen/**/*.hpp"]),
           includes=["gen"],
           visibility=["//visibility:public"])
