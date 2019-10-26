@@ -13,6 +13,16 @@ namespace telegraph::gen {
                 // do nothing for now
             }
         };
+
+    template<typename Ret>
+        class action<void, Ret> : public node {
+        public:
+            constexpr action(int32_t id) : node(id) {}
+
+            Ret call() {
+                // do nothing for now
+            }
+        };
 }
 
 #endif

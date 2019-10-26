@@ -3,9 +3,9 @@
 
 #include <array>
 
-namespace telegraph {
+namespace telegraph::gen {
     template<size_t N>
-        using id_array = array<int32_t, N>;
+        using id_array = std::array<int32_t, N>;
 }
 
 #endif
