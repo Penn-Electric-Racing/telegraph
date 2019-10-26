@@ -24,7 +24,7 @@ var packageDefinition = protoLoader.loadSync(
     });
 var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 
-var api = protoDescriptor.per.proto;
+var api = protoDescriptor.telegraph.proto;
 
 function unpackNode(nodeIdMap, idNodeMap, obj) {
   var parent = null;
