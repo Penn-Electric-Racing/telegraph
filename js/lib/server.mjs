@@ -17,7 +17,7 @@ var packageDefinition = protoLoader.loadSync(
     });
 var pkg_proto = grpc.loadPackageDefinition(packageDefinition);
 
-var api = pkg_proto.per.proto;
+var api = pkg_proto.telegraph.proto;
 
 // utility packing functions
 
