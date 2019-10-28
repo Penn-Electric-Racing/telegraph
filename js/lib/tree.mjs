@@ -210,7 +210,7 @@ export class Type {
       case Type.DOUBLE._ident: type = "DOUBLE"; break;
       default: type = "INVALID"; break;
     }
-    return {type: type, labels: this._labels};
+    return {name: this._name, type: type, labels: this._labels};
   }
   toString() {
     switch (this._ident) {
@@ -247,7 +247,7 @@ Type.unpack = function(json) {
     case "INT64": return Type.INT64;
     case "FLOAT": return Type.FLOAT;
     case "DOUBLE": return Type.DOUBLE;
-    case "ENUM": return new Type(Type.ENUM._ident, json.labels);
+    case "ENUM": return new Type(Type.ENUM._ident, json.name, json.labels);
     default: return Type.INVALID;
   }
 };
