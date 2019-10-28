@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "api.pb.h"
+
 namespace telegraph {
     class type {
     public:
@@ -27,6 +29,27 @@ namespace telegraph {
         inline void set_name(const std::string& name) { name_ = name; }
 
         std::string to_str() const;
+
+        constexpr const proto::Type::Class to_proto_buffer_class() const {
+            using PClass = proto::Type::Class;
+            switch (class_) {
+            case INVALID: return PClass::Type_Class_INVALID;
+            case NONE: return PClass::Type_Class_NONE;
+            case ENUM: return PClass::Type_Class_ENUM;
+            case BOOL: return PClass::Type_Class_BOOL;
+            case UINT8: return PClass::Type_Class_UINT8;
+            case UINT16: return PClass::Type_Class_UINT16;
+            case UINT32: return PClass::Type_Class_INT32;
+            case UINT64: return PClass::Type_Class_UINT64;
+            case INT8: return PClass::Type_Class_INT8;
+            case INT16: return PClass::Type_Class_INT16;
+            case INT32: return PClass::Type_Class_INT32;
+            case INT64: return PClass::Type_Class_INT64;
+            case FLOAT: return PClass::Type_Class_FLOAT;
+            case DOUBLE: return PClass::Type_Class_DOUBLE;
+            default: return PClass::Type_Class_INVALID;
+            }
+        }
     private:
         type_class class_;
         std::string name_; // only set for enum types

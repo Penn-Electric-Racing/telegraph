@@ -240,8 +240,12 @@ namespace telegraph {
     }
 
     // ---------- tree request -------------
-    
+
     static void pack_type(proto::Type* pt, const type& t) {
+        for (auto label : t.get_labels()) {
+            pt->add_labels(label);
+        }
+        pt->set_type(t.to_proto_buffer_class());
     }
 
     // helper for serializing the node into a added tree delta
