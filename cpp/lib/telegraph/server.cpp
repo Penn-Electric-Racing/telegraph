@@ -245,11 +245,12 @@ namespace telegraph {
         for (auto label : t.get_labels()) {
             pt->add_labels(label);
         }
+        pt->set_name(t.get_name());
         pt->set_type(t.to_proto_buffer_class());
     }
 
     // helper for serializing the node into a added tree delta
-    static void pack_node(proto::TreeDelta* delta, int32_t parent_id, int32_t id, const node* n) {
+    static void pack_node(proto::TreeDelta* delta, int32_t id, int32_t parent_id, const node* n) {
         if (dynamic_cast<const group*>(n) != nullptr) {
             const group* g = dynamic_cast<const group*>(n);
             proto::Group* dg = delta->mutable_group();

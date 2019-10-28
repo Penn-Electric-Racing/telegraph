@@ -50,7 +50,8 @@ message Type {
         DOUBLE = 13;
     }
     Class type =  1;
-    repeated string labels = 2;
+    string name = 2;
+    repeated string labels = 3;
 }
 
 message Value {

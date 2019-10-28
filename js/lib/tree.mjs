@@ -216,7 +216,7 @@ export class Type {
     switch (this._ident) {
       case Type.BOOL._ident:   return 'bool';
       case Type.NONE._ident:   return 'none';
-      case Type.ENUM._ident:   return 'enum [' + ', '.join(this._labels) + ']';
+      case Type.ENUM._ident:   return 'enum [' + this._labels.join(', ') + ']';
       case Type.UINT8._ident:  return 'uint8';
       case Type.UINT16._ident: return 'uint16';
       case Type.UINT32._ident: return 'uint32';
