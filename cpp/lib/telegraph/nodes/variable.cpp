@@ -8,7 +8,7 @@ namespace telegraph {
     variable::variable(const std::string& name, const std::string& pretty, const std::string& desc,
                         const type t) : node(name, pretty, desc), type_(t) {}
 
-    std::shared_ptr<variable::subscription>
+    std::shared_ptr<subscription>
     variable::subscribe(uint64_t min_interval, uint64_t max_interval) {
         std::shared_ptr<subscription> s = std::make_shared<subscription>(min_interval, max_interval);
         subscription* w = s.get();
