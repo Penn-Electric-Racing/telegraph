@@ -1,4 +1,4 @@
-#!/usr/bin/node --experimental-modules
+#!/usr/bin/env node --experimental-modules
 
 import {Server} from '../lib/server.mjs'
 import {Context} from '../lib/context.mjs'

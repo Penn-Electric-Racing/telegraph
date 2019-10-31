@@ -1,4 +1,4 @@
-#!/usr/bin/node --experimental-modules
+#!/usr/bin/env node --experimental-modules
 
 import {Client, ClientError} from '../lib/client.mjs'
 import {Tree, Node, Group, Variable, Action} from '../lib/tree.mjs'
