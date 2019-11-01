@@ -16,12 +16,16 @@ namespace telegraph {
                                 min_interval_(min_interval), max_interval_(max_interval), 
                                 cancelled_(false) {}
 
+        inline ~subscription() {
+            if (!cancelled_) cancel();
+        }
+
         constexpr bool is_cancelled() const { return cancelled_; }
 
         constexpr uint64_t get_min_interval() const { return min_interval_; }
         constexpr uint64_t get_max_interval() const { return max_interval_; }
 
-        inline void cancel() { on_cancel(); }
+        inline void cancel() { cancelled_ = true; on_cancel(); }
 
         signal<datapoint> on_data;
         signal<> on_cancel;

@@ -31,10 +31,18 @@ namespace telegraph::gen {
             std::vector<std::function<void(const T&)>> handlers_;
         };
 
+    class generic_variable : public node {
+        constexpr generic_variable(int32_t id) : generic_variable(id) {}
+
+        virtual void add_generic_interface(generic_interface* i) = 0;
+    };
+
     template<typename T>
-        class variable : public node {
+        class variable : public generic_variable {
         public:
-            constexpr variable(int32_t id) : node(id) {}
+            using storage = type_traits<T>::storage_type;
+
+            constexpr variable(int32_t id) : generic_variable(id) {}
 
             // write to this variable
             variable& operator<<(const T& t) {
@@ -43,6 +51,11 @@ namespace telegraph::gen {
 
             void add_interface(interface<T>* i) {
                 interfaces_.push_back(i);
+            }
+
+            // override the generic variable function
+            void add_generic_interface(generic_interface* i) override {
+                add_interface((interface<T>*) i);
             }
 
             subscription<T>* subscribe(int32_t min_interval, int32_t max_interval, 
@@ -57,9 +70,9 @@ namespace telegraph::gen {
             }
         protected:
             T last_;
+            std::vector<interface<T>*> interfaces_; // interfaces listen for subscription changes
             std::vector<subscription<T>> subscriptions_; // subscriptions 
                                                        // (in a list so we can return pointers)
-            std::vector<interface<T>*> interfaces_; // interfaces listen for subscription changes
         };
 }
 
