@@ -69,3 +69,8 @@ message ActionRequest {
     Value argument = 3;
 }
 
+// Represents a datapoint
+message DataPoint {
+    uint64 timestamp = 1;
+    Value value = 2;
+}

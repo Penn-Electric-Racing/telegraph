@@ -94,8 +94,20 @@ message Value {
     }
 }
 
-// Represents a datapoint
-message DataPoint {
-    uint64 timestamp = 1;
+message VariableUpdate {
+    int32 variable = 1;
     Value value = 2;
 }
+
+message ActionRequest {
+    int32 action = 1;
+    int32 request_number = 2;
+    Value arg = 3;
+}
+
+message ActionCompleted {
+    int32 request_number = 1;
+    Value ret = 2;
+}
+
+

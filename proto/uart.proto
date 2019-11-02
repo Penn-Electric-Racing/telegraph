@@ -4,3 +4,46 @@ import "common.proto";
 
 package telegraph.proto;
 
+message SubscribeRequest {
+    int32 variable = 1;
+    int32 request_number = 2;
+    int32 min_interval = 3; // in microseconds
+    int32 max_interval = 4; // in microseconds
+}
+
+message SubscribeCompleted {
+    int32 request_number = 1;
+    int32 subscription_id = 2;
+}
+
+message CancelSubscription {
+    int32 subscription_id = 1;
+}
+
+message ChildrenRequest {
+    int32 parent_id = 1;
+}
+
+message Children {
+    int32 parent_id = 1;
+    repeated Node children = 2;
+}
+
+message StreamEvent {
+    oneof event {
+        ChildrenRequest children_request = 1;
+        Children children = 2;
+
+        SubscribeRequest subscribe_request = 3;
+        SubscribeRequest subscribe_completed = 4;
+        CancelSubscription cancel_subscription = 5;
+
+        ActionRequest action_request = 6;
+        ActionCompleted action_completed = 7;
+        VariableUpdate variable_update = 8;
+    }
+}
+
+message StreamPacket {
+    repeated StreamEvent events = 1;
+}
