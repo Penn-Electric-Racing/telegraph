@@ -3,7 +3,9 @@
 
 namespace telegraph::gen { 
     template<typename T>
-        class type_traits {
-            using storage_type = T;
+        struct storage_traits {
+            using type = T;
         };
 }
+
+#endif

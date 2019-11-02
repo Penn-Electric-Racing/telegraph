@@ -9,11 +9,12 @@ namespace telegraph::gen {
 
 
     class generic_interface {
+        virtual ~generic_interface() = default;
     };
 
     template<typename T>
         class interface : public virtual generic_interface {
-            void subscribed(variable<T>* v, subscription<T>* s) = 0;
+            virtual void subscribed(variable<T>* v, subscription<T>* s) = 0;
         };
 }
 

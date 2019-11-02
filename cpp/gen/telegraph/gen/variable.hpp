@@ -3,6 +3,7 @@
 
 #include "node.hpp"
 #include "interface.hpp"
+#include "storage_traits.hpp"
 
 #include <vector>
 #include <functional>
@@ -32,7 +33,8 @@ namespace telegraph::gen {
         };
 
     class generic_variable : public node {
-        constexpr generic_variable(int32_t id) : generic_variable(id) {}
+    public:
+        constexpr generic_variable(int32_t id) : node(id) {}
 
         virtual void add_generic_interface(generic_interface* i) = 0;
     };
@@ -40,7 +42,7 @@ namespace telegraph::gen {
     template<typename T>
         class variable : public generic_variable {
         public:
-            using storage = type_traits<T>::storage_type;
+            using Type = typename storage_traits<T>::type;
 
             constexpr variable(int32_t id) : generic_variable(id) {}
 
@@ -55,7 +57,7 @@ namespace telegraph::gen {
 
             // override the generic variable function
             void add_generic_interface(generic_interface* i) override {
-                add_interface((interface<T>*) i);
+                add_interface(dynamic_cast<interface<T>*>(i));
             }
 
             subscription<T>* subscribe(int32_t min_interval, int32_t max_interval, 
@@ -69,7 +71,7 @@ namespace telegraph::gen {
                 return s;
             }
         protected:
-            T last_;
+            Type last_;
             std::vector<interface<T>*> interfaces_; // interfaces listen for subscription changes
             std::vector<subscription<T>> subscriptions_; // subscriptions 
                                                        // (in a list so we can return pointers)
