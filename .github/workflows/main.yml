@@ -1,6 +1,6 @@
 name: CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -9,6 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Bazel Action
-      uses: ngalaiko/bazel-action@1.1.0
+      uses: Penn-Electric-Racing/bazel-action
       with:
         args: test //...
