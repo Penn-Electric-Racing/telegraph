@@ -9,6 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Bazel Action
-      uses: ngalaiko/bazel-action@1.1.0
+      uses: ngalaiko/bazel-action@0.29.1
       with:
         args: test //...
