@@ -1,17 +1,9 @@
-load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
-
-cc_proto_library(name="proto_library",
-                 deps=["//proto:log_proto",
-                       "//proto:stream_proto"])
-
-cc_grpc_library(name="gen_grpc_api",
-        srcs=["//proto:stream_proto"], deps=[])
 
 cc_library(name="telegraph",
         srcs=glob(["lib/**/*.hpp", "lib/**/*.cpp"]),
         includes=["proto", "lib"],
         copts=["-std=c++17"],
-           deps=[':gen_grpc_api', '@com_github_grpc_grpc//:grpc++',
+           deps=['//proto:cc_api_proto', '@com_github_grpc_grpc//:grpc++',
                  '@json//:json', '@hocon//:hocon']
 )
 

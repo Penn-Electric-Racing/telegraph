@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "common.proto";
+import "proto/common.proto";
 
 package telegraph.proto;
 
@@ -38,7 +38,7 @@ message StreamEvent {
         SubscribeRequest subscribe_completed = 4;
         CancelSubscription cancel_subscription = 5;
 
-        ActionRequest action_request = 6;
+        ActionCalled action_request = 6;
         ActionCompleted action_completed = 7;
         VariableUpdate variable_update = 8;
     }

@@ -1,3 +1,5 @@
+load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+
 proto_library(
      name = "common_proto",
      srcs = ["common.proto"],
@@ -24,3 +26,12 @@ proto_library(
      deps = [":common_proto"],
      visibility = ["//visibility:public"]
 )
+
+cc_proto_library(name="cc_api_proto",
+                 deps=["//proto:api_proto"],
+                 visibility=["//visibility:public"])
+
+cc_grpc_library(name="cc_api_grpc",
+                srcs=["//proto:api_proto"], 
+                deps=[":cc_api_proto"], grpc_only=True,
+                visibility=["//visibility:public"])

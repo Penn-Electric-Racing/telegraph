@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import "common.proto";
+import "proto/common.proto";
 
 package telegraph.proto;
 
@@ -20,8 +20,6 @@ service ContextManager {
   // performs an action
   rpc PerformAction(ActionRequest) returns (Value) {}
 }
-
-message Empty {}
 
 enum DeltaType {
     ADDED = 0;
