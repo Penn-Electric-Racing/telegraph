@@ -15,7 +15,7 @@ namespace telegraph {
                                id_ctx_map_(), ctx_id_map_(),
                                node_id_counter_(0), 
                                id_node_map_(), node_id_map_(),
-                               ctx_node_ids_() {}
+                               ctx_node_ids_map_(), node_id_ctx_map_() {}
 
     void
     id_manager::add_context(context* ctx) {
@@ -34,15 +34,16 @@ namespace telegraph {
             return;
         }
         try {
-            std::unordered_set<int32_t>& v = ctx_node_ids_.at(ctx);
+            std::unordered_set<int32_t>& v = ctx_node_ids_map_.at(ctx);
             for (int32_t i : v) {
                 try {
                     node* n = id_node_map_.at(i);
                     node_id_map_.erase(n);
                     id_node_map_.erase(i);
+                    node_id_ctx_map_.erase(i);
                 } catch (std::out_of_range& e) {}
             }
-            ctx_node_ids_.erase(ctx);
+            ctx_node_ids_map_.erase(ctx);
         } catch (std::out_of_range& e) {}
     }
     void
@@ -51,13 +52,15 @@ namespace telegraph {
         int32_t id = node_id_counter_++;
         node_id_map_[n] = id;
         id_node_map_[id] = n;
-        ctx_node_ids_[ctx].insert(id);
+        ctx_node_ids_map_[ctx].insert(id);
+        node_id_ctx_map_[id] = ctx;
     }
     void
     id_manager::remove_node(context* ctx, node* n) {
         try { 
             int32_t id = node_id_map_.at(n);
-            ctx_node_ids_[ctx].erase(id);
+            ctx_node_ids_map_[ctx].erase(id);
+            node_id_ctx_map_.erase(id);
         } catch (std::out_of_range& e) {}
     }
 
@@ -123,6 +126,8 @@ namespace telegraph {
         std::unordered_set<request*> open_requests;
         open_requests.insert(new contexts_request(this));
         open_requests.insert(new tree_request(this));
+        open_requests.insert(new subscribe_request(this));
+        open_requests.insert(new action_request(this));
         // register all requests
         for (request* r : open_requests) r->reg();
 
@@ -423,4 +428,229 @@ namespace telegraph {
             responder_.Finish(grpc::Status::OK, this);
         }
     }
+
+    // ---------- subscribe request -------------
+
+    static void pack_value(proto::Value* pv, const value& v) {
+        using tc = type::type_class;
+        switch (v.get_type_class()) {
+        case tc::ENUM: pv->set_en(v.get<int8_t>()); break;
+        case tc::BOOL: pv->set_b(v.get<bool>()); break;
+        case tc::UINT8: pv->set_ui8(v.get<uint8_t>()); break;
+        case tc::UINT16: pv->set_ui16(v.get<uint16_t>()); break;
+        case tc::UINT32: pv->set_ui32(v.get<uint32_t>()); break;
+        case tc::UINT64: pv->set_ui64(v.get<uint64_t>()); break;
+        case tc::INT8: pv->set_i8(v.get<int8_t>()); break;
+        case tc::INT16: pv->set_i16(v.get<int16_t>()); break;
+        case tc::INT32: pv->set_i32(v.get<int32_t>()); break;
+        case tc::INT64: pv->set_i64(v.get<int64_t>()); break;
+        case tc::FLOAT: pv->set_f(v.get<float>()); break;
+        case tc::DOUBLE: pv->set_d(v.get<double>()); break;
+        case tc::INVALID: [[fallthrough]];
+        case tc::NONE: [[fallthrough]];
+        default: pv->set_allocated_none(new proto::Empty); break;
+        }
+    }
+
+    static void pack_datapoint(proto::DataPoint* pp, const datapoint& p) {
+        pp->set_timestamp(p.get_time());
+
+        // `DataPoint`s expect an allocated proto::Value
+        proto::Value* pv = new proto::Value;
+        const value& v = p.get_value();
+        pack_value(pv, v);
+    }
+
+    void
+    server::subscribe_request::reg() {
+        auto cq = srv->cq_.get();
+        srv->service_.RequestSubscribe(&ctx_, &request_, &responder_, cq, cq, this);
+    }
+
+    void
+    server::subscribe_request::called() {
+        std::lock_guard<std::mutex> guard(req_mutex_);
+        if (status == CREATED) {
+            // Get the parameters from the request
+            int32_t id = request_.var_id();
+            int32_t min_interval = request_.min_interval();
+            int64_t max_interval = request_.max_interval();
+
+            context* ctx = nullptr;
+
+            {
+                std::lock_guard<std::recursive_mutex> il(srv->ids_mutex_);
+                ctx = srv->ids_.get_context_from_node(id);
+            }
+
+            // if we could not find the context raise an error
+            if (!ctx) {
+                std::cerr << "subscribe_request: ctx " << id << ": not found" << std::endl;
+
+                mark_finished();
+                responder_.Finish(grpc::Status::CANCELLED, this);
+                return;
+            }
+
+            auto ctx_lock = ctx->lock();
+
+            node* node = nullptr;
+            {
+                std::lock_guard<std::recursive_mutex> il(srv->ids_mutex_);
+                node = srv->ids_.get_node(id);
+            }
+
+            // if we could not find the node raise an error
+            if (!node) {
+                std::cerr << "subscribe_request: node " << id << ": not found" << std::endl;
+
+                mark_finished();
+                responder_.Finish(grpc::Status::CANCELLED, this);
+                return;
+            }
+
+            if (dynamic_cast<variable*>(node) != nullptr) {
+                variable_ = dynamic_cast<variable*>(node);
+                subscription_ = variable_->subscribe(min_interval, max_interval);
+            } else {
+                std::cerr << "subscribe_request: node " << id << " is not a variable" << std::endl;
+
+                mark_finished();
+                responder_.Finish(grpc::Status::CANCELLED, this);
+                return;
+            }
+
+            // if this particular context gets removed from
+            // the server make the request as finished
+            {
+                auto acl = srv->contexts.lock();
+                srv->contexts.context_removed.add(this, [nid=id, this] (context* ctx) {
+                    std::unordered_set<int32_t> ctx_node_ids;
+                    {
+                        std::lock_guard<std::recursive_mutex> il(srv->ids_mutex_);
+                        ctx_node_ids = srv->ids_.get_nodes(ctx);
+                    }
+                    if (ctx_node_ids.count(nid) > 0) {
+                        {
+                            std::lock_guard<std::mutex> guard(req_mutex_);
+                            mark_finished();
+                        }
+                        alarm();
+                    }
+                });
+            }
+
+            subscription_->on_data.add(this, [this](datapoint p) {
+                proto::DataPoint proto_p;
+                pack_datapoint(&proto_p, p);
+                {
+                    std::lock_guard<std::mutex> guard(req_mutex_);
+                    queue_.push(proto_p);
+                }
+                alarm();
+            });
+
+            subscription_->on_cancel.add(this, [this]() {
+                {
+                    std::lock_guard<std::mutex> guard(req_mutex_);
+                    mark_finished();
+                }
+                alarm();
+            });
+        }
+        if (!queue_.empty()) {
+            const proto::DataPoint& datum = queue_.front();
+            responder_.Write(datum, this);
+            queue_.pop();
+        }
+    }
+
+    void
+    server::subscribe_request::done() {
+        auto ctxs_lock = srv->contexts.lock();
+        srv->contexts.context_removed.remove(this);
+
+        subscription_ = nullptr;
+
+        if (subscription_) {
+            {
+                std::lock_guard<std::mutex> guard(req_mutex_);
+                subscription_ = nullptr;
+            }
+
+            responder_.Finish(grpc::Status::OK, this);
+        }
+    }
+
+    // ---------- action request -------------
+
+    static value unpack_value(proto::Value& pv) {
+        using tc = proto::Value::TypeCase;
+        switch (pv.type_case()) {
+        case tc::kB: return value(pv.b());
+        case tc::kD: return value(pv.d());
+        case tc::kEn: return value(pv.en());
+        case tc::kF: return value(pv.f());
+        case tc::kI8: return value(pv.i8());
+        case tc::kI16: return value(pv.i16());
+        case tc::kI32: return value(pv.i32());
+        case tc::kI64: return value(pv.i64());
+        case tc::kNone: return value();
+        case tc::kUi8: return value(pv.ui8());
+        case tc::kUi16: return value(pv.ui16());
+        case tc::kUi32: return value(pv.ui32());
+        case tc::kUi64: return value(pv.ui64());
+        default: return value();
+        }
+    }
+
+    void
+    server::action_request::reg() {
+        auto cq = srv->cq_.get();
+        srv->service_.RequestPerformAction(&ctx_, &request_, &responder_, cq, cq, this);
+    }
+
+    void
+    server::action_request::called() {
+        std::lock_guard<std::mutex> guard(req_mutex_);
+        if (status == CREATED) {
+            // Get the parameters from the request
+            int32_t id = request_.action_id();
+            proto::Value arg = request_.argument();
+
+            node* node = nullptr;
+            {
+                std::lock_guard<std::recursive_mutex> il(srv->ids_mutex_);
+                node = srv->ids_.get_node(id);
+            }
+
+            // if we could not find the node raise an error
+            if (!node) {
+                std::cerr << "action_request: node " << id << ": not found" << std::endl;
+
+                mark_finished();
+                responder_.FinishWithError(grpc::Status::CANCELLED, this);
+                return;
+            }
+
+            action* a;
+            if (dynamic_cast<action*>(node) != nullptr) {
+                a = dynamic_cast<action*>(node);
+            } else {
+                std::cerr << "action_request: node " << id << " is not an action" << std::endl;
+
+                mark_finished();
+                responder_.FinishWithError(grpc::Status::CANCELLED, this);
+                return;
+            }
+
+            proto::Value ret;
+            pack_value(&ret, a->execute(unpack_value(arg)));
+
+            responder_.Finish(ret, grpc::Status::OK, this);
+        }
+    }
+
+    void
+    server::action_request::done() {}
 }

@@ -29,24 +29,22 @@ function sleep(ms) {
     else throw e;
   }
 
-  /*
   var ctx = c.getContexts()[0];
   console.log(tree ? tree.toString() : 'no tree!');
   if (tree) {
-    var v = tree.find('/b');
-    var a = tree.find('/a/c');
+    var v = tree.find('/ams/dcdc_status');
+    var a = tree.find('/bridge/recording_state');
 
-    var result = await a.call(5);
+    var result = await a.call(true);
 
-    console.log('a');
+    //console.log('a');
 
     var sub = v.subscribe(0, 0);
-    sub.addHandler((ts, dp) => { 
-      console.log('got value: ' + dp); 
+    sub.addHandler((ts, dp) => {
+      console.log('got value: ' + dp);
       a.call(dp).then((ret) => {
         console.log('called action, got: ' + ret);
       });
     });
   }
-  */
 })();

@@ -14,6 +14,7 @@
 #include "utils/signal.hpp"
 
 #include "nodes/tree.hpp"
+#include "nodes/variable.hpp"
 
 #include "context.hpp"
 
@@ -48,9 +49,21 @@ namespace telegraph {
                 return id_node_map_.at(id);
             } catch (std::out_of_range& e) { return nullptr; }
         }
+        inline std::unordered_set<int32_t> get_nodes(context *ctx) const {
+            try {
+                return ctx_node_ids_map_.at(ctx);
+            } catch(std::out_of_range& e) {
+                return std::unordered_set<int32_t>();
+            }
+        }
         inline context* get_context(int32_t id) const { 
             try {
                 return id_ctx_map_.at(id);
+            } catch (std::out_of_range& e) { return nullptr; }
+        }
+        inline context* get_context_from_node(int32_t nid) const {
+            try {
+                return node_id_ctx_map_.at(nid);
             } catch (std::out_of_range& e) { return nullptr; }
         }
     private:
@@ -61,7 +74,9 @@ namespace telegraph {
         int32_t node_id_counter_;
         std::unordered_map<int32_t, node*> id_node_map_;
         std::unordered_map<node*, int32_t> node_id_map_;
-        std::unordered_map<context*, std::unordered_set<int32_t>> ctx_node_ids_;
+
+        std::unordered_map<context*, std::unordered_set<int32_t>> ctx_node_ids_map_;
+        std::unordered_map<int32_t, context*> node_id_ctx_map_;
     };
 
     /**
@@ -159,6 +174,49 @@ namespace telegraph {
             context::handle tree_;
 
             std::queue<proto::TreeDelta> queue_;
+        };
+
+        class subscribe_request : public request {
+        public:
+            inline subscribe_request(server* srv) :
+                request(request_type::SUBSCRIBE, srv), req_mutex_(),
+                ctx_(), request_(), responder_(&ctx_), queue_() {}
+            inline request* create() override { return new subscribe_request(srv); }
+
+            void reg() override;
+
+            void called() override;
+            void done() override;
+        private:
+            std::mutex req_mutex_;
+
+            grpc::ServerContext ctx_;
+            proto::SubscribeRequest request_;
+            grpc::ServerAsyncWriter<proto::DataPoint> responder_;
+
+            variable* variable_;
+            std::shared_ptr<variable::subscription> subscription_;
+
+            std::queue<proto::DataPoint> queue_;
+        };
+
+        class action_request : public request {
+        public:
+            inline action_request(server* srv) :
+                request(request_type::PERFORM_ACTION, srv), req_mutex_(),
+                ctx_(), request_(), responder_(&ctx_) {}
+            inline request* create() override { return new action_request(srv); }
+
+            void reg() override;
+
+            void called() override;
+            void done() override;
+        private:
+            std::mutex req_mutex_;
+
+            grpc::ServerContext ctx_;
+            proto::ActionRequest request_;
+            grpc::ServerAsyncResponseWriter<proto::Value> responder_;
         };
 
         friend class contexts_request;
