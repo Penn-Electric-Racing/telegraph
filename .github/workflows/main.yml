@@ -9,6 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Bazel Action
-      uses: Penn-Electric-Racing/bazel-action@master
+      uses: Penn-Electric-Racing/bazel-action@1.1.0
       with:
         args: test //...
