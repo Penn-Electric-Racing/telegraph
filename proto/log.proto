@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package telegraph.proto;
+
+message Subscription {
+    int32 var_id = 1;
+}
+
+message LogEvent {
+    oneof event {
+        Node node_definition = 1;
+        ActionRequest action_request = 2;
+        ActionCompleted action_completed = 3;
+        VariableUpdate variable_update = 4;
+    }
+}
+
+
+message LogPacket {
+    uint64 time_delta = 1; // in microseconds
+    repeated LogEvent events = 2;
+}
