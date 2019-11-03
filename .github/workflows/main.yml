@@ -11,4 +11,4 @@ jobs:
     - name: Bazel Action
       uses: Penn-Electric-Racing/bazel-action@master
       with:
-        args: [test, //...]
+        args: test //...
