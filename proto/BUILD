@@ -35,3 +35,8 @@ cc_grpc_library(name="cc_api_grpc",
                 srcs=["//proto:api_proto"], 
                 deps=[":cc_api_proto"], grpc_only=True,
                 visibility=["//visibility:public"])
+
+cc_library(name="cc_api",
+           deps=[":cc_api_proto", ":cc_api_grpc"],
+           includes=["."],
+           visibility=["//visibility:public"])

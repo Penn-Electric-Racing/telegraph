@@ -3,7 +3,7 @@ cc_library(name="telegraph",
         srcs=glob(["lib/**/*.hpp", "lib/**/*.cpp"]),
         includes=["proto", "lib"],
         copts=["-std=c++17"],
-           deps=['//proto:cc_api_proto', '@com_github_grpc_grpc//:grpc++',
+           deps=['//proto:cc_api', '@com_github_grpc_grpc//:grpc++',
                  '@json//:json', '@hocon//:hocon']
 )
 
