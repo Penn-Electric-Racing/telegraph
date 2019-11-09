@@ -22,3 +22,9 @@ cc_library(name="generate_support",
           srcs=glob(["gen/**/*.cpp"]),
           includes=["gen"],
           visibility=["//visibility:public"])
+
+cc_test(name="tree_test",
+        srcs=["test/tree-test.cpp"],
+        data=["test/example.conf"],
+        copts=["-std=c++17"],
+        deps=[":telegraph"])
