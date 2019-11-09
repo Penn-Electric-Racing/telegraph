@@ -41,10 +41,10 @@ int main(int argc, char** argv) {
         }
     }
 
-    std::set<std::shared_ptr<variable::subscription>> subs;
+    std::set<std::shared_ptr<subscription>> subs;
     
     variable* v = dynamic_cast<variable*>((*t->get_root())["foo"]);
-    v->on_subscribe.add([&subs](std::shared_ptr<variable::subscription> sub) {
+    v->on_subscribe.add([&subs](std::shared_ptr<subscription> sub) {
         subs.insert(sub);
         sub->on_cancel.add([&subs, sub]() {
             subs.erase(sub);

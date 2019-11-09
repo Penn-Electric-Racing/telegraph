@@ -196,7 +196,7 @@ namespace telegraph {
             grpc::ServerAsyncWriter<proto::DataPoint> responder_;
 
             variable* variable_;
-            std::shared_ptr<variable::subscription> subscription_;
+            std::shared_ptr<subscription> subscription_;
 
             std::queue<proto::DataPoint> queue_;
         };
