@@ -258,7 +258,7 @@ namespace telegraph {
     static void pack_node(proto::TreeDelta* delta, int32_t id, int32_t parent_id, const node* n) {
         if (dynamic_cast<const group*>(n) != nullptr) {
             const group* g = dynamic_cast<const group*>(n);
-            proto::Group* dg = delta->mutable_group();
+            proto::Group* dg = delta->mutable_node()->mutable_group();
             dg->set_id(id);
             dg->set_parent(parent_id);
             dg->set_name(g->get_name());
@@ -269,7 +269,7 @@ namespace telegraph {
             dg->set_version(g->get_version());
         } else if (dynamic_cast<const action*>(n) != nullptr) {
             const action* a = dynamic_cast<const action*>(n);
-            proto::Action* da = delta->mutable_action();
+            proto::Action* da = delta->mutable_node()->mutable_action();
             da->set_id(id);
             da->set_parent(parent_id);
             da->set_name(a->get_name());
@@ -280,7 +280,7 @@ namespace telegraph {
             pack_type(da->mutable_ret_type(), a->get_ret_type());
         } else if (dynamic_cast<const variable*>(n) != nullptr) {
             const variable* v = dynamic_cast<const variable*>(n);
-            proto::Variable* dv = delta->mutable_var();
+            proto::Variable* dv = delta->mutable_node()->mutable_var();
             dv->set_id(id);
             dv->set_parent(parent_id);
             dv->set_name(v->get_name());
@@ -401,7 +401,7 @@ namespace telegraph {
                 }
                 proto::TreeDelta delta;
                 delta.set_type(proto::DeltaType::REMOVED);
-                delta.set_id(node_id);
+                delta.mutable_node()->set_id(node_id);
                 {
                     std::lock_guard<std::mutex> guard(req_mutex_);
                     queue_.push(delta);
