@@ -16,3 +16,9 @@ def telegraph_deps_stage1():
                  sha256='e458d694273dd5f3b253b748771a0fa3ef1319aa2d59b65ac4938f51dda65434',
                  urls=['https://github.com/grpc/grpc/archive/ab7e5e8dec5ab3cda56fca9f9c25eb7cbeb2a017.zip'],
                  strip_prefix='grpc-ab7e5e8dec5ab3cda56fca9f9c25eb7cbeb2a017')
+
+    http_archive(name="com_github_nanopb_nanopb",
+                 sha256="933ce53856e530fac77e84f5d8919a9a507729d0e4631020b1ea83acb56765ca",
+                 urls=["https://github.com/nanopb/nanopb/archive/0.3.9.4.zip"],
+                 strip_prefix="nanopb-0.3.9.4",
+                 build_file="@telegraph//:external/nanopb.BUILD")

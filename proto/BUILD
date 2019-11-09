@@ -1,4 +1,5 @@
 load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
+load("//tools:nanopb_gen.bzl","cc_nanopb_library")
 
 proto_library(
      name = "common_proto",
@@ -40,3 +41,7 @@ cc_library(name="cc_api",
            deps=[":cc_api_proto", ":cc_api_grpc"],
            includes=["."],
            visibility=["//visibility:public"])
+
+cc_nanopb_library(name="cc_log_nanopb",
+                  srcs=[":log_proto"],
+                  visibility=["//visibility:public"])
