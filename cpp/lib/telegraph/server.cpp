@@ -459,6 +459,7 @@ namespace telegraph {
         proto::Value* pv = new proto::Value;
         const value& v = p.get_value();
         pack_value(pv, v);
+        pp->set_allocated_value(pv);
     }
 
     void
@@ -570,11 +571,12 @@ namespace telegraph {
         auto ctxs_lock = srv->contexts.lock();
         srv->contexts.context_removed.remove(this);
 
-        subscription_ = nullptr;
-
         if (subscription_) {
             {
                 std::lock_guard<std::mutex> guard(req_mutex_);
+                // Remove this's on_cancel handler since the request is already finished
+                subscription_->on_cancel.remove(this);
+                subscription_->cancel();
                 subscription_ = nullptr;
             }
 
@@ -644,10 +646,12 @@ namespace telegraph {
                 return;
             }
 
-            proto::Value ret;
-            pack_value(&ret, a->execute(unpack_value(arg)));
-
-            responder_.Finish(ret, grpc::Status::OK, this);
+            a->execute(unpack_value(arg), [this](value v) {
+                proto::Value pv;
+                pack_value(&pv, v);
+                responder_.Finish(pv, grpc::Status::OK, this);
+                mark_finished();
+            });
         }
     }
 

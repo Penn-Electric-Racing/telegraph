@@ -19,7 +19,8 @@ namespace telegraph {
     public:
         class executor {
         public:
-            virtual value exec(const action* a, const value& v) = 0;
+            virtual void exec(const action* a, const value& v,
+                              const std::function<void(value)>) = 0;
         };
 
         action(const std::string& name, const std::string& pretty, const std::string& desc,
@@ -30,7 +31,7 @@ namespace telegraph {
 
         constexpr void set_executor(executor* ex) { executor_ = ex; }
 
-        value execute(const value&v);
+        void execute(const value&v, const std::function<void(value)>);
 
         void print(std::ostream& o, int ident) const override;
     private:

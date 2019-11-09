@@ -101,7 +101,7 @@ namespace telegraph {
         // a request handler class
         class request {
         public:
-            constexpr request(request_type t, server* srv) : type(t), status(CREATED), srv(srv) {}
+            request(request_type t, server* srv) : type(t), status(CREATED), srv(srv), alarm_() {}
             inline virtual ~request() {}
 
             // create a new identical, request handler
@@ -116,8 +116,7 @@ namespace telegraph {
             inline void mark_finished() { status = FINISHED; }
 
             inline void alarm() {
-                grpc::Alarm alarm;
-                alarm.Set(srv->cq_.get(), gpr_now(gpr_clock_type::GPR_CLOCK_REALTIME), this);
+                alarm_.Set(srv->cq_.get(), gpr_now(gpr_clock_type::GPR_CLOCK_REALTIME), this);
             }
 
             // these need to be modified by other people
@@ -125,6 +124,8 @@ namespace telegraph {
             request_type type;
             request_status status;
             server* srv;
+        private:
+            grpc::Alarm alarm_;
         };
 
         class contexts_request : public request {

@@ -32,19 +32,16 @@ function sleep(ms) {
   var ctx = c.getContexts()[0];
   console.log(tree ? tree.toString() : 'no tree!');
   if (tree) {
-    var v = tree.find('/ams/dcdc_status');
-    var a = tree.find('/bridge/recording_state');
+    var v = tree.find('/foo');
+    var a = tree.find('/bar');
 
-    var result = await a.call(true);
+    var result = await a.call(false);
 
-    //console.log('a');
+    console.log('called action, got: ' + result);
 
     var sub = v.subscribe(0, 0);
     sub.addHandler((ts, dp) => {
       console.log('got value: ' + dp);
-      a.call(dp).then((ret) => {
-        console.log('called action, got: ' + ret);
-      });
     });
   }
 })();

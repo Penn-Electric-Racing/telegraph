@@ -9,10 +9,10 @@ namespace telegraph {
                         const std::string& desc, const type& arg, const type& ret) :
                 node(name, pretty, desc), arg_(arg), ret_(ret), executor_() {}
 
-    value
-    action::execute(const value& v) {
+    void
+    action::execute(const value& v, const std::function<void(value)> cb) {
         if (!executor_) throw missing_error("Action is missing an executor to handle request");
-        return value();
+        executor_->exec(this, v, cb);
     }
 
     void
