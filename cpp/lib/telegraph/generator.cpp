@@ -169,12 +169,12 @@ namespace telegraph {
             code += "} " + g->get_name() + ";";
         } else if (dynamic_cast<const variable*>(n) != nullptr) {
             const variable* v = dynamic_cast<const variable*>(n);
-            std::string type = "telegraph::gen::variable<" + type_to_cpp_ident(v->get_type()) + ">";
+            std::string type = "telegen::variable<" + type_to_cpp_ident(v->get_type()) + ">";
             code += type + " " + v->get_name() + " = " + 
                                    type + "(" + std::to_string(id) + ");";
         } else if (dynamic_cast<const action*>(n) != nullptr) {
             const action* a = dynamic_cast<const action*>(n);
-            std::string type = "telegraph::gen::action<" + type_to_cpp_ident(a->get_ret_type()) + 
+            std::string type = "telegen::action<" + type_to_cpp_ident(a->get_ret_type()) + 
                                     "," + type_to_cpp_ident(a->get_arg_type()) + ">";
             code += type + " " + a->get_name() + 
                         " = " + type + "(" + std::to_string(id) + ");";
@@ -215,7 +215,7 @@ namespace telegraph {
         indent(accessors, 7);
         if (accessors.length() > 0) accessors += "\n";
         code += "    \n";
-        code += "    telegraph::gen::node* nodes[" + std::to_string(last_id + 1) + "] = {";
+        code += "    telegen::node* nodes[" + std::to_string(last_id + 1) + "] = {";
         code += accessors; 
         code += "    };\n";
         code += "};";
@@ -235,7 +235,7 @@ namespace telegraph {
                 if (id >= 0) id_set.insert(id);
             }
 
-            std::string var = "const telegraph::gen::id_array<" + 
+            std::string var = "const telegen::id_array<" + 
                 std::to_string(id_set.size()) + "> " + set_name + " = {";
 
             bool first = true;
@@ -259,10 +259,10 @@ namespace telegraph {
     generator::generate_target(const generator::target& t, const id_map& ids) const {
         std::string code =
             "#pragma once\n\n"
-            "#include <telegraph/gen/id_array.hpp>\n"
-            "#include <telegraph/gen/variable.hpp>\n"
-            "#include <telegraph/gen/action.hpp>\n"
-            "#include <telegraph/gen/stream.hpp>\n\n";
+            "#include <telegen/id_array.hpp>\n"
+            "#include <telegen/variable.hpp>\n"
+            "#include <telegen/action.hpp>\n"
+            "#include <telegen/stream.hpp>\n\n";
 
         // now include the tree file we if want to do that
         if (t.tree_include.length() > 0) {

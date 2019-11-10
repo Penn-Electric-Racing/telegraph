@@ -1,7 +1,7 @@
-#ifndef __TELEGRAPH_GEN_INTERFACE_HPP__
-#define __TELEGRAPH_GEN_INTERFACE_HPP__
+#ifndef __TELEGEN_INTERFACE_HPP__
+#define __TELEGEN_INTERFACE_HPP__
 
-namespace telegraph::gen {
+namespace telegen {
     template<typename T>
         class variable;
     template<typename T>

@@ -1,5 +1,5 @@
-#ifndef __TELEGRAPH_GEN_VARIABLE_HPP__
-#define __TELEGRAPH_GEN_VARIABLE_HPP__
+#ifndef __TELEGEN_VARIABLE_HPP__
+#define __TELEGEN_VARIABLE_HPP__
 
 #include "node.hpp"
 #include "interface.hpp"
@@ -8,7 +8,7 @@
 #include <vector>
 #include <functional>
 
-namespace telegraph::gen {
+namespace telegen {
     template<typename T>
         class subscription {
         public:
