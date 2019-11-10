@@ -49,10 +49,17 @@ cc_library(name="cc_api",
 
 # The nanopb generation system
 # is separate from the main pb generation
+# and has some odd things about it with respect
+# to how it handles dependencies (not well!)
+
 cc_nanopb_library(name="cc_common_nanopb", proto_library=":common_proto", base_name="common",
                   includes=["."], 
                   visibility=["//visibility:public"])
 
 cc_nanopb_library(name="cc_log_nanopb", proto_library=":log_proto", base_name="log",
+                  includes=["."], deps=[":cc_common_nanopb"],
+                  visibility=["//visibility:public"])
+
+cc_nanopb_library(name="cc_stream_nanopb", proto_library=":stream_proto", base_name="stream",
                   includes=["."], deps=[":cc_common_nanopb"],
                   visibility=["//visibility:public"])

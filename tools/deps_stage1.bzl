@@ -18,6 +18,6 @@ def telegraph_deps_stage1():
                  strip_prefix='grpc-ab7e5e8dec5ab3cda56fca9f9c25eb7cbeb2a017')
 
     http_archive(name="com_github_nanopb_nanopb",
-                 sha256="2ed43c778e358c6f0142718dae968a6592e74e50fef1fe64f19342700fbf1049",
+                 sha256="c3f7f23836c7d2a12fcb6c7dadb42b1ba5201d9b4e67040c02b13462de6814b4",
                  urls=["https://github.com/Penn-Electric-Racing/nanopb/archive/master.zip"],
                  strip_prefix="nanopb-master")
