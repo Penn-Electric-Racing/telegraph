@@ -1,5 +1,5 @@
 load("@com_github_grpc_grpc//bazel:cc_grpc_library.bzl", "cc_grpc_library")
-load("//tools:nanopb_gen.bzl","cc_nanopb_library")
+load("@com_github_nanopb_nanopb//:gen_rules.bzl","cc_nanopb_library")
 
 proto_library(
      name = "common_proto",
@@ -28,6 +28,10 @@ proto_library(
      visibility = ["//visibility:public"]
 )
 
+
+# The standard c++ libraries generated from
+# the above protobuffers
+
 cc_proto_library(name="cc_api_proto",
                  deps=["//proto:api_proto"],
                  visibility=["//visibility:public"])
@@ -42,6 +46,13 @@ cc_library(name="cc_api",
            includes=["."],
            visibility=["//visibility:public"])
 
-cc_nanopb_library(name="cc_log_nanopb",
-                  srcs=[":log_proto"],
+
+# The nanopb generation system
+# is separate from the main pb generation
+cc_nanopb_library(name="cc_common_nanopb", proto_library=":common_proto", base_name="common",
+                  includes=["."], 
+                  visibility=["//visibility:public"])
+
+cc_nanopb_library(name="cc_log_nanopb", proto_library=":log_proto", base_name="log",
+                  includes=["."], deps=[":cc_common_nanopb"],
                   visibility=["//visibility:public"])
