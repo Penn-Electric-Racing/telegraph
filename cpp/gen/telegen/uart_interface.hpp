@@ -1,6 +1,6 @@
 #pragma once
 
-namespace telegraph::gen {
+namespace telegen {
 
     class uart_interface {
         uart_interface();

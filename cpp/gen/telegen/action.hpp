@@ -1,9 +1,9 @@
-#ifndef __TELEGRAM_GEN_ACTION_HPP__
-#define __TELEGRAM_GEN_ACTION_HPP__
+#ifndef __TELEGEN_ACTION_HPP__
+#define __TELEGEN_ACTION_HPP__
 
 #include "node.hpp"
 
-namespace telegraph::gen {
+namespace telegen {
     template<typename Arg, typename Ret>
         class action : public node {
         public:

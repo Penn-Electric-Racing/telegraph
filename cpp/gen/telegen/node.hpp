@@ -1,9 +1,9 @@
-#ifndef __TELEGRAPH_GEN_NODE_HPP__
-#define __TELEGRAPH_GEN_NODE_HPP__
+#ifndef __TELEGEN_NODE_HPP__
+#define __TELEGEN_NODE_HPP__
 
 #include <stdint.h>
 
-namespace telegraph::gen {
+namespace telegen {
     class node {
     public:
         constexpr node(int32_t id) : id_(id) {}
