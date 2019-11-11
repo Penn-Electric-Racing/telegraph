@@ -17,6 +17,7 @@
 #include "nodes/variable.hpp"
 
 #include "context.hpp"
+#include "errors.hpp"
 
 #include "api.grpc.pb.h"
 #include "api.pb.h"
@@ -49,11 +50,11 @@ namespace telegraph {
                 return id_node_map_.at(id);
             } catch (std::out_of_range& e) { return nullptr; }
         }
-        inline std::unordered_set<int32_t> get_nodes(context *ctx) const {
+        inline const std::unordered_set<int32_t>& get_nodes(context *ctx) const {
             try {
                 return ctx_node_ids_map_.at(ctx);
             } catch(std::out_of_range& e) {
-                return std::unordered_set<int32_t>();
+                throw missing_error("tried to get nodes for non-existent context");
             }
         }
         inline context* get_context(int32_t id) const { 
