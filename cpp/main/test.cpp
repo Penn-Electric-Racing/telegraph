@@ -19,7 +19,7 @@ class mock_executor : public action::executor {
 public:
     void
     exec(const action* a, const value& v,
-         const std::function<void(value)> cb) {
+         const std::function<void(value)>& cb) {
         std::this_thread::sleep_for(std::chrono::seconds(1));
         cb(value(!v.get<bool>()));
     }
