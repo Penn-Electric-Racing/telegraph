@@ -174,22 +174,26 @@ export class Type {
   }
 
   unpackValue(val) {
+    var x = undefined;
     switch(this._ident) {
-      case Type.NONE._ident:   return null;
-      case Type.BOOL._ident:   return val.b;
-      case Type.ENUM._ident:   return val.en;
-      case Type.UINT8._ident:  return val.ui8;
-      case Type.UINT16._ident: return val.ui16;
-      case Type.UINT32._ident: return val.ui32;
-      case Type.UINT64._ident: return val.ui64;
-      case Type.INT8._ident:   return val.i8;
-      case Type.INT16._ident:  return val.i16;
-      case Type.INT32._ident:  return val.i32;
-      case Type.INT64._ident:  return val.i64;
-      case Type.FLOAT ._ident: return val.f;
-      case Type.DOUBLE._ident: return val.d;
-      default: return undefined;
+      case Type.NONE._ident:   x = null; break;
+      case Type.BOOL._ident:   x = val.b; break;
+      case Type.ENUM._ident:   x = val.en; break;
+      case Type.UINT8._ident:  x = val.ui8; break;
+      case Type.UINT16._ident: x = val.ui16; break;
+      case Type.UINT32._ident: x = val.ui32; break;
+      case Type.UINT64._ident: x = val.ui64; break;
+      case Type.INT8._ident:   x = val.i8; break;
+      case Type.INT16._ident:  x = val.i16; break;
+      case Type.INT32._ident:  x = val.i32; break;
+      case Type.INT64._ident:  x = val.i64; break;
+      case Type.FLOAT ._ident: x = val.f; break;
+      case Type.DOUBLE._ident: x = val.d; break;
     }
+    if (x == undefined)
+      throw new Error("Received type does not match expected type");
+
+    return x;
   }
 
   pack() {

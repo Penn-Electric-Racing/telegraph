@@ -7,6 +7,7 @@
 namespace telegraph {
     class datapoint {
     public:
+        datapoint(uint64_t time, value val) : time_(time), val_(val) {}
         constexpr uint64_t get_time() const { return time_; }
         constexpr const value& get_value() const { return val_; }
     private:
