@@ -392,6 +392,10 @@ export class Tree {
     this.root.onDescendantRemoved.add(this.onNodeRemoved.dispatch);
   }
 
+  getRoot() {
+    return this.root
+  }
+
   *nodes() {
     yield this.root;
     for (let n of this.root.descendants()) {
