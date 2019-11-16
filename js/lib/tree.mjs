@@ -367,7 +367,6 @@ export class Action extends Node {
   }
 }
 
-/*
 export class Stream extends Node {
   constructor(name, pretty, desc) {
     super(name, pretty, desc);
@@ -379,7 +378,6 @@ export class Stream extends Node {
     return line;
   }
 }
-*/
 
 export class Tree {
   constructor(root) {

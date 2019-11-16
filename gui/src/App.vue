@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <LiveConnection>
-      <TreeView v-bind:Root = tree></TreeView>
+      <TreeView v-bind:node=root></TreeView>
     </LiveConnection>
 
     <Sidebar>
@@ -27,21 +27,21 @@
 import { mutations } from '@/store.js'
 import Tile from './components/Tile.vue'
 import Grid from './components/Grid.vue'
-import Burger from './components/Menu/Burger.vue'
-import Sidebar from './components/Menu/Sidebar.vue'
-import LiveConnection from './components/Menu/LiveConnection.vue'
-// import DataLog from './components/DataLog.vue'
-import { Tree, Group, Variable, Type, Action } from '../../js/lib/tree.mjs'
-import TreeView from './components/TreeView.vue'
+import LiveConnection from './components/menu/LiveConnection.vue'
 
-var main = new Group('Root Tree', 'Main', 'Contains all of the sub-trees', 'some schema', 1)
-var acm = new Group('Accumulator Monitoring System', 'AMS', 'Measure variable related to the accumulator', 'testbar/group', 1)
-var acmVoltage = new Variable('0x313', 'AMS Voltage', 'Measured in Volts', Type.UINT8)
+import { Tree, Group, Variable, Type, Action } from '../../js/lib/tree.mjs'
+import TreeView from './components/menu/TreeView.vue'
+import Burger from './components/menu/Burger.vue'
+import Sidebar from './components/menu/Sidebar.vue'
+
+var main = new Group('root', 'Main', 'Contains all of the sub-trees', 'some schema', 1)
+var acm = new Group('ams', 'AMS', 'Measure variable related to the accumulator', 'testbar/group', 1)
+var acmVoltage = new Variable('voltage', 'AMS Voltage', 'Measured in Volts', Type.UINT8)
 var testing = new Variable('test', 'tests', 'additional description', Type.BOOL)
-var acmCurrent = new Variable('0x311', 'AMS Current', 'Measured in Amps', Type.UINT8)
-var speed = new Group('0x311', 'Speed', 'Current Speed of various components', 'g/test', 1)
-var frontRpm = new Variable('0x222', 'Front Wheel Speed', 'Measured in RPM', Type.UINT8)
-var c = new Action('Non-pretty action', 'Increase Speed', 'Increases RPM of front wheel', Type.BOOL, Type.INT8)
+var acmCurrent = new Variable('current', 'AMS Current', 'Measured in Amps', Type.UINT8)
+var speed = new Group('group', 'Speed', 'Current Speed of various components', 'g/test', 1)
+var frontRpm = new Variable('rpm', 'Front Wheel Speed', 'Measured in RPM', Type.UINT8)
+var c = new Action('test_action', 'Increase Speed', 'Increases RPM of front wheel', Type.BOOL, Type.INT8)
 
 main.addChild(acm)
 main.addChild(speed)
@@ -55,15 +55,12 @@ c.setActor((arg) => arg ? 10 : 20)
 
 var t = new Tree(main)
 
-var children = t.getRoot().getChildren()
-
 export default {
   name: 'app',
 
   data () {
     return {
-      children: children,
-      tree: t.getRoot()
+      root: t.getRoot()
     }
   },
 

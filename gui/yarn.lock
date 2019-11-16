@@ -806,10 +806,10 @@
     error-stack-parser "^2.0.0"
     string-width "^2.0.0"
 
-"@trevoreyre/autocomplete-vue@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@trevoreyre/autocomplete-vue/-/autocomplete-vue-2.0.2.tgz#78c7ef9d95a233f65ec38cd5c52d59f531866a0d"
-  integrity sha512-2A/SQjtZOX1/4AAsw/EkblMKw1xH+EJj99K2tRXu8umUpBFWUFk3PXCa7NlBE3fv2YSKf7fGEn1i225xtiulUg==
+"@trevoreyre/autocomplete-vue@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@trevoreyre/autocomplete-vue/-/autocomplete-vue-2.0.3.tgz#d6b4702ff2181b10c8feb986dc51f65782be3fa0"
+  integrity sha512-8P0aaNQ7FV56QinQo08OdT9WJtVaaC/elNqM0Mg/ich6kbxO2Y0NQtAP//jQM9Z6j1NXq/UVI1o+Xl97nSGt0g==
 
 "@types/events@*":
   version "3.0.0"
@@ -2406,7 +2406,7 @@ copy-webpack-plugin@^4.6.0:
     p-limit "^1.0.0"
     serialize-javascript "^1.4.0"
 
-core-js@^2.4.0, core-js@^2.6.5:
+core-js@^2.4.0, core-js@^2.6.10, core-js@^2.6.5:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
   integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
@@ -7402,6 +7402,11 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
+
+signals@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/signals/-/signals-1.0.0.tgz#65f0c1599352b35372ecaae5a250e6107376ed69"
+  integrity sha1-ZfDBWZNSs1Ny7KrlolDmEHN27Wk=
 
 simple-swizzle@^0.2.2:
   version "0.2.2"
