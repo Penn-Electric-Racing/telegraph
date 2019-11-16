@@ -9,7 +9,7 @@ message LogEvent {
         Node node_definition = 1;
         ActionCalled action_request = 2;
         ActionCompleted action_completed = 3;
-        VariableUpdate variable_update = 4;
+        PackUpdate pack_update = 4;
     }
 }
 

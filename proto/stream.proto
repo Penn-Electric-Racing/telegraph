@@ -11,11 +11,6 @@ message SubscribeRequest {
     int32 max_interval = 4; // in microseconds
 }
 
-message SubscribeCompleted {
-    int32 request_number = 1;
-    int32 subscription_id = 2;
-}
-
 message CancelSubscription {
     int32 subscription_id = 1;
 }
@@ -35,7 +30,7 @@ message StreamEvent {
         Children children = 2;
 
         SubscribeRequest subscribe_request = 3;
-        SubscribeRequest subscribe_completed = 4;
+        SubscribeCompleted subscribe_completed = 4;
         CancelSubscription cancel_subscription = 5;
 
         ActionCalled action_request = 6;
