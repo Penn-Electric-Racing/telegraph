@@ -1,0 +1,23 @@
+{
+  "comments": false,
+  "env": {
+    "main": {
+      "presets": [
+        '@vue/app',
+          ['@babel/preset-env', {"targets": { "node": 12 } }]
+      ]
+    },
+    "renderer": {
+      "presets": [
+        '@vue/app',
+          ['@babel/preset-env', {"modules": false }]
+      ]
+    },
+    "web": {
+      "presets": [
+        '@vue/app',
+          ['@bable/preset-env', {"modules": false }]
+      ]
+    }
+  },
+}
