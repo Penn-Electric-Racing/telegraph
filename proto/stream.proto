@@ -35,7 +35,7 @@ message StreamEvent {
 
         ActionCalled action_request = 6;
         ActionCompleted action_completed = 7;
-        VariableUpdate variable_update = 8;
+        PackUpdate pack_update = 8;
     }
 }
 
