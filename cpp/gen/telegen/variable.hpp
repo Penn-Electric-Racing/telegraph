@@ -9,13 +9,29 @@
 #include <functional>
 
 namespace telegen {
+    class generic_subscription {
+    public:
+        constexpr generic_subscription(int32_t min_interval, int32_t max_interval,
+                                        interface* origin) : 
+                                        min_interval_(min_interval),
+                                        max_interval_(max_interval),
+                                        origin_(origin) {}
+    private:
+        int32_t min_interval_;
+        int32_t max_interval_;
+
+        /// interface from which this subscription request originated,
+        /// null means it is local (i.e from the device)
+        interface* origin_; 
+    };
+
     template<typename T>
-        class subscription {
+        class subscription : public generic_subscription {
         public:
             subscription(int32_t min_interval, int32_t max_interval, 
-                            interface<T>* interface) :
-                                min_interval_(min_interval), max_interval_(max_interval),
-                                interface_(interface), handlers_() {}
+                            interface* origin) :
+                                generic_subscription(min_interval, max_interval, origin), 
+                                handlers_() {}
 
             void add(std::function<void(const T&)>&& f) {
                 handlers_.push_back(std::move(f));
@@ -25,10 +41,6 @@ namespace telegen {
                 for (auto& f : handlers_) f(val);
             }
         private:
-            int32_t min_interval_;
-            int32_t max_interval_;
-            interface<T>* interface_; // interface from which this subscription request originated,
-                              // null means it is local (i.e from the device)
             std::vector<std::function<void(const T&)>> handlers_;
         };
 
@@ -36,7 +48,7 @@ namespace telegen {
     public:
         constexpr generic_variable(int32_t id) : node(id) {}
 
-        virtual void add_generic_interface(generic_interface* i) = 0;
+        virtual void add_interface(interface* i) = 0;
     };
 
     template<typename T>
@@ -51,17 +63,12 @@ namespace telegen {
                 last_ = t;
             }
 
-            void add_interface(interface<T>* i) {
+            void add_interface(interface* i) {
                 interfaces_.push_back(i);
             }
 
-            // override the generic variable function
-            void add_generic_interface(generic_interface* i) override {
-                add_interface(dynamic_cast<interface<T>*>(i));
-            }
-
             subscription<T>* subscribe(int32_t min_interval, int32_t max_interval, 
-                                        interface<T>* interface=nullptr) {
+                                        interface* interface=nullptr) {
                 subscriptions_.push_back(subscription<T>(min_interval, max_interval, interface));
                 subscription<T>* s = &subscriptions_.back();
 
@@ -72,7 +79,7 @@ namespace telegen {
             }
         protected:
             Type last_;
-            std::vector<interface<T>*> interfaces_; // interfaces listen for subscription changes
+            std::vector<interface*> interfaces_; // interfaces listen for subscription changes
             std::vector<subscription<T>> subscriptions_; // subscriptions 
                                                        // (in a list so we can return pointers)
         };
