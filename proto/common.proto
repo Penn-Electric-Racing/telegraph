@@ -97,8 +97,16 @@ message Value {
     }
 }
 
-message VariableUpdate {
-    int32 variable = 1;
+message SubscribeCompleted {
+    int32 request_number = 1;
+    int32 subscription_id = 2;
+    // The top 24 bits of the pack id are the actual pack id, and the
+    // bottom 8 bits are the offset to the variable inside the pack
+    int32 pack_id_and_offset = 3;
+}
+
+message PackUpdate {
+    int32 pack_id = 1;
     Value value = 2;
 }
 
@@ -112,5 +120,3 @@ message ActionCompleted {
     int32 request_number = 1;
     Value ret = 2;
 }
-
-
