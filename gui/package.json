@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "elec-build": "node .electron-vue/build.js",
     "dev": "node .electron-vue/dev-runner.js",
     "lint": "vue-cli-service lint"
   },
@@ -38,7 +39,9 @@
     "@babel/preset-env": "^7.7.1",
     "@vue/babel-preset-app": "^4.0.5",
     "@vue/cli-service": "^4.0.5",
+    "babel": "^6.23.0",
     "babel-loader": "^8.0.6",
+    "babel-preset-env": "^1.7.0",
     "babili-webpack-plugin": "^0.1.2",
     "cfonts": "^2.4.5",
     "copy-webpack-plugin": "^5.0.5",
@@ -49,6 +52,7 @@
     "electron-devtools-installer": "^2.2.4",
     "html-webpack-plugin": "^3.2.0",
     "mini-css-extract-plugin": "^0.8.0",
+    "multispinner": "^0.2.1",
     "signals": "^1.0.0",
     "vue": "^2.6.10",
     "vue-electron": "^1.0.6",
@@ -58,5 +62,8 @@
     "webpack": "^4.41.2",
     "webpack-dev-server": "^3.9.0",
     "webpack-hot-middleware": "^2.25.0"
+  },
+  "devDependencies": {
+    "electron": "^2.0.4"
   }
 }

@@ -16,7 +16,7 @@
     "web": {
       "presets": [
         '@vue/app',
-          ['@bable/preset-env', {"modules": false }]
+          ['@babel/preset-env', {"modules": false }]
       ]
     }
   },
