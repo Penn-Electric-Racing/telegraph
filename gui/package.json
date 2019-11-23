@@ -3,25 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "elec-build": "node .electron-vue/build.js",
-    "dev": "node .electron-vue/dev-runner.js",
-    "lint": "vue-cli-service lint"
+    "web:build": "vue-cli-service build",
+    "web:serve": "vue-cli-service serve",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "@vue/standard"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
+  "main": "background.js",
+  "dependencies": {
+    "core-js": "^3.3.2",
+    "vue": "^2.6.10",
+    "vue-grid-layout": "^2.3.7"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.0.0",
+    "@vue/cli-service": "^4.0.0",
+    "electron": "^6.0.0",
+    "vue-cli-plugin-electron-builder": "^1.4.2",
+    "vue-template-compiler": "^2.6.10"
   },
   "postcss": {
     "plugins": {
@@ -31,39 +31,5 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ],
-  "dependencies": {
-    "@babel/cli": "^7.7.0",
-    "@babel/core": "^7.7.2",
-    "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/preset-env": "^7.7.1",
-    "@vue/babel-preset-app": "^4.0.5",
-    "@vue/cli-service": "^4.0.5",
-    "babel": "^6.23.0",
-    "babel-loader": "^8.0.6",
-    "babel-preset-env": "^1.7.0",
-    "babili-webpack-plugin": "^0.1.2",
-    "cfonts": "^2.4.5",
-    "copy-webpack-plugin": "^5.0.5",
-    "core-js": "^3.4.1",
-    "css-loader": "^3.2.0",
-    "electron": "^7.1.1",
-    "electron-debug": "^3.0.1",
-    "electron-devtools-installer": "^2.2.4",
-    "html-webpack-plugin": "^3.2.0",
-    "mini-css-extract-plugin": "^0.8.0",
-    "multispinner": "^0.2.1",
-    "signals": "^1.0.0",
-    "vue": "^2.6.10",
-    "vue-electron": "^1.0.6",
-    "vue-grid-layout": "^2.3.7",
-    "vue-loader": "^15.7.2",
-    "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.41.2",
-    "webpack-dev-server": "^3.9.0",
-    "webpack-hot-middleware": "^2.25.0"
-  },
-  "devDependencies": {
-    "electron": "^2.0.4"
-  }
+  ]
 }
