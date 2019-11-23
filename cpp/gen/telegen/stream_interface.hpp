@@ -1,5 +1,7 @@
 #pragma once
 
+#include "stream.nanopb.h"
+
 namespace telegen {
 
     /**
@@ -20,8 +22,12 @@ namespace telegen {
             }
 
 
-            void process_inbound();
-            void process_outbound();
+            void receive() {
+            }
+
+            // writes out the send buffer
+            void write() {
+            }
 
             // coroutine to process messages on this interface
             // should be run in parallel with the co_run for other interfaces
@@ -37,8 +43,8 @@ namespace telegen {
 
                 void resume() override {
                     // on resume, check if there are any messages waiting in the uart
-                    if (interface_->stream_.has_data()) {
-                        process_inbound();
+                    if (interface_->stream_->has_data()) {
+                        write();
                     }
                     process_outbound();
                 }
@@ -55,7 +61,12 @@ namespace telegen {
 
         private:
             stream* stream_;
-            // subscriptions from the stream
+            // subscriptions originating from the stream
             std::vector<generic_subscription*> subscriptions_;
+
+            // the send buffer, 512 malloc'd bytes 
+            // (2 bytes for length, data, 2 bytes for checksum)
+            std::unique_ptr<uint8_t[]> send_buffer_;
+            size_t idx_;
         };
 }
