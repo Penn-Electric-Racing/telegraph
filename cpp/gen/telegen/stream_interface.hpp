@@ -7,11 +7,33 @@ namespace telegen {
     /**
      * A stream interface is designed to be used on a bidirectional stream
      * like a uart device
+     *
+     * This is templated on the i/o stream class type and the timer type
+     * so that it can be reused for different platforms, each of which can
+     * implement their own stream/timer type 
+     * (and so maximize performance by templating it)
      */
-    template<typename stream>
+    template<typename stream, typename timer>
         class stream_interface : public interface {
         public:
-            stream_interface(stream* s) : stream_(s) {}
+            // a variable packing
+            struct packing {
+            };
+
+            // a response to a subscription request
+            struct sub_response {
+
+            };
+
+            // a response to a children request
+            struct children_req {
+            };
+
+            struct action_complete {
+            };
+
+            stream_interface(stream* s, timer* t) : 
+                stream_(s), timer_(t) {}
             ~stream_interface() {}
 
             void subscribed(generic_variable* v, 
@@ -20,7 +42,6 @@ namespace telegen {
                 // since host computers cannot expose nodes to the network (currently)
                 // so this does nothing
             }
-
 
             void receive() {
             }
@@ -44,9 +65,14 @@ namespace telegen {
                 void resume() override {
                     // on resume, check if there are any messages waiting in the uart
                     if (interface_->stream_->has_data()) {
-                        write();
+                        interface_->receive();
                     }
-                    process_outbound();
+                    // if we have to respond to any subscriptions
+                    if (interface_->sub_responses_.size() > 0 ||
+                            interface_->children_requests_.size() > 0 ||
+                            interface_->timer_.current_microseconds() >= next_time_) {
+                        interface_->write();
+                    }
                 }
 
             private:
@@ -61,12 +87,26 @@ namespace telegen {
 
         private:
             stream* stream_;
-            // subscriptions originating from the stream
-            std::vector<generic_subscription*> subscriptions_;
+            timer timer_;
 
-            // the send buffer, 512 malloc'd bytes 
-            // (2 bytes for length, data, 2 bytes for checksum)
-            std::unique_ptr<uint8_t[]> send_buffer_;
-            size_t idx_;
+            // contains the packing information for all the
+            // subscribed-to variables, indexed by the packing id
+            std::vector<packing> packings_;
+
+            std::vector<sub_response> sub_responses_;
+            // children requests to be filled on
+            std::vector<children_req> children_requests_;
+
+            size_t last_time_;
+
+            // the next min_time to sleep until (microseconds)
+            size_t next_time_;
+
+            // the write-out buffer, also contains the 
+            size_t send_idx_;
+            std::vector<uint8_t> send_buffer_;
+
+            size_t recv_idx_;
+            std::vector<uint8_t> recv_buffer_;
         };
 }
