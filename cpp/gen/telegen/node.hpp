@@ -2,6 +2,7 @@
 #define __TELEGEN_NODE_HPP__
 
 #include <stdint.h>
+#include "common.nanopb.h"
 
 namespace telegen {
     class node {
@@ -17,6 +18,9 @@ namespace telegen {
         constexpr const char* get_name() const { return name_; }
         constexpr const char* get_pretty() const { return pretty_; }
         constexpr const char* get_desc() const { return pretty_; }
+
+        // encode this node into a node protobuffer descriptor
+        virtual void encode(telegraph_proto_Node* n, int32_t parent=-1) const = 0;
     private:
         int32_t id_;
         const char* name_;

@@ -1,9 +1,10 @@
 #ifndef __TELEGEN_GROUP_HPP__
 #define __TELEGEN_GROUP_HPP__
 
-namespace telegen {
-    class node;
+#include "node.hpp"
+#include <array>
 
+namespace telegen {
     template<size_t num_children>
         class group : public node {
         public:
