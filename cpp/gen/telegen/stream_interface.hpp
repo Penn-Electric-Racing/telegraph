@@ -13,7 +13,7 @@ namespace telegen {
      * implement their own stream/timer type 
      * (and so maximize performance by templating it)
      */
-    template<typename stream, typename timer>
+    template<typename stream, typename clock>
         class stream_interface : public interface {
         public:
             // a variable packing
@@ -32,8 +32,8 @@ namespace telegen {
             struct action_complete {
             };
 
-            stream_interface(stream* s, timer* t) : 
-                stream_(s), timer_(t) {}
+            stream_interface(stream* s, clock* c) : 
+                stream_(s), clock_(c) {}
             ~stream_interface() {}
 
             void subscribed(generic_variable* v, 
@@ -70,7 +70,7 @@ namespace telegen {
                     // if we have to respond to any subscriptions
                     if (interface_->sub_responses_.size() > 0 ||
                             interface_->children_requests_.size() > 0 ||
-                            interface_->timer_.current_microseconds() >= next_time_) {
+                            interface_->clock_->current_microseconds() >= interface_->next_time_) {
                         interface_->write();
                     }
                 }
@@ -87,7 +87,7 @@ namespace telegen {
 
         private:
             stream* stream_;
-            timer timer_;
+            clock* clock_;
 
             // contains the packing information for all the
             // subscribed-to variables, indexed by the packing id

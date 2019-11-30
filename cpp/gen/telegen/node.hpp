@@ -20,7 +20,7 @@ namespace telegen {
         constexpr const char* get_desc() const { return pretty_; }
 
         // encode this node into a node protobuffer descriptor
-        virtual void encode(telegraph_proto_Node* n, int32_t parent=-1) const = 0;
+        virtual void pack(telegraph_proto_Node* n, int32_t parent=-1) const = 0;
     private:
         int32_t id_;
         const char* name_;

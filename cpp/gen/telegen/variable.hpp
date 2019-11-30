@@ -78,10 +78,7 @@ namespace telegen {
                 return s;
             }
 
-            void encode(telegraph_proto_Node* n, int32_t parent) override const {
-            }
-
-            void encode(telegraph_proto_Variable* v, int32_t parent) const {
+            void pack(telegraph_proto_Variable* v, int32_t parent) const {
                 v->id = id_;
                 v->parent = parent;
 
@@ -89,8 +86,11 @@ namespace telegen {
                 v->name.funcs.encode = [](pb_ostream_t* stream, 
                         const pb_field_t* file,void* const* arg) {
                     variable<T>* v = reinterpret_cast<variable<T>*>(*arg);
-                }
+                };
                 v->name.arg = this;
+            }
+
+            void pack(telegraph_proto_Node* n, int32_t parent) const override {
             }
         protected:
             store_type last_;
