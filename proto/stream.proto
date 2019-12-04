@@ -38,7 +38,3 @@ message StreamEvent {
         PackUpdate pack_update = 8;
     }
 }
-
-message StreamPacket {
-    repeated StreamEvent events = 1;
-}

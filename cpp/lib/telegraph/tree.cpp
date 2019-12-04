@@ -1,14 +1,14 @@
 #include "tree.hpp"
 
-#include "group.hpp"
-#include "variable.hpp"
-#include "action.hpp"
-#include "node.hpp"
+#include "nodes/group.hpp"
+#include "nodes/variable.hpp"
+#include "nodes/action.hpp"
+#include "nodes/node.hpp"
 
-#include "../type.hpp"
-#include "../errors.hpp"
+#include "type.hpp"
+#include "errors.hpp"
 
-#include "../utils/json.hpp"
+#include "utils/json.hpp"
 
 #include <sstream>
 #include <string>

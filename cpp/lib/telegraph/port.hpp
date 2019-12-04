@@ -1,19 +1,35 @@
 #ifndef __TELEGRAPH_PORT_HPP__
 #define __TELEGRAPH_PORT_HPP__
 
+#include <memory>
+#include <iostream>
+#include <vector>
+
+#include "stream.pb.h"
+
 namespace telegraph {
+    class tree;
+    class node;
+
     class port {
     public:
         port();
         ~port();
 
-        // if tree is null, will fetch the tree from the device when opening
-        // the tree will be set to use this port
+        void write(const proto::StreamEvent& event);
+        void flush();
 
-        // the returned tree is on the heap. the callee will be responsible for its
-        // memory management
-        tree* open(const std::shared_ptr<std::iostream>& stream, tree* tree=nullptr);
+        void read(proto::StreamEvent* event);
+
+        // returns
+        void open(const std::shared_ptr<std::iostream>& stream);
         void close();
+
+        std::vector<node*> fetch_children(int32_t parent_id);
+        tree* fetch_tree();
+
+        // read/write events from the port
+        void run();
     private:
         std::shared_ptr<std::iostream> stream_;
     };

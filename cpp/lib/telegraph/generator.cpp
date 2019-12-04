@@ -8,7 +8,7 @@
 #include "nodes/variable.hpp"
 #include "nodes/stream.hpp"
 
-#include "nodes/tree.hpp"
+#include "tree.hpp"
 
 #include "id_map.hpp"
 
