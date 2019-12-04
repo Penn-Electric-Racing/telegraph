@@ -29,6 +29,17 @@ namespace telegraph {
     public:
         inline tree_exists_error(const std::string& error) : std::logic_error(error) {}
     };
+
+    class timeout: public std::exception {
+    public:
+        inline timeout() {}
+        const char* what() const noexcept override { return ""; }
+    };
+
+    class io_error: public std::logic_error {
+    public:
+        inline io_error(const std::string& error) : std::logic_error(error) {}
+    };
 }
 
 #endif
