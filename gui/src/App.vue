@@ -1,29 +1,39 @@
 <template>
   <div id="app">
     <div class="container">
-      <div>
-        <Sidebar :expanded="sidebarExpanded"></Sidebar>
-      </div>
-
+      <Sidebar :expanded="sidebarExpanded"></Sidebar>
       <nav class="burger">
         <Burger :expanded="sidebarExpanded"
                   v-on:collapse="collapseSidebar"
                   v-on:expand="expandSidebar"></Burger>
       </nav>
-
-      <div id="graph-grid">
-        <grid>
-          <tile header="Example Tile"/>
-        </grid>
+      <div id="content-container">
+        <TabbedView :headersLeftPad="sidebarExpanded ? '0px' : '60px'">
+          <Tab name="Dashboard">
+            <GridView>
+              <TileView header="Example Tile">
+                foo
+              </TileView>
+            </GridView>
+          </Tab>
+          <Tab name="Dashboard 2">
+            <GridView>
+              <TileView header="Example Tile 2">
+                bar
+              </TileView>
+            </GridView>
+          </Tab>
+        </TabbedView>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
-import Tile from './components/Tile.vue'
-import Grid from './components/Grid.vue'
+import TileView from './components/TileView.vue'
+import GridView from './components/GridView.vue'
+import TabbedView from './components/TabbedView.vue'
+import Tab from './components/Tab.vue'
 import Burger from './components/menu/Burger.vue'
 import Sidebar from './components/menu/Sidebar.vue'
 
@@ -37,7 +47,8 @@ export default {
   },
 
   components: {
-    Tile, Grid, Burger, Sidebar
+    TabbedView, Tab,
+    TileView, GridView, Burger, Sidebar
   },
 
   methods: {
@@ -54,7 +65,6 @@ export default {
 </script>
 
 <style>
-
 html, body {
   height: 100%;
   margin: 0;
@@ -66,7 +76,6 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 
   background-color: #D4D4D4;
-  position: fixed;
 
   width: 100%;
   height: 100%;
@@ -76,16 +85,14 @@ html, body {
   display: flex;
   align-items: stretch;
   flex-direction: row;
-}
-
-#graph-grid {
-  position: relative;
-  margin-left: 0%;
-  margin-right: 0;
-  padding-top: 3rem;
-  flex: 1;
   height: 100%;
   width: 100%;
+}
+
+#content-container {
+  height: 100%;
+  width: 100%;
+  background-color: #30363c;
 }
 
 .burger {

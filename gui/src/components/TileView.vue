@@ -1,14 +1,23 @@
 <template>
     <div class="tile">
         <h1>{{ header }}</h1>
+        <slot></slot>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'tile',
+  name: 'TileView',
   props: {
-    header: String
+    header: String,
+  },
+  data: function() {
+    return {
+      x: 0,
+      y: 0,
+      w: 0,
+      h: 0
+    }
   }
 }
 </script>
