@@ -1,7 +1,7 @@
 <template>
-  <div v-if="isGroup">
+  <div v-if="isGroup" class="tree-view">
     {{ node.getName() }}
-    <ul class="tree-view">
+    <ul>
       <li v-for="n in children" v-bind:key="n.getName()">
         <TreeView v-bind:node="n"/>
       </li>
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-// Group, Tree,  Type, Action
 import { Node, Group, Variable, Action, Stream } from '../../../../js/lib/tree.mjs'
 
 export default {

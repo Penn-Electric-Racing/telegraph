@@ -9,15 +9,10 @@
   </div>
 </template>
 <script>
-import { store, mutations } from '@/store.js'
+
 export default {
-  methods: {
-    closeSidebarPanel: mutations.toggleLiveConnection
-  },
-  computed: {
-    isPanelOpen () {
-      return store.isLiveConnectionOpen
-    }
+  props: {
+    isPanelOpen: Boolean
   }
 }
 </script>
@@ -35,12 +30,10 @@ export default {
 .liveConnection-panel {
     overflow-y: auto;
     background-color:#4272f5;
-    position: fixed;
-    left: 12%;
+    display: flex;
     top: 0;
-    height: 100vh;
-    z-index: 999;
+    height: 100%;
     padding: 3rem 0px 0rem 0px;
-    width: 12%;
+    height: 100vh;
 }
 </style>

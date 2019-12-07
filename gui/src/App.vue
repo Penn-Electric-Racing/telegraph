@@ -1,80 +1,51 @@
 <template>
   <div id="app">
-    <LiveConnection>
-      <TreeView v-bind:node=root></TreeView>
-    </LiveConnection>
+    <div class="container">
+      <div>
+        <Sidebar :expanded="sidebarExpanded"></Sidebar>
+      </div>
 
-    <Sidebar>
-      <ul class="sidebar-panel-nav">
-        <li><button class="button" v-on:click="openLiveConnection"><span>Live Connection</span></button></li>
-        <li><button class="button"><span>Logs</span></button></li>
-        <li><button class="button"><span>Setting</span></button></li>
-      </ul>
-    </Sidebar>
+      <nav class="burger">
+        <Burger :expanded="sidebarExpanded"
+                  v-on:collapse="collapseSidebar"
+                  v-on:expand="expandSidebar"></Burger>
+      </nav>
 
-    <nav class="main-nav">
-      <Burger></Burger>
-    </nav>
+      <div id="graph-grid">
+        <grid>
+          <tile header="Example Tile"/>
+        </grid>
+      </div>
 
-    <grid id="graph-grid">
-      <tile header="Example Tile"/>
-    </grid>
-
+    </div>
   </div>
 </template>
 
 <script>
-import { mutations } from '@/store.js'
 import Tile from './components/Tile.vue'
 import Grid from './components/Grid.vue'
-import LiveConnection from './components/menu/LiveConnection.vue'
-
-import { Tree, Group, Variable, Type, Action } from '../../js/lib/tree.mjs'
-import TreeView from './components/menu/TreeView.vue'
 import Burger from './components/menu/Burger.vue'
 import Sidebar from './components/menu/Sidebar.vue'
-
-var main = new Group('root', 'Main', 'Contains all of the sub-trees', 'some schema', 1)
-var acm = new Group('ams', 'AMS', 'Measure variable related to the accumulator', 'testbar/group', 1)
-var acmVoltage = new Variable('voltage', 'AMS Voltage', 'Measured in Volts', Type.UINT8)
-var testing = new Variable('test', 'tests', 'additional description', Type.BOOL)
-var acmCurrent = new Variable('current', 'AMS Current', 'Measured in Amps', Type.UINT8)
-var speed = new Group('group', 'Speed', 'Current Speed of various components', 'g/test', 1)
-var frontRpm = new Variable('rpm', 'Front Wheel Speed', 'Measured in RPM', Type.UINT8)
-var c = new Action('test_action', 'Increase Speed', 'Increases RPM of front wheel', Type.BOOL, Type.INT8)
-
-main.addChild(acm)
-main.addChild(speed)
-acm.addChild(acmVoltage)
-acm.addChild(acmCurrent)
-main.addChild(testing)
-speed.addChild(frontRpm)
-speed.addChild(c)
-
-c.setActor((arg) => arg ? 10 : 20)
-
-var t = new Tree(main)
 
 export default {
   name: 'app',
 
   data () {
     return {
-      root: t.getRoot()
+      sidebarExpanded: false
     }
   },
 
-  computed: {
-
-  },
-
   components: {
-    Tile, Grid, Burger, Sidebar, LiveConnection, TreeView
+    Tile, Grid, Burger, Sidebar
   },
 
   methods: {
-    openLiveConnection: function (event) {
-      mutations.toggleLiveConnection()
+    expandSidebar: function () {
+      this.sidebarExpanded = true
+    },
+    collapseSidebar: function () {
+      this.sidebarExpanded = false
     }
   }
 
@@ -83,108 +54,44 @@ export default {
 </script>
 
 <style>
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 #app {
   font-family: "Poppins", sans-serif, "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color:#EDEDED;
-  color: #b1b1b5;
+  background-color: #D4D4D4;
+  position: fixed;
 
   width: 100%;
   height: 100%;
+}
+
+.container {
+  display: flex;
+  align-items: stretch;
+  flex-direction: row;
 }
 
 #graph-grid {
   position: relative;
   margin-left: 0%;
   margin-right: 0;
-  height: auto;
-}
-
-html, body {
-  border: 0;
-  margin: 0;
-  width: 100%;
+  padding-top: 3rem;
+  flex: 1;
   height: 100%;
+  width: 100%;
 }
 
-.logo {
-  align-self: center;
-  color: #fff;
-  font-weight: bold;
-  font-family: "Lato";
-}
-
-.main-nav {
-  display: inline-block;
-  justify-content: space-between;
-  padding: 0.5rem 0.8rem;
-}
-
-h1 {
-  font-weight: 30;
-}
-
-ul.sidebar-panel-nav {
-  list-style-type: none;
-  padding-left: 10%;
-  margin: 0;
-}
-
-ul.liveconnection-panel-nav {
-  padding-left: 10%;
-  margin: 0;
-  display: inline-block;
-  width: auto;
-}
-
-ul.liveconnection-panel-nav > li {
-  list-style-type: none;
-  padding-bottom: 1rem;
-  color: #fff;
-  text-decoration: none;
-  font-size: 0.5rem;
-  text-align: center;
-}
-
-ul.sidebar-panel-nav > li > .button {
-  display: inline-block;
-  border-radius: 4px;
-  background-color: #2A3F54;;
-  border: none;
-  color: #FFFFFF;
-  text-align: left;
-  font-size: 1.5rem;
-  padding: 0px;
-  width: auto;
-  transition: all 0.5s;
-  cursor: pointer;
-  padding-bottom: 1.0em;
-}
-
-.button span {
-  cursor: pointer;
-  display: inline-block;
-  position: relative;
-  transition: 0.5s;
-}
-
-.button span:after {
-  content: '\00bb';
+.burger {
   position: absolute;
-  opacity: 0;
-  top: 0;
-  right: -20px;
-  transition: 0.5s;
+  padding: 0.5rem 0.8rem;
+  z-index: 100;
 }
 
-.button:hover span {
-  padding-right: 25px;
-}
-
-.button:hover span:after {
-  opacity: 1;
-  right: 0;
-}
 </style>
