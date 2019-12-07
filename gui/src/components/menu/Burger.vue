@@ -41,7 +41,7 @@ button:focus {
   transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 .burger-bar {
-  background-color: #130f40;
+  background-color: #ed4949;
   position: absolute;
   display: inline-block;
   top: 50%;

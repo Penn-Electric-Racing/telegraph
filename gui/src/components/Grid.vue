@@ -29,7 +29,7 @@ var GridLayout = VueGridLayout.GridLayout
 var GridItem = VueGridLayout.GridItem
 
 export default {
-  nmae: 'grid',
+  name: 'grid',
   components: {
     GridLayout,
     GridItem

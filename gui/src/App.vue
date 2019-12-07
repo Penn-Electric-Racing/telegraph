@@ -1,22 +1,35 @@
 <template>
   <div id="app">
+    <div class="header">
+      <nav class="burger">
+        <Burger :expanded="sidebarExpanded"
+          v-on:collapse="collapseSidebar"
+          v-on:expand="expandSidebar"></Burger>
+      </nav>
+    </div>
+
     <div class="container">
       <div>
         <Sidebar :expanded="sidebarExpanded"></Sidebar>
       </div>
-
-      <nav class="burger">
-        <Burger :expanded="sidebarExpanded"
-                  v-on:collapse="collapseSidebar"
-                  v-on:expand="expandSidebar"></Burger>
-      </nav>
 
       <div id="graph-grid">
         <grid>
           <tile header="Example Tile"/>
         </grid>
       </div>
+      
+      <variableHolder id="board-1">
+            <variablePreview id="card-1" draggable="true">
+              <p>Variable 1</p>
+            </variablePreview>
+            <variablePreview id="card-2" draggable="true">
+              <p>Variable 2</p>
+            </variablePreview>
+      </variableHolder>
 
+      <variableHolder id="board-2">
+      </variableHolder>
     </div>
   </div>
 </template>
@@ -26,6 +39,8 @@ import Tile from './components/Tile.vue'
 import Grid from './components/Grid.vue'
 import Burger from './components/menu/Burger.vue'
 import Sidebar from './components/menu/Sidebar.vue'
+import variableHolder from './components/data/variableHolder.vue'
+import variablePreview from './components/data/variablePreview.vue'
 
 export default {
   name: 'app',
@@ -37,7 +52,7 @@ export default {
   },
 
   components: {
-    Tile, Grid, Burger, Sidebar
+    Tile, Grid, Burger, Sidebar, variableHolder, variablePreview
   },
 
   methods: {
@@ -65,7 +80,7 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: #D4D4D4;
+  background-color: #343C42;
   position: fixed;
 
   width: 100%;
@@ -80,18 +95,32 @@ html, body {
 
 #graph-grid {
   position: relative;
-  margin-left: 0%;
-  margin-right: 0;
-  padding-top: 3rem;
   flex: 1;
-  height: 100%;
   width: 100%;
+}
+
+#board-1 {
+  background-color: blue;
+  width: 10rem;
+  color:white;
+}
+
+#board-2 {
+  background-color: black;
+  width: 10rem;
+  color:white;
 }
 
 .burger {
   position: absolute;
   padding: 0.5rem 0.8rem;
-  z-index: 100;
+  z-index: 1000;
 }
 
+.header {
+  width: 100%;
+  height: 3rem;
+  background-color: #272c30;
+  z-index: 1000;
+}
 </style>
