@@ -26,6 +26,7 @@
 </template>
 <script>
 import Panel from './Panel.vue'
+import TreeView from './TreeView.vue'
 import { Tree, Group, Variable, Type, Action } from '../../../../js/lib/tree.mjs'
 
 var main = new Group('GROUP 1: Root Tree', 'Main', 'Contains all of the sub-trees', 'some schema', 1)
@@ -87,7 +88,8 @@ export default {
   },
 
   components: {
-    Panel
+    Panel,
+    TreeView
   }
 }
 </script>
