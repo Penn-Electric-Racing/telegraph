@@ -18,18 +18,7 @@
           <tile header="Example Tile"/>
         </grid>
       </div>
-      
-      <variableHolder id="board-1">
-            <variablePreview id="card-1" draggable="true">
-              <p>Variable 1</p>
-            </variablePreview>
-            <variablePreview id="card-2" draggable="true">
-              <p>Variable 2</p>
-            </variablePreview>
-      </variableHolder>
 
-      <variableHolder id="board-2">
-      </variableHolder>
     </div>
   </div>
 </template>
@@ -39,8 +28,6 @@ import Tile from './components/Tile.vue'
 import Grid from './components/Grid.vue'
 import Burger from './components/menu/Burger.vue'
 import Sidebar from './components/menu/Sidebar.vue'
-import variableHolder from './components/data/variableHolder.vue'
-import variablePreview from './components/data/variablePreview.vue'
 
 export default {
   name: 'app',
@@ -52,7 +39,7 @@ export default {
   },
 
   components: {
-    Tile, Grid, Burger, Sidebar, variableHolder, variablePreview
+    Tile, Grid, Burger, Sidebar
   },
 
   methods: {
