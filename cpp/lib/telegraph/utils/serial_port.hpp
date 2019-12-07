@@ -30,9 +30,9 @@ namespace telegraph {
     };
 
 
-    class serial_port : public std::iostream, 
-                        public google::protobuf::io::ZeroCopyInputStream, 
-                        public google::protobuf::io::ZeroCopyOutputStream {
+    class serial_port : public std::iostream {
+//                        public google::protobuf::io::ZeroCopyInputStream, 
+//                        public google::protobuf::io::ZeroCopyOutputStream {
     public:
         serial_port(const std::string& name, int baud, long timeout=-1);
         ~serial_port();

@@ -1,25 +1,27 @@
 #include "port.hpp"
 
 #include "tree.hpp"
+#include "errors.hpp"
 
 #include "nodes/node.hpp"
 #include "nodes/group.hpp"
 
 namespace telegraph {
 
-    port::port() : stream_() {}
+    port::port(const std::string& name, int baud, long timeout) : port_(name, baud, timeout) {}
 
-    port::~port() {
-        if (stream_) close();
-    }
+    port::~port() {}
 
     void
     port::write(const proto::StreamEvent& event) {
     }
 
     void
-    port::open(const std::shared_ptr<std::iostream>& stream) {
-        stream_ = stream;
+    port::read(proto::StreamEvent* event) {
+    }
+
+    void
+    port::flush() {
     }
 
     std::vector<node*>
@@ -29,14 +31,12 @@ namespace telegraph {
         req->set_parent_id(parent_id);
 
         write(event);
-        flush()
+        flush();
 
-        proto::StreamEvent event;
         while (!event.has_children()) {
             read(&event);
         }
-
-        proto::StreamEvent*
+        return std::vector<node*>();
     }
 
     tree*
@@ -52,12 +52,4 @@ namespace telegraph {
         throw missing_error("root must be of type group!");
     }
 
-    void
-    port::close() {
-        stream_ = nullptr;
-    }
-
-    void
-    port::run() {
-    }
 }
