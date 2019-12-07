@@ -13,7 +13,7 @@ namespace telegraph {
         id_map();
 
         void add(node* n);
-        void add_leaves(tree* t);
+        void add_all(tree* t);
 
         inline int32_t operator[](const node* n) const {
             try { 

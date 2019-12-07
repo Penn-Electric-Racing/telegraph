@@ -27,6 +27,7 @@ cc_library(name="generate_support",
           hdrs=glob(["gen/**/*.hpp"]),
           srcs=glob(["gen/**/*.cpp"]),
           includes=["gen"],
+          deps=["//proto:cc_stream_nanopb", "//proto:cc_log_nanopb"],
           visibility=["//visibility:public"])
 
 cc_test(name="tree_test",

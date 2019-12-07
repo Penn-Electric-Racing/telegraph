@@ -2,20 +2,12 @@
 #define __TELEGEN_INTERFACE_HPP__
 
 namespace telegen {
-    template<typename T>
-        class variable;
-    template<typename T>
-        class subscription;
+    class generic_variable;
+    class generic_subscription;
 
-
-    class generic_interface {
-        virtual ~generic_interface() = default;
+    class interface {
+        virtual void subscribed(generic_variable* v, generic_subscription* s) = 0;
     };
-
-    template<typename T>
-        class interface : public virtual generic_interface {
-            virtual void subscribed(variable<T>* v, subscription<T>* s) = 0;
-        };
 }
 
 #endif

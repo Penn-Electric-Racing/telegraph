@@ -16,10 +16,9 @@ namespace telegraph {
     }
 
     void
-    id_map::add_leaves(tree* t) {
+    id_map::add_all(tree* t) {
         std::vector<node*> nodes = t->nodes();
         for (node* n : nodes) {
-            if (dynamic_cast<group*>(n) != nullptr) continue;
             add(n);
         }
     }

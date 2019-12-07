@@ -29,9 +29,6 @@ namespace telegraph {
         return nullptr;
     }
 
-
-
-
     node*
     node::operator[](const std::string& name) {
         return nullptr;
