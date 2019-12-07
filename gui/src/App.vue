@@ -2,11 +2,9 @@
   <div id="app">
     <div class="container">
       <Sidebar :expanded="sidebarExpanded"></Sidebar>
-      <nav class="burger">
-        <Burger :expanded="sidebarExpanded"
-                  v-on:collapse="collapseSidebar"
-                  v-on:expand="expandSidebar"></Burger>
-      </nav>
+      <Burger :expanded="sidebarExpanded"
+                v-on:collapse="collapseSidebar"
+                v-on:expand="expandSidebar"></Burger>
       <div id="content-container">
         <TabbedView :headersLeftPad="sidebarExpanded ? '0px' : '60px'">
           <Tab name="Dashboard">

@@ -1,6 +1,6 @@
 <template>
   <div class="tabview">
-    <div class="headers" v-bind:style="{paddingLeft: headersLeftPad}">
+    <div class="headers">
       <div v-bind:class="{header:true, active:index==activeIndex}" 
            v-for="(head, index) in tabHeaders" v-on:click="selectTab(index)" :key="index">
         {{ head }}
