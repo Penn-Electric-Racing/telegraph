@@ -9,15 +9,18 @@ void die(const std::string& message) {
 }
 
 int main(int argc, char** argv) {
-    if (argc < 2) {
-        die("missing config file path");
+    context* live_ctx = nullptr;
+    // if (argc < 2) {
+    //     die("missing config file path");
+    // }
+
+    if (argc == 2) {
+        tree* live_tree = read_config_file(argv[1]);
+        context* live_ctx = new context("live");
+        live_ctx->set_tree(live_tree); // ctx now owns t and will free t on destruction
+
+        std::cout << "live: " << *live_tree << std::endl;
     }
-
-    tree* live_tree = read_config_file(argv[1]);
-    context* live_ctx = new context("live");
-    live_ctx->set_tree(live_tree); // ctx now owns t and will free t on destruction
-
-    std::cout << "live: " << *live_tree << std::endl;
 
     tree* system_tree = get_system_tree();
     context* system_ctx = new context("system");
@@ -30,7 +33,9 @@ int main(int argc, char** argv) {
 
     {
         auto cl = srv.contexts.lock();
-        srv.contexts.add(live_ctx);
+        if (live_ctx != nullptr) {
+            srv.contexts.add(live_ctx);
+        }
         srv.contexts.add(system_ctx);
     }
 
