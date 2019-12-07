@@ -6,7 +6,8 @@
 namespace telegen {
     class stream : public node {
     public:
-        constexpr stream(int32_t id) : node(id) {}
+        constexpr stream(int32_t id, const char* name, const char* pretty,
+                                const char* desc) : node(id, name, pretty, desc) {}
     };
 };
 

@@ -31,6 +31,7 @@
         __bp = n; \
         case n: \
             if (condition) {\
+                __bp = n; \
                 goto exit_reenter; \
             } \
     }
@@ -40,6 +41,7 @@
         __bp = n; \
         case n: \
             if (!condition) {\
+                __bp = n; \
                 goto exit_reenter; \
             } \
     }
