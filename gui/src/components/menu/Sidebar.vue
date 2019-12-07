@@ -1,25 +1,22 @@
 <template>
   <div class="sidebar">
+    <div v-if="expanded"
+        class="sidebar-panel">
+        <ul class="sidebar-panel-nav">
+          <li><button class="button" v-on:click="openLiveConnection"><span>Live Connection</span></button></li>
+          <li><button class="button" v-on:click="openLogs"><span>Logs</span></button></li>
+          <li><button class="button" v-on:click="openSettings"><span>Settings</span></button></li>
+        </ul>
+    </div>
 
-    <transition name="slide">
-      <div v-if="expanded"
-          class="sidebar-panel">
-          <ul class="sidebar-panel-nav">
-            <li><button class="button" v-on:click="openLiveConnection"><span>Live Connection</span></button></li>
-            <li><button class="button" v-on:click="openLogs"><span>Logs</span></button></li>
-            <li><button class="button" v-on:click="openSettings"><span>Settings</span></button></li>
-          </ul>
-      </div>
-    </transition>
-
-    <Panel v-bind:isPanelOpen = liveConnectionOpened>
+    <Panel v-bind:isPanelOpen = liveConnectionOpened :closePanel="openLiveConnection">
       <TreeView v-bind:node = root></TreeView>
     </Panel>
 
-    <Panel v-bind:isPanelOpen = logsOpened>
+    <Panel v-bind:isPanelOpen = logsOpened :closePanel="openLogs">
     </Panel>
 
-    <Panel v-bind:isPanelOpen = settingsOpened>
+    <Panel v-bind:isPanelOpen = settingsOpened :closePanel="openSettings">
     </Panel>
 
   </div>
@@ -34,7 +31,7 @@ var acm = new Group('GROUP 2: Accumulator Monitoring System', 'AMS', 'Measure va
 var acmVoltage = new Variable('0x313', 'AMS Voltage', 'Measured in Volts', Type.UINT8)
 var testing = new Variable('VARIABLE', 'tests', 'additional description', Type.BOOL)
 var acmCurrent = new Variable('0x311', 'AMS Current', 'Measured in Amps', Type.UINT8)
-var speed = new Group('0x311', 'Speed', 'Current Speed of various components', 'g/test', 1)
+var speed = new Group('GROUP 3: Speed', 'Speed', 'Current Speed of various components', 'g/test', 1)
 var frontRpm = new Variable('0x222', 'Front Wheel Speed', 'Measured in RPM', Type.UINT8)
 var c = new Action('Non-pretty action', 'Increase Speed', 'Increases RPM of front wheel', Type.BOOL, Type.INT8)
 var testing2 = new Variable('VARIABLE', 'tests', 'additional description', Type.BOOL)
@@ -117,8 +114,8 @@ ul.liveconnection-panel-nav > li {
 
 ul.sidebar-panel-nav > li > .button {
   display: inline-block;
+  background-color: Transparent;
   border-radius: 4px;
-  background-color: #2A3F54;;
   border: none;
   color: #FFFFFF;
   text-align: left;
@@ -167,11 +164,7 @@ ul.sidebar-panel-nav > li > .button {
 }
 .sidebar-panel {
     overflow-y: auto;
-    background-color:#2A3F54;
-    /* position: fixed; */
-    /* margin: 40; */
-    /* left: 0; */
-    /* top: 0; */
+    background-color: #2f363c;
     height: 100vh;
     z-index: 100;
     padding: 3rem 0px 0rem 0px;

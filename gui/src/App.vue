@@ -75,7 +75,8 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: #D4D4D4;
+  background-color: #343C42;
+  position: fixed;
 
   width: 100%;
   height: 100%;
@@ -84,21 +85,21 @@ html, body {
 .container {
   display: flex;
   align-items: stretch;
+  align-content: stretch;
   flex-direction: row;
   height: 100%;
   width: 100%;
 }
 
 #content-container {
-  height: 100%;
   width: 100%;
+  height: 100%;
   background-color: #30363c;
 }
 
 .burger {
   position: absolute;
   padding: 0.5rem 0.8rem;
-  z-index: 100;
+  z-index: 1000;
 }
-
 </style>

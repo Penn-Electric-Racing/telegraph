@@ -20,6 +20,7 @@
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
     "electron": "^6.0.0",
+    "electron-builder": "^21.2.0",
     "vue-cli-plugin-electron-builder": "^1.4.2",
     "vue-template-compiler": "^2.6.10"
   },

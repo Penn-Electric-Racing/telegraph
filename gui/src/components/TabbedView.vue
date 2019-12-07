@@ -21,10 +21,9 @@
     flex-direction: column;
   }
   .headers {
-    background-color: rgba(36, 41, 44, 0.5);
+    background-color: #272c30;
     box-sizing: border-box;
     height: 50px;
-    transition: padding-left 0.3s;
 
     color: #5e6870;
     display: flex;
@@ -33,6 +32,7 @@
   .header {
     box-sizing: border-box;
     height: 50px;
+    background-color: #272c30;
 
     display: flex;
     align-items: center;
