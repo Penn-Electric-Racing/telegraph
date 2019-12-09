@@ -1,103 +1,139 @@
+/* inspired by theme
+  http://demo.adminbootstrap.com/right/1.0.0/index.html */
 <template>
   <div id="app">
-    <div class="container">
-      <Sidebar :expanded="sidebarExpanded"></Sidebar>
-      <Burger :expanded="sidebarExpanded"
-                v-on:collapse="collapseSidebar"
-                v-on:expand="expandSidebar"></Burger>
-      <div id="content-container">
-        <TabbedView :headersLeftPad="sidebarExpanded ? '0px' : '60px'">
-          <Tab name="Dashboard">
-            <GridView>
-              <TileView header="Example Tile">
-                foo
-              </TileView>
-            </GridView>
-          </Tab>
-          <Tab name="Dashboard 2">
-            <GridView>
-              <TileView header="Example Tile 2">
-                bar
-              </TileView>
-            </GridView>
-          </Tab>
-        </TabbedView>
-      </div>
+    <div id="header-container">
+      <Burger/>
+      <TabSwitcher :tabs="dashboards" 
+                   :activeId="activeDashboard" 
+               v-on:selected="dashboardSelected"/>
+    </div>
+
+    <div id="content-container">
+      <Sidebar v-if="sidebarShowing"></Sidebar>
+      <TabArea id="content-area">
+        <TabPane :active="dashboard.id==activeDashboard"
+          v-for="dashboard in dashboards" :key="dashboard.id">
+
+          <Dashboard :name="dashboard.name" 
+                     :store-location="dashboard.location"
+                     :key="dashboard.id"/>
+
+        </TabPane>
+      </TabArea>
     </div>
   </div>
 </template>
 
 <script>
-import TileView from './components/TileView.vue'
-import GridView from './components/GridView.vue'
-import TabbedView from './components/TabbedView.vue'
-import Tab from './components/Tab.vue'
-import Burger from './components/menu/Burger.vue'
-import Sidebar from './components/menu/Sidebar.vue'
+import TabSwitcher from './components/tabs/TabSwitcher.vue'
+import TabArea from './components/tabs/TabArea.vue'
+import TabPane from './components/tabs/TabPane.vue'
+
+// interface components
+import Sidebar from './sidebar/Sidebar.vue'
+import Burger from './sidebar/Burger.vue'
+import Dashboard from './dashboard/Dashboard.vue'
+
+import {AppStore} from './app.js'
+import {DummyApp} from './dummy.js'
 
 export default {
-  name: 'app',
+  name: 'App',
 
   data () {
     return {
-      sidebarExpanded: false
+      store: createDummy(),
+
+      sidebarShowing: true,
+      workspace: null,
+
+
+      // open dashboards 
+
+      nextDashboardId: 0,
+      // all the open dashboards, each
+      // objects containing name, id, location (specifying load/store location)
+      dashboards: [],
+      activeDashboard: 0, // currently active dashboard id
     }
   },
 
   components: {
-    TabbedView, Tab,
-    TileView, GridView, Burger, Sidebar
+    TabSwitcher, TabArea, TabPane,
+
+    Sidebar, Burger, Dashboard
   },
 
   methods: {
-    expandSidebar: function () {
-      this.sidebarExpanded = true
+    dashboardSelected(id) {
+      this.activeDashboard = id
     },
-    collapseSidebar: function () {
-      this.sidebarExpanded = false
+    createDashboard() {
+      this.dashboards.push({name: 'Untitled', 
+                location: null,
+                id: this.nextDashboardId++})
     }
+  },
+
+  created() {
+  },
+
+  mounted() {
+    this.workspace = this.$refs['workspace']
+    setInterval(1000, function() { this.createDashboard('Untitled') })
   }
 
 }
-
+function createDummy() {
+  return new DummyApp();
+}
 </script>
 
 <style>
 html, body {
+  width: 100%;
   height: 100%;
   margin: 0;
 }
-
 #app {
-  font-family: "Poppins", sans-serif, "Noto Color Emoji";
+  font-family: "Roboto", sans-serif, "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
   background-color: #343C42;
-  position: fixed;
-
   width: 100%;
   height: 100%;
+
+  display: flex;
+  align-items: stretch;
+  align-content: stretch;
+  flex-direction: column;
 }
 
-.container {
+#header-container {
+  height: 3rem;
+  width: 100%;
+  background-color: #272c30;
+
   display: flex;
   align-items: stretch;
   align-content: stretch;
   flex-direction: row;
-  height: 100%;
-  width: 100%;
 }
 
 #content-container {
   width: 100%;
   height: 100%;
-  background-color: #30363c;
+
+  align-items: stretch;
+  align-content: stretch;
+  flex-direction: row;
 }
 
-.burger {
-  position: absolute;
-  padding: 0.5rem 0.8rem;
-  z-index: 1000;
+#content-area {
+  width: 100%;
+  height: 100%;
 }
 </style>
+
