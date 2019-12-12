@@ -3,14 +3,18 @@
 <template>
   <div id="app">
     <div id="header-container">
-      <Burger/>
+      <Burger v-on:toggle="toggleSidebar"></Burger>
+
       <TabSwitcher :tabs="dashboards" 
                    :activeId="activeDashboard" 
                v-on:selected="dashboardSelected"/>
     </div>
 
     <div id="content-container">
-      <Sidebar v-if="sidebarShowing"></Sidebar>
+      <transition name="sidebar"> 
+        <Sidebar class="sidebar" v-if="sidebarShowing"></Sidebar>
+      </transition>
+
       <TabArea id="content-area">
         <TabPane :active="dashboard.id==activeDashboard"
           v-for="dashboard in dashboards" :key="dashboard.id">
@@ -36,16 +40,16 @@ import Burger from './sidebar/Burger.vue'
 import Dashboard from './dashboard/Dashboard.vue'
 
 import {AppStore} from './app.js'
-import {DummyApp} from './dummy.js'
+// import {DummyApp} from './dummy.js'
 
 export default {
   name: 'App',
 
   data () {
     return {
-      store: createDummy(),
+      // store: createDummy(),
 
-      sidebarShowing: true,
+      sidebarShowing: false,
       workspace: null,
 
 
@@ -73,6 +77,9 @@ export default {
       this.dashboards.push({name: 'Untitled', 
                 location: null,
                 id: this.nextDashboardId++})
+    },
+    toggleSidebar() {
+      this.sidebarShowing = !this.sidebarShowing
     }
   },
 
@@ -126,6 +133,7 @@ html, body {
   width: 100%;
   height: 100%;
 
+  display: flex;
   align-items: stretch;
   align-content: stretch;
   flex-direction: row;
@@ -135,5 +143,22 @@ html, body {
   width: 100%;
   height: 100%;
 }
+
+.sidebar-enter-active, .sidebar-leave-active {
+  transition: transform 0.25s ease-in-out;
+}
+
+.sidebar-enter, .sidebar-leave-to {
+  transform: translateX(-100%)
+}
+
+.sidebar-enter-to, .sidebar-leave {
+  transform: translateX(0%)
+}
+
+.sidebar  {
+  height: 100%;
+} 
+
 </style>
 

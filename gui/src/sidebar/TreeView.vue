@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { Node, Group, Variable, Action, Stream } from '../../../../js/lib/tree.mjs'
+import { Node, Group, Variable, Action, Stream } from '../../../js/lib/tree.mjs'
 
 export default {
   name: 'TreeView',
@@ -73,5 +73,7 @@ ul.tree-wiew > li{
   padding-bottom: 1rem;
   color: #FFFFFF;
 }
+
+
 
 </style>
