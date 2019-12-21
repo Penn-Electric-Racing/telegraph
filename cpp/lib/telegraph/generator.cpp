@@ -154,32 +154,67 @@ namespace telegraph {
                             const std::string& accessor_prefix,
                             std::map<int32_t, std::string>* id_accessors) const {
         int32_t id = ids[n];
-        if (id > 0) (*id_accessors)[id] = accessor_prefix + n->get_name();
+        if (id >= 0) (*id_accessors)[id] = accessor_prefix + n->get_name();
+
         std::string code;
         if (dynamic_cast<const group*>(n) != nullptr) {
             const group* g = dynamic_cast<const group*>(n);
+            
+            // change the accessor to have a .group behind it
+            if (id >= 0) (*id_accessors)[id] = accessor_prefix + n->get_name() + ".group";
+
             code += "struct {\n";
             std::string accessor = accessor_prefix + g->get_name() + ".";
             for (const node* c : *g) {
+                if (c->get_name() == "group") {
+                    throw generate_error("group cannot have a child of name group");
+                }
                 std::string subcode = generate_node(c, ids, accessor, id_accessors);
                 indent(subcode, 4);
                 code += subcode;
                 code += "\n";
             }
+
+            std::string children_array;
+            for (const node* n : *g) {
+                if (children_array.size() > 0) {
+                    children_array += ", ";
+                }
+                if (dynamic_cast<const group*>(n)) {
+                    children_array += "&" + n->get_name() + ".group";
+                } else {
+                    children_array += "&" + n->get_name();
+                }
+            }
+            // add the group
+            code += "   telegen::group<" + std::to_string(g->num_children()) + "> group = " +
+                    "telegen::group<" + std::to_string(g->num_children()) + ">(" +
+                    std::to_string(id) + ", \"" + g->get_name() + "\", \"" + g->get_pretty() + 
+                    "\", \"" + g->get_desc() +"\", ";
+
+            // add the accessors for the group
+            code += "std::array<telegen::node*, " + std::to_string(g->num_children()) + ">";
+            code += "{";
+            code += children_array;
+            code += "});\n";
+
             code += "} " + g->get_name() + ";";
+
         } else if (dynamic_cast<const variable*>(n) != nullptr) {
             const variable* v = dynamic_cast<const variable*>(n);
             std::string type = "telegen::variable<" + type_to_cpp_ident(v->get_type()) + ">";
             code += type + " " + v->get_name() + " = " + 
-                                   type + "(" + std::to_string(id) + ");";
+                           type + "(" + std::to_string(id) + ", \"" + v->get_name() + 
+                           "\", \"" + v->get_pretty() + "\", \"" + v->get_desc() + "\");";
         } else if (dynamic_cast<const action*>(n) != nullptr) {
             const action* a = dynamic_cast<const action*>(n);
             std::string type = "telegen::action<" + type_to_cpp_ident(a->get_ret_type()) + 
                                     "," + type_to_cpp_ident(a->get_arg_type()) + ">";
             code += type + " " + a->get_name() + 
-                        " = " + type + "(" + std::to_string(id) + ");";
+                        " = " + type + "(" + std::to_string(id) + ", \"" + a->get_name() + "\", \"" +
+                                a->get_pretty() + "\", \"" + a->get_desc() + "\");";
         } else if (dynamic_cast<const stream*>(n) != nullptr) {
-            code += "stream not yet implemented!!!";
+            throw generate_error("stream class generation not yet implemented");
         }
         return code;
     }
@@ -190,12 +225,48 @@ namespace telegraph {
         code += "    const int version = " + std::to_string(t->get_root()->get_version()) + ";\n";
         std::map<int32_t, std::string> id_accessors;
 
-        for (const node* n : *t->get_root()) {
-            std::string subcode = generate_node(n, ids, "", &id_accessors);
-            indent(subcode, 4);
-            code += subcode;
-            code += "\n";
+        {
+            const group* root = t->get_root();
+            for (const node* n : *root) {
+                if (n->get_name() == "root" || 
+                        n->get_name() == "version" || 
+                        n->get_name() == "nodes") {
+                    throw generate_error("cannot have children named \"root,\""
+                                         " \"version,\" or \"nodes\" of root node");
+                }
+                std::string subcode = generate_node(n, ids, "", &id_accessors);
+                indent(subcode, 4);
+                code += subcode;
+                code += "\n";
+            }
+            // go through every each of the children and add
+            // them to a group called "root"
+            std::string children_accessors;
+            for (const node* n : *root) {
+                if (children_accessors.size() > 0) {
+                    children_accessors += ", ";
+                }
+                if (dynamic_cast<const group*>(n)) {
+                    children_accessors += "&" + n->get_name() + ".group";
+                } else {
+                    children_accessors += "&" + n->get_name();
+                }
+            }
+
+            int32_t root_id = ids[t->get_root()];
+            if (root_id < 0) throw generate_error("root node does not have an id");
+            code += "   telegen::group<" + std::to_string(root->num_children()) + "> root = " +
+                    "telegen::group<" + std::to_string(root->num_children()) + ">(" +
+                    std::to_string(root_id) + ", \"" + root->get_name() + "\", \"" + root->get_pretty() + 
+                    "\",\"" + root->get_desc() +"\", ";
+
+            // add the accessors for the group
+            code += "std::array<telegen::node*, " + std::to_string(root->num_children()) + ">";
+            code += "{";
+            code += children_accessors;
+            code += "});\n";
         }
+
         // go through every node in the tree and generate the node lookup table
         std::string accessors;
         int32_t last_id = -1;
@@ -260,6 +331,7 @@ namespace telegraph {
         std::string code =
             "#pragma once\n\n"
             "#include <telegen/id_array.hpp>\n"
+            "#include <telegen/group.hpp>\n"
             "#include <telegen/variable.hpp>\n"
             "#include <telegen/action.hpp>\n"
             "#include <telegen/stream.hpp>\n\n";

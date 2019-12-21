@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
     }
 
     id_map ids;
-    ids.add_leaves(t);
+    ids.add_all(t);
 
     // now create the generator
     generator g;

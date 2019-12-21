@@ -46,17 +46,17 @@ namespace telegen {
 
     class generic_variable : public node {
     public:
-        constexpr generic_variable(int32_t id) : node(id) {}
-
-        virtual void add_interface(interface* i) = 0;
+        constexpr generic_variable(int32_t id, const char* name, const char* pretty,
+                                    const char* desc) : node(id, name, pretty, desc) {}
     };
 
     template<typename T>
         class variable : public generic_variable {
         public:
-            using Type = typename storage_traits<T>::type;
+            using store_type = typename storage_traits<T>::type;
 
-            constexpr variable(int32_t id) : generic_variable(id) {}
+            constexpr variable(int32_t id, const char* name, const char* pretty,
+                                const char* desc) : generic_variable(id, name, pretty, desc) {}
 
             // write to this variable
             variable& operator<<(const T& t) {
@@ -77,8 +77,23 @@ namespace telegen {
                 }
                 return s;
             }
+
+            void pack(telegraph_proto_Variable* v, int32_t parent) const {
+                v->id = id_;
+                v->parent = parent;
+
+                // pass a callback to encode the name
+                v->name.funcs.encode = [](pb_ostream_t* stream, 
+                        const pb_field_t* file,void* const* arg) {
+                    variable<T>* v = reinterpret_cast<variable<T>*>(*arg);
+                };
+                v->name.arg = this;
+            }
+
+            void pack(telegraph_proto_Node* n, int32_t parent) const override {
+            }
         protected:
-            Type last_;
+            store_type last_;
             std::vector<interface*> interfaces_; // interfaces listen for subscription changes
             std::vector<subscription<T>> subscriptions_; // subscriptions 
                                                        // (in a list so we can return pointers)
