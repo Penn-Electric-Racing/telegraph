@@ -1,9 +1,9 @@
-#ifndef __TELEGRAPH_NODES_TREE__
-#define __TELEGRAPH_NODES_TREE__
+#ifndef __TELEGRAPH_TREE_HPP__
+#define __TELEGRAPH_TREE_HPP__
 
-#include "../utils/json_fwd.hpp"
+#include "utils/json_fwd.hpp"
 
-#include "node.hpp"
+#include "nodes/node.hpp"
 
 #include <vector>
 #include <memory>

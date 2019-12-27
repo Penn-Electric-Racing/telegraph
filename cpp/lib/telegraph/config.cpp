@@ -4,7 +4,7 @@
 
 #include "utils/json.hpp"
 
-#include "nodes/tree.hpp"
+#include "tree.hpp"
 #include "nodes/node.hpp"
 #include "nodes/group.hpp"
 #include "nodes/variable.hpp"

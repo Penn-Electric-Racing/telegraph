@@ -12,26 +12,31 @@ namespace telegraph {
     class subscription {
     public:
         inline subscription(uint64_t min_interval, uint64_t max_interval) :
-                                on_data(), on_cancel(), 
+                                on_data(), on_open(), on_cancel(), 
                                 min_interval_(min_interval), max_interval_(max_interval), 
+                                open_(false),
                                 cancelled_(false) {}
 
         inline ~subscription() {
-            if (!cancelled_) cancel();
+            if (open_ && !cancelled_) cancel();
         }
 
+        constexpr bool is_open() const { return open_; }
         constexpr bool is_cancelled() const { return cancelled_; }
 
         constexpr uint64_t get_min_interval() const { return min_interval_; }
         constexpr uint64_t get_max_interval() const { return max_interval_; }
 
+        inline void open() { open_ = true; on_open(); }
         inline void cancel() { cancelled_ = true; on_cancel(); }
 
         signal<datapoint> on_data;
+        signal<> on_open;
         signal<> on_cancel;
     private:
         uint64_t min_interval_;
         uint64_t max_interval_;
+        bool open_;
         bool cancelled_;
     };
 

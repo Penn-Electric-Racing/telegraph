@@ -2,7 +2,7 @@
 #include <telegraph/config.hpp>
 #include <telegraph/id_map.hpp>
 
-#include <telegraph/nodes/tree.hpp>
+#include <telegraph/tree.hpp>
 #include <telegraph/utils/hocon.hpp>
 
 #include <iostream>

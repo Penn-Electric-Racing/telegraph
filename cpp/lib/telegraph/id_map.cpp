@@ -2,7 +2,7 @@
 
 #include "nodes/group.hpp"
 #include "nodes/node.hpp"
-#include "nodes/tree.hpp"
+#include "tree.hpp"
 
 namespace telegraph {
     id_map::id_map() : node_id_map_(), id_node_map_(), next_id_(1) {}

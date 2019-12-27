@@ -6,7 +6,7 @@
 #include <telegraph/nodes/node.hpp>
 #include <telegraph/nodes/variable.hpp>
 #include <telegraph/nodes/group.hpp>
-#include <telegraph/nodes/tree.hpp>
+#include <telegraph/tree.hpp>
 
 #include <iostream>
 

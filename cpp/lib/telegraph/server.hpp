@@ -13,8 +13,9 @@
 
 #include "utils/signal.hpp"
 
-#include "nodes/tree.hpp"
 #include "nodes/variable.hpp"
+
+#include "tree.hpp"
 
 #include "context.hpp"
 #include "errors.hpp"

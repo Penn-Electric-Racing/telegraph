@@ -6,7 +6,7 @@
 #include <unordered_set>
 
 #include "utils/signal.hpp"
-#include "nodes/tree.hpp"
+#include "tree.hpp"
 
 namespace telegraph {
     class tree;

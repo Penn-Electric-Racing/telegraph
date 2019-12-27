@@ -2,6 +2,7 @@
 #define __TELEGEN_NODE_HPP__
 
 #include <stdint.h>
+
 #include "common.nanopb.h"
 
 namespace telegen {
@@ -20,7 +21,15 @@ namespace telegen {
         constexpr const char* get_desc() const { return pretty_; }
 
         // encode this node into a node protobuffer descriptor
-        virtual void pack(telegraph_proto_Node* n, int32_t parent=-1) const = 0;
+        virtual void pack_def(telegraph_proto_Node* n, int32_t parent=-1) const = 0;
+
+        // pack this nodes' children into a protobuffer descriptor
+        virtual bool pack_children(pb_ostream_t* os, 
+                                    const pb_field_iter_t* field) const {
+            // no children!
+            return false;
+        }
+
     private:
         int32_t id_;
         const char* name_;

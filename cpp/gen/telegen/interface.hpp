@@ -6,7 +6,9 @@ namespace telegen {
     class generic_subscription;
 
     class interface {
-        virtual void subscribed(generic_variable* v, generic_subscription* s) = 0;
+    public:
+        virtual generic_subscription subscribe(generic_variable* v, 
+                    int32_t min_interval, int32_t max_interval) = 0;
     };
 }
 

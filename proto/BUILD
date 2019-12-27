@@ -36,6 +36,10 @@ cc_proto_library(name="cc_api_proto",
                  deps=["//proto:api_proto"],
                  visibility=["//visibility:public"])
 
+cc_proto_library(name="cc_stream_proto",
+                 deps=["//proto:stream_proto"],
+                 visibility=["//visibility:public"])
+
 cc_grpc_library(name="cc_api_grpc",
                 srcs=["//proto:api_proto"], 
                 deps=[":cc_api_proto"], grpc_only=True,
@@ -43,6 +47,11 @@ cc_grpc_library(name="cc_api_grpc",
 
 cc_library(name="cc_api",
            deps=[":cc_api_proto", ":cc_api_grpc"],
+           includes=["."],
+           visibility=["//visibility:public"])
+
+cc_library(name="cc_stream",
+           deps=[":cc_stream_proto"],
            includes=["."],
            visibility=["//visibility:public"])
 

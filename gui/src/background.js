@@ -87,3 +87,7 @@ if (isDevelopment) {
     })
   }
 }
+
+// Setup the backend server
+import spawnServer from './server'
+spawnServer()
