@@ -6,14 +6,44 @@
 #include "nodes/node.hpp"
 #include "nodes/group.hpp"
 
+static uint32_t fletcher32(const uint16_t *data, size_t len) {
+    uint32_t c0, c1;
+    unsigned int i;
+
+    for (c0 = c1 = 0; len >= 360; len -= 360) {
+        for (i = 0; i < 360; ++i) {
+            c0 = c0 + *data++;
+            c1 = c1 + c0;
+        }
+        c0 = c0 % 65535;
+        c1 = c1 % 65535;
+    }
+    for (i = 0; i < len; ++i) {
+        c0 = c0 + *data++;
+        c1 = c1 + c0;
+    }
+    c0 = c0 % 65535;
+    c1 = c1 % 65535;
+    return (c1 << 16 | c0);
+}
+
 namespace telegraph {
-
     port::port(const std::string& name, int baud, long timeout) : port_(name, baud, timeout) {}
-
     port::~port() {}
 
     void
     port::write(const proto::StreamEvent& event) {
+        std::string data;
+        if (!event.SerializeToString(&data)) {
+            throw io_error("failed to serailize");
+        }
+        // write header
+        port_ << (uint8_t) (data.size() >> 2);
+        size_t num_bytes = (data.size() >> 2) << 2;
+        data.append(num_bytes - data.size(), (char) 0);
+        port_ << data;
+        // write the checksum
+        fletcher32(reinterpret_cast<const uint16_t*>(data.c_str()), num_bytes >> 1);
     }
 
     void
@@ -27,15 +57,14 @@ namespace telegraph {
     std::vector<node*>
     port::fetch_children(int32_t parent_id) {
         proto::StreamEvent event;
-        proto::ChildrenRequest *req = event.mutable_children_request();
-        req->set_parent_id(parent_id);
-
+        event.mutable_children_request();
         write(event);
         flush();
 
         while (!event.has_children()) {
             read(&event);
         }
+
         return std::vector<node*>();
     }
 

@@ -90,6 +90,25 @@ namespace telegraph {
         }
     }
 
+    static std::string type_to_name(const type& t) {
+        if (t.get_name().length() > 0) return t.get_name();
+        switch(t.get_class()) {
+            case type::NONE:    return "void";
+            case type::BOOL:    return "bool";
+            case type::UINT8:   return "uint8";
+            case type::UINT16:  return "uint16";
+            case type::UINT32:  return "uint32";
+            case type::UINT64:  return "uint64";
+            case type::INT8:    return "int8";
+            case type::INT16:   return "int16";
+            case type::INT32:   return "int32";
+            case type::INT64:   return "int64";
+            case type::FLOAT:   return "float";
+            case type::DOUBLE:  return "double";
+            default: throw missing_error("Not a builtin, must have name!");
+        }
+    }
+
     static std::string enum_label_to_cpp(const std::string& label) {
         std::string ret = label;
         std::for_each(ret.begin(), ret.end(), [](char& c){
@@ -143,6 +162,21 @@ namespace telegraph {
                 // put in a typedef!
                 code += "typedef " + type_to_cpp_builtin(*tp) + " " + tp->get_name() + ";";
             }
+            code += "\n";
+
+            code += "constexpr const char* " + type_to_name(*tp) + "_labels_[] = {";
+            bool first = true;
+            for (const std::string& l : tp->get_labels()) {
+                if (first) first = false;
+                else code += ",";
+                code += "\"" + l + "\"";
+            }
+            code += "};\n";
+
+            code += "telegen::type_info<" + type_to_cpp_ident(*tp) + "> " + type_to_name(*tp) + "_type " +
+                        "= telegen::type_info<" + type_to_cpp_ident(*tp) + ">(\"" +  
+                        tp->get_name() + "\", " + std::to_string(tp->get_labels().size()) + ", " + type_to_name(*tp) + "_labels_);";
+
             code += "\n\n";
         }
 
@@ -205,7 +239,8 @@ namespace telegraph {
             std::string type = "telegen::variable<" + type_to_cpp_ident(v->get_type()) + ">";
             code += type + " " + v->get_name() + " = " + 
                            type + "(" + std::to_string(id) + ", \"" + v->get_name() + 
-                           "\", \"" + v->get_pretty() + "\", \"" + v->get_desc() + "\");";
+                           "\", \"" + v->get_pretty() + "\", \"" + v->get_desc() + "\",&" + 
+                           type_to_name(v->get_type()) + "_type);";
         } else if (dynamic_cast<const action*>(n) != nullptr) {
             const action* a = dynamic_cast<const action*>(n);
             std::string type = "telegen::action<" + type_to_cpp_ident(a->get_ret_type()) + 
@@ -239,6 +274,18 @@ namespace telegraph {
                 code += subcode;
                 code += "\n";
             }
+
+            int32_t root_id = ids[t->get_root()];
+            if (root_id < 0) throw generate_error("root node does not have an id");
+            code += "   telegen::group<" + std::to_string(root->num_children()) + "> root = " +
+                    "telegen::group<" + std::to_string(root->num_children()) + ">(" +
+                    std::to_string(root_id) + ", \"" + root->get_name() + "\", \"" + root->get_pretty() + 
+                    "\",\"" + root->get_desc() +"\", ";
+
+            // setup the accessors for the root group
+
+            id_accessors[root_id] = "root";
+
             // go through every each of the children and add
             // them to a group called "root"
             std::string children_accessors;
@@ -253,12 +300,6 @@ namespace telegraph {
                 }
             }
 
-            int32_t root_id = ids[t->get_root()];
-            if (root_id < 0) throw generate_error("root node does not have an id");
-            code += "   telegen::group<" + std::to_string(root->num_children()) + "> root = " +
-                    "telegen::group<" + std::to_string(root->num_children()) + ">(" +
-                    std::to_string(root_id) + ", \"" + root->get_name() + "\", \"" + root->get_pretty() + 
-                    "\",\"" + root->get_desc() +"\", ";
 
             // add the accessors for the group
             code += "std::array<telegen::node*, " + std::to_string(root->num_children()) + ">";
@@ -331,6 +372,7 @@ namespace telegraph {
         std::string code =
             "#pragma once\n\n"
             "#include <telegen/id_array.hpp>\n"
+            "#include <telegen/type_info.hpp>\n"
             "#include <telegen/group.hpp>\n"
             "#include <telegen/variable.hpp>\n"
             "#include <telegen/action.hpp>\n"

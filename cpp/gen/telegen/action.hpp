@@ -22,10 +22,10 @@ namespace telegen {
                 // do nothing for now
             }
 
-            void pack(telegraph_proto_Action* v, int32_t parent) const {
+            void pack_def(telegraph_proto_Action* v, int32_t parent) const {
             }
 
-            void pack(telegraph_proto_Node* n, int32_t parent) const override {
+            void pack_def(telegraph_proto_Node* n, int32_t parent) const override {
             }
         };
 
@@ -39,10 +39,10 @@ namespace telegen {
                 // do nothing for now
             }
 
-            void pack(telegraph_proto_Action* v, int32_t parent) const {
+            void pack_def(telegraph_proto_Action* v, int32_t parent) const {
             }
 
-            void pack(telegraph_proto_Node* n, int32_t parent) const override {
+            void pack_def(telegraph_proto_Node* n, int32_t parent) const override {
             }
         };
 }
