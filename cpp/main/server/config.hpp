@@ -1,5 +1,5 @@
 #include <telegraph/utils/hocon.hpp>
-#include <telegraph/nodes/tree.hpp>
+#include <telegraph/tree.hpp>
 
 #include <filesystem>
 
