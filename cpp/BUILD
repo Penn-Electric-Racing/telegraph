@@ -18,6 +18,12 @@ cc_binary(name="generate",
           copts=["-std=c++17"],
           deps=[":telegraph"], visibility=["//visibility:public"])
 
+cc_binary(name="server",
+          srcs=glob(["main/server/**/*.hpp", "main/server/**/*.cpp"]),
+          copts=["-std=c++17"],
+          deps=[":telegraph"],
+          visibility=["//visibility:public"])
+
 cc_library(name="generate_support",
           hdrs=glob(["gen/**/*.hpp"]),
           srcs=glob(["gen/**/*.cpp"]),
