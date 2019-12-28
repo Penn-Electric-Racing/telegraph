@@ -10,6 +10,7 @@
                  :w="item.w"
                  :h="item.h"
                  :i="item.i"
+                 dragAllowFrom=".tile-header"
                  :key="item.i">
         <Tile :id="item.i" :storeLocation="storeLocation"/>
       </grid-item>

@@ -1,32 +1,26 @@
 <template>
-  <div id="burger" :class="{ 'active' : expanded }">
-    <slot>
-      <button type="button" class="burger-button" v-on:click="toggleExpand" title="Menu">
-        <span class="burger-bar burger-bar--1"></span>
-        <span class="burger-bar burger-bar--2"></span>
-        <span class="burger-bar burger-bar--3"></span>
-      </button>
-    </slot>
+  <div class="burger" :class="{ 'active' : expanded }">
+    <button type="button" class="burger-button" v-on:click="toggleExpand" title="Menu">
+      <span class="burger-bar burger-bar--1"></span>
+      <span class="burger-bar burger-bar--2"></span>
+      <span class="burger-bar burger-bar--3"></span>
+    </button>
   </div>
 </template>
 <script>
 export default {
-  data () {
-    return {
-      expanded: false
-    }
+  props: {
+    expanded: Boolean
   },
 
   methods: {
     toggleExpand: function () {
-      this.expanded = !this.expanded
-      // this.$emit(this.expanded ? 'collapse' : 'expand')
       this.$emit('toggle')
     }
   }
 }
 </script>
-<style>
+<style scoped>
 button {
   cursor: pointer;
 }
@@ -34,9 +28,9 @@ button:focus {
   outline: 0;
 }
 .burger-button {
-  position: absolute;
   padding-top: 2.5rem;
-  margin-left: 0.5rem;
+  margin-left: 0.2rem;
+  position: relative;
   height: 30px;
   width: 32px;
   display: inline-block;
@@ -77,19 +71,19 @@ button:focus {
 .burger-bar--3 {
   transform: translateY(6px);
 }
-#burger.active .burger-button {
+.burger.active .burger-button {
   transform: rotate(-180deg);
 }
-#burger.active .burger-bar {
+.burger.active .burger-bar {
   background-color: #fff;
 }
-#burger.active .burger-bar--1 {
+.burger.active .burger-bar--1 {
   transform: rotate(45deg);
 }
-#burger.active .burger-bar--2 {
+.burger.active .burger-bar--2 {
   opacity: 0;
 }
-#burger.active .burger-bar--3 {
+.burger.active .burger-bar--3 {
   transform: rotate(-45deg);
 }
 

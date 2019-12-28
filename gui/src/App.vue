@@ -3,83 +3,105 @@
 <template>
   <div id="app">
     <div id="header-container">
-      <Burger v-on:toggle="toggleSidebar"></Burger>
+      <Burger :expanded="sidebarShowing" v-on:toggle="toggleSidebar"
+         :style="{minWidth: sidebarWidth + 'px'}"></Burger>
 
       <TabSwitcher :tabs="dashboards" 
-                   :activeId="activeDashboard" 
-               v-on:selected="dashboardSelected"/>
+                   :active="activeDashboard" 
+                   :closeable="true"
+                   @selected="selectDashboard"
+                   @closed="closeDashboard"/>
     </div>
 
     <div id="content-container">
-      <transition name="sidebar"> 
-        <Sidebar class="sidebar" v-if="sidebarShowing"></Sidebar>
-      </transition>
+      <div id="sidebar" v-show="sidebarShowing" ref="sidebar">
+        <div id="sidebar-header">
+          <TabSwitcher :tabs="sidebarHeaders" :active="activeSidebar" 
+                       @selected="selectSidebar"/>
+        </div>
+        <TabArea id="sidebar-area">
+          <div v-show="activeSidebar=='settings'">
+            Settings
+          </div>
+          <div v-show="activeSidebar=='saved'">
+            Load Dashboard 
+          </div>
+          <div v-show="activeSidebar=='logs'">
+            Logs
+          </div>
+          <LivePage v-show="activeSidebar=='live'" :client="client"/>
+        </TabArea>
+      </div>
 
       <TabArea id="content-area">
-        <TabPane :active="dashboard.id==activeDashboard"
-          v-for="dashboard in dashboards" :key="dashboard.id">
-
-          <Dashboard :name="dashboard.name" 
-                     :store-location="dashboard.location"
-                     :key="dashboard.id"/>
-
-        </TabPane>
+        <Dashboard :name="dashboard.name" 
+                   :store-location="dashboard.location"
+                   :key="dashboard.id"
+                   v-for="dashboard in dashboards"
+                   v-show="dashboard.id==activeDashboard"/>
       </TabArea>
     </div>
   </div>
 </template>
 
 <script>
-import TabSwitcher from './components/tabs/TabSwitcher.vue'
-import TabArea from './components/tabs/TabArea.vue'
-import TabPane from './components/tabs/TabPane.vue'
+import TabSwitcher from './components/TabSwitcher.vue'
+import TabArea from './components/TabArea.vue'
+import TabPane from './components/TabPane.vue'
+
+import LivePage from './sidebar/LivePage.vue'
 
 // interface components
-import Sidebar from './sidebar/Sidebar.vue'
 import Burger from './sidebar/Burger.vue'
 import Dashboard from './dashboard/Dashboard.vue'
 
-import {AppStore} from './app.js'
-// import {DummyApp} from './dummy.js'
+import uuidv4 from 'uuid/v4';
 
 export default {
   name: 'App',
-
   data () {
     return {
       // store: createDummy(),
 
-      sidebarShowing: false,
-      workspace: null,
+      sidebarShowing: true,
+      sidebarWidth: null,
+      sidebarHeaders: [{"icon":"wifi", "id": "live"}, 
+                       {"icon":"cogs", "id": "settings"}, 
+                       {"icon":"folder-open", "id": "saved"}, 
+                       {"icon":"edit", "id": "logs"}], 
+      activeSidebar: "live",
 
-
-      // open dashboards 
-
-      nextDashboardId: 0,
-      // all the open dashboards, each
-      // objects containing name, id, location (specifying load/store location)
       dashboards: [],
-      activeDashboard: 0, // currently active dashboard id
+      activeDashboard: null,
+      client: null
     }
   },
 
   components: {
     TabSwitcher, TabArea, TabPane,
+    LivePage,
 
-    Sidebar, Burger, Dashboard
+    Burger, Dashboard
   },
 
   methods: {
-    dashboardSelected(id) {
+    selectSidebar(id) {
+      this.activeSidebar = id;
+    },
+    selectDashboard(id) {
       this.activeDashboard = id
+    },
+    closeDashboard(id) {
     },
     createDashboard() {
       this.dashboards.push({name: 'Untitled', 
                 location: null,
-                id: this.nextDashboardId++})
+                id: uuidv4() });
     },
     toggleSidebar() {
       this.sidebarShowing = !this.sidebarShowing
+      if (!this.sidebarShowing) this.sidebarWidth = 0;
+      else this.$nextTick(() => { this.sidebarWidth = this.$refs['sidebar'].offsetWidth});
     }
   },
 
@@ -87,13 +109,15 @@ export default {
   },
 
   mounted() {
-    this.workspace = this.$refs['workspace']
-    setInterval(1000, function() { this.createDashboard('Untitled') })
+    this.createDashboard();
+    this.createDashboard();
+    //setInterval(() => { this.createDashboard('Untitled') }, 20000)
+    new ResizeObserver(() => {
+      if (this.$refs['sidebar']) 
+        this.sidebarWidth = this.$refs['sidebar'].offsetWidth;
+    }).observe(this.$refs['sidebar']);
   }
 
-}
-function createDummy() {
-  return new DummyApp();
 }
 </script>
 
@@ -144,21 +168,14 @@ html, body {
   height: 100%;
 }
 
-.sidebar-enter-active, .sidebar-leave-active {
-  transition: transform 0.25s ease-in-out;
-}
-
-.sidebar-enter, .sidebar-leave-to {
-  transform: translateX(-100%)
-}
-
-.sidebar-enter-to, .sidebar-leave {
-  transform: translateX(0%)
-}
-
-.sidebar  {
+#sidebar  {
   height: 100%;
+  background-color: #30363c;
+  transition: width 1s ease-in-out;
 } 
 
-</style>
+.hidden {
+  display: none;
+}
 
+</style>

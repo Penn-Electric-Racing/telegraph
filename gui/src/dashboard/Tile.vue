@@ -1,5 +1,8 @@
 <template>
   <div class="tile" v-if="loading">
+    <div class="tile-header">
+      Loading...
+    </div>
   </div>
   <div class="tile" v-else>
     <div class="tile-header">
@@ -41,6 +44,7 @@
 
     border: 0px;
     border-radius: 4px;
+    overflow: hidden;
   }
 
   .tile-header {
@@ -48,8 +52,8 @@
     padding-right: 20px;
     padding-bottom: 9px;
     padding-left: 20px;
-    overflow: hidden;
     white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
 
     border-bottom: 2px solid #1c8ed7;

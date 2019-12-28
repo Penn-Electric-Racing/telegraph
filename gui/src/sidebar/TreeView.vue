@@ -1,28 +1,10 @@
 <template>
-  <div v-if="isGroup" class="tree-view">
-    {{ node.getName() }}
-    <ul>
-      <li v-for="n in children" v-bind:key="n.getName()">
-        <TreeView v-bind:node="n"/>
-      </li>
-    </ul>
-  </div>
-
-  <div v-else-if="isAction">
-    {{ node.getName() }}
-  </div>
-
-  <div v-else-if="isVariable">
-    {{ node.getName() }}
-  </div>
-
-  <div v-else-if="isStream">
-    {{ node.getName() }}
+  <div class="root">
   </div>
 </template>
 
 <script>
-import { Node, Group, Variable, Action, Stream } from '../../../js/lib/tree.mjs'
+import { Tree } from '../../../js/lib/tree.mjs'
 
 export default {
   name: 'TreeView',
@@ -34,14 +16,10 @@ export default {
   },
 
   computed: {
-    isGroup: function () { return this.node instanceof Group },
-    isAction: function () { return this.node instanceof Action },
-    isVariable: function () { return this.node instanceof Variable },
-    isStream: function () { return this.node instanceof Stream }
   },
 
   props: {
-    node: Node
+    tree: Tree
   },
 
   created: function () {

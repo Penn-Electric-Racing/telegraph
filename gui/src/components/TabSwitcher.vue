@@ -1,9 +1,12 @@
 <template>
   <div class="tabSwitcher">
-    <div :class="{tabHeader:true, active:tab.id==activeId}"
+    <div :class="{tabHeader:true, active:tab.id==active}"
          v-for="tab in tabs" v-on:click.stop="selectTab(tab.id)" :key="tab.id">
       {{ tab.name }}
-      <span class="tabClose" v-on:click.stop="closeTab(tab.id)">
+
+      <font-awesome-icon :icon="tab.icon" class="icon" size="sm" v-if="tab.icon != undefined"/>
+
+      <span class="tabClose" v-on:click.stop="closeTab(tab.id)" v-if="closeable">
         <font-awesome-icon icon="times"/>
       </span>
     </div>
@@ -18,7 +21,8 @@
     name: 'TabSwitcher',
     props: {
       tabs: Array, // an array of strings
-      activeId: Number
+      active: String,
+      closeable: { type: Boolean, default: false }
     },
     methods: {
       selectTab(id) {
@@ -37,13 +41,14 @@
 <style scoped>
   .tabSwitcher {
     box-sizing: border-box;
+    background-color: #272c30;
 
     color: #5e6870;
     display: flex;
     justify-content: left;
   }
   .tabHeader {
-    background-color: #272c30;
+    width: 100%;
 
     color: #5e6870;
 
@@ -69,5 +74,8 @@
     color: #ffffff;
     background-color: #252a2e;
     border-bottom: 2px solid #1c8ed7;
+  }
+  .icon {
+    padding: 5px;
   }
 </style>
