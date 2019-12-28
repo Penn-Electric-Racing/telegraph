@@ -1,12 +1,13 @@
 {
-  "name": "per-com",
+  "name": "telegraph",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Daniel Pfrommer",
   "license": "MIT",
+  "type": "module",
   "files": [
-    "index.mjs",
-    "lib/*.mjs",
+    "index.js",
+    "lib/*.js",
     "bin/*"
   ],
   "scripts": {
@@ -16,7 +17,7 @@
   "dependencies": {
     "@grpc/proto-loader": "^0.5.1",
     "eslint": "^6.2.0",
-    "grpc": "^1.22.2",
+    "grpc": "1.24.1",
     "signals": "^1.0.0"
   }
 }

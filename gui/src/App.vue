@@ -73,6 +73,7 @@ export default {
 
       dashboards: [],
       activeDashboard: null,
+
       client: null
     }
   },
@@ -106,6 +107,7 @@ export default {
   },
 
   created() {
+    this.client = null;
   },
 
   mounted() {
