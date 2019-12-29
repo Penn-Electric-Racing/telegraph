@@ -12,7 +12,7 @@
                  :i="item.i"
                  dragAllowFrom=".tile-header"
                  :key="item.i">
-        <Tile :id="item.i" :storeLocation="storeLocation"/>
+        <Tile :id="item.i" :dashboardId="id"/>
       </grid-item>
     </grid-layout>
   </div>
@@ -28,22 +28,30 @@
       GridItem: VueGridLayout.GridItem},
     props: {
       name: String,
-      storeLocation: String
+      id: String
     },
     data: function() {
       return {
         layout: [], // stores widget id, x, y, width, height
-        nextID: 0
       };
     },
     created() {
-      this.layout.push({i: this.nextID++, x:0, y:0, w:2, h: 2})
-      this.layout.push({i: this.nextID++, x:4, y:0, w:2, h: 2})
+      this.layout.push({i: 0, x:0, y:0, w:2, h: 2})
+      this.layout.push({i: 1, x:4, y:0, w:2, h: 2})
     }
   }
 </script>
 
+<style>
+</style>
+
 <style scoped>
+  .dashboard >>> .vue-grid-placeholder {
+    background-color: #1C8ED733;
+    border: 2px solid #1C8ED7;
+    border-radius: 3px;
+    opacity: 1;
+  }
   .dashboard {
     width: 100%;
     height: 100%;

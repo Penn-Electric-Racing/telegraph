@@ -30,6 +30,7 @@ button:focus {
 .burger-button {
   padding-top: 2.5rem;
   margin-left: 0.2rem;
+  margin-right: 0.2rem;
   position: relative;
   height: 30px;
   width: 32px;

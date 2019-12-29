@@ -1,5 +1,5 @@
-import {Tree, Node, Group, Action, Variable, Type} from './tree.mjs'
-import {Context} from './context.mjs'
+import {Tree, Node, Group, Action, Variable, Type} from './tree.js'
+import {Context} from './context.js'
 
 import {default as grpc} from 'grpc'
 import {default as protoLoader} from '@grpc/proto-loader'

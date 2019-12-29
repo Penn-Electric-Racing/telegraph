@@ -1,0 +1,8 @@
+{
+  "name": "@telegraph/core",
+  "version": "1.0.0",
+  "description": "The telegraph js core shared between server and client",
+  "main": "index.js",
+  "author": "Daniel Pfrommer",
+  "license": "MIT"
+}

@@ -1,33 +1,61 @@
 <template>
-  <div class="root">
-    <NodeView :node="tree.getRoot()"/>
+  <div class="tree-view">
+    <TextField class="tree-search" placeholder="Enter Filter..."/>
+
+    <NodeView :node="tree.getRoot()" v-if="tree != undefined"/>
+
+    <div class="tree-placeholder" v-else>
+      <p>{{ placeholder }}</p>
+    </div>
+
   </div>
 </template>
 
 <script>
-import { Tree } from '../../../js/lib/tree.mjs'
+import { Tree } from '@telegraph/core'
+
+import TextField from '../components/TextField.vue';
 
 export default {
   name: 'TreeView',
+  components: { TextField },
   data () {
     return {
     }
   },
 
   props: {
-    tree: Tree
+    tree: Tree,
+    placeholder: { type: String, default: "Not Found" }
   },
 }
 </script>
 
-<style>
+<style scoped>
+.tree-placeholder {
+  border: 2px dashed #5E6870;
+  border-radius: 16px;
+  box-sizing: border-box;
 
-ul.tree-wiew > li{
-  list-style-type: none;
-  padding-bottom: 1rem;
-  color: #FFFFFF;
+  margin: 10px;
+  width: calc(100% - 20px);
+  height: calc(100% - 20px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  color: #5E687033;
+  font-size: 2rem;
 }
 
-
+.tree-placeholder p {
+  text-align: center;
+  margin: 5px;
+}
+.tree-view {
+  display: flex;
+  flex-direction: column;
+}
 
 </style>

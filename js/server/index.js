@@ -1,4 +1,4 @@
-import {Tree, Node, Group, Action, Variable, Type} from './tree.mjs'
+import {Tree, Node, Group, Action, Variable, Type} from './tree.js'
 
 import {default as grpc} from 'grpc'
 import {default as protoLoader} from '@grpc/proto-loader'

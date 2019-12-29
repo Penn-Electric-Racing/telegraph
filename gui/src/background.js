@@ -99,7 +99,11 @@ const resourcesPath = app.isPackaged ?
   path.resolve('resources');
 
 
-exec('./server', {
+var serverProcess = exec('./server', {
   cwd: resourcesPath,
   stdio: ["pipe", process.stdout, process.stderr]
 }, () => { console.log('Server exited') })
+
+process.on('exit', function() {
+  serverProcess.kill();
+});

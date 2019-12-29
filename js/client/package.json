@@ -1,0 +1,11 @@
+{
+  "name": "@telegraph/client",
+  "version": "1.0.0",
+  "description": "The telegraph client code (uses grpc-web)",
+  "main": "index.js",
+  "author": "Daniel Pfrommer",
+  "license": "MIT",
+  "dependencies": {
+      "@telegraph/core": "file:../core"
+  }
+}

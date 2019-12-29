@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { Node, Group, Variable, Action, Stream } from '../../../js/lib/tree.mjs'
+import { Node, Group, Variable, Action, Stream } from '@telegraph/core'
 
 export default {
   name: 'NodeView',
