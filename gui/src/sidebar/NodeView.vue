@@ -1,6 +1,8 @@
 <template>
-  <div v-if="isGroup" class="tree-view">
-    {{ node.getName() }}
+  <div v-if="isGroup" class="node-view">
+    <div class="node-header">
+      {{ node.getName() }}
+    </div>
     <ul>
       <li v-for="n in children" v-bind:key="n.getName()">
         <NodeView v-bind:node="n"/>

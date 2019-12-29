@@ -9,7 +9,7 @@
 
     <div id="header-container">
       <Burger :expanded="sidebarShowing" @toggle="toggleSidebar"
-         :style="{minWidth: sidebarWidth + 'px'}"></Burger>
+         :style="{minWidth: sidebarWidth > 0 ? sidebarWidth + 'px' : null}"></Burger>
 
       <TabSwitcher :tabs="tabs" 
                    :active="activeTab" 

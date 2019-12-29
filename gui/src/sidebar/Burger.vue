@@ -27,6 +27,9 @@ button {
 button:focus {
   outline: 0;
 }
+.burger {
+  display: inline-block;
+}
 .burger-button {
   padding-top: 2.5rem;
   margin-left: 0.2rem;

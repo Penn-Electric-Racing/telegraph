@@ -1,6 +1,6 @@
 <template>
   <div class="tree-view">
-    <TextField class="tree-search" placeholder="Enter Filter..."/>
+    <TextField class="tree-search" v-model="filter" placeholder="Enter Filter..."/>
 
     <NodeView :node="tree.getRoot()" v-if="tree != undefined"/>
 
@@ -21,6 +21,7 @@ export default {
   components: { TextField },
   data () {
     return {
+      filter: ''
     }
   },
 
