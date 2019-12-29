@@ -2,10 +2,12 @@
   "name": "@telegraph/client",
   "version": "1.0.0",
   "description": "The telegraph client code (uses grpc-web)",
-  "main": "index.js",
+  "main": "index.mjs",
   "author": "Daniel Pfrommer",
   "license": "MIT",
   "dependencies": {
-      "@telegraph/core": "file:../core"
+    "@grpc/grpc-js": "^0.6.15",
+    "@grpc/proto-loader": "^0.5.3",
+    "@telegraph/core": "file:../js-core"
   }
 }

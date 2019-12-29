@@ -1,8 +1,7 @@
-import {Tree, Node, Group, Action, Variable, Type} from './tree.js'
-import {Context} from './context.js'
+import {Context, Tree, Node, Group, Action, Variable, Type} from '@telegraph/core'
 
-import {default as grpc} from 'grpc'
-import {default as protoLoader} from '@grpc/proto-loader'
+import grpc from '@grpc/grpc-js'
+import protoLoader from '@grpc/proto-loader'
 import * as path  from 'path'
 
 import Signal from 'signals'
@@ -20,7 +19,8 @@ var packageDefinition = protoLoader.loadSync(
      longs: String,
      enums: String,
      defaults: true,
-     oneofs: true
+     oneofs: true,
+     includeDirs: ['..']
     });
 var protoDescriptor = grpc.loadPackageDefinition(packageDefinition);
 

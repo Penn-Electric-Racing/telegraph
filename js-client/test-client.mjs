@@ -1,8 +1,7 @@
-#!/usr/bin/env node --experimental-modules
+#!/usr/bin/env -S node --experimental-modules
 
-import {Client, ClientError} from '../lib/client.mjs'
-import {Tree, Node, Group, Variable, Action} from '../lib/tree.mjs'
-
+import {Client, ClientError} from './index.mjs'
+import {Tree, Node, Group, Variable, Action} from '@telegraph/core'
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

@@ -1,11 +1,12 @@
-#!/usr/bin/env node --experimental-modules
+#!/usr/bin/env -S node --experimental-modules
 
-import {Server} from '../lib/server.mjs'
-import {Context} from '../lib/context.mjs'
-import {Tree, Node, Group, Variable, Type, Action} from '../lib/tree.mjs'
+import {Server} from './index.mjs'
+import {Context, Tree, Node, Group, Variable, Type, Action} from '@telegraph/core'
 
 var server = new Server();
 server.start('0.0.0.0:8000');
+
+console.log('started!')
 
 var g = new Group("group", "The Group", "A Group", "testbar/group", 1);
 var a = new Group("a", "Group Two", "Another group", "g/test", 1);
