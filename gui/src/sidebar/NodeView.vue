@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { Node, Group, Variable, Action, Stream } from '@telegraph/core'
+import { Node, Group, Variable, Action, Stream } from 'telegraph'
 
 export default {
   name: 'NodeView',

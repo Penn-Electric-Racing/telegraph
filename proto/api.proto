@@ -1,74 +1,210 @@
 syntax = "proto3";
 
-import "proto/common.proto";
+import "common.proto";
 
 package telegraph.proto;
 
-// Represents a context
-service ContextManager {
-  // First returns deltas populating all available contexts
-  // then will send subsequent deltas if contexts get removed
-  rpc StreamContexts(Empty) returns (stream ContextDelta) {}
+// once created a context has a fixed tree which cannot be
+// changed! ever! additional devices and storage can be mounted
+// over the created context, but the context itself cannot change
 
-  // Will first send all of the deltas needed to build up
-  // a tree for a context
-  rpc StreamTree(TreeRequest) returns (stream TreeDelta) {}
-
-  // canceling the stream stops the subscription
-  rpc Subscribe(SubscribeRequest) returns (stream DataPoint) {}
-
-  // performs an action
-  rpc PerformAction(ActionRequest) returns (Value) {}
+message DeviceInfo {
+    string port = 1;
+    repeated int32 available_bauds = 2;
 }
 
-enum DeltaType {
-    ADDED = 0;
-    REMOVED = 1;
-
-    INITIAL = 2; // when initial types get sent over all are marked with initial
-    INITIALIZED = 3; // the last initial type gets the final delta type
+message ArchiveInfo {
+    // TODO: Add a created date in here
 }
 
-// ContextInfo contains all the information
-// about a specific context.
-message ContextInfo {
-  int32 id = 1;
-  string name = 2;
+message ContainerInfo {
 }
 
-// You get context delta events 
-// for when contexts have been added/removed
-message ContextDelta {
-    DeltaType type = 1;
-    ContextInfo context = 2;
+message Context {
+    string ns = 1;
+    string uuid = 2;
+    string name = 3;
+    oneof type {
+        DeviceInfo device = 4;
+        ArchiveInfo archive = 5;
+        ContainerInfo container = 6;
+    }
 }
 
-// Request the tree 
-// for a specific context ID
-message TreeRequest {
-    int32 tree_id = 1;
+message ContextSelector {
+    string ns = 1;
+    string uuid = 2;
 }
 
-message TreeDelta {
-    DeltaType type = 1;
-    Node node = 2;
+message Mount {
+    ContextSelector src = 1; // can be of device or archive
+    ContextSelector tgt = 2; // mount point (must exist)
 }
 
-// subscribe to a particular variable
-message SubscribeRequest {
-    int32 var_id = 1;
-    int32 min_interval = 2;
-    int64 max_interval = 3;
+message Task {
 }
 
-// for performing an action
-message ActionRequest {
-    int32 action_id = 2;
-    Value argument = 3;
+// querying
+
+message MountsQuery {
+    // will include any that match either of these
+    // and all if both unset
+    optional string src_uuid = 2;
+    optional string tgt_uuid = 3;
 }
 
-// Represents a datapoint
-message DataPoint {
-    uint64 timestamp = 1;
-    Value value = 2;
+message MountList {
+    repeated Mount mounts = 1;
+}
+
+message ContextsQuery {
+    // will include any that match either of these
+    // and all if both unset
+    optional string uuid = 1;
+    optional string name = 2;
+}
+
+message ContextList {
+    repeated Context contexts = 1;
+}
+
+message TasksQuery {
+}
+
+message TaskList {
+    repeated Task task = 1;
+}
+
+// creation options
+
+message CreateDevice {
+
+}
+
+message CreateArchive {
+    oneof src {
+        ContextSelector context = 1;
+        Node root = 2;
+    }
+}
+
+message CreateContainer {
+    oneof src {
+        ContextSelector context = 1;
+        Node root = 2;
+    }
+}
+
+message CreateContext {
+    string name = 1;
+    oneof type {
+        CreateDevice device = 2;
+        CreateArchive archive = 3;
+        CreateContainer container = 4;
+    }
+}
+
+message SpawnTask {
+
+}
+
+// tree operations
+
+message Subscription {
+    string uuid = 1; // context uuid
+    repeated string variable = 2; // variable path
+    int32 min_time = 3;
+    int32 max_time = 4;
+}
+
+message Call {
+    string uuid = 1; // context uuid
+    repeated string action = 2; // path to action
+    Value value = 3;
+}
+
+message DataWrite {
+    string uuid = 1; // context uuid
+    repeated string path = 2;
+    repeated Datapoint data = 3;
+}
+
+message DataQuery {
+    string uuid = 1;
+    repeated string path = 2;
+}
+
+message DataPacket {
+    repeated Datapoint data = 1;
+}
+
+message APIPacket {
+    int32 req_id = 1;
+    oneof payload {
+        int32 cancel = 2;
+        string error = 3;
+        Empty success = 4;
+
+        // every server/client can only have a
+        // single associated namespace uuid that cannot change
+        // this can also be used as a heartbeat packet since it has no sideaffects
+        Empty query_ns = 5;
+        string ns_uuid = 6;
+
+        // tree operations:
+
+        string fetch_tree = 7; // context uuid to fetch tree
+        Node fetched_root = 8; // response to a context fetch
+
+        Subscription change_sub = 9;
+        Value variable_update = 10; // keep receiving until the original request id is cancelled
+
+        Call call_action = 11;
+        Value call_return = 12;
+
+        // archive operations:
+        DataWrite data_write = 13;
+
+        DataQuery data_query = 14;
+        DataPacket archive_data = 15; // initial response to a query
+        DataPacket archive_update = 16; // any archive updates
+
+        // context queries:
+        ContextsQuery contexts_query = 17;
+
+        ContextList context_list = 18;
+        Context context_added = 19;
+        string context_removed = 20; // uuid of removed context
+
+        // mount queries:
+        MountsQuery mounts_query = 21; // queries mounts in foreign namespace, 
+                                     // but returned mounts can be cross-namespace
+                                     // (returns all with src or tgt in foreign namespace)
+        MountList mount_list = 22;
+        Mount mount_added = 23;
+        Mount mount_removed = 24;
+
+        // task queries:
+        TasksQuery tasks_query = 25; // find out what io tasks are running in the foreign namespace
+        TaskList task_list = 26;
+        Task task_added = 27;
+        string task_removed = 28; // task uuid
+
+        // create/destroy contexts/tasks/mounts
+
+        CreateContext create_context = 29; // target is created in foreign namespace
+                                           // but source may be in sender's namespace
+        Context context_created = 30;
+
+        string destroy_context = 31; // request that a context be destroyed
+                                     // if it is destroyed, the receiver will first unmount
+                                     // any mounts the context is involved in
+
+        SpawnTask spawn_task = 32; // creates a task (may span namespaces)
+        Task task_spawned = 33;
+        string stop_task = 34;
+
+        Mount mount = 35;
+        Mount unmount = 36;
+    }
 }

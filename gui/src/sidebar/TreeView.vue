@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { Tree } from '@telegraph/core'
+import { Tree } from 'telegraph'
 
 import TextField from '../components/TextField.vue';
 
