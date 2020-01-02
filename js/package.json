@@ -6,6 +6,7 @@
   "author": "Daniel Pfrommer",
   "license": "MIT",
   "dependencies": {
+    "high-res-timeout": "^1.0.8",
     "isomorphic-ws": "^4.0.1",
     "protobufjs": "^6.8.8",
     "signals": "^1.0.0",
@@ -16,6 +17,6 @@
     "generate": "node generate.mjs",
     "test-server": "node test-server.mjs",
     "test-client": "node test-client.mjs",
-    "postinstall": "node generate.js"
+    "postinstall": "node generate.mjs"
   }
 }

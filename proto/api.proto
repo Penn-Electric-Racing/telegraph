@@ -4,57 +4,50 @@ import "common.proto";
 
 package telegraph.proto;
 
-// once created a context has a fixed tree which cannot be
-// changed! ever! additional devices and storage can be mounted
-// over the created context, but the context itself cannot change
+// to be converted to json
+// for both the javascript/c++ server/client code
 
-message DeviceInfo {
-    string port = 1;
-    repeated int32 available_bauds = 2;
+message InfoEntry {
+    string key = 1;
+    Info value = 2;
 }
 
-message ArchiveInfo {
-    // TODO: Add a created date in here
-}
+// json-like structure, as a protobuffer
+// if all are unset, equivalent to null
+message Info {
+    optional float number = 2;
+    optional string str = 3;
 
-message ContainerInfo {
+    optional bool is_object = 4;
+    repeated InfoEntry object = 5;
+    optional bool is_array = 6;
+    repeated Info array = 7;
 }
 
 message Context {
     string ns = 1;
     string uuid = 2;
     string name = 3;
-    oneof type {
-        DeviceInfo device = 4;
-        ArchiveInfo archive = 5;
-        ContainerInfo container = 6;
-    }
-}
-
-message ContextSelector {
-    string ns = 1;
-    string uuid = 2;
+    string type = 4;
+    Info info = 5;
 }
 
 message Mount {
-    ContextSelector src = 1; // can be of device or archive
-    ContextSelector tgt = 2; // mount point (must exist)
+    Context src = 1; // can be of device or archive
+    Context tgt = 2; // mount point (must exist)
 }
 
 message Task {
+    string ns = 1;
+    string uuid = 2;
+    string type = 3;
+    Info info = 5;
 }
 
 // querying
-
 message MountsQuery {
-    // will include any that match either of these
-    // and all if both unset
-    optional string src_uuid = 2;
-    optional string tgt_uuid = 3;
-}
-
-message MountList {
-    repeated Mount mounts = 1;
+    optional string srcs_uuid = 2;
+    optional string tgts_uuid = 3;
 }
 
 message ContextsQuery {
@@ -62,64 +55,52 @@ message ContextsQuery {
     // and all if both unset
     optional string uuid = 1;
     optional string name = 2;
-}
-
-message ContextList {
-    repeated Context contexts = 1;
+    optional string type = 3;
 }
 
 message TasksQuery {
+    optional string type = 1;
 }
 
-message TaskList {
-    repeated Task task = 1;
+message MountList { repeated Mount mounts = 1; }
+message TaskList { repeated Task tasks = 1; }
+message ContextList { repeated Context contexts = 1; }
+
+message SourceEntry {
+    string key = 1;
+    oneof tree {
+        Context context = 3;
+        Node root = 4;
+    }
 }
 
 // creation options
-
-message CreateDevice {
-
-}
-
-message CreateArchive {
-    oneof src {
-        ContextSelector context = 1;
-        Node root = 2;
-    }
-}
-
-message CreateContainer {
-    oneof src {
-        ContextSelector context = 1;
-        Node root = 2;
-    }
-}
-
 message CreateContext {
     string name = 1;
-    oneof type {
-        CreateDevice device = 2;
-        CreateArchive archive = 3;
-        CreateContainer container = 4;
-    }
+    string type = 2;
+    Info info = 3;
+    repeated SourceEntry sources = 4;
 }
 
 message SpawnTask {
-
+    string name = 1;
+    string type = 2;
+    Info info = 3;
+    repeated SourceEntry sources = 4; 
 }
 
 // tree operations
 
 message Subscription {
     string uuid = 1; // context uuid
-    repeated string variable = 2; // variable path
+    repeated string variable = 2;
     int32 min_time = 3;
     int32 max_time = 4;
 }
 
 message Call {
     string uuid = 1; // context uuid
-    repeated string action = 2; // path to action
+    repeated string action = 2; // path to action, specified the children indices
     Value value = 3;
 }
 
@@ -139,9 +120,9 @@ message DataPacket {
 }
 
 message APIPacket {
-    int32 req_id = 1;
+    sint32 req_id = 1;
     oneof payload {
-        int32 cancel = 2;
+        Empty cancel = 2;
         string error = 3;
         Empty success = 4;
 
@@ -154,7 +135,7 @@ message APIPacket {
         // tree operations:
 
         string fetch_tree = 7; // context uuid to fetch tree
-        Node fetched_root = 8; // response to a context fetch
+        Node fetched_tree = 8; // response to a context fetch
 
         Subscription change_sub = 9;
         Value variable_update = 10; // keep receiving until the original request id is cancelled
@@ -178,8 +159,8 @@ message APIPacket {
 
         // mount queries:
         MountsQuery mounts_query = 21; // queries mounts in foreign namespace, 
-                                     // but returned mounts can be cross-namespace
-                                     // (returns all with src or tgt in foreign namespace)
+                                       // but returned mounts can be cross-namespace
+                                       // (returns all with src or tgt in foreign namespace)
         MountList mount_list = 22;
         Mount mount_added = 23;
         Mount mount_removed = 24;

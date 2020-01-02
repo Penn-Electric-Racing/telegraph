@@ -5,7 +5,7 @@ package telegraph.proto;
 message Empty {}
 
 message Group {
-    int32 id = 1;
+    optional int32 id = 1;
     string name = 2;
     string pretty = 3;
     string desc = 4;
@@ -17,7 +17,7 @@ message Group {
 }
 
 message Variable {
-    int32 id = 1;
+    optional int32 id = 1;
     string name = 3;
     string pretty = 4;
     string desc = 5;
@@ -26,7 +26,7 @@ message Variable {
 }
 
 message Action {
-    int32 id = 1;
+    optional int32 id = 1;
     string name = 3;
     string pretty = 4;
     string desc = 5;
@@ -36,7 +36,7 @@ message Action {
 }
 
 message Stream {
-    int32 id = 1;
+    optional int32 id = 1;
     string name = 3;
     string pretty = 4;
     string desc = 5;
