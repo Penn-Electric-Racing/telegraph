@@ -148,6 +148,20 @@ export class Node {
   getParent() { return this._parent; }
   getContext() { return this._ctx; }
 
+  path() {
+    if (this._parent) {
+      var p = this._parent.path();
+      p.push(this._name);
+      return p;
+    } else {
+      return [];
+    }
+  }
+
+  fromPath(path, idx=0) {
+    if (path.length <= idx) return this;
+  }
+
   writeData(data) {
     return this._ctx ? this._ctx.writeData(this, data) : null;
   }
@@ -170,7 +184,7 @@ export class Node {
 }
 
 export class Group extends Node {
-  constructor(name, pretty='', desc='', 
+  constructor(name, pretty='', desc='',
               schema='', version=1, children=[]) {
     super(name, pretty, desc);
     this._schema = schema;
@@ -184,7 +198,7 @@ export class Group extends Node {
     }
   }
 
-  setContext(ctx) { 
+  setContext(ctx) {
     this._ctx = ctx;
     for (let c of this._children) c.setContext(ctx);
   }
@@ -193,13 +207,22 @@ export class Group extends Node {
   getVersion() { return this._version; }
   getChildren() { return this._children; }
 
+  fromPath(path, idx=0) {
+    if (path.length <= idx) return this;
+    else {
+      var c = this._childrenMap.get(path[idx]);
+      if (!c) return null;
+      return c.fromPath(path, idx+1);
+    }
+  }
+
   child(child_name) {
     var c = this._childrenMap.get(child_name);
     return c;
   }
 
   clone() {
-    return new Group(this._name, this._pretty, this._desc, 
+    return new Group(this._name, this._pretty, this._desc,
                      this._schema, this._version,
                      this._children.map(c => c.clone()));
   }
@@ -212,17 +235,17 @@ export class Group extends Node {
 
   static unpack(proto) {
     var g = proto.group;
-    return new Group(g.name, g.pretty, g.desc, g.schema, g.version, 
+    return new Group(g.name, g.pretty, g.desc, g.schema, g.version,
                      g.children.map(n => Node.unpack(n)));
   }
 
   toString(indent = 0) {
-    let line = ' '.repeat(indent) + 
-        this.getName() + ' ' + this.getSchema() + '/' + this.getVersion() + 
+    let line = ' '.repeat(indent) +
+        this.getName() + ' ' + this.getSchema() + '/' + this.getVersion() +
           ' (' + this.getPretty() + '): ' + this.getDesc();
 
     // add the children
-    if (this._children.length > 0) 
+    if (this._children.length > 0)
       line += '\n' + this._children.map(c => c.toString(indent + 4)).join('\n');
 
     return line;
@@ -260,8 +283,8 @@ export class Variable extends Node {
   }
 
   toString(indent = 0) {
-    let line = ' '.repeat(indent) + 
-        this.getName() + ' ' + this.getType() + 
+    let line = ' '.repeat(indent) +
+        this.getName() + ' ' + this.getType() +
           ' (' + this.getPretty() + '): ' + this.getDesc();
     return line;
   }
@@ -282,7 +305,7 @@ export class Action extends Node {
   getRetType() { return this._retType; }
 
   clone() {
-    return new Action(this._name, this._pretty, this._desc, 
+    return new Action(this._name, this._pretty, this._desc,
                       this._argType, this._retType);
   }
 
@@ -293,12 +316,12 @@ export class Action extends Node {
 
   static unpack(proto) {
     var a = proto.action;
-    return new Action(a.name, a.pretty, a.desc, 
+    return new Action(a.name, a.pretty, a.desc,
       Type.unpack(a.argType), Type.unpack(a.retType));
   }
 
   toString(indent = 0) {
-    let line = ' '.repeat(indent) + 
+    let line = ' '.repeat(indent) +
           this.getName() + ' ' + this.getArgType() + ' -> ' + this.getRetType() +
           ' (' + this.getPretty() + '): ' + this.getDesc();
     return line;
@@ -323,7 +346,7 @@ export class Stream extends Node {
   }
 
   toString(indent = 0) {
-    let line = ' '.repeat(indent) + 
+    let line = ' '.repeat(indent) +
         this.getName() + ' stream (' + this.getPretty() + '): ' + this.getDesc();
     return line;
   }
@@ -349,7 +372,7 @@ export class DataFeed {
 }
 
 export class Context {
-  // none of these things can change 
+  // none of these things can change
   // during the lifetime of the context!
   constructor(ns, uuid, name, type, info) {
     this._ns = ns;
@@ -449,7 +472,7 @@ export var Info = {
       return {str:json, array: [], object: []};
     } else if (type == "object") {
       return { array: [], isObject: true,
-               object: Object.entries(json).map( 
+               object: Object.entries(json).map(
                  ([k,v]) => { return { key: k, value: Info.pack(v) } } ) };
     }
     return null;

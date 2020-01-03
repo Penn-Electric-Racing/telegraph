@@ -1,69 +1,37 @@
 <template>
-  <div v-if="isGroup" class="node-view">
-    <div class="node-header">
-      {{ node.getName() }}
-    </div>
-    <ul>
-      <li v-for="n in children" v-bind:key="n.getName()">
-        <NodeView v-bind:node="n"/>
-      </li>
-    </ul>
-  </div>
+  <Bubble v-if="isGroup" class="node-bubble" :draggable="true" :dragData="node"
+                          :header="node.getName()" :hasContent="true">
+    <template v-slot:content>
+      <NodeView v-for="n in children" :node="n" :key="n.getName()"/>
+    </template>
+  </Bubble>
 
-  <div v-else-if="isAction">
-    {{ node.getName() }}
-  </div>
-
-  <div v-else-if="isVariable">
-    {{ node.getName() }}
-  </div>
-
-  <div v-else-if="isStream">
-    {{ node.getName() }}
-  </div>
+  <Bubble v-else-if="isAction" class="node-bubble" :draggable="true" :dragData="node"
+                        :header="node.getName()"/>
+  <Bubble v-else-if="isVariable" class="node-bubble" :draggable="true" :dragData="node"
+                        :header="node.getName()"/>
+  <Bubble v-else-if="isStream" class="node-bubble" :draggable="true" :dragData="node"
+                        :header="node.getName()"/>
 </template>
 
 <script>
 import { Node, Group, Variable, Action, Stream } from 'telegraph'
+import Bubble from '../components/Bubble.vue'
 
 export default {
   name: 'NodeView',
-  data () {
-    return {
-      children: [],
-      bindings: []
+  components: { Bubble },
+  computed: {
+    isGroup() { return this.node instanceof Group },
+    isAction() { return this.node instanceof Action },
+    isVariable() { return this.node instanceof Variable },
+    isStream() { return this.node instanceof Stream },
+    children() {
+      return this.node.getChildren ? this.node.getChildren() : [];
     }
   },
-
-  computed: {
-    isGroup: function () { return this.node instanceof Group },
-    isAction: function () { return this.node instanceof Action },
-    isVariable: function () { return this.node instanceof Variable },
-    isStream: function () { return this.node instanceof Stream }
-  },
-
   props: {
     node: Node
-  },
-
-  created: function () {
-    if (this.node instanceof Group) {
-      this.children.push(...this.node.getChildren())
-
-      this.bindings.push(this.node.onAddChild.add(function (c) {
-        this.children.push(c)
-      }))
-
-      this.bindings.push(this.node.onRemoveChild.add(function (c) {
-        this.children.push(c)
-      }))
-    }
-  },
-
-  destroyed: function () {
-    for (let b of this.bindings) {
-      b.detach()
-    }
   }
 }
 </script>
@@ -75,7 +43,5 @@ ul.tree-wiew > li{
   padding-bottom: 1rem;
   color: #FFFFFF;
 }
-
-
 
 </style>

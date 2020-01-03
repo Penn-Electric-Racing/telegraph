@@ -2,8 +2,7 @@
   <div class="tree-view">
     <TextField class="tree-search" v-model="filter" placeholder="Enter Filter..."/>
 
-    <NodeView :node="tree.getRoot()" v-if="tree != undefined"/>
-
+    <NodeView class="tree" :node="tree" v-if="tree != undefined"/>
     <div class="tree-placeholder" v-else>
       <p>{{ placeholder }}</p>
     </div>
@@ -12,13 +11,14 @@
 </template>
 
 <script>
-import { Tree } from 'telegraph'
+import { Node } from 'telegraph'
 
+import NodeView from './NodeView.vue'
 import TextField from '../components/TextField.vue';
 
 export default {
   name: 'TreeView',
-  components: { TextField },
+  components: { NodeView, TextField },
   data () {
     return {
       filter: ''
@@ -26,7 +26,7 @@ export default {
   },
 
   props: {
-    tree: Tree,
+    tree: Node,
     placeholder: { type: String, default: "Not Found" }
   },
 }
@@ -50,6 +50,9 @@ export default {
   font-size: 2rem;
 }
 
+.tree {
+  margin: 5px;
+}
 .tree-placeholder p {
   text-align: center;
   margin: 5px;

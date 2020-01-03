@@ -98,7 +98,7 @@ const resourcesPath = app.isPackaged ?
   path.dirname(app.getAppPath()) :
   path.resolve('resources');
 
-
+/*
 var serverProcess = exec('./server', {
   cwd: resourcesPath,
   stdio: ["pipe", process.stdout, process.stderr]
@@ -107,3 +107,4 @@ var serverProcess = exec('./server', {
 process.on('exit', function() {
   serverProcess.kill();
 });
+*/

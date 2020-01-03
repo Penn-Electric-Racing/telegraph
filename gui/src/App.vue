@@ -33,13 +33,16 @@
           <div v-show="activeSidebar=='settings'">
             Settings
           </div>
-          <div v-show="activeSidebar=='saved'">
-            Load Dashboard 
+          <div v-show="activeSidebar=='dashboards'">
+            Saved Dashboards
           </div>
           <div v-show="activeSidebar=='logs'">
             Logs
           </div>
-          <LivePage v-show="activeSidebar=='live'" :client="client"/>
+          <div v-show="activeSidebar=='contexts'">
+            Contexts
+          </div>
+          <LivePage v-show="activeSidebar=='live'" :ns="remoteNamespace"/>
         </TabArea>
       </div>
 
@@ -47,6 +50,7 @@
         <component :is="tab.type" 
                    :name="tab.name" 
                    :id="tab.id"
+                   :ns="remoteNamespace"
                    :key="tab.id"
                    @renamed="(name) => {renameTab(tab.id, name)}"
                    v-for="tab in tabs"
@@ -71,6 +75,8 @@ import Dashboard from './dashboard/Dashboard.vue'
 
 import uuidv4 from 'uuid/v4';
 
+import { Relay, LocalNamespace } from 'telegraph'
+
 export default {
   name: 'App',
   data () {
@@ -79,8 +85,9 @@ export default {
       sidebarWidth: null,
       sidebarHeaders: [
                        {"icon":"wifi", "id": "live"}, 
+                       {"icon":"box", "id": "contexts"}, 
                        {"icon":"edit", "id": "logs"},
-                       {"icon":"folder-open", "id": "saved"}, 
+                       {"icon":"columns", "id": "dashboards"}, 
                        {"icon":"cogs", "id": "settings"}, 
                       ], 
       activeSidebar: "live",
@@ -94,7 +101,9 @@ export default {
       tabs: [],
       activeTab: null, // the active tab ID
 
-      client: null
+      remoteNamespace: null,
+      localNamespace: null,
+      relay: null
     }
   },
 
@@ -114,6 +123,10 @@ export default {
     },
     closeTab(id) {
       this.tabs.splice(this.tabs.findIndex((tab) => tab.id == id), 1);
+      if (this.activeTab == id) {
+        this.activeTab = null;
+        if (this.tabs.length > 0) this.activeTab = this.tabs[0].id;
+      }
     },
     renameTab(id, name) {
       for (let t of this.tabs) {
@@ -125,9 +138,11 @@ export default {
     },
 
     newTab() {
+      var id = uuidv4();
       this.tabs.push({type: 'Dashboard',
                       name: 'Untitled', 
-                      id: uuidv4() });
+                      id: id });
+      if (this.activeTab == null) this.activeTab = id;
     },
 
     toggleSidebar() {
@@ -138,7 +153,15 @@ export default {
   },
 
   created() {
-    this.client = null;
+    this.localNamespace = new LocalNamespace();
+    this.relay = new Relay(this.localNamespace);
+    (async () => {
+      this.remoteNamespace = await this.relay.connect('ws://localhost:8081');
+      console.log('Connected!');
+    })();
+
+    // create a new dashboard
+    this.newTab();
   },
 
   mounted() {
@@ -148,7 +171,6 @@ export default {
         this.sidebarWidth = this.$refs['sidebar'].offsetWidth;
     }).observe(this.$refs['sidebar']);
   }
-
 }
 </script>
 
@@ -218,6 +240,7 @@ html, body {
 
 #sidebar  {
   height: 100%;
+  width: 220px;
   background-color: #30363c;
 
   display: flex;

@@ -84,11 +84,15 @@ export class Adapter {
   constructor(changeSubscription, stopSubscription) {
     this._changeSubscription = changeSubscription;
     this._stopSubscription = stopSubscription;
+    this._subs = new Set();
   }
 
   update(val) {
   }
 
-  subscribe(minTime, maxTime) {
+  subscribe(minInterval, maxInterval) {
+    var s = {
+    };
+    this._subs.add(s);
   }
 }

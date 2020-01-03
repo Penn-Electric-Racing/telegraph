@@ -58,7 +58,7 @@ export class Relay {
     var client = new WebSocket(address);
 
     await new Promise(function(resolve, reject) {
-      client.on('open', resolve);
+      client.onopen = resolve;
     });
 
     var c = new Connection(client, true);
@@ -87,9 +87,11 @@ class Connection {
     this._listeners = new Map();
     this._handlers = new Map();
 
-    this._ws.on('message', (data, flags) => {
+    this._ws.binaryType = 'arraybuffer';
+    this._ws.onmessage = (msg, flags) => {
       (async () => {
-        var packet = APIPacket.decode(data);
+        var array = new Uint8Array(msg.data);
+        var packet = APIPacket.decode(array);
         var id = packet.reqId;
         var payloadType = packet.payload;
 
@@ -118,7 +120,7 @@ class Connection {
           if (l) this._listeners.set(id, l);
         }
       })();
-    });
+    };
   }
 
   setHandler(type, h) {
@@ -232,11 +234,11 @@ class RemoteHandler extends Namespace {
     return f;
   }
 
-  async fetch(uuid) {
+  async fetch(uuid, ctx=null) {
     var msg = { fetchTree: uuid };
     var res = await this._conn.req(msg);
     var root = Node.unpack(res.fetchedTree);
-    root.setContext(this);
+    root.setContext(ctx);
     return root;
   }
 
@@ -244,7 +246,8 @@ class RemoteHandler extends Namespace {
     var key = ctxUuid + '/' + path.join('/');
     var adapter = this._subAdapters.get(key);
     if (!adapter) {
-      adapter = new Adapter(() => {
+      var reqId;
+      adapter = new Adapter((minInterval, maxInterval) => {
       }, () => {
         // remove the adapter, cancel the last request
         this._subAdapters.remove(key);
@@ -262,7 +265,7 @@ class RemoteContext extends Context {
   }
 
   fetch() {
-    return this._ns.fetch(this.getUUID());
+    return this._ns.fetch(this.getUUID(), this);
   }
 
   mounts(as_src=true, as_tgt=true) {
