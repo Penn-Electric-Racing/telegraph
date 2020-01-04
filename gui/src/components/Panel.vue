@@ -49,7 +49,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     padding-top: 11px;
-    padding-right: 20px;
     padding-bottom: 9px;
     padding-left: 20px;
     width: 100%;
@@ -57,7 +56,8 @@
   .panel-close {
     position: relative;
     cursor: pointer;
-    width: 30px;
+    max-width: 20px;
+    min-width: 20px;
     height: 20px;
     margin-right: 11px;
     color: #1c8ed7;

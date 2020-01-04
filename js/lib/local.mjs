@@ -1,4 +1,4 @@
-import { Namespace, Feed, Context } from './namespace.mjs'
+import { Namespace, Node, Feed, Context } from './namespace.mjs'
 import uuidv4 from 'uuid'
 import Signal from 'signals'
 
@@ -88,10 +88,16 @@ export class LocalNamespace extends Namespace {
   async mounts({srcs=null, tgts=null}) {
   }
 
-  async fetch(uuid) {
+  async fetch(uuid, ignoredCtx=null) {
     var ctx = this._contexts.get(uuid);
     if (!ctx) return null;
     return await ctx.fetch();
+  }
+
+  async subscribe(ctxUuid, path, minInterval, maxInterval) {
+    var ctx = this._contexts.get(ctxUuid);
+    if (!ctx) return null;
+    return ctx.subscribe(path, minInterval, maxInterval);
   }
 }
 
@@ -124,7 +130,7 @@ export class LocalContext extends Context {
     var rl = (m) => { if (filter(m)) { filtered.remove(m); f.removed.dispatch(m); } };
     ns._mountAdded.add(al);
     ns._mountRemoved.add(rl);
-    f.closed.add(() => { ns.mountAdded.remove(al); ns.mountRemoved.remove(rl); });
+    f.closed.add(() => { ns._mountAdded.remove(al); ns._mountRemoved.remove(rl); });
   }
 
   async destroy() {
@@ -148,11 +154,19 @@ export class LocalDevice extends LocalContext {
   }
 
   async subscribe(variable, minInterval, maxInterval) {
-    if (this._publishers.has(variable)) return null;
+    if (!(variable instanceof Node)) {
+      variable = this._tree.fromPath(variable);
+    }
+    if (!variable) return null;
+    if (!this._publishers.has(variable)) return null;
     else return this._publishers.get(variable).subscribe(minInterval, maxInterval);
   }
 
   async call(action, arg) {
+    if (!(action instanceof Node)) {
+      action = this._tree.fromPath(action);
+    }
+    if (!action) return null;
     if (this._actions.has(action)) return await this._actions.get(action)(arg);
     else return undefined;
   }
@@ -161,14 +175,29 @@ export class LocalDevice extends LocalContext {
 export class LocalContainer extends LocalContext {
   constructor(ns, name, tree) {
     super(ns, name, 'container', {}, tree);
+    this._srcs = [];
   }
 
   mount(src) {
-    return this._ns._addMount(src, this);
+    if (this._ns._addMount(src, this)) {
+      this._srcs.push(src);
+      return true;
+    }
+    return false;
   }
 
   unmount(src) {
+    this._srcs.splice(this._srcs.indexOf(src), 1);
     return this._ns._removeMount(src, this);
+  }
+
+  async subscribe(variable, minInterval, maxInterval) {
+    if (variable instanceof Node) variable = variable.path();
+    for (let src of this._srcs) {
+      var sub = await src.subscribe(variable, minInterval, maxInterval);
+      if (sub) return sub;
+    }
+    return null;
   }
 }
 

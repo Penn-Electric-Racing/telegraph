@@ -74,20 +74,20 @@
 
 <style scoped>
   .bubble {
+    box-shadow: 0px 0px 10px #272c30;
     border-radius: 16px;
     overflow: hidden;
     touch-action: none;
-    margin: 1px;
+    margin: 10px 2px 10px 2px;
   }
   .bubble-header {
     background-color: #272c30;
     padding: 2px 0px 2px 16px;
   }
   .bubble-content {
-    padding: 5px;
+    padding: 3px;
     padding-left: 10px;
     background-color: #343C42;
-    box-shadow: inset 0px 0px 3px 3px #272c30;
     border-radius: 0px 0px 16px 16px;
   }
 </style>

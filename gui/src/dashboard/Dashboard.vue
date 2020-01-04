@@ -47,7 +47,7 @@
     },
     data: function() {
       return {
-        numCols: 12,
+        numCols: 30,
         rowHeight: 30,
         dragOver: false,
         layout: [], // stores widget id, x, y, width, height

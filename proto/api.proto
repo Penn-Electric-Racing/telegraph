@@ -94,8 +94,8 @@ message SpawnTask {
 message Subscription {
     string uuid = 1; // context uuid
     repeated string variable = 2;
-    int32 min_time = 3;
-    int32 max_time = 4;
+    float min_interval = 3;
+    float max_interval = 4;
 }
 
 message Call {
@@ -124,7 +124,7 @@ message APIPacket {
     oneof payload {
         Empty cancel = 2;
         string error = 3;
-        Empty success = 4;
+        bool success = 4;
 
         // every server/client can only have a
         // single associated namespace uuid that cannot change

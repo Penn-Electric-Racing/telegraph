@@ -149,16 +149,28 @@ export default {
       this.sidebarShowing = !this.sidebarShowing
       if (!this.sidebarShowing) this.sidebarWidth = 0;
       else this.$nextTick(() => { this.sidebarWidth = this.$refs['sidebar'].offsetWidth});
+    },
+
+    async connect(delay) {
+      while (!this.remoteNamespace) {
+        this.remoteNamespace = await this.relay.connect('ws://localhost:8081');
+        // wait 
+        if (!this.remoteNamespace) {
+          await new Promise((res, rej) => setTimeout(res, 2500));
+        }
+      }
+      this.remoteNamespace.destroyed.add(() => {
+        this.remoteNamespace = null;
+        this.connect();
+      });
+      return true;
     }
   },
 
   created() {
     this.localNamespace = new LocalNamespace();
     this.relay = new Relay(this.localNamespace);
-    (async () => {
-      this.remoteNamespace = await this.relay.connect('ws://localhost:8081');
-      console.log('Connected!');
-    })();
+    this.connect();
 
     // create a new dashboard
     this.newTab();
@@ -240,7 +252,8 @@ html, body {
 
 #sidebar  {
   height: 100%;
-  width: 220px;
+  min-width: 220px;
+  max-width: 220px;
   background-color: #30363c;
 
   display: flex;

@@ -4,7 +4,7 @@
     <div class="connection-selectors">
       <ComboBox :options="ports"/>
       <ComboBox :options="bauds"/>
-      <Button :text="connectionText"/>
+      <Button :text="connectionText" @click="this.liveContext ? disconnect() : connect()"/>
     </div>
   </div>
 </template>
@@ -14,7 +14,7 @@ import TreeView from './TreeView.vue'
 
 import ComboBox from '../components/ComboBox.vue'
 import Button from '../components/Button.vue'
-import { Namespace } from 'telegraph'
+import { ContextsRetriever, ContextRetriever, Namespace } from 'telegraph'
 
 export default {
   name: 'LivePage',
@@ -24,12 +24,13 @@ export default {
   },
   data: function() {
     return {
-      ports : ['/dev/ttyUSB0'],
+      ports : [],
       bauds : ['Auto', 10, 11, 123],
-      devicesFeed: null,
-      liveFeed: null,
-      liveContext: null,
-      liveTree: null
+      devices: [],
+      live: null,
+      liveTree: null,
+      devicesRetriever: null,
+      liveRetriever: null
     }
   },
   computed: {
@@ -38,58 +39,34 @@ export default {
     }
   },
   methods: {
-    async namespaceChanged(ns) {
-      if (this.liveFeed) {
-        this.liveFeed.close();
-        this.liveFeed = null;
-        this.liveContext = null;
-        this.liveTree = null;
-      }
-      if (this.devicesFeed) {
-        this.devicesFeed.close();
-        this.devciesFeed = null;
-
-        this.ports = [];
-        this.bauds = [];
-      }
-      if (ns) {
-        this.devicesFeed = await ns.contexts({by_type: 'device'});
-        for (let c of this.devicesFeed.all) {
-          this.ports.push(c.getInfo().port);
-        }
-        this.devicesFeed.added.add(
-          c => this.ports.push(c.getInfo().port));
-        this.devicesFeed.removed.add(
-          c => this.ports.splice(this.ports.indexOf(c.getInfo().port), 1));
-
-        // setup the query for the live feed
-        this.liveFeed = await ns.contexts({by_name:'live'});
-        // check if 
-        var ctxs = [...this.liveFeed.all];
-        if (ctxs.length > 0) {
-          this.liveContext = ctxs[0];
-          this.liveTree = await this.liveContext.fetch();
-        }
-        this.liveFeed.added.add((ctx) => { 
-          if (!this.liveContext) {
-            this.liveContext = ctx;
-            this.liveContext.fetch().then(tree => this.livetree = tree);
-          }
-        });
-        this.liveFeed.removed.add((ctx) => {
-          if (this.liveContext == ctx) {
-            this.liveContext = null;
-            this.liveTree = null;
-          }
-        });
-      }
+    async connect() {
+    },
+    async disconnect() {
+    },
+    namespaceChanged(ns) {
+      this.devicesRetriever.namespaceChanged(ns);
+      this.liveRetriever.namespaceChanged(ns);
     }
   },
   watch: {
-    ns(val) { this.namespaceChanged(val) },
+    ns(val) { 
+      this.namespaceChanged(val) 
+    },
+    live(ctx) {
+      if (ctx) ctx.fetch().then((t) => this.liveTree = t);
+      else this.liveTree = null;
+    }
   },
   created() {
+    this.devicesRetriever = new ContextsRetriever({by_type:'device'}, this.devices),
+    this.liveRetriever = new ContextRetriever({by_name:'live'}, (ctx) => this.live = ctx)
     this.namespaceChanged(this.ns);
+  },
+  destroyed() {
+    this.devicesRetriever.stop();
+    this.liveRetriever.stop();
+    this.devicesRetriever = null;
+    this.liveRetriever = null;
   }
 }
 </script>

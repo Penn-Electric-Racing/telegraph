@@ -77,19 +77,14 @@ message Type {
 
 message Value {
     oneof type {
-        bool b = 1;
-        uint32 en = 2;
-        uint32 ui8 = 3;
-        uint32 ui16 = 4;
-        uint32 ui32 = 5;
-        uint64 ui64 = 6;
-        int32 i8 = 7;
-        int32 i16 = 8;
-        int32 i32 = 9;
-        int64 i64 = 10;
-        float f = 11;
-        double d = 12;
-        Empty none = 13;
+        uint32 uint = 1;
+        uint64 ulong = 2;
+        sint32 sint = 3;
+        sint64 slong = 4;
+        bool   b = 5;
+        float  f = 6;
+        double d = 7;
+        Empty none = 8;
     }
 }
 

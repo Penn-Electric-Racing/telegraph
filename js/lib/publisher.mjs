@@ -1,5 +1,6 @@
-import HighResTimeout from 'high-res-timeout';
-import Signal from 'signal';
+import hrt from 'high-res-timeout';
+var HighResTimeout = hrt.default;
+import Signal from 'signals'
 
 class Subscriber {
   constructor(publisher, minInterval, maxInterval) {
@@ -29,15 +30,15 @@ class Subscriber {
       this._buffered = undefined; // no buffered value
 
       if (this.minInterval > 0) 
-        this._minTimer.restart()
+        this._minTimer.reset().start();
       if (this.maxInterval > 0)
-        this._maxTimer.restart()
+        this._maxTimer.reset().start();
     } else {
       this._buffered = val;
     }
   }
 
-  change(minInterval, maxInterval) {
+  async change(minInterval, maxInterval) {
     this.minInterval = minInterval;
     this.maxInterval = maxInterval;
 
@@ -51,8 +52,11 @@ class Subscriber {
     }
   }
 
-  cancel() {
-    this._publisher._subs.remove(this);
+  async cancel() {
+    this._minTimer.stop();
+    this._maxTimer.stop();
+    this._publisher._subs.delete(this);
+    this._publisher = null;
   }
 }
 
@@ -71,28 +75,12 @@ export class Publisher {
     }
   }
 
-  subscribe(cb, minInterval, maxInterval) {
-    return new Subscriber(this, minInterval, maxInterval);
-  }
-}
-
-// an adapter takes in a stream of updates
-// and only does min-time fitlering, not
-// republishing on max time
-export class Adapter {
-  // these may be asynchronous functions!
-  constructor(changeSubscription, stopSubscription) {
-    this._changeSubscription = changeSubscription;
-    this._stopSubscription = stopSubscription;
-    this._subs = new Set();
-  }
-
-  update(val) {
-  }
-
-  subscribe(minInterval, maxInterval) {
-    var s = {
-    };
+  async subscribe(minInterval, maxInterval) {
+    var s = new Subscriber(this, minInterval, maxInterval);
     this._subs.add(s);
+    setTimeout(() => {
+      if (this._lastVal != undefined) s._notify(this._lastVal)
+    }, 0);
+    return s;
   }
 }

@@ -22,50 +22,6 @@ export class Type {
     this._labels = labels;
   }
 
-  packValue(val) {
-    let type = null;
-    let value = null;
-    switch(this._class) {
-      case Type.NONE._class:   type = 'none'; value = {none:{}}; break;
-      case Type.BOOL._class:   type = 'bool'; value = {b : val}; break;
-      case Type.ENUM._class:   type = 'en'; value = {en: val}; break;
-      case Type.UINT8._class:  type = 'ui8'; value = { ui8: val}; break;
-      case Type.UINT16._class: type = 'ui16'; value = { ui16: val}; break;
-      case Type.UINT32._class: type = 'ui32'; value = { ui32: val}; break;
-      case Type.UINT64._class: type = 'ui64'; value = { ui64: val}; break;
-      case Type.INT8._class:   type = 'i8'; value = { i8: val}; break;
-      case Type.INT16._class:  type = 'i16'; value = { i16: val}; break;
-      case Type.INT32._class:  type = 'i32'; value = { i32: val}; break;
-      case Type.INT64._class:  type = 'i64'; value = { i64: val}; break;
-      case Type.FLOAT._class:  type = 'f'; value = { f: val}; break;
-      case Type.DOUBLE._class: type = 'd'; value = { d: val}; break;
-      default: type = 'empty'; value = {empty:{}}; break;
-    }
-    return { type: type, ...value };
-  }
-
-  unpackValue(proto) {
-    var x = undefined;
-    switch(this._ident) {
-      case Type.NONE._class:   x = null; break;
-      case Type.BOOL._class:   x = proto.b; break;
-      case Type.ENUM._class:   x = proto.en; break;
-      case Type.UINT8._class:  x = proto.ui8; break;
-      case Type.UINT16._class: x = proto.ui16; break;
-      case Type.UINT32._class: x = proto.ui32; break;
-      case Type.UINT64._class: x = proto.ui64; break;
-      case Type.INT8._class:   x = proto.i8; break;
-      case Type.INT16._class:  x = proto.i16; break;
-      case Type.INT32._class:  x = proto.i32; break;
-      case Type.INT64._class:  x = proto.i64; break;
-      case Type.FLOAT._class:  x = proto.f; break;
-      case Type.DOUBLE._class: x = proto.d; break;
-    }
-    if (x == undefined)
-      throw new Error("Received type does not match expected type");
-    return x;
-  }
-
   pack() {
     var type = null;
     switch (this._ident) {
@@ -173,6 +129,10 @@ export class Node {
   close() { return null; }
   pack() { return null; }
 
+  *nodes() {
+    yield this;
+  }
+
   static unpack(proto) {
     switch(proto.node) {
     case 'group': return Group.unpack(proto);
@@ -219,6 +179,15 @@ export class Group extends Node {
   child(child_name) {
     var c = this._childrenMap.get(child_name);
     return c;
+  }
+
+  *nodes() {
+    yield this;
+    for (let c of this._children) {
+      for (let n of c.nodes()) {
+        yield n;
+      }
+    }
   }
 
   clone() {
@@ -400,10 +369,9 @@ export class Context {
   async mount(src) { return false; }
   async unmount(src) { return false; }
 
-  // context actions
+  // context actions (params can either be path or node)
   async subscribe(variable, minInterval, maxInterval) { return null; }
   async call(action, arg) {}
-
   async writeData(node, data) { return false; }
   async queryData(node) {}
 
@@ -433,7 +401,7 @@ class Task {
 // a namespace can handle all of the operations
 // defined in api.proto. A relay then exposes a namespace.
 export class Namespace {
-  constructor(uuid) { this._uuid = uuid; }
+  constructor(uuid) { this._uuid = uuid; this.destroyed = new Signal() }
 
   getUUID() { return this._uuid; }
 
@@ -443,7 +411,7 @@ export class Namespace {
   async contexts({by_uuid=null, by_name=null, by_type=null}) { return null; }
   async tasks({type=null}) { return null; }
 
-  async fetch(ctxUuid) { return null; }
+  async fetch(ctxUuid, ctx=null) { return null; }
 
   async subscribe(ctxUuid, path, minInterval, maxInterval) { return null; }
   async call(ctxUuid, path, arg) { return null; }
@@ -492,5 +460,34 @@ export var Info = {
              protobuf.str != undefined ? protobuf.str :
              protobuf.object != undefined ? Info.unpack(protobuf.object) : null;
     }
+  }
+}
+
+export var Value = {
+  pack(val) {
+    var t = typeof val;
+    if (t == 'boolean') return { b: val };
+    if (t == 'number') {
+      if (Number.isInteger(val)) {
+        if (val > 0) return { uint: val };
+        else return { sint: val };
+      } else {
+        return { f: val };
+      }
+    }
+  },
+  unpack(proto) {
+    if (proto.b) return proto.b;
+    if (proto.en) return { en: val.enum };
+    if (proto.uint) return proto.uint;
+    if (proto.sint) return proto.sint;
+    if (proto.f) return proto.f;
+
+    // for things that don't fit into
+    // javascript numbers, just parse them for now
+    if (proto.ulong) return parseInt(proto.ulong);
+    if (proto.slong) return parseInt(proto.slong);
+    if (proto.d) return parseFloat(proto.d);
+    return null;
   }
 }
