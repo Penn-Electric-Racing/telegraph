@@ -25,7 +25,7 @@ import { Group, Variable, Type, Relay, LocalNamespace, Publisher,
 
   var val = 0;
   while (true) {
-    await new Promise((a,r) => setTimeout(a, 2));
+    await new Promise((a,r) => setTimeout(a, 50));
     pub.update(val++ % 255);
   }
 })();

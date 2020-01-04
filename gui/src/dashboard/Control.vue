@@ -30,7 +30,7 @@
       async subscribe() {
         if (this.sub) await this.sub.cancel();
         if (this.node) {
-          this.sub = await this.node.subscribe(200, 1000);
+          this.sub = await this.node.subscribe(20, 1000);
           if (this.sub) {
             this.sub.data.add(v => this.state = v);
           } else {

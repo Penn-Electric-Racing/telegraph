@@ -1,7 +1,7 @@
 <template>
   <Panel @close="$emit('delete')" :header="header">
     <div class="controls">
-      <Control :node="n" v-for="n in controllableNodes"/>
+      <Control :node="n" v-for="n in controllableNodes" :key="n.getName()"/>
     </div>
   </Panel>
 </template>
