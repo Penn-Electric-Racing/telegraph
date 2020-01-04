@@ -13,13 +13,13 @@ class Subscriber {
     this._minTimer = new HighResTimeout(minInterval);
     this._minTimer.on('complete', () => {
       if (this._buffered != undefined) this._notify(this._buffered); 
-    });
+    }, () => {});
 
     this._maxTimer = new HighResTimeout(maxInterval);
-    this._maxTimer.on('complete', () => {
+    this._maxTimer.then(() => {
       if (this._publisher._lastVal != undefined) 
         this._notify(this._publisher._lastVal);
-    });
+    }, () => {});
 
     this._buffered = undefined;
   }
@@ -53,7 +53,7 @@ class Subscriber {
   }
 
   async cancel() {
-    this._minTimer.stop();
+    //this._minTimer.stop();
     this._maxTimer.stop();
     this._publisher._subs.delete(this);
     this._publisher = null;
