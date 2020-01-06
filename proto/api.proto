@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "common.proto";
 
-package telegraph.proto;
+package telegraph.api;
 
 // to be converted to json
 // for both the javascript/c++ server/client code
@@ -15,12 +15,12 @@ message InfoEntry {
 // json-like structure, as a protobuffer
 // if all are unset, equivalent to null
 message Info {
-    optional float number = 2;
-    optional string str = 3;
+    float number = 2;
+    string str = 3;
 
-    optional bool is_object = 4;
+    bool is_object = 4;
     repeated InfoEntry object = 5;
-    optional bool is_array = 6;
+    bool is_array = 6;
     repeated Info array = 7;
 }
 
@@ -46,20 +46,20 @@ message Task {
 
 // querying
 message MountsQuery {
-    optional string srcs_uuid = 2;
-    optional string tgts_uuid = 3;
+    string srcs_uuid = 2;
+    string tgts_uuid = 3;
 }
 
 message ContextsQuery {
     // will include any that match either of these
     // and all if both unset
-    optional string uuid = 1;
-    optional string name = 2;
-    optional string type = 3;
+    string uuid = 1;
+    string name = 2;
+    string type = 3;
 }
 
 message TasksQuery {
-    optional string type = 1;
+    string type = 1;
 }
 
 message MountList { repeated Mount mounts = 1; }
@@ -119,7 +119,7 @@ message DataPacket {
     repeated Datapoint data = 1;
 }
 
-message APIPacket {
+message Packet {
     sint32 req_id = 1;
     oneof payload {
         Empty cancel = 2;

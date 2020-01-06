@@ -1,13 +1,11 @@
-#include <telegraph/generator.hpp>
-#include <telegraph/config.hpp>
-#include <telegraph/id_map.hpp>
-
-#include <telegraph/tree.hpp>
+#include <telegraph/gen/generator.hpp>
+#include <telegraph/gen/config.hpp>
 #include <telegraph/utils/hocon.hpp>
 
 #include <iostream>
 #include <vector>
 #include <filesystem>
+#include <fstream>
 
 using namespace telegraph;
 
@@ -19,36 +17,31 @@ int main(int argc, char** argv) {
 
     std::filesystem::path config_path = argv[1];
     std::string config_name = argv[2];
+
     std::filesystem::path output_path = argv[3];
+    std::string output_name = output_path.filename();
+    std::string output_dir = output_path.parent_path();
 
     hocon_parser parser;
     json j = parser.parse_file(config_path);
-    
-    tree* t = tree::unpack(j["root"]);
 
-    std::vector<config*> configs = config::unpack(t, j["configs"]); 
-
-    // find the config corresponding to the passed name
-    config* conf = nullptr;
-    for (config* c : configs) {
-        if (c->get_name() == config_name) {
-            conf = c;
-            break;
-        }
-    }
-
-    id_map ids;
-    ids.add_all(t);
+    // contains the tree
+    config c(j);
+    profile& p = c.get_profile(config_name);
+    const node* t = c.get_tree();
 
     // now create the generator
     generator g;
-    g.set_tree(output_path.filename(), t);
-    g.add_config(output_path.filename(), conf);
-    g.set_output_dir(output_path.parent_path());
-    g.run(ids);
+    g.set_namespace(output_name, "per");
+    g.set_tree(output_name, t);
+    g.add_profile(output_name, &p);
 
-    // delete the tree, will delete any children
-    for (config* c : configs) delete c;
-    delete t;
+    std::vector<generator::result> results = g.generate();
+    for (const generator::result& r : results) {
+        std::filesystem::path p = std::filesystem::path(output_dir) / r.filename;
+        std::ofstream out(p);
+        out << r.code << std::flush;
+        out.close();
+    }
 }
 

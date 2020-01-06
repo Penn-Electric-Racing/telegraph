@@ -2,49 +2,41 @@
 
 #include "config.hpp"
 
-#include "nodes/node.hpp"
-#include "nodes/group.hpp"
-#include "nodes/action.hpp"
-#include "nodes/variable.hpp"
-#include "nodes/stream.hpp"
+#include "../ns/nodes.hpp"
+#include "../utils/errors.hpp"
 
-#include "tree.hpp"
-
-#include "id_map.hpp"
-
-#include "errors.hpp"
-
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 
 namespace telegraph {
-
-    generator::generator() : namespace_(), targets_(),
-                             output_dir_() {}
+    generator::generator() : namespace_(), targets_() {}
 
     void
-    generator::set_tree(const std::string& filename,
-                            tree* t) {
+    generator::set_tree(const std::string& filename, const node* t) {
         targets_[filename].filename = filename;
         targets_[filename].tree_include.clear();
         targets_[filename].tree_target = t;
     }
 
-
     void
     generator::set_tree_include(const std::string& filename,
-                            const std::string& tree_include) {
+                                    const std::string& tree_include) {
         targets_[filename].filename = filename;
         targets_[filename].tree_include = tree_include;
         targets_[filename].tree_target = nullptr;
     }
 
     void
-    generator::add_config(const std::string& filename,
-                            config* conf) {
+    generator::set_namespace(const std::string& filename, const std::string& ns) {
         targets_[filename].filename = filename;
-        targets_[filename].configs.push_back(conf);
+        targets_[filename].name_space = ns;
+    }
+
+    void
+    generator::add_profile(const std::string& filename,
+                            const profile* p) {
+        targets_[filename].filename = filename;
+        targets_[filename].profiles.push_back(p);
     }
 
     // helper indent function
@@ -119,11 +111,10 @@ namespace telegraph {
     }
 
     std::string
-    generator::generate_types(const tree* t) const {
+    generator::generate_types(const node* tree) const {
         // all the type names we need to generate
         std::map<std::string, const type*> types;
-
-        for (const node* n : t->nodes()) {
+        for (const node* n : tree->nodes()) {
             // if n is a variable or an action add the types to a generation list
             if (dynamic_cast<const action*>(n) != nullptr) {
                 const action* a = dynamic_cast<const action*>(n);
@@ -139,7 +130,6 @@ namespace telegraph {
         }
 
         std::string code;
-
         // go through each of the types
         for (auto elem : types) {
             const type* tp = elem.second;
@@ -184,29 +174,26 @@ namespace telegraph {
     }
 
     std::string
-    generator::generate_node(const node* n, const id_map& ids,
+    generator::generate_node(const node* n,
                             const std::string& accessor_prefix,
-                            std::map<int32_t, std::string>* id_accessors) const {
-        int32_t id = ids[n];
-        if (id >= 0) (*id_accessors)[id] = accessor_prefix + n->get_name();
+                            std::map<int32_t, std::string>* id_accessors, 
+                            bool root) const {
+        auto& accessors = *id_accessors;
 
         std::string code;
-        if (dynamic_cast<const group*>(n) != nullptr) {
-            const group* g = dynamic_cast<const group*>(n);
-            
-            // change the accessor to have a .group behind it
-            if (id >= 0) (*id_accessors)[id] = accessor_prefix + n->get_name() + ".group";
+        if (const group* g = dynamic_cast<const group*>(n)) {
+            if (root) accessors[g->get_id()] = "root";
+            else accessors[g->get_id()] = accessor_prefix + n->get_name() + ".group";
 
-            code += "struct {\n";
-            std::string accessor = accessor_prefix + g->get_name() + ".";
+            std::string new_prefix = root ? "" : accessor_prefix + n->get_name() + ".";
+
+            std::string subcode = "";
             for (const node* c : *g) {
                 if (c->get_name() == "group") {
                     throw generate_error("group cannot have a child of name group");
                 }
-                std::string subcode = generate_node(c, ids, accessor, id_accessors);
-                indent(subcode, 4);
-                code += subcode;
-                code += "\n";
+                subcode += "\n";
+                subcode += generate_node(c, new_prefix, id_accessors, false);
             }
 
             std::string children_array;
@@ -214,40 +201,50 @@ namespace telegraph {
                 if (children_array.size() > 0) {
                     children_array += ", ";
                 }
-                if (dynamic_cast<const group*>(n)) {
-                    children_array += "&" + n->get_name() + ".group";
-                } else {
-                    children_array += "&" + n->get_name();
-                }
+                std::string accessor = accessors[n->get_id()].substr(new_prefix.length(), 
+                                                                     std::string::npos);
+                children_array += "&" + accessor;
             }
+            indent(children_array, 4);
+
             // add the group
-            code += "   telegen::group<" + std::to_string(g->num_children()) + "> group = " +
-                    "telegen::group<" + std::to_string(g->num_children()) + ">(" +
-                    std::to_string(id) + ", \"" + g->get_name() + "\", \"" + g->get_pretty() + 
-                    "\", \"" + g->get_desc() +"\", ";
-
-            // add the accessors for the group
-            code += "std::array<telegen::node*, " + std::to_string(g->num_children()) + ">";
-            code += "{";
-            code += children_array;
-            code += "});\n";
-
-            code += "} " + g->get_name() + ";";
-
+            subcode += "telegen::node* children_[" + std::to_string(g->num_children()) + "] = {\n";
+            subcode += children_array;
+            subcode += "};";
+            if (root) {
+                subcode += "telegen::group root = telegen::group(" +
+                                std::to_string(g->get_id()) + ", \"" + g->get_name() + 
+                                "\", \"" + g->get_pretty() +
+                                "\", \"" + g->get_desc() + 
+                                "\", &children_, " + std::to_string(g->num_children()) + ";";
+                code += subcode;
+            } else {
+                subcode += "telegen::group group = telegen::group(" +
+                                std::to_string(g->get_id()) + ", \"" + g->get_name() + 
+                                "\", \"" + g->get_pretty() +
+                                "\", \"" + g->get_desc() + 
+                                "\", &children_, " + std::to_string(g->num_children()) + ");";
+                indent(subcode, 4);
+                code += "struct {\n";
+                code += subcode;
+                code += "} " + g->get_name() + ";\n";
+            }
         } else if (dynamic_cast<const variable*>(n) != nullptr) {
             const variable* v = dynamic_cast<const variable*>(n);
             std::string type = "telegen::variable<" + type_to_cpp_ident(v->get_type()) + ">";
             code += type + " " + v->get_name() + " = " + 
-                           type + "(" + std::to_string(id) + ", \"" + v->get_name() + 
+                           type + "(" + std::to_string(v->get_id()) + ", \"" + v->get_name() + 
                            "\", \"" + v->get_pretty() + "\", \"" + v->get_desc() + "\",&" + 
                            type_to_name(v->get_type()) + "_type);";
         } else if (dynamic_cast<const action*>(n) != nullptr) {
             const action* a = dynamic_cast<const action*>(n);
             std::string type = "telegen::action<" + type_to_cpp_ident(a->get_ret_type()) + 
                                     "," + type_to_cpp_ident(a->get_arg_type()) + ">";
-            code += type + " " + a->get_name() + 
-                        " = " + type + "(" + std::to_string(id) + ", \"" + a->get_name() + "\", \"" +
-                                a->get_pretty() + "\", \"" + a->get_desc() + "\");";
+            code += type + " " + a->get_name() +  " = " + type + 
+                            "(" + std::to_string(a->get_id()) + ", \"" + 
+                                a->get_name() + "\", \"" +
+                                a->get_pretty() + "\", \"" + 
+                                a->get_desc() + "\");";
         } else if (dynamic_cast<const stream*>(n) != nullptr) {
             throw generate_error("stream class generation not yet implemented");
         }
@@ -255,60 +252,10 @@ namespace telegraph {
     }
 
     std::string
-    generator::generate_tree(const tree* t, const id_map& ids) const {
-        std::string code = "struct node_tree {\n";
-        code += "    const int version = " + std::to_string(t->get_root()->get_version()) + ";\n";
+    generator::generate_tree(const node* root) const {
         std::map<int32_t, std::string> id_accessors;
+        std::string subcode = generate_node(root, "", &id_accessors, true);
 
-        {
-            const group* root = t->get_root();
-            for (const node* n : *root) {
-                if (n->get_name() == "root" || 
-                        n->get_name() == "version" || 
-                        n->get_name() == "nodes") {
-                    throw generate_error("cannot have children named \"root,\""
-                                         " \"version,\" or \"nodes\" of root node");
-                }
-                std::string subcode = generate_node(n, ids, "", &id_accessors);
-                indent(subcode, 4);
-                code += subcode;
-                code += "\n";
-            }
-
-            int32_t root_id = ids[t->get_root()];
-            if (root_id < 0) throw generate_error("root node does not have an id");
-            code += "   telegen::group<" + std::to_string(root->num_children()) + "> root = " +
-                    "telegen::group<" + std::to_string(root->num_children()) + ">(" +
-                    std::to_string(root_id) + ", \"" + root->get_name() + "\", \"" + root->get_pretty() + 
-                    "\",\"" + root->get_desc() +"\", ";
-
-            // setup the accessors for the root group
-
-            id_accessors[root_id] = "root";
-
-            // go through every each of the children and add
-            // them to a group called "root"
-            std::string children_accessors;
-            for (const node* n : *root) {
-                if (children_accessors.size() > 0) {
-                    children_accessors += ", ";
-                }
-                if (dynamic_cast<const group*>(n)) {
-                    children_accessors += "&" + n->get_name() + ".group";
-                } else {
-                    children_accessors += "&" + n->get_name();
-                }
-            }
-
-
-            // add the accessors for the group
-            code += "std::array<telegen::node*, " + std::to_string(root->num_children()) + ">";
-            code += "{";
-            code += children_accessors;
-            code += "});\n";
-        }
-
-        // go through every node in the tree and generate the node lookup table
         std::string accessors;
         int32_t last_id = -1;
         for (auto it : id_accessors) {
@@ -324,32 +271,32 @@ namespace telegraph {
             accessors += " &" + it.second + ",";
             last_id = id;
         }
-        indent(accessors, 7);
+        indent(accessors, 4);
         if (accessors.length() > 0) accessors += "\n";
-        code += "    \n";
-        code += "    telegen::node* nodes[" + std::to_string(last_id + 1) + "] = {";
-        code += accessors; 
-        code += "    };\n";
-        code += "};";
+
+        subcode += "\n";
+        subcode += "telegen::node* nodes[" + std::to_string(last_id + 1) + "] = {";
+        subcode += accessors; 
+        subcode += "};\n";
+
+        std::string code = generate_types(root);
+        code += "\n\n struct node_tree {\n";
+        indent(subcode, 4);
+        code += subcode;
+        code += "\n};";
         return code;
     }
 
     std::string
-    generator::generate_config(const config* c, const tree *t, const id_map& ids) const {
-        std::string code =
-            "struct " + c->get_name() + "_config {\n";
-
-        for (const std::string& set_name : c->sets()) {
-            const std::unordered_set<node*>& set = c->get(set_name);
+    generator::generate_profile(const profile* p) const {
+        std::string code = "struct " + p->get_name() + "_config {\n";
+        for (const std::string& set_name : p->sets()) {
+            const std::unordered_set<node*>& set = p->get(set_name);
             std::unordered_set<uint32_t> id_set;
-            for (node* n : set) {
-                int32_t id = ids[n];
-                if (id >= 0) id_set.insert(id);
-            }
+            for (node* n : set) id_set.insert(n->get_id());
 
             std::string var = "const telegen::id_array<" + 
                 std::to_string(id_set.size()) + "> " + set_name + " = {";
-
             bool first = true;
             for (int32_t id : id_set) {
                 if (!first) var += ", ";
@@ -368,7 +315,7 @@ namespace telegraph {
     }
 
     generator::result
-    generator::generate_target(const generator::target& t, const id_map& ids) const {
+    generator::generate_target(const generator::target& t) const {
         std::string code =
             "#pragma once\n\n"
             "#include <telegen/id_array.hpp>\n"
@@ -394,7 +341,7 @@ namespace telegraph {
             if (namespace_.length() > 0) indent(types_code, 4);
             code += types_code;
 
-            std::string tree_code = generate_tree(t.tree_target, ids);
+            std::string tree_code = generate_tree(t.tree_target);
             if (namespace_.length() > 0) indent(tree_code, 4);
             code += tree_code;
             code += "\n\n";
@@ -402,7 +349,7 @@ namespace telegraph {
 
         // try and figure out what tree this is being built against
         // either by looking at the tree include or at the tree_target
-        tree* tr = nullptr;
+        const node* tr = nullptr;
         try {
             tr = t.tree_target ? t.tree_target :
                         targets_.at(t.tree_include).tree_target;
@@ -410,8 +357,8 @@ namespace telegraph {
 
         if (!tr) throw missing_error("Could not find tree");
 
-        for (config* c : t.configs) {
-            std::string subcode = generate_config(c, tr, ids);
+        for (const profile* p : t.profiles) {
+            std::string subcode = generate_profile(p);
             if (namespace_.length() > 0) indent(subcode, 4);
             code += subcode;
             code += "\n\n";
@@ -429,23 +376,11 @@ namespace telegraph {
     }
 
     std::vector<generator::result>
-    generator::generate(const id_map& ids) const {
+    generator::generate() const {
         std::vector<result> r;
         for (const auto& i : targets_) {
-            r.push_back(generate_target(i.second, ids));
+            r.push_back(generate_target(i.second));
         }
         return r;
-    }
-
-
-    void
-    generator::run(const id_map& ids) const {
-        std::vector<generator::result> results = generate(ids);
-        for (const generator::result& r : results) {
-            std::filesystem::path p = std::filesystem::path(output_dir_.length() > 0 ? output_dir_ : "./") / r.filename;
-            std::ofstream out(p);
-            out << r.code << std::flush;
-            out.close();
-        }
     }
 }

@@ -1,6 +1,6 @@
 #include "serial_port.hpp"
 
-#include "../errors.hpp"
+#include "errors.hpp"
 
 #include <cstdint>
 

@@ -4,7 +4,6 @@ cc_library(name="telegraph",
    includes=["proto", "lib"],
    copts=["-std=c++17"],
    deps=['//proto:cc_api', '//proto:cc_stream',
-         '@com_github_grpc_grpc//:grpc++',
          '@json//:json', '@hocon//:hocon']
 )
 
@@ -18,11 +17,11 @@ cc_binary(name="generate",
           copts=["-std=c++17"],
           deps=[":telegraph"], visibility=["//visibility:public"])
 
-cc_binary(name="server",
-          srcs=glob(["main/server/**/*.hpp", "main/server/**/*.cpp"]),
-          copts=["-std=c++17"],
-          deps=[":telegraph"],
-          visibility=["//visibility:public"])
+#cc_binary(name="server",
+#          srcs=glob(["main/server/**/*.hpp", "main/server/**/*.cpp"]),
+#          copts=["-std=c++17"],
+#          deps=[":telegraph"],
+#          visibility=["//visibility:public"])
 
 cc_library(name="generate_support",
           hdrs=glob(["gen/**/*.hpp"]),

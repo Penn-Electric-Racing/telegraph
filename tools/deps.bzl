@@ -1,7 +1,7 @@
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-def telegraph_deps_stage1():
+def telegraph_deps():
     http_archive(name='json',
         sha256='541c34438fd54182e9cdc68dd20c898d766713ad6d901fb2c6e28ff1f1e7c10d',
         urls=['https://github.com/nlohmann/json/releases/download/v3.7.0/include.zip'],
@@ -12,12 +12,23 @@ def telegraph_deps_stage1():
         urls=['https://github.com/Penn-Electric-Racing/hocon/archive/8865ebbe434bfe586385514204d7c51b4825785a.zip'],
         strip_prefix='hocon-8865ebbe434bfe586385514204d7c51b4825785a')
 
-    http_archive(name='com_github_grpc_grpc',
-                 sha256='e458d694273dd5f3b253b748771a0fa3ef1319aa2d59b65ac4938f51dda65434',
-                 urls=['https://github.com/grpc/grpc/archive/ab7e5e8dec5ab3cda56fca9f9c25eb7cbeb2a017.zip'],
-                 strip_prefix='grpc-ab7e5e8dec5ab3cda56fca9f9c25eb7cbeb2a017')
-
     http_archive(name="com_github_nanopb_nanopb",
                  sha256="c3f7f23836c7d2a12fcb6c7dadb42b1ba5201d9b4e67040c02b13462de6814b4",
                  urls=["https://github.com/Penn-Electric-Racing/nanopb/archive/master.zip"],
                  strip_prefix="nanopb-master")
+    http_archive(
+        name = "rules_cc",
+        sha256 = "35f2fb4ea0b3e61ad64a369de284e4fbbdcdba71836a5555abb5e194cf119509",
+        strip_prefix = "rules_cc-624b5d59dfb45672d4239422fa1e3de1822ee110",
+        urls = [
+                "https://mirror.bazel.build/github.com/bazelbuild/rules_cc/archive/624b5d59dfb45672d4239422fa1e3de1822ee110.tar.gz",
+                "https://github.com/bazelbuild/rules_cc/archive/624b5d59dfb45672d4239422fa1e3de1822ee110.tar.gz",
+                ],
+    )
+    http_archive(
+        name = "com_google_protobuf",
+        sha256="e4f8bedb19a93d0dccc359a126f51158282e0b24d92e0cad9c76a9699698268d",
+        strip_prefix = "protobuf-3.11.2",
+        urls=["https://github.com/protocolbuffers/protobuf/archive/v3.11.2.zip"]
+    )
+

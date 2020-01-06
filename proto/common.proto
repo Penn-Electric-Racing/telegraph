@@ -1,11 +1,11 @@
 syntax = "proto3";
 
-package telegraph.proto;
+package telegraph;
 
 message Empty {}
 
 message Group {
-    optional int32 id = 1;
+    int32 id = 1; // optional
     string name = 2;
     string pretty = 3;
     string desc = 4;
@@ -17,7 +17,7 @@ message Group {
 }
 
 message Variable {
-    optional int32 id = 1;
+    int32 id = 1; // optional
     string name = 3;
     string pretty = 4;
     string desc = 5;
@@ -26,7 +26,7 @@ message Variable {
 }
 
 message Action {
-    optional int32 id = 1;
+    int32 id = 1; // optional
     string name = 3;
     string pretty = 4;
     string desc = 5;
@@ -36,7 +36,7 @@ message Action {
 }
 
 message Stream {
-    optional int32 id = 1;
+    int32 id = 1; // optional
     string name = 3;
     string pretty = 4;
     string desc = 5;
@@ -70,21 +70,26 @@ message Type {
         FLOAT = 12;
         DOUBLE = 13;
     }
-    Class type =  1;
+    Class class =  1;
     string name = 2;
     repeated string labels = 3;
 }
 
 message Value {
     oneof type {
-        uint32 uint = 1;
-        uint64 ulong = 2;
-        sint32 sint = 3;
-        sint64 slong = 4;
-        bool   b = 5;
-        float  f = 6;
-        double d = 7;
-        Empty none = 8;
+        Empty none = 1;
+        int32 en = 2;
+        bool b = 3;
+        uint32 u8 = 4;
+        uint32 u16 = 5;
+        uint32 u32 = 6;
+        uint64 u64 = 7;
+        int32  i8 = 8;
+        int32  i16 = 9;
+        int32  i32 = 10;
+        int64  i64 = 11;
+        float  f = 12;
+        double d = 13;
     }
 }
 

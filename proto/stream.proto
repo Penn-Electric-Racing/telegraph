@@ -1,21 +1,17 @@
 syntax = "proto3";
 
-import "proto/common.proto";
+import "common.proto";
 
-package telegraph.proto;
+package telegraph.stream;
 
-message ChangeSubscription {
+message Subscription {
     int32 var_id = 1;
-    int32 min_interval = 2;
-    int32 max_interval = 3;
+    int32 min_interval = 2; // microseconds
+    int32 max_interval = 3; // microsconeds
 }
 
 message CancelSubscription {
     int32 var_id = 1;
-}
-
-message ChildrenRequest {
-    int32 parent_id = 1;
 }
 
 message Children {
@@ -23,16 +19,32 @@ message Children {
     repeated Node children = 2;
 }
 
-message StreamEvent {
-    oneof event {
-        ChildrenRequest children_request = 1;
-        Children children = 2;
+message Call {
+    int32 call_id = 1;
+    int32 var_id = 2;
+    Value arg = 3;
+}
 
-        ChangeSubscription change_subscription = 3;
-        CancelSubscription cancel_subscription = 4;
+message CallFinished {
+    int32 call_id = 1;
+    Value ret = 2;
+}
 
-        ActionCalled action_request = 5;
-        ActionCompleted action_completed = 6;
-        VariableUpdate update = 7;
+message Update {
+    int32 var_id = 1;
+    Value val = 2;
+}
+
+message Packet {
+    oneof payload {
+        Empty fetch_tree = 1;
+        Node tree = 2;
+
+        Subscription change_sub = 3;
+        int32 cancel_sub = 4;
+        Update update = 5;
+
+        Call call_action = 6;
+        CallFinished action_completed = 7;
     }
 }
