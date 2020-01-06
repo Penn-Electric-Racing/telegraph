@@ -3,7 +3,8 @@ var HighResTimeout = hrt.default;
 import Signal from 'signals';
 
 class AdapterSubscriber {
-  constructor(adapter, minInterval, maxInterval) {
+  constructor(adapter, type, minInterval, maxInterval) {
+    this.type = type;
     this.minInterval = minInterval;
     this.maxInterval = maxInterval;
     this.data = new Signal();
@@ -48,7 +49,8 @@ class AdapterSubscriber {
 // republishing on max time
 export class Adapter {
   // these may be asynchronous functions!
-  constructor(changeSubscription, stopSubscription) {
+  constructor(type, changeSubscription, stopSubscription) {
+    this._type = type;
     this._changeSubscription = changeSubscription;
     this._stopSubscription = stopSubscription;
     this._subs = new Set();
@@ -85,7 +87,7 @@ export class Adapter {
   }
 
   async subscribe(minInterval, maxInterval) {
-    var s = new AdapterSubscriber(this, minInterval, maxInterval);
+    var s = new AdapterSubscriber(this, this._type, minInterval, maxInterval);
     this._subs.add(s);
     // if the underlying subscription
     // is not changing, push a value to the subscription next tick

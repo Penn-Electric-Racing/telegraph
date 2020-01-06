@@ -21,7 +21,7 @@ message Children {
 
 message Call {
     int32 call_id = 1;
-    int32 var_id = 2;
+    int32 action_id = 2;
     Value arg = 3;
 }
 

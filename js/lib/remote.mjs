@@ -2,10 +2,10 @@ import WebSocket from 'isomorphic-ws'
 import Signal from 'signals'
 
 import api from '../api.js'
-let { APIPacket } = api.telegraph.proto;
+let { Packet } = api.telegraph.api;
 
-import { Info, Value, Node, 
-  Namespace, Feed, Context } from './namespace.mjs'
+import { Node, Value, Type } from './nodes.mjs'
+import { Info, Namespace, Feed, Context } from './namespace.mjs'
 import { Adapter } from './adapter.mjs'
 
 export class Relay {
@@ -104,7 +104,7 @@ class Connection {
     this._ws.onmessage = (msg, flags) => {
       (async () => {
         var array = new Uint8Array(msg.data);
-        var packet = APIPacket.decode(array);
+        var packet = Packet.decode(array);
         var id = packet.reqId;
         var payloadType = packet.payload;
 
@@ -113,7 +113,7 @@ class Connection {
           if (!this._ws) return;
           // from the response extract the key
           res.reqId = id;
-          var buffer = APIPacket.encode(res).finish();
+          var buffer = Packet.encode(res).finish();
           this._ws.send(buffer);
         }
 
@@ -150,7 +150,7 @@ class Connection {
       payload.reqId = this._countUp ? ++this._reqNum : --this._reqNum;
     }
 
-    var buffer = APIPacket.encode(payload).finish();
+    var buffer = Packet.encode(payload).finish();
     if (listener) this._listeners.set(payload.reqId, listener);
     this._ws.send(buffer);
   }
@@ -296,10 +296,11 @@ class RemoteHandler extends Namespace {
       var sub = m.changeSub;
       var s = await this._local.subscribe(sub.uuid, sub.variable, 
                                           sub.minInterval, sub.maxInterval);
-      respond({success: s != null});
+      var r = {subType: s != null ? s.type.pack() : Type.INVALID.pack() };
+      respond(r);
       if (s) {
         s.data.add(v => {
-          respond({variableUpdate: Value.pack(v)})
+          respond({variableUpdate: Value.pack(v, s.type)})
         });
         return (m, res, done) => {
           if (m.cancel) {
@@ -314,46 +315,49 @@ class RemoteHandler extends Namespace {
     var key = ctxUuid + '/' + path.join('/');
     var adapter = this._subAdapters.get(key);
     if (!adapter) {
-      var stream = null;
-      adapter = new Adapter(
+      // send the request
+      var req = { changeSub: {
+          uuid: ctxUuid, variable: path, 
+          minInterval: minInterval, maxInterval: maxInterval
+      }};
+
+      var stream = await this._conn.reqStream(req);
+      if (!stream.reply.subType) {
+        stream.done();
+        return null;
+      }
+      var type = Type.unpack(stream.reply.subType);
+      if (!type.valid) {
+        stream.done();
+        return null;
+      }
+
+      stream.update.add(m => {
+        if (m.variableUpdate) adapter.update(Value.unpack(m.variableUpdate))
+      });
+      this._subAdapters.set(key, adapter);
+
+      var firstSub = true;
+      adapter = new Adapter(type,
         async (minInterval, maxInterval) => {
-          if (stream) {
+          if (!firstSub) {
             var req = { changeSub: {
                 uuid: ctxUuid, variable: path, 
                 minInterval: minInterval, maxInterval: maxInterval
             }};
             stream.respond(req);
           }
+          firstSub = false;
         }, async () => {
           if (stream) {
             stream.done();
             stream.respond({cancel:{}});
+            stream = null;
             // remove the adapter
             this._subAdapters.delete(key);
           }
         }
       );
-
-      // first do the subscription,
-      // adapter will attempt to call the async changeSub function,
-      // which will do nothing
-      var sub = await adapter.subscribe(minInterval, maxInterval);
-
-      // send the request
-      var req = { changeSub: {
-          uuid: ctxUuid, variable: path, 
-          minInterval: minInterval, maxInterval: maxInterval
-      }};
-      stream = await this._conn.reqStream(req);
-      if (!stream.reply.success) {
-        stream.done();
-        return null;
-      }
-      stream.update.add(m => {
-        adapter.update(Value.unpack(m.variableUpdate))
-      });
-      this._subAdapters.set(key, adapter);
-      return sub;
     }
     return await adapter.subscribe(minInterval, maxInterval);
   }

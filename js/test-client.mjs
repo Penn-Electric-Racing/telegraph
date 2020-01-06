@@ -18,6 +18,6 @@ import protobuf from 'protobufjs'
   var ctxs = await fns.contexts({by_name:'live'});
   var ctx = [...ctxs.all][0];
   var tree = await ctx.fetch();
-  console.log(tree);
+  console.log(tree.toString());
 })()
 

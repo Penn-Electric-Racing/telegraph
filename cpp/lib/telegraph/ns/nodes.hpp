@@ -14,7 +14,8 @@ namespace telegraph {
     public:
         inline node(int32_t id, const std::string& name, 
              const std::string& pretty, const std::string& desc) : 
-                id_(id), name_(name), pretty_(pretty), desc_(desc) {}
+                id_(id), name_(name), pretty_(pretty), 
+                desc_(desc), parent_(nullptr) {}
         inline virtual ~node() {}
 
         constexpr const int32_t get_id() const { return id_; }

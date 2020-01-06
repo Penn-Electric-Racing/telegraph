@@ -1,4 +1,5 @@
-import { Namespace, Node, Feed, Context } from './namespace.mjs'
+import { Namespace, Feed, Context } from './namespace.mjs'
+import { Node } from './nodes.mjs'
 import uuidv4 from 'uuid'
 import Signal from 'signals'
 

@@ -138,54 +138,55 @@ message Packet {
         Node fetched_tree = 8; // response to a context fetch
 
         Subscription change_sub = 9;
-        Value variable_update = 10; // keep receiving until the original request id is cancelled
+        Type sub_type = 10;
+        Value variable_update = 11; // keep receiving until the original request id is cancelled
 
-        Call call_action = 11;
-        Value call_return = 12;
+        Call call_action = 12;
+        Value call_return = 13;
 
         // archive operations:
-        DataWrite data_write = 13;
+        DataWrite data_write = 14;
 
-        DataQuery data_query = 14;
-        DataPacket archive_data = 15; // initial response to a query
-        DataPacket archive_update = 16; // any archive updates
+        DataQuery data_query = 15;
+        DataPacket archive_data = 16; // initial response to a query
+        DataPacket archive_update = 17; // any archive updates
 
         // context queries:
-        ContextsQuery contexts_query = 17;
+        ContextsQuery contexts_query = 18;
 
-        ContextList context_list = 18;
-        Context context_added = 19;
-        string context_removed = 20; // uuid of removed context
+        ContextList context_list = 19;
+        Context context_added = 20;
+        string context_removed = 21; // uuid of removed context
 
         // mount queries:
-        MountsQuery mounts_query = 21; // queries mounts in foreign namespace, 
+        MountsQuery mounts_query = 22; // queries mounts in foreign namespace, 
                                        // but returned mounts can be cross-namespace
                                        // (returns all with src or tgt in foreign namespace)
-        MountList mount_list = 22;
-        Mount mount_added = 23;
-        Mount mount_removed = 24;
+        MountList mount_list = 23;
+        Mount mount_added = 24;
+        Mount mount_removed = 25;
 
         // task queries:
-        TasksQuery tasks_query = 25; // find out what io tasks are running in the foreign namespace
-        TaskList task_list = 26;
-        Task task_added = 27;
-        string task_removed = 28; // task uuid
+        TasksQuery tasks_query = 26; // find out what io tasks are running in the foreign namespace
+        TaskList task_list = 27;
+        Task task_added = 28;
+        string task_removed = 29; // task uuid
 
         // create/destroy contexts/tasks/mounts
 
-        CreateContext create_context = 29; // target is created in foreign namespace
+        CreateContext create_context = 30; // target is created in foreign namespace
                                            // but source may be in sender's namespace
-        Context context_created = 30;
+        Context context_created = 31;
 
-        string destroy_context = 31; // request that a context be destroyed
+        string destroy_context = 32; // request that a context be destroyed
                                      // if it is destroyed, the receiver will first unmount
                                      // any mounts the context is involved in
 
-        SpawnTask spawn_task = 32; // creates a task (may span namespaces)
-        Task task_spawned = 33;
-        string stop_task = 34;
+        SpawnTask spawn_task = 33; // creates a task (may span namespaces)
+        Task task_spawned = 34;
+        string stop_task = 35;
 
-        Mount mount = 35;
-        Mount unmount = 36;
+        Mount mount = 36;
+        Mount unmount = 37;
     }
 }

@@ -1,88 +1,5 @@
 import Signal from 'signals'
 
-export class Type {
-  static INVALID = new Type('invalid', [], 0);
-  static NONE = new Type('none', [], 1);
-  static ENUM = new Type('enum', [], 2);
-  static BOOL = new Type('bool', [], 3);
-  static UINT8 = new Type('uint8', [], 4);
-  static UINT16 = new Type('uint16', [], 5);
-  static UINT32 = new Type('uint32', [], 6);
-  static UINT64 = new Type('uint64', [], 7);
-  static INT8 = new Type('int8', [], 8);
-  static INT16 = new Type('int16', [], 9);
-  static INT32 = new Type('int32', [], 10);
-  static INT64 = new Type('int64', [], 11);
-  static FLOAT = new Type('float', [], 12);
-  static DOUBLE = new Type('double', [], 13);
-
-  constructor(name = null, labels = [], class_=2) {
-    this._class = class_;
-    this._name = name;
-    this._labels = labels;
-  }
-
-  pack() {
-    var type = null;
-    switch (this._ident) {
-      case Type.BOOL._class:   type = "BOOL"; break;
-      case Type.NONE._class:   type = "NONE"; break;
-      case Type.ENUM._class:   type = "ENUM"; break;
-      case Type.UINT8._class:  type = "UINT8"; break;
-      case Type.UINT16._class: type = "UINT16"; break;
-      case Type.UINT32._class: type = "UINT32"; break;
-      case Type.UINT64._class: type = "UINT64"; break;
-      case Type.INT8._class:   type = "INT8"; break;
-      case Type.INT16._class:  type = "INT16"; break;
-      case Type.INT32._class:  type = "INT32"; break;
-      case Type.INT64._class:  type = "INT64"; break;
-      case Type.FLOAT ._class: type = "FLOAT"; break;
-      case Type.DOUBLE._class: type = "DOUBLE"; break;
-      default: type = "INVALID"; break;
-    }
-    return {name: this._name, type: type, labels: this._labels};
-  }
-
-  static unpack(proto) {
-    switch(proto.type) {
-      case "INVALID": return Type.INVALID;
-      case "NONE": return Type.NONE;
-      case "BOOL": return Type.BOOL;
-      case "UINT8": return Type.UINT8;
-      case "UINT16": return Type.UINT16;
-      case "UINT32": return Type.UINT32;
-      case "UINT64": return Type.UINT64;
-      case "INT8": return Type.INT8;
-      case "INT16": return Type.INT16;
-      case "INT32": return Type.INT32;
-      case "INT64": return Type.INT64;
-      case "FLOAT": return Type.FLOAT;
-      case "DOUBLE": return Type.DOUBLE;
-      case "ENUM": return new Type(proto.name, proto.labels, Type.ENUM._class);
-      default: return Type.INVALID;
-    }
-  }
-
-  toString() {
-    switch (this._ident) {
-      case Type.BOOL._ident:   return 'bool';
-      case Type.NONE._ident:   return 'none';
-      case Type.ENUM._ident:   return 'enum ' + this._name + ' [' + this._labels.join(', ') + ']';
-      case Type.UINT8._ident:  return 'uint8';
-      case Type.UINT16._ident: return 'uint16';
-      case Type.UINT32._ident: return 'uint32';
-      case Type.UINT64._ident: return 'uint64';
-      case Type.INT8._ident:   return 'int8';
-      case Type.INT16._ident:  return 'int16';
-      case Type.INT32._ident:  return 'int32';
-      case Type.INT64._ident:  return 'int64';
-      case Type.FLOAT._ident:  return 'float';
-      case Type.DOUBLE._ident: return 'double';
-      default: return 'invalid';
-    }
-  }
-}
-
 export class Feed {
   constructor(set) {
     this.all = set;
@@ -152,7 +69,7 @@ export class Context {
   }
 }
 
-class Task {
+export class Task {
   constructor(type) {
     this._type = type;
   }
@@ -225,31 +142,3 @@ export var Info = {
   }
 }
 
-export var Value = {
-  pack(val) {
-    var t = typeof val;
-    if (t == 'boolean') return { b: val };
-    if (t == 'number') {
-      if (Number.isInteger(val)) {
-        if (val > 0) return { uint: val };
-        else return { sint: val };
-      } else {
-        return { f: val };
-      }
-    }
-  },
-  unpack(proto) {
-    if (proto.b) return proto.b;
-    if (proto.en) return { en: val.enum };
-    if (proto.uint) return proto.uint;
-    if (proto.sint) return proto.sint;
-    if (proto.f) return proto.f;
-
-    // for things that don't fit into
-    // javascript numbers, just parse them for now
-    if (proto.ulong) return parseInt(proto.ulong);
-    if (proto.slong) return parseInt(proto.slong);
-    if (proto.d) return parseFloat(proto.d);
-    return null;
-  }
-}

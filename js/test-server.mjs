@@ -13,7 +13,7 @@ import { Group, Variable, Type, Relay, LocalNamespace, Publisher,
   // create a new device in the namespace
   // with this tree
   var dev = new LocalDevice(ns, 'dev', '/dev/ttyUSB0', [100, 200], tree);
-  var pub = new Publisher();
+  var pub = new Publisher(Type.INT8);
   dev.addPublisher(var1, pub);
 
   // create a new container in the namespace

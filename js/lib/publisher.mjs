@@ -3,10 +3,11 @@ var HighResTimeout = hrt.default;
 import Signal from 'signals'
 
 class Subscriber {
-  constructor(publisher, minInterval, maxInterval) {
+  constructor(publisher, type, minInterval, maxInterval) {
     this.data = new Signal();
     this.minInterval = minInterval;
     this.maxInterval = maxInterval;
+    this.type = type;
 
     this._publisher = publisher;
 
@@ -63,9 +64,10 @@ class Subscriber {
 export class Publisher {
   // is source determines whether
   // to set timers for the max interval
-  constructor() {
+  constructor(type) {
     this._subs = new Set();
     this._lastVal = undefined;
+    this._type = type;
   }
 
   update(val) {
@@ -76,7 +78,7 @@ export class Publisher {
   }
 
   async subscribe(minInterval, maxInterval) {
-    var s = new Subscriber(this, minInterval, maxInterval);
+    var s = new Subscriber(this, this._type, minInterval, maxInterval);
     this._subs.add(s);
     setTimeout(() => {
       if (this._lastVal != undefined) s._notify(this._lastVal)
