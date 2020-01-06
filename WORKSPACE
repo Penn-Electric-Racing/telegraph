@@ -4,6 +4,5 @@ workspace(name="telegraph")
 # since load() cannot be used in a macro
 load("//tools:deps.bzl", "telegraph_deps")
 telegraph_deps()
-
-load("@com_google_protobuf//:protobuf_deps.bzl", "protobuf_deps")
-protobuf_deps()
+load("//tools:deps_extra.bzl", "telegraph_deps_extra")
+telegraph_deps_extra()

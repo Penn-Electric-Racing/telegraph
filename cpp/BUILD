@@ -4,7 +4,8 @@ cc_library(name="telegraph",
    includes=["proto", "lib"],
    copts=["-std=c++17"],
    deps=['//proto:cc_api', '//proto:cc_stream',
-         '@json//:json', '@hocon//:hocon']
+         '@json//:json', '@hocon//:hocon', '@websocketpp//:websocketpp',
+         '@boost//:asio', '@boost//:fiber']
 )
 
 cc_binary(name="test",

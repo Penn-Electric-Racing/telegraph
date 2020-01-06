@@ -12,6 +12,12 @@ def telegraph_deps():
         urls=['https://github.com/Penn-Electric-Racing/hocon/archive/8865ebbe434bfe586385514204d7c51b4825785a.zip'],
         strip_prefix='hocon-8865ebbe434bfe586385514204d7c51b4825785a')
 
+    http_archive(name='websocketpp',
+        sha256='80f49469f1702ec64ef5d8e71302f6b781dca8ae06e560421cab42961c8c7ce6',
+        urls=['https://github.com/zaphoyd/websocketpp/archive/0.8.1.zip'],
+        strip_prefix='websocketpp-0.8.1',
+        build_file='@telegraph//:external/websocketpp.BUILD')
+
     http_archive(name="com_github_nanopb_nanopb",
                  sha256="c3f7f23836c7d2a12fcb6c7dadb42b1ba5201d9b4e67040c02b13462de6814b4",
                  urls=["https://github.com/Penn-Electric-Racing/nanopb/archive/master.zip"],
@@ -31,4 +37,9 @@ def telegraph_deps():
         strip_prefix = "protobuf-3.11.2",
         urls=["https://github.com/protocolbuffers/protobuf/archive/v3.11.2.zip"]
     )
-
+    git_repository(
+        name = "com_github_nelhage_rules_boost",
+        commit = "9f9fb8b2f0213989247c9d5c0e814a8451d18d7f",
+        remote = "https://github.com/nelhage/rules_boost",
+        shallow_since = "1570056263 -0700",
+    )
