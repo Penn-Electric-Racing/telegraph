@@ -25,15 +25,14 @@ namespace telegraph {
         inline parse_error(const std::string& error) : std::logic_error(error) {}
     };
 
-    class tree_exists_error : public std::logic_error {
+    class remote_error : public std::logic_error {
     public:
-        inline tree_exists_error(const std::string& error) : std::logic_error(error) {}
+        inline remote_error(const std::string& error) : std::logic_error(error) {}
     };
 
-    class timeout: public std::exception {
+    class tree_error : public std::logic_error {
     public:
-        inline timeout() {}
-        const char* what() const noexcept override { return ""; }
+        inline tree_error(const std::string& error) : std::logic_error(error) {}
     };
 
     class io_error: public std::logic_error {

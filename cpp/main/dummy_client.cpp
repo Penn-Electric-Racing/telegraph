@@ -1,6 +1,6 @@
 #include <telegraph/utils/hocon.hpp>
 #include <telegraph/gen/config.hpp>
-#include <telegraph/ns/nodes.hpp>
+#include <telegraph/common/nodes.hpp>
 
 #include <iostream>
 #include <filesystem>

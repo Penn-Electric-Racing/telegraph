@@ -5,7 +5,7 @@ import api from '../api.js'
 let { Packet } = api.telegraph.api;
 
 import { Node, Value, Type } from './nodes.mjs'
-import { Info, Namespace, Feed, Context } from './namespace.mjs'
+import { Info, Namespace, Query, Context } from './namespace.mjs'
 import { Adapter } from './adapter.mjs'
 
 export class Relay {
@@ -268,7 +268,7 @@ class RemoteHandler extends Namespace {
     for (let c of ctxList.contextList.contexts) {
       contexts.add(RemoteContext.unpack(this._namespaces, c));
     }
-    var f = new Feed(contexts);
+    var f = new Query(contexts);
     f.closed.add(() => {
       // stop getting updates from
       // the stream

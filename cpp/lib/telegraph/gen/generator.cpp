@@ -2,7 +2,7 @@
 
 #include "config.hpp"
 
-#include "../ns/nodes.hpp"
+#include "../common/nodes.hpp"
 #include "../utils/errors.hpp"
 
 #include <fstream>

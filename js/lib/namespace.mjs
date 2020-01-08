@@ -1,6 +1,6 @@
 import Signal from 'signals'
 
-export class Feed {
+export class Query {
   constructor(set) {
     this.all = set;
     this.added = new Signal();
@@ -15,7 +15,7 @@ export class Feed {
 
 // a special kind of feed specially
 // for data queries
-export class DataFeed {
+export class DataQuery {
 
 }
 

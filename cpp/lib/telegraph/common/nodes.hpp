@@ -3,11 +3,19 @@
 
 #include "type.hpp"
 #include "value.hpp"
+#include "context.hpp"
+#include "data.hpp"
+#include "../utils/errors.hpp"
 
 #include "common.pb.h"
 
+#include <vector>
+#include <string>
+#include <unordered_map>
+
 namespace telegraph {
     class group;
+
     class node {
         friend std::ostream& operator<<(std::ostream&, const node&);
         friend group;
@@ -15,8 +23,13 @@ namespace telegraph {
         inline node(int32_t id, const std::string& name, 
              const std::string& pretty, const std::string& desc) : 
                 id_(id), name_(name), pretty_(pretty), 
-                desc_(desc), parent_(nullptr) {}
+                desc_(desc), ctx_(), parent_(nullptr) {}
         inline virtual ~node() {}
+
+        virtual inline void set_ctx(const context_ptr& ctx) { 
+            if (ctx_) throw tree_error("context already set");
+            ctx_ = ctx; 
+        }
 
         constexpr const int32_t get_id() const { return id_; }
         constexpr const std::string& get_name() const { return name_; }
@@ -66,6 +79,7 @@ namespace telegraph {
         std::string pretty_; // For display
         std::string desc_; // For documentation
 
+        context_ptr ctx_;
         group* parent_;
     };
 
@@ -95,6 +109,12 @@ namespace telegraph {
 
         const std::string& get_schema() const { return schema_; }
         int get_version() const { return version_; }
+
+        virtual inline void set_ctx(const context_ptr& ctx) { 
+            if (ctx_) throw tree_error("context already set");
+            ctx_ = ctx; 
+            for (node* n : children_) n->set_ctx(ctx);
+        }
 
         inline node* from_path(const std::vector<std::string>& p, 
                                 size_t idx=0) override {
@@ -162,6 +182,7 @@ namespace telegraph {
         std::vector<node*> children_;
         std::unordered_map<std::string, node*> children_map_;
     };
+
 
     class variable : public node {
     public:

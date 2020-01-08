@@ -176,17 +176,19 @@ message Packet {
 
         CreateContext create_context = 30; // target is created in foreign namespace
                                            // but source may be in sender's namespace
-        Context context_created = 31;
-
+        string context_created = 31; // uuid of created context
         string destroy_context = 32; // request that a context be destroyed
                                      // if it is destroyed, the receiver will first unmount
                                      // any mounts the context is involved in
 
-        SpawnTask spawn_task = 33; // creates a task (may span namespaces)
-        Task task_spawned = 34;
-        string stop_task = 35;
+        SpawnTask create_task = 33; // creates a task (may span namespaces)
+        string task_created = 34; // uuid of created task
 
-        Mount mount = 36;
-        Mount unmount = 37;
+        string start_task = 35;
+        string stop_task = 36;
+        string destroy_task = 37;
+
+        Mount mount = 38;
+        Mount unmount = 39;
     }
 }

@@ -2,7 +2,7 @@
 #define __TELEGRAPH_GENERATOR_HPP__
 
 #include "config.hpp"
-#include "../ns/nodes.hpp"
+#include "../common/nodes.hpp"
 
 #include <string>
 #include <unordered_map>

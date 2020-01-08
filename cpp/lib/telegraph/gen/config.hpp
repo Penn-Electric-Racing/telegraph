@@ -2,7 +2,7 @@
 #define __TELEGRAPH_CONFIGURATION_HPP__
 
 #include "../utils/json_fwd.hpp"
-#include "../ns/nodes.hpp"
+#include "../common/nodes.hpp"
 
 #include <unordered_set>
 #include <unordered_map>

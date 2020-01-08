@@ -1,4 +1,4 @@
-import { Namespace, Feed, Context } from './namespace.mjs'
+import { Namespace, Query, Context } from './namespace.mjs'
 import { Node } from './nodes.mjs'
 import uuidv4 from 'uuid'
 import Signal from 'signals'
@@ -77,7 +77,7 @@ export class LocalNamespace extends Namespace {
       if (filter(c)) filtered.add(c);
     }
 
-    var f = new Feed(filtered);
+    var f = new Query(filtered);
     var al = (c) => { if (filter(c)) { filtered.add(c); f.added.dispatch(c); } };
     var rl = (c) => { if (filter(c)) { filtered.remove(c); f.removed.dispatch(c); } };
     this._contextAdded.add(al);
@@ -126,7 +126,7 @@ export class LocalContext extends Context {
     if (srcMounts) srcMounts.forEach((m) => { if (filter(m)) initial.add(m) });
     if (tgtMounts) tgtMounts.forEach((m) => { if (filter(m)) initial.add(m) });
 
-    var f = new Feed(initial);
+    var f = new Query(initial);
     var al = (m) => { if (filter(m)) { filtered.add(m); f.added.dispatch(m); } };
     var rl = (m) => { if (filter(m)) { filtered.remove(m); f.removed.dispatch(m); } };
     ns._mountAdded.add(al);
