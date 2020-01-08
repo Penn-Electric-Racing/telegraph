@@ -1,13 +1,18 @@
 #ifndef __TELEGEN_INTERFACE_HPP__
 #define __TELEGEN_INTERFACE_HPP__
 
+#include <memory>
+#include <cstdint>
+
 namespace telegen {
-    class generic_variable;
-    class generic_subscription;
+    class variable_base;
+    class action_base;
+    class subscription;
 
     class interface {
     public:
-        virtual generic_subscription subscribe(generic_variable* v, 
+        virtual std::unique_ptr<subscription> 
+            subscribe(variable_base* v,  
                     int32_t min_interval, int32_t max_interval) = 0;
     };
 }

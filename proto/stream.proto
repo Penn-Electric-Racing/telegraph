@@ -36,7 +36,7 @@ message Update {
 }
 
 message Packet {
-    oneof payload {
+    oneof event {
         Empty fetch_tree = 1;
         Node tree = 2;
 

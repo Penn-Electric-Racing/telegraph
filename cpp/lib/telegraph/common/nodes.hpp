@@ -141,6 +141,27 @@ namespace telegraph {
             }
         }
 
+        inline std::vector<node*> nodes() override {
+            std::vector<node*> n; 
+            n.push_back(this);
+            for (node* c : children_) {
+                for (node* d : c->nodes()) {
+                    n.push_back(d);
+                }
+            }
+            return n;
+        }
+        inline std::vector<const node*> nodes() const override {
+            std::vector<const node*> n; 
+            n.push_back(this);
+            for (const node* c : children_) {
+                for (const node* d : c->nodes()) {
+                    n.push_back(d);
+                }
+            }
+            return n;
+        }
+
         inline node* operator[](size_t idx) override {
             if (idx >= children_.size()) return nullptr;
             return children_[idx];

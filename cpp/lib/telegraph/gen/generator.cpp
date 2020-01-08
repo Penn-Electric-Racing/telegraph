@@ -56,7 +56,7 @@ namespace telegraph {
 
     static std::string type_to_cpp_builtin(const type& t) {
         switch(t.get_class()) {
-            case type::NONE:    return "void";
+            case type::NONE:    return "none";
             case type::BOOL:    return "bool";
             case type::UINT8:   return "uint8_t";
             case type::UINT16:  return "uint16_t";
@@ -85,7 +85,7 @@ namespace telegraph {
     static std::string type_to_name(const type& t) {
         if (t.get_name().length() > 0) return t.get_name();
         switch(t.get_class()) {
-            case type::NONE:    return "void";
+            case type::NONE:    return "none";
             case type::BOOL:    return "bool";
             case type::UINT8:   return "uint8";
             case type::UINT16:  return "uint16";
@@ -208,34 +208,41 @@ namespace telegraph {
             indent(children_array, 4);
 
             // add the group
-            subcode += "telegen::node* children_[" + std::to_string(g->num_children()) + "] = {\n";
+            subcode += "\n\ntelegen::node* const children_[" + std::to_string(g->num_children()) + "] = {\n";
             subcode += children_array;
-            subcode += "};";
+            subcode += "\n};";
             if (root) {
-                subcode += "telegen::group root = telegen::group(" +
+                subcode += "\ntelegen::group root = telegen::group(" +
                                 std::to_string(g->get_id()) + ", \"" + g->get_name() + 
                                 "\", \"" + g->get_pretty() +
                                 "\", \"" + g->get_desc() + 
-                                "\", &children_, " + std::to_string(g->num_children()) + ";";
+                                "\", \"" + g->get_schema() +
+                                "\"," + std::to_string(g->get_version()) +
+                                ", children_, " + std::to_string(g->num_children()) + ");";
                 code += subcode;
+                code += "\n";
             } else {
-                subcode += "telegen::group group = telegen::group(" +
+                subcode += "\ntelegen::group group = telegen::group(" +
                                 std::to_string(g->get_id()) + ", \"" + g->get_name() + 
                                 "\", \"" + g->get_pretty() +
                                 "\", \"" + g->get_desc() + 
-                                "\", &children_, " + std::to_string(g->num_children()) + ");";
+                                "\", \"" + g->get_schema() +
+                                "\"," + std::to_string(g->get_version()) +
+                                ", children_, " + std::to_string(g->num_children()) + ");";
                 indent(subcode, 4);
-                code += "struct {\n";
+                code += "struct {";
                 code += subcode;
-                code += "} " + g->get_name() + ";\n";
+                code += "\n} " + g->get_name() + ";";
             }
         } else if (dynamic_cast<const variable*>(n) != nullptr) {
             const variable* v = dynamic_cast<const variable*>(n);
             std::string type = "telegen::variable<" + type_to_cpp_ident(v->get_type()) + ">";
             code += type + " " + v->get_name() + " = " + 
                            type + "(" + std::to_string(v->get_id()) + ", \"" + v->get_name() + 
-                           "\", \"" + v->get_pretty() + "\", \"" + v->get_desc() + "\",&" + 
+                           "\", \"" + v->get_pretty() + "\", \"" + v->get_desc() + "\", &" + 
                            type_to_name(v->get_type()) + "_type);";
+
+            accessors[v->get_id()] = accessor_prefix + v->get_name();
         } else if (dynamic_cast<const action*>(n) != nullptr) {
             const action* a = dynamic_cast<const action*>(n);
             std::string type = "telegen::action<" + type_to_cpp_ident(a->get_ret_type()) + 
@@ -244,7 +251,11 @@ namespace telegraph {
                             "(" + std::to_string(a->get_id()) + ", \"" + 
                                 a->get_name() + "\", \"" +
                                 a->get_pretty() + "\", \"" + 
-                                a->get_desc() + "\");";
+                                a->get_desc() + "\", &" + 
+                                type_to_name(a->get_arg_type()) + "_type, &" +
+                                type_to_name(a->get_ret_type()) + "_type);";
+
+            accessors[a->get_id()] = accessor_prefix + a->get_name();
         } else if (dynamic_cast<const stream*>(n) != nullptr) {
             throw generate_error("stream class generation not yet implemented");
         }
@@ -275,12 +286,11 @@ namespace telegraph {
         if (accessors.length() > 0) accessors += "\n";
 
         subcode += "\n";
-        subcode += "telegen::node* nodes[" + std::to_string(last_id + 1) + "] = {";
+        subcode += "telegen::node* const nodes[" + std::to_string(last_id + 1) + "] = {";
         subcode += accessors; 
         subcode += "};\n";
 
-        std::string code = generate_types(root);
-        code += "\n\n struct node_tree {\n";
+        std::string code = "struct node_tree {\n";
         indent(subcode, 4);
         code += subcode;
         code += "\n};";
@@ -320,10 +330,7 @@ namespace telegraph {
             "#pragma once\n\n"
             "#include <telegen/id_array.hpp>\n"
             "#include <telegen/type_info.hpp>\n"
-            "#include <telegen/group.hpp>\n"
-            "#include <telegen/variable.hpp>\n"
-            "#include <telegen/action.hpp>\n"
-            "#include <telegen/stream.hpp>\n\n";
+            "#include <telegen/nodes.hpp>\n";
 
         // now include the tree file we if want to do that
         if (t.tree_include.length() > 0) {

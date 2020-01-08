@@ -70,7 +70,7 @@ message Type {
         FLOAT = 12;
         DOUBLE = 13;
     }
-    Class class =  1;
+    Class type =  1;
     string name = 2;
     repeated string labels = 3;
 }

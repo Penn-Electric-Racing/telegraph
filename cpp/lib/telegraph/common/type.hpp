@@ -97,11 +97,11 @@ namespace telegraph {
                 *l->Add() = s;
             }
             tc->set_name(name_);
-            tc->set_class_(pack(class_));
+            tc->set_type(pack(class_));
         }
         inline static type unpack(const Type& tc) {
             type t;
-            t.set_class(unpack(tc.class_()));
+            t.set_class(unpack(tc.type()));
             t.set_name(tc.name());
             std::vector<std::string> labels;
             for (int i = 0; i < tc.labels_size(); i++) {
