@@ -6,66 +6,66 @@ namespace telegraph {
                         : namespace_(uuid()), relay_(r), conn_(conn) {
     }
 
-    std::unique_ptr<query<mount_info>>
-    remote_namespace::mounts(boost::asio::yield_context yield,
-            const uuid& srcs_of, const uuid& tgts_of) {
+    query_ptr<mount_info>
+    remote_namespace::mounts(io::yield_ctx&,
+            const uuid& srcs_of, const uuid& tgts_of) const {
         return nullptr;
     }
 
-    std::unique_ptr<query<context_ptr>>
-    remote_namespace::contexts(boost::asio::yield_context yield,
+    query_ptr<context_ptr>
+    remote_namespace::contexts(io::yield_ctx& yield,
             const uuid& by_uuid, const std::string& by_name, 
-            const std::string& by_type) {
+            const std::string& by_type) const {
         return nullptr;
     }
 
-    std::unique_ptr<query<task_ptr>>
-    remote_namespace::tasks(boost::asio::yield_context yield,
+    query_ptr<task_ptr>
+    remote_namespace::tasks(io::yield_ctx& yield,
             const uuid& by_uuid, const std::string& by_name,
-            const std::string& by_type) {
+            const std::string& by_type) const {
         return nullptr;
     }
 
     std::shared_ptr<node>
-    remote_namespace::fetch(boost::asio::yield_context yield,
-                        const uuid& uuid, context_ptr owner) {
+    remote_namespace::fetch(io::yield_ctx& yield,
+                        const uuid& uuid, context_ptr owner) const {
         return nullptr;
     }
 
     subscription_ptr
-    remote_namespace::subscribe(boost::asio::yield_context yield,
+    remote_namespace::subscribe(io::yield_ctx& yield,
             const uuid& ctx, const std::vector<std::string>& path,
             int32_t min_interval, int32_t max_interval) {
         return nullptr;
     }
 
     value
-    remote_namespace::call(boost::asio::yield_context yield,
+    remote_namespace::call(io::yield_ctx& yield,
             const uuid& ctx, const std::vector<std::string>& path, const value& arg) {
         return value();
     }
 
     std::unique_ptr<data_query>
-    remote_namespace::data(boost::asio::yield_context yield,
-            const uuid& ctx, const std::vector<std::string>& path) {
+    remote_namespace::data(io::yield_ctx& yield,
+            const uuid& ctx, const std::vector<std::string>& path) const {
         return nullptr;
     }
 
     bool
-    remote_namespace::write_data(boost::asio::yield_context yield,
+    remote_namespace::write_data(io::yield_ctx& yield,
             const uuid& ctx, const std::vector<std::string>& path,
             const std::vector<data_point>& data) {
         return false;
     }
 
     bool
-    remote_namespace::mount(boost::asio::yield_context yield,
+    remote_namespace::mount(io::yield_ctx& yield,
             const uuid& src, const uuid& tgt) {
         return false;
     }
 
     bool
-    remote_namespace::unmount(boost::asio::yield_context yield,
+    remote_namespace::unmount(io::yield_ctx& yield,
             const uuid& src, const uuid& tgt) {
         return false;
     }

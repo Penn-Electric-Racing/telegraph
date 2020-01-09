@@ -2,7 +2,6 @@
 #define __TELEGRAPH_REMOTE_NAMESPACE_HPP__
 
 #include "context.hpp"
-#include "connection.hpp"
 
 #include "../common/namespace.hpp"
 #include "../utils/uuid.hpp"
@@ -11,6 +10,7 @@
 
 namespace telegraph {
     class relay;
+    class connection;
 
     class remote_namespace : public namespace_ {
         friend class remote_context;
@@ -21,56 +21,62 @@ namespace telegraph {
 
         // sets up the uuid, handlers on the
         // connection
-        bool init(io::yield_context ctx);
+        bool init(io::yield_ctx& ctx);
 
-        std::unique_ptr<query<mount_info>> mounts(
-                boost::asio::yield_context,
-                const uuid& srcs_of=uuid(),
-                const uuid& tgts_of=uuid()) override;
+        query_ptr<mount_info> mounts(io::yield_ctx& yield,
+                                    const uuid& srcs_of=uuid(),
+                                    const uuid& tgts_of=uuid()) const override;
 
-        std::unique_ptr<query<context_ptr>> contexts(
-                boost::asio::yield_context,
-                const uuid& by_uuid=uuid(), const std::string& by_name=std::string(), 
-                const std::string& by_type=std::string()) override;
+        query_ptr<context_ptr> contexts(io::yield_ctx&, const uuid& by_uuid=uuid(), 
+                                            const std::string& by_name=std::string(), 
+                                            const std::string& by_type=std::string()) const override;
 
-        std::unique_ptr<query<task_ptr>> tasks(
-                boost::asio::yield_context, const uuid& by_uuid=uuid(),
-                const std::string& by_name=std::string(), 
-                const std::string& by_type=std::string()) override;
+        query_ptr<task_ptr> tasks(io::yield_ctx&,  const uuid& by_uuid=uuid(), 
+                                    const std::string& by_name=std::string(), 
+                                    const std::string& by_type=std::string()) const override;
 
-        // returns a tree allocated on the heap
-        // if context is supplied, the tree will 
-        // be bound to that context for calls
-        std::shared_ptr<node> fetch(
-                boost::asio::yield_context yield, const uuid& uuid, 
-                context_ptr owner=context_ptr()) override;
+        std::shared_ptr<node> fetch(io::yield_ctx& yield, const uuid& uuid, 
+                                    context_ptr owner=context_ptr()) const override;
 
-        subscription_ptr subscribe(
-                boost::asio::yield_context yield,
+        subscription_ptr subscribe(io::yield_ctx& yield,
                const uuid& ctx, const std::vector<std::string>& path,
                int32_t min_interval, int32_t max_interval) override;
 
-        value call(boost::asio::yield_context yield,
-                const uuid& ctx, const std::vector<std::string>& path,
-                const value& arg) override;
+        value call(io::yield_ctx& yield, const uuid& ctx, 
+                const std::vector<std::string>& path, const value& arg) override;
 
-        std::unique_ptr<data_query> data(
-                boost::asio::yield_context yield,
-                const uuid& ctx, const std::vector<std::string>& path) override;
+        inline std::unique_ptr<data_query> data(io::yield_ctx& yield,
+                const uuid& ctx, const std::vector<std::string>& path) const override;
 
-        bool write_data(boost::asio::yield_context yield,
-                    const uuid& ctx, const std::vector<std::string>& path,
+        bool write_data(io::yield_ctx& yield, const uuid& ctx, 
+                    const std::vector<std::string>& path,
                     const std::vector<data_point>& data) override;
 
-        bool mount(boost::asio::yield_context yield, 
-                    const uuid& src, const uuid& tgt) override;
-        bool unmount(boost::asio::yield_context yield,
-                    const uuid& src, const uuid& tgt) override;
-
+        bool mount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
+        bool unmount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
     private:
         relay* relay_;
         connection* conn_;
     };
+
+    /*
+    class remote_context : public context {
+    public:
+        remote_context(const std::string& name, const std::string& type, const info& i,
+                         const std::shared_ptr<node>& tree);
+        void reg(remote_namespace* ns);
+        bool destroy(io::yield_ctx& yield) override;
+
+        std::shared_ptr<node> fetch(io::yield_ctx&) override;
+
+        query_ptr<mount_info> mounts(io::yield_ctx& yield,
+                bool srcs=true, bool tgts=true) const override;
+
+        bool mount(io::yield_ctx&, const context_ptr& src) override;
+        bool unmount(io::yield_ctx&, const context_ptr& src) override;
+    private:
+        remote_namspace* ns_;
+    };*/
 }
 
 #endif

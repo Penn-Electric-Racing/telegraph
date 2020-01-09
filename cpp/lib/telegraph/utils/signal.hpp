@@ -44,6 +44,7 @@ namespace telegraph {
     /**
      * A threadsafe variant of signal<T>
      */
+    /*
     template<typename... T>
         class safe_signal {
             public:
@@ -52,9 +53,6 @@ namespace telegraph {
                     listeners_[(void*)&cb] = cb;
                     return *this;
                 }
-                /**
-                 * If you use this, the lambda will have to be removed using ptr
-                 */
                 safe_signal<T...>& add(void* ptr, const std::function<void(T...)> &cb) {
                     listeners_[ptr] = cb;
                     return *this;
@@ -79,6 +77,7 @@ namespace telegraph {
                 std::map<void*, std::function<void(T...)>> listeners_;
                 std::mutex mutex_;
         };
+    */
 }
 
 #endif

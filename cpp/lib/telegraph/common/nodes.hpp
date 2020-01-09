@@ -3,18 +3,21 @@
 
 #include "type.hpp"
 #include "value.hpp"
-#include "context.hpp"
 #include "data.hpp"
 #include "../utils/errors.hpp"
 
-#include "common.pb.h"
-
+#include <memory>
 #include <vector>
 #include <string>
 #include <unordered_map>
 
+#include "common.pb.h"
+
 namespace telegraph {
     class group;
+
+    class context;
+    using context_ptr = std::shared_ptr<context>;
 
     class node {
         friend std::ostream& operator<<(std::ostream&, const node&);

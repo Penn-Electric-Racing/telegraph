@@ -7,12 +7,14 @@
 #include "google/protobuf/io/coded_stream.h"
 #include "google/protobuf/io/zero_copy_stream_impl.h"
 
+#include <boost/asio/spawn.hpp>
 #include <boost/asio/read.hpp>
 #include <boost/asio/write.hpp>
 #include <boost/asio/serial_port.hpp>
 #include <boost/asio/streambuf.hpp>
 
 namespace telegraph {
+    /*
     class io_task : public local_task {
     public:
         io_task(const std::string& name,
@@ -66,17 +68,14 @@ namespace telegraph {
         std::unique_ptr<io::serial_port> port_;
         io::streambuf wbuf_;
         io::streambuf rbuf_;
-    };
+    };*/
 
-    local_device::local_device(const std::string& port, const std::vector<int>& bauds) 
-        : local_context(port, "device", info()),
-          port_(port),
-          bauds_(bauds), task_(nullptr) {}
+    local_device::local_device(const std::string& name, const std::shared_ptr<node>& tree,
+                                device_task* task) 
+        : local_context(name, "device", info(), tree), task_(nullptr) {}
 
-    std::shared_ptr<local_task>
-    local_device::create_task(const std::string& name, int baud) {
-        if (task_) throw "task already created! must destroy it first";
-        return std::make_shared<io_task>(name, 
-                std::static_pointer_cast<local_device>(shared_from_this()), baud);
+    device_task::device_task(const std::string& name, 
+            const std::string& port, int baud) 
+        : local_task(name, "device_worker", info()), dev_() {
     }
 }

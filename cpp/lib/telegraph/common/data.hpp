@@ -11,11 +11,6 @@ namespace telegraph {
     };
     using subscription_ptr = std::shared_ptr<subscription>;
 
-    template<typename T>
-        class query {
-        };
-
-
     class data_point {
     public:
         data_point(uint64_t time, value val) : time_(time), val_(val) {}
