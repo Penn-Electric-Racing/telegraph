@@ -82,6 +82,7 @@ namespace telegen {
 
         constexpr void reset() { breakpoint_ = 0; }
         constexpr void finish() { breakpoint_ = -1; }
+        constexpr bool is_finished() { return breakpoint_ < 0; }
 
         // will run a coroutine until it is done
         inline void run() {
@@ -93,12 +94,6 @@ namespace telegen {
         virtual void resume() = 0;
     private:
         int breakpoint_;
-    };
-
-    struct co_join : public coroutine {
-    public:
-        void resume() {
-        }
     };
 }
 

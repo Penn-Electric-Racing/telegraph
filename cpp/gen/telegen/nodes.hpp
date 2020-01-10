@@ -2,7 +2,7 @@
 #define __TELEGEN_NODES_HPP__
 
 #include "util.hpp"
-#include "interface.hpp"
+#include "source.hpp"
 #include "types.hpp"
 
 #include "common.nanopb.h"
@@ -22,7 +22,7 @@ namespace telegen {
     public:
         constexpr node(int32_t id, const char* name, 
                 const char* pretty, const char* desc) : 
-            id_(id), name_(name), 
+            owner_(nullptr), id_(id), name_(name), 
             pretty_(pretty), desc_(desc) {}
 
         constexpr int32_t get_id() const { return id_; }
@@ -34,7 +34,12 @@ namespace telegen {
 
         // encode this node into a node protobuffer descriptor
         virtual void pack(telegraph_Node* n) const = 0;
-    private:
+
+        constexpr void set_owner(source* i) {
+            if (!owner_) owner_ = i;
+        }
+    protected:
+        source* owner_;
         const int32_t id_;
         const char* const name_;
         const char* const pretty_;
@@ -110,13 +115,7 @@ namespace telegen {
     public:
         constexpr action_base(int32_t id, const char* name, const char* pretty,
                               const char* desc) 
-            : node(id, name, pretty, desc), owner_(nullptr) {}
-
-        inline void set_owner(interface* i) {
-            if (!owner_) owner_ = i;
-        }
-    protected:
-        interface* owner_;
+            : node(id, name, pretty, desc) {}
     };
 
     template<typename Arg, typename Ret>
@@ -172,13 +171,8 @@ namespace telegen {
             cb_ = cb;
         }
     protected:
-        inline void update(const value& v) {
-            cb_(v);
-        }
-
         int32_t min_interval_;
         int32_t max_interval_;
-    private:
         std::function<void(const value&)> cb_;
     };
     using subscription_ptr = std::unique_ptr<subscription>;
@@ -201,19 +195,14 @@ namespace telegen {
     class variable_base : public node {
     public:
         constexpr variable_base(int32_t id, const char* name, const char* pretty,
-                                const char* desc) : node(id, name, pretty, desc), 
-                                owner_(nullptr) {}
+                                const char* desc) : node(id, name, pretty, desc) {}
+                                
 
-        inline void set_owner(interface* i) {
-            if (!owner_) owner_ = i;
-        }
 
         inline promise<subscription_ptr> subscribe(int32_t min_interval, int32_t max_interval) {
             if (!owner_) return promise<subscription_ptr>(promise_status::Rejected);
             return owner_->subscribe(this, min_interval, max_interval);
         }
-    protected:
-        interface* owner_;
     };
 
     // extending subscription classes cannot add

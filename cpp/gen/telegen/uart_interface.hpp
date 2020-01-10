@@ -1,6 +1,6 @@
 #pragma once
 
-#include "interface.hpp"
+#include "source.hpp"
 #include "nodes.hpp"
 #include "value.hpp"
 #include "promise.hpp"
@@ -22,7 +22,7 @@ namespace telegen {
      * (and so maximize performance by templating it)
      */
     template<typename Uart>
-        class uart_interface : public interface, public coroutine {
+        class uart_interface : public source, public coroutine {
         private:
             static uint32_t fletcher32(const uint16_t *data, size_t len) {
                 uint32_t c0, c1;

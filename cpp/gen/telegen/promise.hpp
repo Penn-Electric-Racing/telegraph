@@ -4,6 +4,7 @@
 #include <functional>
 #include <tuple>
 #include "util.hpp"
+#include "coroutine.hpp"
 
 namespace telegen {
     enum class promise_status { Waiting, Resolved, Rejected };
@@ -67,7 +68,7 @@ namespace telegen {
 
 
     template<typename... T>
-    class promise {
+    class promise : public coroutine {
     public:
         promise(promise_status s) : status_(s),
                                 val_(), obj_(nullptr) {}
