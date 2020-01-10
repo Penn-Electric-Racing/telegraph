@@ -135,7 +135,7 @@ namespace telegraph {
             const type* tp = elem.second;
             if (tp->get_class() == type::ENUM) {
                 // generate an enum
-                code += "enum class " + tp->get_name() + " {\n";
+                code += "enum class " + tp->get_name() + " : uint8_t {\n";
                 std::string subcode = "";
                 // go through each of the labels and convert to cpp style, joining by commas
                 bool first = true;
@@ -286,7 +286,8 @@ namespace telegraph {
         if (accessors.length() > 0) accessors += "\n";
 
         subcode += "\n";
-        subcode += "telegen::node* const nodes[" + std::to_string(last_id + 1) + "] = {";
+        subcode += "size_t table_size = " + std::to_string(last_id + 1) + ";\n";
+        subcode += "telegen::node* const node_table[" + std::to_string(last_id + 1) + "] = {";
         subcode += accessors; 
         subcode += "};\n";
 
@@ -328,8 +329,7 @@ namespace telegraph {
     generator::generate_target(const generator::target& t) const {
         std::string code =
             "#pragma once\n\n"
-            "#include <telegen/id_array.hpp>\n"
-            "#include <telegen/type_info.hpp>\n"
+            "#include <telegen/types.hpp>\n"
             "#include <telegen/nodes.hpp>\n";
 
         // now include the tree file we if want to do that

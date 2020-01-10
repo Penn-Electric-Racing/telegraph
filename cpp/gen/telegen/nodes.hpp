@@ -3,17 +3,20 @@
 
 #include "util.hpp"
 #include "interface.hpp"
-#include "type_info.hpp"
-
-#include <cstdint>
-#include <memory>
-#include <functional>
+#include "types.hpp"
 
 #include "common.nanopb.h"
 #include "pb_encode.h"
 
+#include <cstdint>
+#include <memory>
+#include <functional>
+#include <array>
+
 
 namespace telegen {
+    template<size_t N>
+        using id_array = std::array<int32_t, N>;
 
     class node {
     public:
@@ -73,7 +76,7 @@ namespace telegen {
                 [](pb_ostream_t* stream, const pb_field_iter_t* field, 
                         void* const* arg) {
                     const group* g = (const group*) *arg;
-                    telegraph_Node n;
+                    telegraph_Node n = telegraph_Node_init_default;
                     for (size_t i = 0; i < g->num_children(); i++) {
                         if (!pb_encode_tag_for_field(stream, field))
                             return false;
@@ -156,27 +159,29 @@ namespace telegen {
         inline subscription(int32_t min_time, int32_t max_time) : 
                 min_interval_(min_time), max_interval_(max_time) {}
         // subscription is cancelled on destructor
-        inline virtual ~subscription() {}
+        inline ~subscription() {}
 
-        virtual void change(int32_t min_time, int32_t max_time) = 0;
+        virtual promise<> cancel() = 0;
+        virtual promise<> change(int32_t min_time, int32_t max_time) = 0;
 
         constexpr int32_t get_min_interval() const { return min_interval_; }
         constexpr int32_t get_max_interval() const { return max_interval_; }
 
         // set the handler
-        void handler(const std::function<void(const void*)>& cb) {
+        void handler(const std::function<void(const value&)>& cb) {
             cb_ = cb;
         }
     protected:
-        inline void update(const void* v) {
+        inline void update(const value& v) {
             cb_(v);
         }
 
         int32_t min_interval_;
         int32_t max_interval_;
     private:
-        std::function<void(const void*)> cb_;
+        std::function<void(const value&)> cb_;
     };
+    using subscription_ptr = std::unique_ptr<subscription>;
 
     // typed subscription, movable
     template<typename T>
@@ -203,8 +208,8 @@ namespace telegen {
             if (!owner_) owner_ = i;
         }
 
-        inline std::unique_ptr<subscription> subscribe(int32_t min_interval, int32_t max_interval) {
-            if (!owner_) return std::unique_ptr<subscription>();
+        inline promise<subscription_ptr> subscribe(int32_t min_interval, int32_t max_interval) {
+            if (!owner_) return promise<subscription_ptr>(promise_status::Rejected);
             return owner_->subscribe(this, min_interval, max_interval);
         }
     protected:
@@ -225,14 +230,19 @@ namespace telegen {
                 :  variable_base(id, name, pretty, desc),
                    type_(type) {}
 
-            sub<T> subscribe(int32_t min_interval, int32_t max_interval) {
-                return sub<T>(subscribe(min_interval, max_interval));
+            promise<sub<T>> subs(int32_t min_interval, int32_t max_interval) {
+                auto p = subscribe(min_interval, max_interval);
+                // NOTE: chain involves a malloc, find an alternative?
+                return p.template chain<sub<T>>([] (subscription_ptr&& s) -> sub<T> { 
+                        return sub<T>(std::move(s)); 
+                });
             }
 
             void pack(telegraph_Variable* v) const {
                 v->id = get_id();
                 v->name.arg = (void*) get_name();
                 v->pretty.arg = (void*) get_pretty();
+                v->desc.arg = (void*) get_desc();
                 type_->pack(&v->data_type);
 
                 v->name.funcs.encode = util::proto_string_encoder;
