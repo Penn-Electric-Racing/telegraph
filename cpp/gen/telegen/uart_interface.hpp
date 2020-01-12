@@ -21,7 +21,7 @@ namespace telegen {
      * implement their own stream/timer type 
      * (and so maximize performance by templating it)
      */
-    template<typename Uart>
+    template<typename Uart, typename Clock>
         class uart_interface : public source, public coroutine {
         private:
             static uint32_t fletcher32(const uint16_t *data, size_t len) {
@@ -45,10 +45,14 @@ namespace telegen {
                 return (c1 << 16 | c0);
             }
         private:
-            Uart* const uart_;
+            Uart* uart_;
+            Clock* clock_;
             node* const root_; 
             node* const *const lookup_table_;
             size_t table_size_;
+            
+            uint32_t last_time_; // last time we received something
+            uint32_t timeout_;
 
             // variable id -> subscription object
             std::unordered_map<int32_t, subscription_ptr> subs_;
@@ -60,11 +64,11 @@ namespace telegen {
         public:
 
             // takes a root node and an id-lookup-table
-            uart_interface(Uart* u, node* root, 
-                    node* const *id_lookup_table, size_t table_size) : 
-                uart_(u), root_(root), 
+            uart_interface(Uart* u, Clock* c, node* root, 
+                    node* const *id_lookup_table, size_t table_size, uint32_t timeout) : 
+                uart_(u), clock_(c), root_(root), 
                 lookup_table_(id_lookup_table), table_size_(table_size),
-                subs_(),
+                last_time_(0), timeout_(timeout), subs_(),
                 recv_buf_(new uint8_t[256]), 
                 recv_idx_(0), header_len_(1), payload_len_(0) {}
             ~uart_interface() {}
@@ -93,6 +97,13 @@ namespace telegen {
                 write_packet(p);
             }
 
+            void notify_sub_not_found(int32_t var_id) {
+                telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
+                p.which_event = telegraph_stream_Packet_sub_not_found_tag;
+                p.event.sub_not_found = var_id;
+                write_packet(p);
+            }
+
             void notify_cancelled(int32_t var_id) {
                 telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
                 p.which_event = telegraph_stream_Packet_cancelled_tag;
@@ -106,10 +117,12 @@ namespace telegen {
                 p.which_event = telegraph_stream_Packet_update_tag;
                 p.event.update.var_id = var_id;
                 v.pack(&p.event.update.val);
+                write_packet(p);
             }
 
             // called by receive() when we get an event
             void received_packet(const telegraph_stream_Packet& packet) {
+                last_time_ = clock_->millis();
                 switch(packet.which_event) {
                 case telegraph_stream_Packet_fetch_tree_tag: {
                     telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
@@ -122,6 +135,7 @@ namespace telegen {
                     int32_t var_id = packet.event.change_sub.var_id;
                     if (var_id >= table_size_) return;
                     variable_base* v = (variable_base*) lookup_table_[var_id];
+                    if (!v) return;
 
                     int32_t min_int = packet.event.change_sub.min_interval;
                     int32_t max_int = packet.event.change_sub.max_interval;
@@ -150,6 +164,9 @@ namespace telegen {
                                     sub->handler([this, var_id] (const value& v) {
                                         push_update(var_id, v);
                                     });
+                                    sub->cancel_handler([this, var_id] () {
+                                        notify_cancelled(var_id);
+                                    });
                                     subs_.emplace(var_id, std::move(sub));
                                     notify_subscribed(var_id);
                                 } else {
@@ -162,22 +179,18 @@ namespace telegen {
                 case telegraph_stream_Packet_cancel_sub_tag: {
                     int32_t var_id = packet.event.cancel_sub;
                     if (subs_.find(var_id) != subs_.end()) {
-                        auto& s = subs_.at(var_id);
-                        auto p = s->cancel();
-                        p.then([this, var_id] (promise_status s) {
-                            if (s == promise_status::Resolved) {
-                                subs_.erase(var_id);
-                                notify_cancelled(var_id);
-                            }
-                        });
+                        // erase the variable from the subscriptions
+                        // the cancel handler should invoke on
+                        // subscription destruction
+                        subs_.erase(var_id);
                     } else {
-                        notify_cancelled(var_id);
+                        notify_sub_not_found(var_id);
                     }
                 } break;
                 case telegraph_stream_Packet_ping_tag: {
                     telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
                     p.which_event = telegraph_stream_Packet_pong_tag;
-                    p.event.pong = packet.event.ping;
+                    p.event.pong = subs_.size(); // send back number of active subscriptions
                     write_packet(p);
                 } break;
                 default: break;
@@ -282,6 +295,12 @@ namespace telegen {
             void resume() override {
                 if (uart_->has_data()) {
                     receive();
+                }
+                if (last_time_ > 0 &&
+                        clock_->millis() > last_time_ + timeout_) {
+                    // clear the subscriptions
+                    subs_.clear();
+                    last_time_ = 0;
                 }
             }
         };

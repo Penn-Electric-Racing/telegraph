@@ -14,79 +14,187 @@ namespace telegen {
         public:
             class sub_impl : public subscription {
             public:
-                sub_impl(int32_t min_interval, int32_t max_interval) : 
+                // the last time a value was sent out
+                uint32_t last_time_;
+                // the two alarms
+                uint32_t delay_alarm_;
+                uint32_t resend_alarm_;
+                publisher<T, Clock>* pub_;
+
+                sub_impl(publisher<T,Clock>* pub, int32_t min_interval, int32_t max_interval) : 
                     subscription(min_interval, max_interval),
-                    last_time_(0), delayed_until_(0), next_resend_(0) {}
+                    last_time_(0), delay_alarm_(std::numeric_limits<uint32_t>::max()), 
+                                   resend_alarm_(std::numeric_limits<uint32_t>::max()),
+                    pub_(pub) {}
 
                 ~sub_impl() {
-                    if (!cancelled_) cancel();
+                    if (!is_cancelled()) cancel();
+                }
+
+                bool is_cancelled() override {
+                    return pub_ == nullptr;
                 }
 
                 promise<> cancel() override {
-                    if (!cancelled_) {
-                        pub_->subs_->remove(this);
-                        cancelled_ = true;
+                    if (!is_cancelled()) {
+                        if (pub_) 
+                            pub_->subs_.erase(std::remove(pub_->subs_.begin(), 
+                                        pub_->subs_.end(), this), pub_->subs_.end());
+                        pub_ = nullptr;
+                        cancel_cb_();
                     }
                     // return accepting promise
                     return promise<>(promise_status::Resolved); 
                 }
 
-                promise<> change(int32_t min_int, int32_t max_int) override {
-                    if (delayed_until_ > 0) {
-                        delayed_until_ = last_time_ + min_int;
-                    }
+                promise<> change(uint32_t min_int, uint32_t max_int) override {
                     min_interval_ = min_int;
                     max_interval_ = max_int;
+
+                    if (!pub_) return promise<>(promise_status::Rejected);
+
+                    if (delay_alarm_ < std::numeric_limits<uint32_t>::max()) {
+                        delay_alarm_ = last_time_ + min_int;
+                    }
+                    if (max_interval_ > 0 && last_time_ > 0) {
+                        resend_alarm_ = last_time_ + max_interval_;
+                    }
+                    int32_t next_alarm = delay_alarm_;
+                    if (next_alarm == 0) next_alarm = resend_alarm_;
+                    if (next_alarm > 0) pub_->set_alarm(next_alarm);
+
+                    return promise<>(promise_status::Resolved);
                 }
 
                 void push(const T& v, int32_t now_time) {
-                    if (min_interval_ == 0 || 
-                            last_time_ + min_interval_ > now_time) {
-                        cb_(v);
+                    // deal (messily) with timestamp wraparound
+                    // should happen around 1/mo but let's make sure
+                    // all alarms don't stop working just in case
+                    if (now_time < last_time_) last_time_ = now_time;
+
+                    if (now_time > last_time_ + min_interval_) {
+                        // we are larger than min_interval 
+                        // since last update
                         last_time_ = now_time;
+
+                        value val(get_type_class<T>());
+                        val.set<T>(v);
+                        cb_(val);
+                    } else {
+                        // set an alarm
+                        delay_alarm_ = last_time_ + min_interval_;
+                        pub_->set_alarm(delay_alarm_);
                     }
-                    if (max_interval_) next_resend_ = now_time + max_interval_;
+
+                    if (max_interval_) {
+                        resend_alarm_ = now_time + max_interval_;
+                        pub_->set_alarm(resend_alarm_);
+                    }
                 }
 
-                void push_late(const T& v) {
-                    cb_(v);
-                    delayed_until_ = 0;
+                void push_delayed(const T& v, uint32_t now_time) {
+                    value val(get_type_class<T>());
+                    val.set<T>(v);
+                    cb_(val);
+
+                    last_time_ = delay_alarm_;
+                    delay_alarm_ = std::numeric_limits<uint32_t>::max();
+                    resend_alarm_ = max_interval_ == 0 ? std::numeric_limits<uint32_t>::max() 
+                                                       : last_time_ + max_interval_;
                 }
 
-                void resend(const T& v) {
-                    if (max_interval_) next_resend_ += max_interval_;
-                    else next_resend_ = 0;
+                void push_resend(const T& v, int32_t now_time) {
+                    value val(get_type_class<T>());
+                    val.set<T>(v);
+                    cb_(val);
+
+                    last_time_ = resend_alarm_;
+                    resend_alarm_ = max_interval_ == 0 ? std::numeric_limits<uint32_t>::max()
+                                                       : last_time_ + max_interval_;
                 }
-            private:
-                // the last time a value was sent out
-                uint32_t last_time_;
-
-                uint32_t delayed_until_; 
-                uint32_t next_resend_;
-
-                publisher<T, Clock>* pub_;
-                bool cancelled_;
             };
 
-            publisher(Clock& c) : subs_(), clock_(c) {}
+            publisher(Clock* c) : initialized_(false), last_val_(0), 
+                    next_alarm_(std::numeric_limits<uint32_t>::max()),
+                    subs_(), clock_(c) {}
 
-            void update(const T& v) {
+            publisher(Clock* c, variable<T>* var) : 
+                    initialized_(false), last_val_(0), 
+                    next_alarm_(std::numeric_limits<uint32_t>::max()),
+                    subs_(), clock_(c) {
+                var->set_owner(this);
+            }
+
+            ~publisher() {
+                // in case somebody has deleted the publisher but is
+                // keeping the subscriptions around!
+                // this should not be necessary, but just in case
+                for (sub_impl* s : subs_) s->pub_ = nullptr;
+            }
+
+            // non-copyable so that the subscriptions always point
+            // to the right publisher
+            publisher(const publisher<T, Clock>& p) = delete;
+            void operator=(const publisher<T, Clock>&p) = delete;
+
+            void use_for(variable<T>* var) {
+                var->set_source(this);
+            }
+
+            void operator<<(const T& v) {
+                if (v == last_val_) return;
+                uint32_t now = clock_->millis();
                 last_val_ = v;
+                initialized_ = true;
+                for (sub_impl* s : subs_) s->push(v, now);
+            }
+
+
+            void set_alarm(uint32_t alarm) {
+                next_alarm_ = std::min(alarm, next_alarm_);
+            }
+
+            void recalculate_next() {
+                next_alarm_ = std::numeric_limits<uint32_t>::max();
+                for (sub_impl* i : subs_) {
+                    next_alarm_ = std::min(next_alarm_, i->delay_alarm_);
+                    next_alarm_ = std::min(next_alarm_, i->resend_alarm_);
+                }
+            }
+
+            void resume() override {
+                uint32_t now = clock_->millis();
+                if (next_alarm_ < now && initialized_) {
+                    for (sub_impl* i : subs_) {
+                        if (i->delay_alarm_ < now) i->push_delayed(last_val_, now);
+                        if (i->resend_alarm_ < now) i->push_resend(last_val_, now);
+                    }
+                    recalculate_next();
+                }
             }
 
             promise<subscription_ptr> subscribe(variable_base* v,
-                        int32_t min_inteval, int32_t max_interval) {
-                sub_impl* sub = new sub_impl(min_interval, max_interval);
-                return promise<subscription_ptr>(promise_status::Rejected);
+                        int32_t min_interval, int32_t max_interval) {
+                sub_impl* sub = new sub_impl(this, min_interval, max_interval);
+                subs_.push_back(sub);
+                // if we have a value, send it out now
+                if (initialized_) {
+                    uint32_t now = clock_->millis();
+                    next_alarm_ = now;
+                    sub->resend_alarm_ = now;
+                }
+                return promise<subscription_ptr>(std::unique_ptr<subscription>(sub));
             }
 
             promise<value> call(action_base* a, const value& arg) {
                 return promise<value>(promise_status::Rejected);
             }
         private:
+            bool initialized_;
             T last_val_;
+            uint32_t next_alarm_;
             std::vector<sub_impl*> subs_;
-            Clock& clock_;
+            Clock* clock_;
         };
 
     template<typename F, typename Arg, typename Ret>
@@ -95,7 +203,7 @@ namespace telegen {
             action_handler(F& f) : func_(f) {}
 
             promise<subscription_ptr> subscribe(variable_base* v,
-                        int32_t min_inteval, int32_t max_interval) {
+                        int32_t min_interval, int32_t max_interval) {
                 return promise<subscription_ptr>(promise_status::Rejected);
             }
             promise<value> call(action_base* a, const value& arg) {
@@ -113,3 +221,5 @@ namespace telegen {
         int32_t next_time;
     };
 }
+
+#endif

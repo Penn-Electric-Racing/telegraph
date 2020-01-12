@@ -155,26 +155,35 @@ namespace telegen {
 
     class subscription {
     public:
-        inline subscription(int32_t min_time, int32_t max_time) : 
-                min_interval_(min_time), max_interval_(max_time) {}
+        inline subscription(uint32_t min_time, uint32_t max_time) : 
+                min_interval_(min_time), max_interval_(max_time), 
+                cb_(), cancel_cb_() {}
         // subscription is cancelled on destructor
-        inline ~subscription() {}
+        virtual inline ~subscription() {}
 
+        virtual bool is_cancelled() = 0;
         virtual promise<> cancel() = 0;
-        virtual promise<> change(int32_t min_time, int32_t max_time) = 0;
+        virtual promise<> change(uint32_t min_time, uint32_t max_time) = 0;
 
-        constexpr int32_t get_min_interval() const { return min_interval_; }
-        constexpr int32_t get_max_interval() const { return max_interval_; }
+        constexpr uint32_t get_min_interval() const { return min_interval_; }
+        constexpr uint32_t get_max_interval() const { return max_interval_; }
 
         // set the handler
         void handler(const std::function<void(const value&)>& cb) {
             cb_ = cb;
         }
+        void cancel_handler(const std::function<void()>& cb) {
+            cancel_cb_ = cb;
+        }
     protected:
-        int32_t min_interval_;
-        int32_t max_interval_;
+        uint32_t min_interval_;
+        uint32_t max_interval_;
         std::function<void(const value&)> cb_;
+        // note: may be invoked even after 
+        // subscription object has been deleted
+        std::function<void()> cancel_cb_;
     };
+
     using subscription_ptr = std::unique_ptr<subscription>;
 
     // typed subscription, movable

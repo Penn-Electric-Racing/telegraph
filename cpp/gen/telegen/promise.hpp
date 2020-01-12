@@ -129,6 +129,10 @@ namespace telegen {
                 return std::get<I>(val_);
             }
 
+        void resume() override {
+            if (status_ != promise_status::Waiting) finish();
+        }
+
         // once you use then, the callback takes over the promise
         // and this promise becomes rejecting
         inline void then(const std::function<void(promise_status, T&&...)>& cb) {

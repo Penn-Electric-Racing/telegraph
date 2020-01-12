@@ -46,8 +46,9 @@ message Packet {
 
         int32 cancel_sub = 9;
         int32 cancelled = 10;
+        int32 sub_not_found = 11;
 
-        int32 ping = 11;
-        int32 pong = 12;
+        int32 ping = 12;
+        int32 pong = 13;
     }
 }

@@ -40,7 +40,7 @@ namespace telegen {
             }
         template<typename T>
             constexpr void set(const T& v) {
-                return get<T>() = v;
+                get<T>() = v;
             }
 
         void pack(telegraph_Value* val) const {
