@@ -256,8 +256,6 @@ namespace telegraph {
                                 type_to_name(a->get_ret_type()) + "_type);";
 
             accessors[a->get_id()] = accessor_prefix + a->get_name();
-        } else if (dynamic_cast<const stream*>(n) != nullptr) {
-            throw generate_error("stream class generation not yet implemented");
         }
         return code;
     }

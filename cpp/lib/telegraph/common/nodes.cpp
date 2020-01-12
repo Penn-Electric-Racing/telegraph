@@ -26,7 +26,6 @@ namespace telegraph {
         case Node::kGroup: return group::unpack(proto.group());
         case Node::kVar: return variable::unpack(proto.var());
         case Node::kAction: return action::unpack(proto.action());
-        case Node::kStream: return stream::unpack(proto.stream());
         default: return nullptr;
         }
     }
@@ -131,28 +130,5 @@ namespace telegraph {
         node::print(o, ident);
         o << name_ << ": " << arg_type_.to_str() << " -> " << ret_type_.to_str()
                    << " (" << pretty_ << ")";
-    }
-
-    void
-    stream::pack(Stream* proto) const {
-        proto->set_id(get_id());
-        proto->set_name(get_name());
-        proto->set_pretty(get_pretty());
-        proto->set_desc(get_desc());
-    }
-
-    void
-    stream::pack(Node* proto) const {
-        pack(proto->mutable_stream());
-    }
-    stream*
-    stream::unpack(const Stream& proto) {
-        return new stream(proto.id(), proto.name(),
-                            proto.pretty(), proto.desc());
-    }
-    void
-    stream::print(std::ostream& o, int ident) const {
-        node::print(o, ident);
-        o << name_ << ": stream (" << pretty_ << ")";
     }
 }

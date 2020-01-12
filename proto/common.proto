@@ -35,19 +35,11 @@ message Action {
     Type ret_type = 7;
 }
 
-message Stream {
-    int32 id = 1; // optional
-    string name = 3;
-    string pretty = 4;
-    string desc = 5;
-}
-
 message Node {
     oneof node {
         Group group = 1;
         Variable var = 2;
         Action action = 3;
-        Stream stream = 4;
     }
 }
 

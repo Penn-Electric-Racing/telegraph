@@ -1,5 +1,5 @@
 export { Type, Value, Node, Group, 
-        Variable, Action, Stream } from './lib/nodes.mjs'
+        Variable, Action } from './lib/nodes.mjs'
 export { Namespace, Task, Context } from './lib/namespace.mjs'
 export { LocalNamespace, LocalContext,
          LocalDevice, LocalContainer, LocalArchive } from './lib/local.mjs'

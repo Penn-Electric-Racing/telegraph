@@ -10,12 +10,10 @@
                         :header="node.getName()"/>
   <Bubble v-else-if="isVariable" class="node-bubble" :draggable="true" :dragData="node"
                         :header="node.getName()"/>
-  <Bubble v-else-if="isStream" class="node-bubble" :draggable="true" :dragData="node"
-                        :header="node.getName()"/>
 </template>
 
 <script>
-import { Node, Group, Variable, Action, Stream } from 'telegraph'
+import { Node, Group, Variable, Action } from 'telegraph'
 import Bubble from '../components/Bubble.vue'
 
 export default {
@@ -25,7 +23,6 @@ export default {
     isGroup() { return this.node instanceof Group },
     isAction() { return this.node instanceof Action },
     isVariable() { return this.node instanceof Variable },
-    isStream() { return this.node instanceof Stream },
     children() {
       return this.node.getChildren ? this.node.getChildren() : [];
     }

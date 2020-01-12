@@ -135,8 +135,6 @@ namespace telegraph {
             return unpack_group(id_counter, name, json);
         } else if (type == "action") {
             return unpack_action(id_counter, name, json);
-        } else if (type == "stream") {
-            throw parse_error("cannot unpack stream yet!");
         } else {
             return unpack_variable(id_counter, name, json);
         }

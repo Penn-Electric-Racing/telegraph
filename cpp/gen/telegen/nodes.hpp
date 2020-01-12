@@ -105,12 +105,6 @@ namespace telegen {
         const size_t num_children_;
     };
 
-    class stream : public node {
-    public:
-        constexpr stream(int32_t id, const char* name, const char* pretty,
-                                const char* desc) : node(id, name, pretty, desc) {}
-    };
-
     class action_base : public node {
     public:
         constexpr action_base(int32_t id, const char* name, const char* pretty,

@@ -212,9 +212,11 @@ namespace telegen {
                     // coroutines since this will not yield
                     // but the write buffer should rarely be full
                     // so theoretically this should not be a performance
-                    // issue
+                    // issue. If we had a spin-based clock to lock the uart
+                    // interface and could "resume" the encode then we could
+                    // yield control here. Not sure if worth the effort though
                     do {
-                        sent += u->write(buf, count);
+                        sent += u->try_write(buf, count);
                     } while (sent < count);
                     return true;
                 };

@@ -51,7 +51,6 @@ export class Node {
     case 'group': return Group.unpack(proto);
     case 'var': return Variable.unpack(proto);
     case 'action': return Action.unpack(proto);
-    case 'stream': return Stream.unpack(proto);
     }
   }
 }
@@ -207,30 +206,6 @@ export class Action extends Node {
     let line = ' '.repeat(indent) +
           this.getName() + ' ' + this.getArgType() + ' -> ' + this.getRetType() +
           ' (' + this.getPretty() + '): ' + this.getDesc();
-    return line;
-  }
-}
-
-export class Stream extends Node {
-  constructor(name, pretty, desc) {
-    super(name, pretty, desc);
-  }
-
-  clone() {
-    throw new Error("Stream type not implemented!");
-  }
-
-  pack() {
-    throw new Error("Stream type not implemented!");
-  }
-
-  static unpack(proto) {
-    throw new Error("Stream type not implemented!");
-  }
-
-  toString(indent = 0) {
-    let line = ' '.repeat(indent) +
-        this.getName() + ' stream (' + this.getPretty() + '): ' + this.getDesc();
     return line;
   }
 }

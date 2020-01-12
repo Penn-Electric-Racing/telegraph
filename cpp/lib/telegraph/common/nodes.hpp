@@ -240,19 +240,6 @@ namespace telegraph {
         type arg_type_;
         type ret_type_;
     };
-
-    class stream : public node {
-    public:
-        stream(int32_t id, const std::string& name,
-                const std::string& pretty, const std::string& desc) :
-                node(id, name, pretty, desc) {}
-
-        void pack(Stream* proto) const;
-        virtual void pack(Node* proto) const override;
-        static stream* unpack(const Stream& proto);
-    private:
-        void print(std::ostream& o, int ident=0) const override;
-    };
 }
 
 #endif
