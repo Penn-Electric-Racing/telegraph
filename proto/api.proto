@@ -174,15 +174,12 @@ message Packet {
 
         // create/destroy contexts/tasks/mounts
 
-        CreateContext create_context = 30; // target is created in foreign namespace
-                                           // but source may be in sender's namespace
+        Create create_context = 30;
+        Create create_task = 31;
         string context_created = 31; // uuid of created context
-        string destroy_context = 32; // request that a context be destroyed
-                                     // if it is destroyed, the receiver will first unmount
-                                     // any mounts the context is involved in
+        string task_created = 32; // uuid of created task
 
-        SpawnTask create_task = 33; // creates a task (may span namespaces)
-        string task_created = 34; // uuid of created task
+        string destroy_context = 32;
 
         string start_task = 35;
         string stop_task = 36;

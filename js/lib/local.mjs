@@ -13,80 +13,61 @@ export class LocalNamespace extends Namespace {
     this._contextAdded = new Signal();
     this._contextRemoved = new Signal();
 
-    // map context -> set of contexts for whcih this is the target
-    this._srcMounts = new Map();
-    this._tgtMounts = new Map();
+    // mounts set
+    this._mounts = new Set();
     this._mountAdded = new Signal();
     this._mountRemoved = new Signal();
 
-    // task uuid to task
+    // uuid -> task
     this._tasks = new Map();
     this._taskAdded = new Signal();
     this._taskRemoved = new Signal();
   }
 
-  _addLocalContext(ctx) {
-    this._contexts.set(ctx.getUUID(), ctx);
-    this._contextAdded.dispatch(ctx);
-  }
-
-  _removeLocalContext(ctx) {
-    this._contexts.remove(ctx.getUUID());
-    this._contextRemoved.dispatch(ctx);
-  }
-
-  _addMount(srcCtx, tgtCtx) {
-    var mount = {src:srcCtx, tgt:tgtCtx};
-
-    if (!this._srcMounts.has(tgtCtx)) this._srcMounts.set(tgtCtx, []);
-    this._srcMounts.get(tgtCtx).push(mount);
-    if (!this._tgtMounts.has(srcCtx)) this._tgtMounts.set(srcCtx, []);
-    this._tgtMounts.get(srcCtx).push(mount);
-
-    this._mountAdded.dispatch(mount);
-
-    return true;
-  }
-
-  _removeMount(srcCtx, tgtCtx) {
-    var tgts = this._tgtMounts.get(srcCtx);
-    var srcs = this._srcMounts.get(tgtCtx);
-
-    var mount = null;
-    for (let c of tgts) {
-      if (c.tgt == tgtCtx) { mount = c; break; }
-    }
-    if (!mount) return false;
-
-    tgts.splice(tgts.indexOf(mount), 1);
-    srcs.splice(srcs.indexOf(mount), 1);
-
-    if (tgts.length == 0) this._tgtMounts.remove(srcCtx);
-    if (srcs.length == 0) this._srcMounts.remove(tgtCtx);
-    this._mountRemoved.dispatch(mount);
-    return true;
-  }
-
   // querying functions
-  async contexts({by_uuid=null, by_name=null, by_type=null}) {
-    var filter = (ctx) => (by_uuid ? ctx.getUUID() == by_uuid : true) && 
-                          (by_name ? ctx.getName() == by_name : true) &&
-                          (by_type ? ctx.getType() == by_type : true);
+  async contexts({byUuid=null, byName=null, byType=null}) {
+    var filter = (ctx) => (!byUuid || ctx.getUUID() == byUuid) && 
+                          (!byName || ctx.getName() == byName) &&
+                          (!byType || ctx.getType() == byType);
     var filtered = new Set();
     for (let c of this._contexts.values()) {
       if (filter(c)) filtered.add(c);
     }
 
-    var f = new Query(filtered);
-    var al = (c) => { if (filter(c)) { filtered.add(c); f.added.dispatch(c); } };
-    var rl = (c) => { if (filter(c)) { filtered.remove(c); f.removed.dispatch(c); } };
+    var q = new Query(filtered);
+    var al = (c) => { if (filter(c)) { filtered.add(c); q.added.dispatch(c); } };
+    var rl = (c) => { if (filter(c)) { filtered.remove(c); q.removed.dispatch(c); } };
     this._contextAdded.add(al);
     this._contextRemoved.add(rl);
-    f.closed.add(() => { this._contextAdded.remove(al); this._contextRemoved.remove(rl); });
+    q.closed.add(() => { this._contextAdded.remove(al); this._contextRemoved.remove(rl); });
     return f;
   }
 
-  async mounts({srcs=null, tgts=null}) {
+  async mounts({srcsOf=null, tgtsOf=null}) {
+    var filter = (m) => (srcsOf && m.tgt == srcsOf) ||
+                        (tgtsOf && m.src == tgtsOf) ||
+                        (!srcsOf && !tgtsOf);
+    var filtered = new Set();
+    for (let m of this._mounts) {
+      if (filter(m)) filtered.add(m);
+    }
+    var q = new Query(filtered);
+    var al = (m) => { if (filter(m)) { filtered.add(m); q.added.dispatch(m); } };
+    var rl = (m) => { if (filter(m)) { filtered.remove(m); q.removed.dispatch(m); } };
+    this._mountAdded.add(al);
+    this._mountRemoved.add(rl);
+    q.closed.add(() => { this._mountAdded.remove(al); this._mountRemoved.remove(rl); });
+    return q;
+  }
+
+  async tasks({byUuid=null, byName=null, byType=null}) {
+    var filter = (task) => (!byUuid || task.getUUID() == byUuid) && 
+                           (!byName || task.getName() == byName) &&
+                           (!byType || task.getType() == byType);
+    var filtered = new Set();
+    for (let t of this._tasks) {
+      if (filter(t)) filtered.add(t);
+    }
   }
 
   async fetch(uuid, ignoredCtx=null) {

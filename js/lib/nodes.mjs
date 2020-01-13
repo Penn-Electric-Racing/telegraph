@@ -299,7 +299,7 @@ export var Value = {
   pack(val, type) {
     if (!type) return {};
     switch(type._class) {
-      case Type.NONE._class:   return {};
+      case Type.NONE._class:   return { none: {} };
       case Type.BOOL._class:   return { b: val };
       case Type.ENUM._class:   return { en: val };
       case Type.UINT8._class:  return { u8: val };
@@ -327,6 +327,6 @@ export var Value = {
     if (proto.i16) return proto.i16;
     if (proto.i32) return proto.i32;
     if (proto.i64) return proto.i64;
-    return null;
+    return {}; // return none type
   }
 }

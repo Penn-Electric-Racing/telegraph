@@ -118,31 +118,49 @@ namespace telegraph {
                     uuid_(uuid), name_(name),
                     type_(type), info_(i) {}
 
+        virtual namespace_* get_namespace() = 0;
+        virtual const namespace_* get_namespace() const = 0;
+
         const std::string& get_name() const { return name_; }
         const std::string& get_type() const { return type_; }
         const info& get_info() const { return info_; }
         const uuid& get_uuid() const { return uuid_; }
 
-        inline virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) { return nullptr; }
 
+        virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
+
+        // tree manipulation functions
         inline virtual subscription_ptr  subscribe(io::yield_ctx& ctx, variable* v, 
-                                int32_t min_interval, int32_t max_interval) { return nullptr; }
-        inline virtual value call(io::yield_ctx& ctx, action* a, const value& v) { return value(); }
+                                int32_t min_interval, int32_t max_interval) = 0;
+        inline virtual subscription_ptr  subscribe(io::yield_ctx& ctx, 
+                                const std::vector<std::string>& variable,
+                                int32_t min_interval, int32_t max_interval) = 0;
 
-        inline virtual bool write_data(io::yield_ctx& yield, node* n, 
-                                    const std::vector<data_point>& data) { return false; }
+        inline virtual value call(io::yield_ctx& ctx, 
+                                    action* a, const value& v) = 0;
+        inline virtual value call(io::yield_ctx& ctx, 
+                        const std::vector<std::string>& a, const value& v) = 0;
+
+        inline virtual bool write_data(io::yield_ctx& yield, variable* v, 
+                                    const std::vector<data_point>& data) = 0;
+        inline virtual bool write_data(io::yield_ctx& yield, const std::vector<std::string>& var,
+                                    const std::vector<data_point>& data) = 0;
+
         inline virtual std::unique_ptr<data_query> query_data(io::yield_ctx& yield, 
-                                                  const node* n) const { return nullptr; }
+                                                          const node* n) const = 0;
+        inline virtual std::unique_ptr<data_query> query_data(io::yield_ctx& yield, 
+                                          const std::vector<std::string>& n) const = 0;
 
+        // mount-querying functions
         inline virtual query_ptr<mount_info> mounts(io::yield_ctx& yield, 
-                    bool srcs=true, bool tgts=true) const { return nullptr; }
+                                        bool srcs=true, bool tgts=true) const = 0;
 
         inline virtual bool mount(io::yield_ctx& ctx, 
-                const std::shared_ptr<context>& src) { return false; }
+                            const std::shared_ptr<context>& src) = 0;
         inline virtual bool unmount(io::yield_ctx& ctx, 
-                const std::shared_ptr<context>& src) { return false; }
+                            const std::shared_ptr<context>& src) = 0;
 
-        inline virtual bool destroy(io::yield_ctx& yield) { return false; }
+        inline virtual bool destroy(io::yield_ctx& yield) = 0;
     private:
         const uuid uuid_;
         const std::string name_;

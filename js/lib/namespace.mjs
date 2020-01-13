@@ -23,7 +23,6 @@ export class Context {
   // none of these things can change
   // during the lifetime of the context!
   constructor(ns, uuid, name, type, info) {
-    this._ns = ns;
     this._uuid = uuid;
     this._name = name;
 
@@ -42,22 +41,29 @@ export class Context {
   async fetch() { return null; }
 
   // returns a feed object with mounts
-  async mounts(as_src=true, as_tgt=true) { return null; }
+  async mounts(srcs=true, tgts=true) { return null; }
 
   // mount this context on another context
   async mount(src) { return false; }
   async unmount(src) { return false; }
 
-  // context actions (params can either be path or node)
+  // context actions, return null or false on failure
+  // take a variable/node as the argument
   async subscribe(variable, minInterval, maxInterval) { return null; }
-  async call(action, arg) {}
-  async writeData(node, data) { return false; }
-  async queryData(node) {}
+  async call(action, arg) { return null; }
+  async writeData(variable, data) { return false; }
+  async queryData(variable) { return null; }
+
+  // versions of the above, but path-based
+  async subscribePath(path, minInterval, maxInterval) { return null; }
+  async callPath(path, arg) { return null; }
+  async writeDataPath(path, data) { return false; }
+  async queryDataPath(path) { return null; }
 
   async destroy() { return false; }
 
   pack() {
-    return { ns: this._ns.getUUID(),
+    return { ns: this.getNamespace().getUUID(),
            uuid: this.getUUID(),
            name: this.getName(),
            type: this.getType(),
@@ -73,7 +79,6 @@ export class Task {
   constructor(type) {
     this._type = type;
   }
-
   getType() { return this._type; }
 }
 
@@ -84,28 +89,30 @@ export class Namespace {
 
   getUUID() { return this._uuid; }
 
-  // returns all mounts, if srcs_uuid or tgts_uuid is
-  // specified it will show the srcs/tgts of those contexts
-  async mounts({srcs_uuid=null, tgts_uuid=null}) {  return null; }
-  async contexts({by_uuid=null, by_name=null, by_type=null}) { return null; }
-  async tasks({type=null}) { return null; }
+  async mounts({srcsOf=null, tgtsOf=null}) {  return null; }
+  async contexts({byUuid=null, byName=null, byType=null}) { return null; }
+  async tasks({byUuid=null, byName=null, byType=null}) { return null; }
 
-  async fetch(ctxUuid, ctx=null) { return null; }
+  async fetch(ctxUuid, owner=null) { return null; }
 
   async subscribe(ctxUuid, path, minInterval, maxInterval) { return null; }
   async call(ctxUuid, path, arg) { return null; }
 
-  async data(ctxUuid, path) { return null; }
+  async queryData(ctxUuid, path) { return null; }
   async writeData(ctxUuid, path, data) { return null; }
 
-  async mount(src, tgt) { return false; }
-  async unmount(src, tgt) { return false; }
-
+  // returns uuids of created context/task
   async createContext(name, type, info, sources) { return null; }
-  async destroyContext(ctxUuid) { return false; }
+  async createTask(name, type, info, sources) { return null; }
 
-  async spawnTask(name, type, info, sources) { return null; }
-  async killTask(taskUUID) { return false; }
+  async destroyContext(ctxUuid) { return false; }
+  async destroyTask(taskUUID) { return false; }
+
+  async startTask(taskUuid) { return false; }
+  async stopTask(taskUuid) { return false; }
+
+  async mount(srcUuid, tgtUuid) { return false; }
+  async unmount(srcUuid, tgtUuid) { return false; }
 }
 
 export var Info = {
