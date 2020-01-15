@@ -40,7 +40,7 @@ export class LocalNamespace extends Namespace {
     this._contextAdded.add(al);
     this._contextRemoved.add(rl);
     q.closed.add(() => { this._contextAdded.remove(al); this._contextRemoved.remove(rl); });
-    return f;
+    return q;
   }
 
   async mounts({srcsOf=null, tgtsOf=null}) {
@@ -66,6 +66,7 @@ export class LocalNamespace extends Namespace {
                            (!byType || task.getType() == byType);
     var filtered = new Set();
     for (let t of this._tasks) {
+        console.log(t);
       if (filter(t)) filtered.add(t);
     }
   }
@@ -91,7 +92,7 @@ export class LocalContext extends Context {
     super(ns, uuidv4(), name, type, info);
     this._tree = tree;
     this._tree.setContext(this);
-    ns._addLocalContext(this);
+    ns._contexts.set(this.getUUID(), this);
   }
 
   async fetch() { return this._tree; }
