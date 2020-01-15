@@ -37,9 +37,9 @@ def telegraph_deps():
         strip_prefix = "protobuf-3.11.2",
         urls=["https://github.com/protocolbuffers/protobuf/archive/v3.11.2.zip"]
     )
-    git_repository(
+    http_archive(
         name = "com_github_nelhage_rules_boost",
-        commit = "ed844db5990d21b75dc3553c057069f324b3916b",
-        remote = "https://github.com/nelhage/rules_boost",
-        shallow_since = "1576879360 -0800"
+        sha256 = "79d9e9111f33534227835cd7e0b976726f0819d19d4a3884ba2e2231250d3d8b",
+        strip_prefix = "rules_boost-ed844db5990d21b75dc3553c057069f324b3916b",
+        urls=["https://github.com/nelhage/rules_boost/archive/ed844db5990d21b75dc3553c057069f324b3916b.zip"]
     )
