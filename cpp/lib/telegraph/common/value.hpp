@@ -31,20 +31,20 @@ namespace telegraph {
             double d;
         }; 
 
-        inline value() : type_(type::NONE), value_() {}
-        inline value(bool b) : type_(type::BOOL), value_{ .b = b } {}
-        inline value(uint8_t v) : type_(type::UINT8), value_{ .uint8  = v } {}
-        inline value(uint16_t v) : type_(type::UINT16), value_{ .uint16  = v } {}
-        inline value(uint32_t v) : type_(type::UINT32), value_{ .uint32  = v } {}
-        inline value(uint64_t v) : type_(type::UINT64), value_{ .uint64  = v } {}
+        inline value() : type_(type::None), value_() {}
+        inline value(bool b) : type_(type::Bool), value_{ .b = b } {}
+        inline value(uint8_t v) : type_(type::Uint8), value_{ .uint8  = v } {}
+        inline value(uint16_t v) : type_(type::Uint16), value_{ .uint16  = v } {}
+        inline value(uint32_t v) : type_(type::Uint32), value_{ .uint32  = v } {}
+        inline value(uint64_t v) : type_(type::Uint64), value_{ .uint64  = v } {}
 
-        inline value(int8_t v) : type_(type::INT8), value_{ .int8  = v } {}
-        inline value(int16_t v) : type_(type::INT16), value_{ .int16  = v } {}
-        inline value(int32_t v) : type_(type::INT32), value_{ .int32  = v } {}
-        inline value(int64_t v) : type_(type::INT64), value_{ .int64  = v } {}
+        inline value(int8_t v) : type_(type::Int8), value_{ .int8  = v } {}
+        inline value(int16_t v) : type_(type::Int16), value_{ .int16  = v } {}
+        inline value(int32_t v) : type_(type::Int32), value_{ .int32  = v } {}
+        inline value(int64_t v) : type_(type::Int64), value_{ .int64  = v } {}
 
-        inline value(float v) : type_(type::FLOAT), value_{ .f = v } {}
-        inline value(double v) : type_(type::DOUBLE), value_{ .d = v } {}
+        inline value(float v) : type_(type::Float), value_{ .f = v } {}
+        inline value(double v) : type_(type::Double), value_{ .d = v } {}
 
         inline value(type::type_class t, uint8_t v) : type_(t), value_{ .uint8 = v } {}
 
@@ -55,6 +55,25 @@ namespace telegraph {
             T get() const {
                 return unwrap<T>(*this);
             }
+
+        void pack(Value* v) {
+            switch(type_) {
+            case type::Invalid: v->mutable_none(); break;
+            case type::None: v->mutable_none(); break;
+            case type::Enum: v->set_en(value_.uint8); break;
+            case type::Bool: v->set_b(value_.b); break;
+            case type::Uint8: v->set_u8(value_.uint8); break;
+            case type::Uint16: v->set_u16(value_.uint16); break;
+            case type::Uint32: v->set_u32(value_.uint32); break;
+            case type::Uint64: v->set_u64(value_.uint64); break;
+            case type::Int8: v->set_i8(value_.int8); break;
+            case type::Int16: v->set_i16(value_.int16); break;
+            case type::Int32: v->set_i32(value_.int32); break;
+            case type::Int64: v->set_i64(value_.int64); break;
+            case type::Float: v->set_f(value_.f); break;
+            case type::Double: v->set_d(value_.d); break;
+            }
+        }
     private:
         type::type_class type_;
         box value_;
@@ -107,20 +126,20 @@ namespace telegraph {
 
     inline std::ostream& operator<<(std::ostream& o, const value& v) {
         switch (v.get_type_class()) {
-        case type::INVALID: o << "invalid"; break;
-        case type::NONE: o << "none"; break;
-        case type::BOOL: o << (v.get<bool>() ? "true" : "false"); break;
-        case type::ENUM: o << "enum(" << (int) v.get<uint8_t>() << ")"; break;
-        case type::UINT8: o << (int) v.get<uint8_t>(); break;
-        case type::UINT16: o << v.get<uint16_t>(); break;
-        case type::UINT32: o << v.get<uint32_t>(); break;
-        case type::UINT64: o << v.get<uint64_t>(); break;
-        case type::INT8: o << (int) v.get<int8_t>(); break;
-        case type::INT16: o << v.get<int16_t>(); break;
-        case type::INT32: o << v.get<int32_t>(); break;
-        case type::INT64: o << v.get<int64_t>(); break;
-        case type::FLOAT: o << v.get<float>(); break;
-        case type::DOUBLE: o << v.get<double>(); break;
+        case type::Invalid: o << "invalid"; break;
+        case type::None: o << "none"; break;
+        case type::Bool: o << (v.get<bool>() ? "true" : "false"); break;
+        case type::Enum: o << "enum(" << (int) v.get<uint8_t>() << ")"; break;
+        case type::Uint8: o << (int) v.get<uint8_t>(); break;
+        case type::Uint16: o << v.get<uint16_t>(); break;
+        case type::Uint32: o << v.get<uint32_t>(); break;
+        case type::Uint64: o << v.get<uint64_t>(); break;
+        case type::Int8: o << (int) v.get<int8_t>(); break;
+        case type::Int16: o << v.get<int16_t>(); break;
+        case type::Int32: o << v.get<int32_t>(); break;
+        case type::Int64: o << v.get<int64_t>(); break;
+        case type::Float: o << v.get<float>(); break;
+        case type::Double: o << v.get<double>(); break;
         }
         return o;
     }

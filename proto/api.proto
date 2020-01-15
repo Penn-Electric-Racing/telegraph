@@ -75,18 +75,17 @@ message SourceEntry {
 }
 
 // creation options
-message CreateContext {
+message Create {
     string name = 1;
     string type = 2;
     Info info = 3;
     repeated SourceEntry sources = 4;
 }
 
-message SpawnTask {
-    string name = 1;
-    string type = 2;
-    Info info = 3;
-    repeated SourceEntry sources = 4; 
+message StartTask {
+    string uuid = 1;
+    Info info = 2;
+    repeated SourceEntry sources = 3;
 }
 
 // tree operations
@@ -176,14 +175,14 @@ message Packet {
 
         Create create_context = 30;
         Create create_task = 31;
-        string context_created = 31; // uuid of created context
-        string task_created = 32; // uuid of created task
+        string context_created = 32; // uuid of created context
+        string task_created = 33; // uuid of created task
 
-        string destroy_context = 32;
+        string destroy_context = 34;
+        string destroy_task = 35;
 
-        string start_task = 35;
-        string stop_task = 36;
-        string destroy_task = 37;
+        StartTask start_task = 36;
+        string stop_task = 37;
 
         Mount mount = 38;
         Mount unmount = 39;

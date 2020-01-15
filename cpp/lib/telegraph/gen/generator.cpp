@@ -56,18 +56,18 @@ namespace telegraph {
 
     static std::string type_to_cpp_builtin(const type& t) {
         switch(t.get_class()) {
-            case type::NONE:    return "none";
-            case type::BOOL:    return "bool";
-            case type::UINT8:   return "uint8_t";
-            case type::UINT16:  return "uint16_t";
-            case type::UINT32:  return "uint32_t";
-            case type::UINT64:  return "uint64_t";
-            case type::INT8:    return "int8_t";
-            case type::INT16:   return "int16_t";
-            case type::INT32:   return "int32_t";
-            case type::INT64:   return "int64_t";
-            case type::FLOAT:   return "float";
-            case type::DOUBLE:  return "double";
+            case type::None:    return "none";
+            case type::Bool:    return "bool";
+            case type::Uint8:   return "uint8_t";
+            case type::Uint16:  return "uint16_t";
+            case type::Uint32:  return "uint32_t";
+            case type::Uint64:  return "uint64_t";
+            case type::Int8:    return "int8_t";
+            case type::Int16:   return "int16_t";
+            case type::Int32:   return "int32_t";
+            case type::Int64:   return "int64_t";
+            case type::Float:   return "float";
+            case type::Double:  return "double";
             default: throw missing_error("Not a builtin, must have name!");
         }
     }
@@ -85,18 +85,18 @@ namespace telegraph {
     static std::string type_to_name(const type& t) {
         if (t.get_name().length() > 0) return t.get_name();
         switch(t.get_class()) {
-            case type::NONE:    return "none";
-            case type::BOOL:    return "bool";
-            case type::UINT8:   return "uint8";
-            case type::UINT16:  return "uint16";
-            case type::UINT32:  return "uint32";
-            case type::UINT64:  return "uint64";
-            case type::INT8:    return "int8";
-            case type::INT16:   return "int16";
-            case type::INT32:   return "int32";
-            case type::INT64:   return "int64";
-            case type::FLOAT:   return "float";
-            case type::DOUBLE:  return "double";
+            case type::None:    return "none";
+            case type::Bool:    return "bool";
+            case type::Uint8:   return "uint8";
+            case type::Uint16:  return "uint16";
+            case type::Uint32:  return "uint32";
+            case type::Uint64:  return "uint64";
+            case type::Int8:    return "int8";
+            case type::Int16:   return "int16";
+            case type::Int32:   return "int32";
+            case type::Int64:   return "int64";
+            case type::Float:   return "float";
+            case type::Double:  return "double";
             default: throw missing_error("Not a builtin, must have name!");
         }
     }
@@ -133,7 +133,7 @@ namespace telegraph {
         // go through each of the types
         for (auto elem : types) {
             const type* tp = elem.second;
-            if (tp->get_class() == type::ENUM) {
+            if (tp->get_class() == type::Enum) {
                 // generate an enum
                 code += "enum class " + tp->get_name() + " : uint8_t {\n";
                 std::string subcode = "";

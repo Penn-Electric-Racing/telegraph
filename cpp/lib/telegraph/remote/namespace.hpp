@@ -43,17 +43,17 @@ namespace telegraph {
                int32_t min_interval, int32_t max_interval) override;
 
         value call(io::yield_ctx& yield, const uuid& ctx, 
-                const std::vector<std::string>& path, const value& arg) override;
+                const std::vector<std::string>& path, value arg) override;
 
-        inline std::unique_ptr<data_query> data(io::yield_ctx& yield,
+        std::unique_ptr<data_query> query_data(io::yield_ctx& yield,
                 const uuid& ctx, const std::vector<std::string>& path) const override;
 
         bool write_data(io::yield_ctx& yield, const uuid& ctx, 
                     const std::vector<std::string>& path,
                     const std::vector<data_point>& data) override;
 
-        bool mount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
-        bool unmount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
+        void mount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
+        void unmount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
     private:
         relay* relay_;
         connection* conn_;

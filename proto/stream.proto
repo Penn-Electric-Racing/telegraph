@@ -48,7 +48,7 @@ message Packet {
         int32 cancelled = 10;
         int32 sub_not_found = 11;
 
-        int32 ping = 12;
-        int32 pong = 13;
+        Empty ping = 12;
+        int32 pong = 13; // contains number of subscriptions
     }
 }

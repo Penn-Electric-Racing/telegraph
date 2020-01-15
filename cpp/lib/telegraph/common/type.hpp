@@ -10,13 +10,13 @@ namespace telegraph {
     class type {
     public:
         enum type_class {
-            INVALID, NONE, ENUM,
-            BOOL,
-            UINT8, UINT16, UINT32, UINT64,
-            INT8, INT16, INT32, INT64,
-            FLOAT, DOUBLE
+            Invalid, None, Enum,
+            Bool,
+            Uint8, Uint16, Uint32, Uint64,
+            Int8, Int16, Int32, Int64,
+            Float, Double
         };
-        inline type() : class_(INVALID), name_(), labels_() {}
+        inline type() : class_(Invalid), name_(), labels_() {}
         inline type(type_class c) : class_(c), name_(), labels_() {}
 
         constexpr type_class get_class() const { return class_; }
@@ -31,18 +31,18 @@ namespace telegraph {
 
         inline std::string to_str() const {
             switch (class_) {
-                case INVALID: return "invalid";
-                case NONE: return "none";
-                case BOOL: return "bool";
-                case UINT8: return "uint8";
-                case UINT16: return "uint16";
-                case UINT32: return "uint32";
-                case UINT64: return "uint64";
-                case INT8: return "int8";
-                case INT16: return "int16";
-                case INT32: return "int32";
-                case INT64: return "int64";
-                case ENUM: {
+                case Invalid: return "invalid";
+                case None: return "none";
+                case Bool: return "bool";
+                case Uint8: return "uint8";
+                case Uint16: return "uint16";
+                case Uint32: return "uint32";
+                case Uint64: return "uint64";
+                case Int8: return "int8";
+                case Int16: return "int16";
+                case Int32: return "int32";
+                case Int64: return "int64";
+                case Enum: {
                     std::string s = "enum";
                     if (name_.size() > 0) {
                         s += "/";
@@ -67,27 +67,38 @@ namespace telegraph {
         static constexpr Type::Class pack(type_class tc) {
             using PClass = Type::Class;
             switch (tc) {
-            case INVALID: return PClass::Type_Class_INVALID;
-            case NONE: return PClass::Type_Class_NONE;
-            case ENUM: return PClass::Type_Class_ENUM;
-            case BOOL: return PClass::Type_Class_BOOL;
-            case UINT8: return PClass::Type_Class_UINT8;
-            case UINT16: return PClass::Type_Class_UINT16;
-            case UINT32: return PClass::Type_Class_INT32;
-            case UINT64: return PClass::Type_Class_UINT64;
-            case INT8: return PClass::Type_Class_INT8;
-            case INT16: return PClass::Type_Class_INT16;
-            case INT32: return PClass::Type_Class_INT32;
-            case INT64: return PClass::Type_Class_INT64;
-            case FLOAT: return PClass::Type_Class_FLOAT;
-            case DOUBLE: return PClass::Type_Class_DOUBLE;
+            case Invalid: return PClass::Type_Class_INVALID;
+            case None: return PClass::Type_Class_NONE;
+            case Enum: return PClass::Type_Class_ENUM;
+            case Bool: return PClass::Type_Class_BOOL;
+            case Uint8: return PClass::Type_Class_UINT8;
+            case Uint16: return PClass::Type_Class_UINT16;
+            case Uint32: return PClass::Type_Class_INT32;
+            case Uint64: return PClass::Type_Class_UINT64;
+            case Int8: return PClass::Type_Class_INT8;
+            case Int16: return PClass::Type_Class_INT16;
+            case Int32: return PClass::Type_Class_INT32;
+            case Int64: return PClass::Type_Class_INT64;
+            case Float: return PClass::Type_Class_FLOAT;
+            case Double: return PClass::Type_Class_DOUBLE;
             default: return PClass::Type_Class_INVALID;
             }
         }
         static constexpr type_class unpack(Type::Class tc) {
             switch (tc) {
-            case Type_Class_INVALID: return type_class::INVALID;
-            default: return type_class::INVALID;
+            case Type_Class_INVALID: return type_class::Invalid;
+            case Type_Class_NONE: return type_class::None;
+            case Type_Class_ENUM: return type_class::Enum;
+            case Type_Class_BOOL: return type_class::Bool;
+            case Type_Class_UINT8: return type_class::Uint8;
+            case Type_Class_UINT16: return type_class::Uint16;
+            case Type_Class_UINT32: return type_class::Uint32;
+            case Type_Class_UINT64: return type_class::Uint64;
+            case Type_Class_INT8: return type_class::Int8;
+            case Type_Class_INT16: return type_class::Int16;
+            case Type_Class_INT32: return type_class::Int32;
+            case Type_Class_INT64: return type_class::Int64;
+            default: return type_class::Invalid;
             }
         }
 

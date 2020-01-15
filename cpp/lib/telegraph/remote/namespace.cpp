@@ -41,12 +41,12 @@ namespace telegraph {
 
     value
     remote_namespace::call(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string>& path, const value& arg) {
+            const uuid& ctx, const std::vector<std::string>& path, value arg) {
         return value();
     }
 
     std::unique_ptr<data_query>
-    remote_namespace::data(io::yield_ctx& yield,
+    remote_namespace::query_data(io::yield_ctx& yield,
             const uuid& ctx, const std::vector<std::string>& path) const {
         return nullptr;
     }
@@ -58,15 +58,13 @@ namespace telegraph {
         return false;
     }
 
-    bool
+    void
     remote_namespace::mount(io::yield_ctx& yield,
             const uuid& src, const uuid& tgt) {
-        return false;
     }
 
-    bool
+    void
     remote_namespace::unmount(io::yield_ctx& yield,
             const uuid& src, const uuid& tgt) {
-        return false;
     }
 }

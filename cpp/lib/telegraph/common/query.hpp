@@ -4,6 +4,7 @@
 #include "../utils/uuid.hpp"
 #include "../utils/signal.hpp"
 #include "../utils/io_fwd.hpp"
+#include "../utils/errors.hpp"
 
 #include <memory>
 #include <functional>
@@ -61,6 +62,12 @@ namespace telegraph {
 
             bool has(const key& k) const {
                 return current.find(k) != current.end();
+            }
+
+            const T &result() const {
+                if (current.size() != 1)
+                    throw query_error("must have exactly one result to do get");
+                return current.begin()->second;
             }
 
             T get(const key& k) const {

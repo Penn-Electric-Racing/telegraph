@@ -10,6 +10,7 @@
 #include "../utils/io_fwd.hpp"
 
 #include <memory>
+#include <optional>
 
 namespace telegraph {
     class namespace_;
@@ -18,10 +19,11 @@ namespace telegraph {
     class node;
 
     class subscription;
-    using subscription_ptr = std::shared_ptr<subscription>;
+    using subscription_ptr = std::unique_ptr<subscription>;
 
     class data_point;
     class data_query;
+    using data_query_ptr = std::unique_ptr<data_query>;
 
     class task;
     using task_ptr = std::shared_ptr<task>;
@@ -66,45 +68,54 @@ namespace telegraph {
             fetch(io::yield_ctx&, const uuid& uuid, 
                     context_ptr owner=context_ptr()) const = 0;
 
+        // returns null if subscription failed
         virtual subscription_ptr
             subscribe(io::yield_ctx&,
                     const uuid& ctx, const std::vector<std::string>& path,
                     int32_t min_interval, int32_t max_interval) = 0;
 
-        virtual value call(io::yield_ctx&, 
-                    const uuid& ctx, const std::vector<std::string>& path,
-                    const value& val) = 0;
+        // returns invalid value if call failed
+        virtual value call(io::yield_ctx&, const uuid& ctx, 
+                const std::vector<std::string>& path, value val) = 0;
 
-        virtual std::unique_ptr<data_query> data(io::yield_ctx&,
+        virtual std::unique_ptr<data_query> query_data(io::yield_ctx&,
                     const uuid& ctx, const std::vector<std::string>& path) const = 0;
 
         virtual bool write_data(io::yield_ctx&,
                     const uuid& ctx, const std::vector<std::string>& path,
                     const std::vector<data_point>& data) = 0;
 
-        virtual bool mount(io::yield_ctx&, const uuid& src, const uuid& tgt) = 0;
-        virtual bool unmount(io::yield_ctx&, const uuid& src,  const uuid& tgt) = 0;
+        virtual void mount(io::yield_ctx&, const uuid& src, const uuid& tgt) = 0;
+        virtual void unmount(io::yield_ctx&, const uuid& src,  const uuid& tgt) = 0;
     protected:
         uuid uuid_;
     };
 
     class task : public std::enable_shared_from_this<task> {
     public:
-        inline task(uuid id, const std::string& name, 
+        inline task(io::io_context& ioc, 
+                uuid id, const std::string& name, 
                 const std::string& type, const info& i) : 
-            uuid_(id), name_(name), type_(type), info_(i) {}
+                    ioc_(ioc), uuid_(id), 
+                    name_(name), type_(type), info_(i) {}
+
+        constexpr io::io_context& get_executor() { return ioc_; }
 
         const std::string& get_name() const { return name_; }
         const std::string& get_type() const { return type_; }
         const info& get_info() const { return info_; }
         const uuid& get_uuid() const { return uuid_; }
 
-        // queue the task into the io_context
-        virtual void start(io::yield_ctx&, io::io_context& ioc, const info& info) = 0;
-        virtual void stop(io::yield_ctx&, const info& info) = 0;
+        virtual namespace_* get_namespace() = 0;
+        virtual const namespace_* get_namespace() const = 0;
+
+        virtual void start(io::yield_ctx&, const info& info) = 0;
+        virtual void stop(io::yield_ctx&) = 0;
 
         virtual void destroy(io::yield_ctx&) = 0;
-    private:
+
+    protected:
+        io::io_context& ioc_;
         const uuid uuid_;
         const std::string name_;
         const std::string type_;
@@ -113,10 +124,13 @@ namespace telegraph {
 
     class context : public std::enable_shared_from_this<context> {
     public:
-        inline context(const uuid& uuid, const std::string& name, 
+        inline context(io::io_context& ioc, 
+                const uuid& uuid, const std::string& name, 
                 const std::string& type, const info& i) : 
-                    uuid_(uuid), name_(name),
+                    ioc_(ioc), uuid_(uuid), name_(name),
                     type_(type), info_(i) {}
+
+        constexpr io::io_context& get_executor() { return ioc_; }
 
         virtual namespace_* get_namespace() = 0;
         virtual const namespace_* get_namespace() const = 0;
@@ -126,42 +140,40 @@ namespace telegraph {
         const info& get_info() const { return info_; }
         const uuid& get_uuid() const { return uuid_; }
 
-
         virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
 
         // tree manipulation functions
-        inline virtual subscription_ptr  subscribe(io::yield_ctx& ctx, variable* v, 
+        virtual subscription_ptr  subscribe(io::yield_ctx& ctx, variable* v, 
                                 int32_t min_interval, int32_t max_interval) = 0;
-        inline virtual subscription_ptr  subscribe(io::yield_ctx& ctx, 
+        virtual subscription_ptr  subscribe(io::yield_ctx& ctx, 
                                 const std::vector<std::string>& variable,
                                 int32_t min_interval, int32_t max_interval) = 0;
 
-        inline virtual value call(io::yield_ctx& ctx, 
-                                    action* a, const value& v) = 0;
-        inline virtual value call(io::yield_ctx& ctx, 
-                        const std::vector<std::string>& a, const value& v) = 0;
+        virtual value call(io::yield_ctx& ctx, action* a, value v) = 0;
+        virtual value call(io::yield_ctx& ctx, const std::vector<std::string>& a, value v) = 0;
 
-        inline virtual bool write_data(io::yield_ctx& yield, variable* v, 
+        virtual bool write_data(io::yield_ctx& yield, variable* v, 
                                     const std::vector<data_point>& data) = 0;
-        inline virtual bool write_data(io::yield_ctx& yield, const std::vector<std::string>& var,
+        virtual bool write_data(io::yield_ctx& yield, const std::vector<std::string>& var,
                                     const std::vector<data_point>& data) = 0;
 
-        inline virtual std::unique_ptr<data_query> query_data(io::yield_ctx& yield, 
+        virtual data_query_ptr query_data(io::yield_ctx& yield, 
                                                           const node* n) const = 0;
-        inline virtual std::unique_ptr<data_query> query_data(io::yield_ctx& yield, 
+        virtual data_query_ptr query_data(io::yield_ctx& yield, 
                                           const std::vector<std::string>& n) const = 0;
 
         // mount-querying functions
-        inline virtual query_ptr<mount_info> mounts(io::yield_ctx& yield, 
+        virtual query_ptr<mount_info> mounts(io::yield_ctx& yield, 
                                         bool srcs=true, bool tgts=true) const = 0;
 
-        inline virtual bool mount(io::yield_ctx& ctx, 
-                            const std::shared_ptr<context>& src) = 0;
-        inline virtual bool unmount(io::yield_ctx& ctx, 
-                            const std::shared_ptr<context>& src) = 0;
+        virtual void mount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;
+        virtual void unmount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;
 
-        inline virtual bool destroy(io::yield_ctx& yield) = 0;
-    private:
+        inline virtual void destroy(io::yield_ctx& yield) { on_destroy(yield); }
+
+        signal<io::yield_ctx&> on_destroy;
+    protected:
+        io::io_context& ioc_;
         const uuid uuid_;
         const std::string name_;
         const std::string type_;

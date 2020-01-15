@@ -15,6 +15,12 @@ namespace telegraph {
         inline missing_error(const std::string& error) : std::logic_error(error) {}
     };
 
+    class query_error: public std::logic_error {
+    public:
+        inline query_error(const std::string& error) : std::logic_error(error) {}
+    };
+
+
     class generate_error : public std::logic_error {
     public:
         inline generate_error(const std::string& error) : std::logic_error(error) {}

@@ -32,9 +32,13 @@ namespace telegraph {
                 }
 
                 void operator()(T&&... v) const { 
-                    std::map<void*, std::function<void(T&&...)>> ls(listeners_);
-                    for (auto& l : ls) {
-                        l.second(v...);
+                    // by maintaining an iterator ahead of the current
+                    // one you can safely remove the listener currently
+                    // beign called while we iterate through the map
+                    for (auto it = listeners_.cbegin(), next_it = it; 
+                            it != listeners_.cend(); it = next_it) {
+                        ++next_it;
+                        (it->second)(v...);
                     }
                 }
             private:

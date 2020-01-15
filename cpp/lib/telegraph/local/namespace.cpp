@@ -1,5 +1,6 @@
 #include "namespace.hpp"
 #include "../common/nodes.hpp"
+#include "../utils/errors.hpp"
 
 namespace telegraph {
     local_namespace::local_namespace() 
@@ -56,78 +57,59 @@ namespace telegraph {
                     int32_t min_interval, int32_t max_interval) {
         if (!contexts_->has(ctx)) return nullptr;
         auto c = contexts_->get(ctx);
-        auto t = c->fetch(yield);
-        if (!t) return nullptr;
-        auto n = t->from_path(path);
-        if (!n) return nullptr;
-        variable* v = dynamic_cast<variable*>(n);
-        if (!v) return nullptr;
-        return c->subscribe(yield, v, min_interval, max_interval);
+        return c->subscribe(yield, path, min_interval, max_interval);
     }
 
     value
     local_namespace::call(io::yield_ctx& yield, const uuid& ctx, 
-            const std::vector<std::string>& path, const value& arg) {
+            const std::vector<std::string>& path, value arg) {
         if (!contexts_->has(ctx)) return value();
         auto c = contexts_->get(ctx);
-        auto t = c->fetch(yield);
-        if (!t) return value();
-        auto n = t->from_path(path);
-        if (!n) return value();
-        action* a = dynamic_cast<action*>(n);
-        if (!a) return value();
-        return c->call(yield, a, arg);
+        return c->call(yield, path, arg);
     }
 
     std::unique_ptr<data_query>
-    local_namespace::data(io::yield_ctx& yield,
+    local_namespace::query_data(io::yield_ctx& yield,
             const uuid& ctx, const std::vector<std::string>& path) const {
         if (!contexts_->has(ctx)) return nullptr;
         auto c = contexts_->get(ctx);
-        auto t = c->fetch(yield);
-        if (!t) return nullptr;
-        auto n = t->from_path(path);
-        if (!n) return nullptr;
-        return c->query_data(yield, n);
+        return c->query_data(yield, path);
     }
 
-    bool
+    bool 
     local_namespace::write_data(io::yield_ctx& yield,
             const uuid& ctx, const std::vector<std::string>& path,
             const std::vector<data_point>& data) {
-        if (!contexts_->has(ctx)) return false;
         auto c = contexts_->get(ctx);
-        auto t = c->fetch(yield);
-        if (!t) return false;
-        auto n = t->from_path(path);
-        if (!n) return false;
-        return c->write_data(yield, n, data);
+        if (!c) throw missing_error("no such context");
+        return c->write_data(yield, path, data);
     }
 
-    bool
+    void
     local_namespace::mount(io::yield_ctx& yield,
             const uuid& src, const uuid& tgt) {
-        if (!contexts_->has(src) || !contexts_->has(tgt)) return false;
         auto s = contexts_->get(src);
         auto t = contexts_->get(tgt);
-        if (!s || !t) return false;
+        if (!s || !t) 
+            throw missing_error("no such contexts");
         return t->mount(yield, s);
     }
 
-    bool
+    void
     local_namespace::unmount(io::yield_ctx& yield,
                             const uuid& src, const uuid& tgt) {
-        if (!contexts_->has(src) || !contexts_->has(tgt)) return false;
         auto s = contexts_->get(src);
         auto t = contexts_->get(tgt);
-        if (!s || !t) return false;
+        if (!s || !t) 
+            throw missing_error("no such context");
         return t->unmount(yield, s);
     }
 
 
-    local_context::local_context(const std::string& name, const std::string& type,
+    local_context::local_context(io::io_context& ioc, 
+                const std::string& name, const std::string& type,
                 const info& i, const std::shared_ptr<node>& tree) : 
-                context(rand_uuid(), name, type, i), tree_(tree), ns_(nullptr) {}
+                context(ioc, rand_uuid(), name, type, i), tree_(tree), ns_(nullptr) {}
 
     void
     local_context::reg(io::yield_ctx& yield, local_namespace* ns) {
@@ -137,41 +119,40 @@ namespace telegraph {
         ns->contexts_->add_(yield, shared_from_this());
     }
 
-    bool
+    void
     local_context::destroy(io::yield_ctx& yield) {
-        if (!ns_) return false;
+        if (!ns_) return;
         ns_->contexts_->remove_by_key_(yield, get_uuid());
-        return true;
+        ns_ = nullptr;
     }
 
     query_ptr<mount_info>
     local_context::mounts(io::yield_ctx& yield, bool srcs, bool tgts) const {
-        if (!ns_) throw missing_error("not registered");
+        if (!ns_) 
+            throw missing_error("not registered");
         return ns_->mounts(yield, srcs || !tgts ? get_uuid() : uuid(), 
                                    tgts ? get_uuid() : uuid());
     }
 
-    bool
+    void
     local_context::mount(io::yield_ctx& yield, const context_ptr& src) {
-        if (!ns_) throw missing_error("not registered");
-        if (!src) return false;
+        if (!ns_ || !src)
+            throw missing_error("not registered");
         mount_info m(src->get_uuid(), get_uuid());
         ns_->mounts_->add_(yield, m);
-        return true;
     }
 
-    bool
+    void
     local_context::unmount(io::yield_ctx& yield, const context_ptr& src) {
-        if (!ns_) throw missing_error("not registered");
-        if (!src) return false;
+        if (!ns_ || !src) return;
         mount_info m(src->get_uuid(), get_uuid());
         ns_->mounts_->remove_by_key_(yield, m);
-        return true;
+        return;
     }
 
-    local_task::local_task(const std::string& name, 
+    local_task::local_task(io::io_context& ioc, const std::string& name, 
             const std::string& type, const info& i) 
-                : task(rand_uuid(), name, type, i) {}
+                : task(ioc, rand_uuid(), name, type, i) {}
 
     void
     local_task::reg(io::yield_ctx& yield, local_namespace* ns) {
@@ -183,7 +164,7 @@ namespace telegraph {
 
     void
     local_task::destroy(io::yield_ctx& yield) {
-        if (!ns_) throw missing_error("namespace null");
+        if (!ns_) return;
         ns_->tasks_->remove_by_key_(yield, get_uuid());
         ns_ = nullptr;
     }

@@ -6,12 +6,14 @@
 
 namespace boost {
     namespace asio {
+
         // wraps a yield_context 
         // so we can forward declare stuff
         // and get a significant compilation
         // speedup
         struct yield_ctx {
-            yield_context actual;
+            inline yield_ctx(const yield_context& c) : ctx(c) {}
+            yield_context ctx;
         };
     }
 }

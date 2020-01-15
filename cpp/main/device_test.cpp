@@ -1,6 +1,7 @@
 #include <telegraph/local/device.hpp>
 #include <telegraph/common/nodes.hpp>
 
+#include <telegraph/utils/io.hpp>
 
 #include <iostream>
 
@@ -12,21 +13,25 @@ int main(int argc, char** argv) {
         return 1;
     }
     const std::string port = argv[1];
-    std::vector<int> bauds = {115200};
     const int baud = std::stoi(argv[2]);
 
-    auto dev = std::make_shared<local_device>(port, bauds);
-    auto task = dev->create_task("io_task", baud);
+    local_namespace ns;
 
     io::io_context ioc;
+
+    auto dev_task = std::make_shared<device_io_task>(ioc, "device", port);
+
     io::spawn(ioc,
         [&](io::yield_context yield) {
+            io::yield_ctx c(yield);
+
             // start the io task
-            task->start(yield, ioc);
-            std::cout << "conntected to port!" << std::endl;
+            dev_task->start(c, info(baud));
+            auto q = ns.contexts(c, uuid(), std::string(), "device");
+            auto dev = q->result();
 
             // fetch the tree
-            auto tree = dev->fetch(yield); 
+            auto tree = dev->fetch(c);
             if (!tree) {
                 std::cerr << "unable to fetch tree" << std::endl;
                 return;

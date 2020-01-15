@@ -46,36 +46,36 @@ namespace telegraph {
     }
 
     static std::unordered_map<std::string, type::type_class> s_type_map = {
-        {"invalid", type::INVALID},
-        {"none", type::NONE},
-        {"enum", type::ENUM},
-        {"bool", type::BOOL},
-        {"uint8", type::UINT8},
-        {"uint16", type::UINT16},
-        {"uint32", type::UINT32},
-        {"uint64", type::UINT64},
-        {"int8", type::INT8},
-        {"int16", type::INT16},
-        {"int32", type::INT32},
-        {"int64", type::INT64},
-        {"float", type::FLOAT},
-        {"double", type::DOUBLE}
+        {"invalid", type::Invalid},
+        {"none", type::None},
+        {"enum", type::Enum},
+        {"bool", type::Bool},
+        {"uint8", type::Uint8},
+        {"uint16", type::Uint16},
+        {"uint32", type::Uint32},
+        {"uint64", type::Uint64},
+        {"int8", type::Int8},
+        {"int16", type::Int16},
+        {"int32", type::Int32},
+        {"int64", type::Int64},
+        {"float", type::Float},
+        {"double", type::Double}
     };
     static
     type::type_class unpack_type_class(const std::string& tc) {
         try { 
             return s_type_map.at(tc);
         } catch (const std::out_of_range& r) {
-            return type::INVALID;
+            return type::Invalid;
         }
     }
     static node* unpack_node(int32_t* id_counter, const std::string& name, const json& json);
 
     static type unpack_type(const json& json) {
-        type t(type::INVALID);
+        type t(type::Invalid);
         if (json.is_object()) {
             t = type(unpack_type_class(json.value("type", "invalid")));
-            if (t.get_class() == type::ENUM) {
+            if (t.get_class() == type::Enum) {
                 std::vector<std::string> strs = json.value<std::vector<std::string>>("labels", {});
                 t.set_labels(std::move(strs));
                 if (json.find("type_name") == json.end())
@@ -98,8 +98,8 @@ namespace telegraph {
 
     static action* unpack_action(int32_t* id_counter, const std::string& name, 
                                  const json& json) {
-        type arg(type::NONE);
-        type ret(type::NONE);
+        type arg(type::None);
+        type ret(type::None);
         if (json.find("arg") != json.end()) arg = unpack_type(json["arg"]);
         if (json.find("ret") != json.end()) ret = unpack_type(json["ret"]);
         std::string pretty = json.value("pretty", "");

@@ -47,41 +47,49 @@ namespace telegraph {
                int32_t min_interval, int32_t max_interval) override;
 
         value call(io::yield_ctx& yield, const uuid& ctx, 
-                const std::vector<std::string>& path, const value& arg) override;
+                const std::vector<std::string>& path, value arg) override;
 
-        std::unique_ptr<data_query> data(io::yield_ctx& yield,
+        std::unique_ptr<data_query> query_data(io::yield_ctx& yield,
                 const uuid& ctx, const std::vector<std::string>& path) const override;
 
         bool write_data(io::yield_ctx& yield, const uuid& ctx, 
                     const std::vector<std::string>& path,
                     const std::vector<data_point>& data) override;
 
-        bool mount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
-        bool unmount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
+        void mount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
+        void unmount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
     };
 
     class local_context : public context {
     public:
-        local_context(const std::string& name, const std::string& type, const info& i,
-                     const std::shared_ptr<node>& tree);
+        local_context(io::io_context& ioc, 
+                const std::string& name, const std::string& type, 
+                const info& i, const std::shared_ptr<node>& tree);
+
+        inline namespace_* get_namespace() override { return ns_; }
+        inline const namespace_* get_namespace() const override { return ns_; }
+
         void reg(io::yield_ctx& yield, local_namespace* ns);
-        bool destroy(io::yield_ctx& yield) override;
+        void destroy(io::yield_ctx& yield) override;
 
         inline std::shared_ptr<node> fetch(io::yield_ctx&) override {  return tree_; }
 
         query_ptr<mount_info> mounts(io::yield_ctx& yield,
                 bool srcs=true, bool tgts=true) const override;
-        bool mount(io::yield_ctx&, const context_ptr& src) override;
-        bool unmount(io::yield_ctx&, const context_ptr& src) override;
+        void mount(io::yield_ctx&, const context_ptr& src) override;
+        void unmount(io::yield_ctx&, const context_ptr& src) override;
     protected:
-        const std::shared_ptr<node> tree_;
+        std::shared_ptr<node> tree_;
         local_namespace* ns_;
     };
 
     class local_task : public task {
     public:
-        local_task(const std::string& name,
+        local_task(io::io_context& ioc, const std::string& name,
                 const std::string& type, const info& i);
+
+        inline namespace_* get_namespace() override { return ns_; }
+        inline const namespace_* get_namespace() const override { return ns_; }
 
         void reg(io::yield_ctx& ctx, local_namespace* ns);
         void destroy(io::yield_ctx& ctx) override;
