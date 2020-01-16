@@ -122,7 +122,7 @@ def run_ping():
     while True:
         time.sleep(0.1)
         packet = Packet()
-        packet.ping = 0
+        packet.ping.SetInParent()
         write_packet(packet)
         last_ping = time.time()
 
