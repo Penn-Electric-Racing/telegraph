@@ -54,18 +54,18 @@ namespace telegraph {
     subscription_ptr
     local_namespace::subscribe(io::yield_ctx& yield,
                     const uuid& ctx, const std::vector<std::string>& path,
-                    int32_t min_interval, int32_t max_interval) {
+                    interval min_interval, interval max_interval, interval timeout) {
         if (!contexts_->has(ctx)) return nullptr;
         auto c = contexts_->get(ctx);
-        return c->subscribe(yield, path, min_interval, max_interval);
+        return c->subscribe(yield, path, min_interval, max_interval, timeout);
     }
 
     value
     local_namespace::call(io::yield_ctx& yield, const uuid& ctx, 
-            const std::vector<std::string>& path, value arg) {
+            const std::vector<std::string>& path, value arg, interval timeout) {
         if (!contexts_->has(ctx)) return value();
         auto c = contexts_->get(ctx);
-        return c->call(yield, path, arg);
+        return c->call(yield, path, arg, timeout);
     }
 
     std::unique_ptr<data_query>

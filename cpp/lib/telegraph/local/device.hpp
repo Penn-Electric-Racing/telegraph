@@ -23,14 +23,6 @@ namespace telegraph {
     class device_io_worker;
     class device : public local_context {
     private:
-        struct sub_req {
-            bool cancel; // true if this is a cancel request
-            uint32_t min_interval; // set if cancel is false
-            uint32_t max_interval; // set if cancel is false
-
-            io::deadline_timer& event;
-            bool& success;
-        };
         struct call_req {
             io::deadline_timer& event;
             value& ret;
@@ -44,17 +36,12 @@ namespace telegraph {
         io::streambuf write_buf_;
         io::streambuf read_buf_;
 
-        // map from var id -> queue of subscription-changing requests
-        // used for both cancel() and change_sub() to guarantee
-        // the callback order is sane
-        std::unordered_map<uint32_t, std::deque<sub_req*>> sub_reqs_;
-
         uint32_t call_id_counter_;
         std::unordered_map<uint32_t, call_req> call_reqs_;
         std::deque<tree_req> tree_reqs_;
         
         // subscription adapters
-        std::unordered_map<uint32_t, adapter> adapters_;
+        std::unordered_map<node::id, adapter> adapters_;
 
         io::serial_port port_;
     public:
@@ -69,22 +56,24 @@ namespace telegraph {
 
         // the overridden functions
         subscription_ptr subscribe(io::yield_ctx& ctx, variable* v,
-                                int32_t min_interval, int32_t max_interval);
-        value call(io::yield_ctx& ctx, action* a, value v);
+                                interval min_interval, interval max_interval, 
+                                interval timeout) override;
+        value call(io::yield_ctx& ctx, action* a, value v, interval timeout) override;
 
         // path-based overloads
         inline subscription_ptr subscribe(io::yield_ctx& ctx, const std::vector<std::string>& path,
-                                int32_t min_interval, int32_t max_interval) {
+                                interval min_interval, interval max_interval, 
+                                interval timeout) override {
             auto v = dynamic_cast<variable*>(tree_->from_path(path));
             if (!v) return nullptr;
-            return subscribe(ctx, v, min_interval, max_interval);
+            return subscribe(ctx, v, min_interval, max_interval, timeout);
         }
 
         inline value call(io::yield_ctx& ctx, 
-                const std::vector<std::string>& path, value v) {
+                const std::vector<std::string>& path, value v, interval timeout) override {
             auto a = dynamic_cast<action*>(tree_->from_path(path));
             if (!a) return value();
-            return call(ctx, a, v);
+            return call(ctx, a, v, timeout);
         }
 
         // unimplemented context functions
@@ -112,10 +101,7 @@ namespace telegraph {
             return std::static_pointer_cast<device>(shared_from_this());
         }
 
-        bool change_sub(io::yield_ctx& yield, uint32_t var_id,
-                        uint32_t min_interval, uint32_t max_interval);
-        bool cancel_sub(io::yield_ctx& yield, uint32_t var_id);
-
+        // will queue a write out
         // called from within the port executing strand
         void on_start();
         void do_reading(size_t requested = 0); // requested of 0 just read any amount
@@ -126,9 +112,11 @@ namespace telegraph {
 
         void on_read(const stream::Packet& p);
 
-        void start_call(uint32_t call_id, uint32_t action_id, value arg);
+        void start_call(uint32_t call_id, node::id action_id, value arg);
         void start_fetch();
-        void start_next_sub(uint32_t var_id);
+        void start_change_sub(node::id var_id, interval min_interval, 
+                                interval max_interval, interval timeout);
+        void start_cancel_sub(node::id var_id, interval timeout);
     };
 
     // the io_task doesn't actually do the work, but

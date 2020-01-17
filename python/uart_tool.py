@@ -12,21 +12,28 @@ from google.protobuf.message import DecodeError
 
 from stream_pb2 import Packet
 from common_pb2 import Empty
+from util import crc32
 
 import serial
+import struct
 
 write_lock = threading.Lock()
 refresh_lock = threading.Lock()
 
 ser = serial.Serial('/dev/ttyACM0', 112500)
 
+ui = None
+
+req_id = 0
 def write_packet(p):
     with write_lock:
+        global req_id
+        req_id = req_id + 1
+        p.req_id = req_id
         size = p.ByteSize()
         varint = _VarintBytes(size)
-        ser.write(varint)
-
-        buf = p.SerializeToString()
+        buf = varint + p.SerializeToString()
+        buf += struct.pack('<I', crc32(buf))
         ser.write(buf)
         ser.flush()
 
@@ -35,7 +42,8 @@ def read_varint32():
     result = 0
     shift = 0
     while 1:
-      b = int.from_bytes(ser.read(), byteorder='big')
+      by = ser.read()
+      b = int.from_bytes(by, byteorder='big')
       result |= ((b & 0x7f) << shift)
       if not (b & 0x80):
         result &= mask
@@ -46,11 +54,20 @@ def read_varint32():
           raise ValueError('Too many bytes when decoding')
 
 def read_packet():
-    size = read_varint32()
-    buf = ser.read(size)
-    packet = Packet()
-    packet.ParseFromString(buf)
-    return packet
+    while True:
+        size = read_varint32()
+        buf = ser.read(size + 4)
+        payload = buf[:-4]
+
+        msg = _VarintBytes(size) + payload
+        expected_checksum = crc32(msg)
+        checksum, = struct.unpack('<I', buf[-4:])
+        if expected_checksum != checksum:
+            return None
+        packet = Packet()
+        packet.ParseFromString(payload)
+        return packet
+
 
 
 def fetch_tree():
@@ -60,10 +77,12 @@ def fetch_tree():
 
     while True:
         p = read_packet()
-        if hasattr(p, 'tree'):
+        if p and hasattr(p, 'tree'):
             return p.tree
+        time.sleep(0.5)
 
 def set_status(id, status):
+    global ui
     if ui:
         ui.set_status(id, status)
 
@@ -83,15 +102,6 @@ def cancel(id):
     write_packet(packet)
 
 # handlers
-def on_subscribed(id):
-    set_status(id, 'success')
-
-def on_sub_failed(id):
-    set_status(id, 'failed')
-
-def on_cancelled(id):
-    set_status(id, 'cancelled')
-
 def on_update(id, val):
     set_status(id, str(val))
 
@@ -103,11 +113,7 @@ def run_io():
             continue
 
         event = getattr(packet, event_type)
-        if event_type == 'subscribed':
-            on_subscribed(event)
-        elif event_type == 'sub_failed':
-            on_sub_failed(event)
-        elif event_type == 'update':
+        if event_type == 'update':
             val = getattr(event.val, event.val.WhichOneof('type'))
             on_update(event.var_id, val)
 
@@ -122,18 +128,14 @@ def run_ping():
     while True:
         time.sleep(0.1)
         packet = Packet()
-        packet.ping = 0
+        packet.ping.SetInParent()
         write_packet(packet)
         last_ping = time.time()
 
 
 # read the tree
 ser.reset_input_buffer()
-try:
-    tree = fetch_tree()
-except:
-    print('failed to connect, try waiting a bit so the device stops sending data')
-    sys.exit(1)
+tree = fetch_tree()
 
 # redirect stdout
 sys.stdout = open('log.txt', 'w')
@@ -340,3 +342,4 @@ try:
     ui.run()
 except KeyboardInterrupt:
     curses.endwin()
+

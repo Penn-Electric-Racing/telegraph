@@ -13,12 +13,13 @@ namespace telegen {
     class action_base;
     class subscription;
     using subscription_ptr = std::unique_ptr<subscription>;
+    using interval = uint16_t;
 
     class source {
     public:
         virtual promise<subscription_ptr> subscribe(variable_base* v,  
-                        int32_t min_interval, int32_t max_interval) = 0;
-        virtual promise<value> call(action_base* a, const value& arg) = 0;
+                        interval min_interval, interval max_interval, interval timeout) = 0;
+        virtual promise<value> call(action_base* a, value arg, interval timeout) = 0;
     };
 
 

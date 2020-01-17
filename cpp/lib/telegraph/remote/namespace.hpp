@@ -40,10 +40,10 @@ namespace telegraph {
 
         subscription_ptr subscribe(io::yield_ctx& yield,
                const uuid& ctx, const std::vector<std::string>& path,
-               int32_t min_interval, int32_t max_interval) override;
+               interval min_interval, interval max_interval, interval timeout) override;
 
         value call(io::yield_ctx& yield, const uuid& ctx, 
-                const std::vector<std::string>& path, value arg) override;
+                const std::vector<std::string>& path, value arg, interval timeout) override;
 
         std::unique_ptr<data_query> query_data(io::yield_ctx& yield,
                 const uuid& ctx, const std::vector<std::string>& path) const override;

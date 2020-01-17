@@ -72,11 +72,11 @@ namespace telegraph {
         virtual subscription_ptr
             subscribe(io::yield_ctx&,
                     const uuid& ctx, const std::vector<std::string>& path,
-                    int32_t min_interval, int32_t max_interval) = 0;
+                    interval min_interval, interval max_interval, interval timeout) = 0;
 
         // returns invalid value if call failed
         virtual value call(io::yield_ctx&, const uuid& ctx, 
-                const std::vector<std::string>& path, value val) = 0;
+                const std::vector<std::string>& path, value val, interval timeout) = 0;
 
         virtual std::unique_ptr<data_query> query_data(io::yield_ctx&,
                     const uuid& ctx, const std::vector<std::string>& path) const = 0;
@@ -144,13 +144,16 @@ namespace telegraph {
 
         // tree manipulation functions
         virtual subscription_ptr  subscribe(io::yield_ctx& ctx, variable* v, 
-                                int32_t min_interval, int32_t max_interval) = 0;
+                                interval min_interval, interval max_interval, 
+                                interval timeout) = 0;
         virtual subscription_ptr  subscribe(io::yield_ctx& ctx, 
                                 const std::vector<std::string>& variable,
-                                int32_t min_interval, int32_t max_interval) = 0;
+                                interval min_interval, interval max_interval,
+                                interval timeout) = 0;
 
-        virtual value call(io::yield_ctx& ctx, action* a, value v) = 0;
-        virtual value call(io::yield_ctx& ctx, const std::vector<std::string>& a, value v) = 0;
+        virtual value call(io::yield_ctx& ctx, action* a, value v, interval timeout) = 0;
+        virtual value call(io::yield_ctx& ctx, const std::vector<std::string>& a, 
+                            value v, interval timeout) = 0;
 
         virtual bool write_data(io::yield_ctx& yield, variable* v, 
                                     const std::vector<data_point>& data) = 0;

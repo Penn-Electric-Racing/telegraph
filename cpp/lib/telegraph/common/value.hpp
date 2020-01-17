@@ -51,6 +51,8 @@ namespace telegraph {
         constexpr type::type_class get_type_class() const { return type_; }
         constexpr const box& get_box() const { return value_; }
 
+        constexpr bool is_valid() { return type_ != type::Invalid; }
+
         template<typename T>
             T get() const {
                 return unwrap<T>(*this);

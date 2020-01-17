@@ -28,14 +28,15 @@ namespace telegen {
                     pub_(pub) {}
 
                 ~sub_impl() {
-                    if (!is_cancelled()) cancel();
+                    // cancel immediately
+                    if (!is_cancelled()) cancel(0);
                 }
 
                 bool is_cancelled() override {
                     return pub_ == nullptr;
                 }
 
-                promise<> cancel() override {
+                promise<> cancel(interval timeout) override {
                     if (!is_cancelled()) {
                         if (pub_) 
                             pub_->subs_.erase(std::remove(pub_->subs_.begin(), 
@@ -47,7 +48,8 @@ namespace telegen {
                     return promise<>(promise_status::Resolved); 
                 }
 
-                promise<> change(uint32_t min_int, uint32_t max_int) override {
+                promise<> change(interval min_int, interval max_int, 
+                                interval timeout) override {
                     min_interval_ = min_int;
                     max_interval_ = max_int;
 
@@ -174,7 +176,7 @@ namespace telegen {
             }
 
             promise<subscription_ptr> subscribe(variable_base* v,
-                        int32_t min_interval, int32_t max_interval) {
+                        interval min_interval, interval max_interval, interval timeout) override {
                 sub_impl* sub = new sub_impl(this, min_interval, max_interval);
                 subs_.push_back(sub);
                 // if we have a value, send it out now
@@ -186,7 +188,7 @@ namespace telegen {
                 return promise<subscription_ptr>(std::unique_ptr<subscription>(sub));
             }
 
-            promise<value> call(action_base* a, const value& arg) {
+            promise<value> call(action_base* a, value arg, interval timeout) override {
                 return promise<value>(promise_status::Rejected);
             }
         private:

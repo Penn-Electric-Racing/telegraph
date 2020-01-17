@@ -3,6 +3,7 @@
 #include "source.hpp"
 #include "nodes.hpp"
 #include "value.hpp"
+#include "util.hpp"
 #include "promise.hpp"
 
 #include "stream.nanopb.h"
@@ -23,27 +24,6 @@ namespace telegen {
      */
     template<typename Uart, typename Clock>
         class uart_interface : public source, public coroutine {
-        private:
-            static uint32_t fletcher32(const uint16_t *data, size_t len) {
-                uint32_t c0, c1;
-                unsigned int i;
-
-                for (c0 = c1 = 0; len >= 360; len -= 360) {
-                    for (i = 0; i < 360; ++i) {
-                        c0 = c0 + *data++;
-                        c1 = c1 + c0;
-                    }
-                    c0 = c0 % 65535;
-                    c1 = c1 % 65535;
-                }
-                for (i = 0; i < len; ++i) {
-                    c0 = c0 + *data++;
-                    c1 = c1 + c0;
-                }
-                c0 = c0 % 65535;
-                c1 = c1 % 65535;
-                return (c1 << 16 | c0);
-            }
         private:
             Uart* uart_;
             Clock* clock_;
@@ -74,38 +54,26 @@ namespace telegen {
             ~uart_interface() {}
 
             // nobody can subscribe through here
-            promise<subscription_ptr> subscribe(variable_base* v, int32_t min_interval,
-                                                    int32_t max_interval) override {
+            promise<subscription_ptr> subscribe(variable_base* v, 
+                    interval min_interval, interval max_interval, interval timeout) override {
                 return promise<subscription_ptr>(promise_status::Rejected);
             }
 
-            promise<value> call(action_base* a, const value& arg) override {
+            promise<value> call(action_base* a, value arg, interval timeout) override {
                 return promise<value>(promise_status::Rejected);
             }
 
-            void notify_subscribed(int32_t var_id) {
+            void notify_success(uint32_t req_id, bool success) {
                 telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
-                p.which_event = telegraph_stream_Packet_subscribed_tag;
-                p.event.subscribed = var_id;
+                p.req_id = req_id;
+                p.which_event = telegraph_stream_Packet_success_tag;
+                p.event.success = success;
                 write_packet(p);
             }
 
-            void notify_sub_failed(int32_t var_id) {
+            void notify_cancelled(node::id var_id) {
                 telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
-                p.which_event = telegraph_stream_Packet_sub_failed_tag;
-                p.event.sub_failed = var_id;
-                write_packet(p);
-            }
-
-            void notify_sub_not_found(int32_t var_id) {
-                telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
-                p.which_event = telegraph_stream_Packet_sub_not_found_tag;
-                p.event.sub_not_found = var_id;
-                write_packet(p);
-            }
-
-            void notify_cancelled(int32_t var_id) {
-                telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
+                p.req_id = 0;
                 p.which_event = telegraph_stream_Packet_cancelled_tag;
                 p.event.cancelled = var_id;
                 write_packet(p);
@@ -114,6 +82,7 @@ namespace telegen {
             void push_update(int32_t var_id, const value& v) {
                 telegraph_stream_Packet p =
                     telegraph_stream_Packet_init_default;
+                p.req_id = 0;
                 p.which_event = telegraph_stream_Packet_update_tag;
                 p.event.update.var_id = var_id;
                 v.pack(&p.event.update.val);
@@ -123,6 +92,7 @@ namespace telegen {
             // called by receive() when we get an event
             void received_packet(const telegraph_stream_Packet& packet) {
                 last_time_ = clock_->millis();
+                uint32_t req_id = packet.req_id;
                 switch(packet.which_event) {
                 case telegraph_stream_Packet_fetch_tree_tag: {
                     telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
@@ -132,13 +102,25 @@ namespace telegen {
                 } break;
                 case telegraph_stream_Packet_change_sub_tag: {
                     // extract the info
-                    int32_t var_id = packet.event.change_sub.var_id;
+                    if (packet.event.change_sub.var_id > 
+                            std::numeric_limits<node::id>::max()) return;
+
+                    node::id var_id = packet.event.change_sub.var_id;
                     if (var_id >= table_size_) return;
                     variable_base* v = (variable_base*) lookup_table_[var_id];
                     if (!v) return;
 
-                    int32_t min_int = packet.event.change_sub.min_interval;
-                    int32_t max_int = packet.event.change_sub.max_interval;
+                    // check for overflows in the intervals
+                    if (packet.event.change_sub.min_interval > 
+                            std::numeric_limits<interval>::max()) return;
+                    if (packet.event.change_sub.max_interval > 
+                            std::numeric_limits<interval>::max()) return;
+                    if (packet.event.change_sub.timeout > 
+                            std::numeric_limits<interval>::max()) return;
+
+                    interval min_int = (interval) packet.event.change_sub.min_interval;
+                    interval max_int = (interval) packet.event.change_sub.max_interval;
+                    interval timeout = (interval) packet.event.change_sub.timeout;
 
                     // the callback for when the operation is complete
                     // NOTE: since we are capturing two variables, requires malloc?
@@ -147,17 +129,16 @@ namespace telegen {
 
                     if (subs_.find(var_id) != subs_.end()) {
                         auto& s = subs_.at(var_id);
-                        auto p = s->change(min_int, max_int);
+                        auto p = s->change(min_int, max_int, timeout);
                         // on change completion
-                        p.then([this, var_id] (promise_status s) {
-                            if (s == promise_status::Resolved) notify_subscribed(var_id);
-                            else notify_sub_failed(var_id);
+                        p.then([this, req_id] (promise_status s) {
+                            notify_success(req_id, s == promise_status::Resolved);
                         });
                     } else {
                         if (v) {
-                            auto p = v->subscribe(min_int, max_int);
+                            auto p = v->subscribe(min_int, max_int, timeout);
                             // on subscribe completion
-                            p.then([this, var_id] (promise_status s, subscription_ptr&& sub) {
+                            p.then([this, req_id, var_id] (promise_status s, subscription_ptr&& sub) {
                                 if (s == promise_status::Resolved) {
                                     // put the subscribe in the subs map
                                     // set the handler to push updates
@@ -168,23 +149,24 @@ namespace telegen {
                                         notify_cancelled(var_id);
                                     });
                                     subs_.emplace(var_id, std::move(sub));
-                                    notify_subscribed(var_id);
-                                } else {
-                                    notify_sub_failed(var_id);
                                 }
+                                notify_success(req_id, s == promise_status::Resolved);
                             });
                         }
                     }
                 } break;
                 case telegraph_stream_Packet_cancel_sub_tag: {
-                    int32_t var_id = packet.event.cancel_sub;
+                    if (packet.event.cancel_sub.var_id > 
+                            std::numeric_limits<node::id>::max()) return;
+                    if (packet.event.cancel_sub.timeout > 
+                            std::numeric_limits<interval>::max()) return;
+                    node::id var_id = packet.event.cancel_sub.var_id;
+                    interval timeout = packet.event.cancel_sub.timeout;
                     if (subs_.find(var_id) != subs_.end()) {
                         // erase the variable from the subscriptions
                         // the cancel handler should invoke on
                         // subscription destruction
                         subs_.erase(var_id);
-                    } else {
-                        notify_sub_not_found(var_id);
                     }
                 } break;
                 case telegraph_stream_Packet_ping_tag: {
@@ -198,14 +180,25 @@ namespace telegen {
             }
 
             void write_packet(const telegraph_stream_Packet& packet) {
+                struct stream_state {
+                    Uart* uart;
+                    uint32_t crc;
+                };
+
+                stream_state state;
+                state.uart = uart_;
+                util::crc32_start(state.crc);
+
                 pb_ostream_t stream;
-                stream.state = (void*) uart_;
+                stream.state = &state;
                 stream.max_size = SIZE_MAX;
                 stream.bytes_written = 0;
                 stream.callback = [](pb_ostream_t* stream, 
                         const uint8_t* buf, size_t count) {
-                    Uart* u = (Uart*) stream->state;
-                    size_t sent = 0;
+                    stream_state* s = (stream_state*) stream->state;
+                    for (size_t i = 0; i < count; i++) {
+                        util::crc32_next(s->crc, buf[i]);
+                    }
                     // make sure the entire 
                     // write goes out
                     // TODO: This will block other 
@@ -216,8 +209,8 @@ namespace telegen {
                     // interface and could "resume" the encode then we could
                     // yield control here. Not sure if worth the effort though
                     do {
-                        sent += u->try_write(buf, count);
-                    } while (sent < count);
+                        count -= s->uart->try_write(buf, count);
+                    } while (count > 0);
                     return true;
                 };
                 // write packet with var ints
@@ -228,6 +221,12 @@ namespace telegen {
                     while(true) {} 
                     #endif
                 }
+                util::crc32_finalize(state.crc);
+                // write the crc
+                size_t count = sizeof(uint32_t);
+                do {
+                    count -= uart_->try_write((const uint8_t*) &state.crc, count);
+                } while (count > 0);
             }
 
             void reset_read_buf() {
@@ -275,7 +274,7 @@ namespace telegen {
                     }
                     payload_len_ = result;
                 }
-                size_t expected = header_len_ + payload_len_;
+                size_t expected = header_len_ + payload_len_ + 4;
                 if (expected > 256) reset_read_buf();
                 if (recv_idx_ < expected) {
                     size_t rd = uart_->try_read(&recv_buf_[recv_idx_], 
@@ -285,6 +284,14 @@ namespace telegen {
                 }
 
                 // we have all the bytes we need
+                uint32_t crc = *reinterpret_cast<uint32_t*>(&recv_buf_[header_len_ + payload_len_]);
+                uint32_t crc_expected = util::crc32_block(&recv_buf_[0], header_len_ + payload_len_);
+                if (crc != crc_expected) {
+                    // ERROR WITH THE CHECKSUMS!
+                    reset_read_buf();
+                    return;
+                }
+
                 telegraph_stream_Packet packet = telegraph_stream_Packet_init_default;
                 pb_istream_t stream = pb_istream_from_buffer(&recv_buf_[header_len_], 
                                                             payload_len_);

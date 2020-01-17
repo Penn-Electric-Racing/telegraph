@@ -4,6 +4,7 @@
 #include "util.hpp"
 #include "source.hpp"
 #include "types.hpp"
+#include "inplace_function.hpp"
 
 #include "common.nanopb.h"
 #include "pb_encode.h"
@@ -18,14 +19,17 @@ namespace telegen {
     template<size_t N>
         using id_array = std::array<int32_t, N>;
 
+    using interval = uint16_t;
+
     class node {
     public:
-        constexpr node(int32_t id, const char* name, 
+        using id = uint16_t;
+        constexpr node(id i, const char* name, 
                 const char* pretty, const char* desc) : 
-            owner_(nullptr), id_(id), name_(name), 
+            owner_(nullptr), id_(i), name_(name), 
             pretty_(pretty), desc_(desc) {}
 
-        constexpr int32_t get_id() const { return id_; }
+        constexpr id get_id() const { return id_; }
 
         // use char* so we can store everything in data section
         constexpr const char* get_name() const { return name_; }
@@ -40,7 +44,7 @@ namespace telegen {
         }
     protected:
         source* owner_;
-        const int32_t id_;
+        const id id_;
         const char* const name_;
         const char* const pretty_;
         const char* const desc_;
@@ -48,11 +52,11 @@ namespace telegen {
 
     class group : public node {
     public:
-        constexpr group(int32_t id, const char* name, 
+        constexpr group(id i, const char* name, 
                 const char* pretty, const char* desc,
                 const char* schema, int32_t version,
                 node* const* children, size_t num_children) :
-            node(id, name, pretty, desc), 
+            node(i, name, pretty, desc), 
             schema_(schema), version_(version),
             children_(children), num_children_(num_children) {}
 
@@ -110,20 +114,32 @@ namespace telegen {
         constexpr action_base(int32_t id, const char* name, const char* pretty,
                               const char* desc) 
             : node(id, name, pretty, desc) {}
+
+        promise<value> call(action_base* a, value arg, interval timeout) {
+            if (!owner_) return promise<value>(promise_status::Rejected);
+            return owner_->call(this, arg, timeout);
+        }
     };
 
     template<typename Arg, typename Ret>
         class action : public action_base {
         public:
-            constexpr action(int32_t id, const char* name, 
+            constexpr action(id i, const char* name, 
                             const char* pretty, const char* desc,
                             const type_info<Arg>* arg_type,
                             const type_info<Ret>* ret_type) : 
-                        action_base(id, name, pretty, desc),
+                        action_base(i, name, pretty, desc),
                         arg_type_(arg_type),
                         ret_type_(ret_type) {}
 
-            Ret call(const Arg& a) {}
+            cpromise<Ret> call(const Arg& a) {
+                value v{get_type_class<Arg>()};
+                v.set<Arg>(v);
+                auto p = call(v);
+                return p.template chain<Ret>([] (promise_status p, value&& v) -> Ret {
+                    return v.get<Ret>();
+                });
+            }
 
             void pack(telegraph_Action* a) const {
                 a->id = get_id();
@@ -149,33 +165,35 @@ namespace telegen {
 
     class subscription {
     public:
-        inline subscription(uint32_t min_time, uint32_t max_time) : 
+        inline subscription(interval min_time, interval max_time) : 
                 min_interval_(min_time), max_interval_(max_time), 
                 cb_(), cancel_cb_() {}
         // subscription is cancelled on destructor
         virtual inline ~subscription() {}
 
         virtual bool is_cancelled() = 0;
-        virtual promise<> cancel() = 0;
-        virtual promise<> change(uint32_t min_time, uint32_t max_time) = 0;
+        virtual promise<> cancel(interval timeout) = 0;
+        virtual promise<> change(interval min_interval, 
+                        interval max_interval, interval timeout) = 0;
 
-        constexpr uint32_t get_min_interval() const { return min_interval_; }
-        constexpr uint32_t get_max_interval() const { return max_interval_; }
+        constexpr interval get_min_interval() const { return min_interval_; }
+        constexpr interval get_max_interval() const { return max_interval_; }
 
         // set the handler
-        void handler(const std::function<void(const value&)>& cb) {
+        void handler(const stdext::inplace_function<void(const value&), 16>& cb) {
             cb_ = cb;
         }
-        void cancel_handler(const std::function<void()>& cb) {
+        void cancel_handler(const stdext::inplace_function<void(), 16>& cb) {
             cancel_cb_ = cb;
         }
     protected:
-        uint32_t min_interval_;
-        uint32_t max_interval_;
-        std::function<void(const value&)> cb_;
+        interval min_interval_;
+        interval max_interval_;
+        stdext::inplace_function<void(const value& val), 16> cb_;
         // note: may be invoked even after 
-        // subscription object has been deleted
-        std::function<void()> cancel_cb_;
+        // subscription object has been deleted if
+        // the cancel happened by the destructor
+        stdext::inplace_function<void(), 16> cancel_cb_;
     };
 
     using subscription_ptr = std::unique_ptr<subscription>;
@@ -188,6 +206,7 @@ namespace telegen {
             std::function<void(const T&)> tcb_;
         public:
             sub(std::unique_ptr<subscription>&& s) : sub_(std::move(s)) {}
+            sub() : sub_() {}
 
             void handler(const std::function<void(const T&)>& cb) {
                 tcb_ = cb;
@@ -201,10 +220,10 @@ namespace telegen {
                                 const char* desc) : node(id, name, pretty, desc) {}
                                 
 
-
-        inline promise<subscription_ptr> subscribe(int32_t min_interval, int32_t max_interval) {
+        inline promise<subscription_ptr> subscribe(interval min_interval, 
+                interval max_interval, interval timeout) {
             if (!owner_) return promise<subscription_ptr>(promise_status::Rejected);
-            return owner_->subscribe(this, min_interval, max_interval);
+            return owner_->subscribe(this, min_interval, max_interval, timeout);
         }
     };
 
@@ -222,10 +241,9 @@ namespace telegen {
                 :  variable_base(id, name, pretty, desc),
                    type_(type) {}
 
-            promise<sub<T>> subs(int32_t min_interval, int32_t max_interval) {
-                auto p = subscribe(min_interval, max_interval);
-                // NOTE: chain involves a malloc, find an alternative?
-                return p.template chain<sub<T>>([] (subscription_ptr&& s) -> sub<T> { 
+            cpromise<sub<T>> subs(interval min_interval, interval max_interval, interval timeout) {
+                auto p = subscribe(min_interval, max_interval, timeout);
+                return p.template chain<sub<T>>([] (promise_status p, subscription_ptr&& s) -> sub<T> { 
                         return sub<T>(std::move(s)); 
                 });
             }

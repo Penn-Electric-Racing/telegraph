@@ -14,18 +14,21 @@
 #include "common.pb.h"
 
 namespace telegraph {
+
     class group;
 
     class context;
     using context_ptr = std::shared_ptr<context>;
 
+
     class node {
         friend std::ostream& operator<<(std::ostream&, const node&);
         friend group;
     public:
-        inline node(int32_t id, const std::string& name, 
+        using id = uint16_t;
+        inline node(id i, const std::string& name, 
              const std::string& pretty, const std::string& desc) : 
-                id_(id), name_(name), pretty_(pretty), 
+                id_(i), name_(name), pretty_(pretty), 
                 desc_(desc), ctx_(), parent_(nullptr) {}
         inline virtual ~node() {}
 
@@ -34,7 +37,7 @@ namespace telegraph {
             ctx_ = ctx; 
         }
 
-        constexpr const int32_t get_id() const { return id_; }
+        constexpr const id get_id() const { return id_; }
         constexpr const std::string& get_name() const { return name_; }
         constexpr const std::string& get_pretty() const { return pretty_; }
         constexpr const std::string& get_desc() const { return desc_; }
@@ -77,7 +80,7 @@ namespace telegraph {
         constexpr void set_parent(group* g) { parent_ = g; }
         virtual void print(std::ostream& o, int ident=0) const;
 
-        int32_t id_;
+        id id_;
         std::string name_;
         std::string pretty_; // For display
         std::string desc_; // For documentation
@@ -94,10 +97,10 @@ namespace telegraph {
 
     class group : public node {
     public:
-        inline group(int32_t id, const std::string& name, const std::string& pretty,
+        inline group(id i, const std::string& name, const std::string& pretty,
                     const std::string& desc, const std::string& schema, int version,
                     std::vector<node*>&& children) : 
-                node(id, name, pretty, desc),
+                node(i, name, pretty, desc),
                 schema_(schema), version_(version), 
                 children_(children), children_map_() {
             // populate the children map
@@ -210,9 +213,9 @@ namespace telegraph {
 
     class variable : public node {
     public:
-        variable(int32_t id, const std::string& name, 
+        variable(id i, const std::string& name, 
                 const std::string& pretty, const std::string& desc,
-                const type& t) : node(id, name, pretty, desc), data_type_(t) {}
+                const type& t) : node(i, name, pretty, desc), data_type_(t) {}
         const type& get_type() const { return data_type_; }
 
         void pack(Variable* var) const;
@@ -225,10 +228,10 @@ namespace telegraph {
 
     class action : public node {
     public:
-        action(int32_t id, const std::string& name,
+        action(id i, const std::string& name,
                 const std::string& pretty, const std::string& desc,
                 const type& arg_type, const type& ret_type) : 
-                node(id, name, pretty, desc), arg_type_(arg_type), ret_type_(ret_type) {}
+                node(i, name, pretty, desc), arg_type_(arg_type), ret_type_(ret_type) {}
         const type& get_arg_type() const { return arg_type_; }
         const type& get_ret_type() const { return ret_type_; }
 

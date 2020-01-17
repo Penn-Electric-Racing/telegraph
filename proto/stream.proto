@@ -4,51 +4,47 @@ import "common.proto";
 
 package telegraph.stream;
 
-message Subscription {
-    int32 var_id = 1;
-    int32 min_interval = 2; // microseconds
-    int32 max_interval = 3; // microsconeds
-}
-
-message Children {
-    int32 parent_id = 1;
-    repeated Node children = 2;
+message Subscribe {
+    uint32 var_id = 1; // actually 16 bits
+    uint32 min_interval = 2; // actually 16 bits
+    uint32 max_interval = 3; // actually 16 bits
+    uint32 timeout = 4; // actually 16 bits
 }
 
 message Call {
-    int32 call_id = 1;
-    int32 action_id = 2;
+    uint32 action_id = 1; // actually 16 bits
+    uint32 timeout = 2; // actually 16 bits
     Value arg = 3;
 }
 
-message CallFinished {
-    int32 call_id = 1;
-    Value ret = 2;
+message Cancel {
+    uint32 var_id = 1; // actually 16 bits
+    uint32 timeout = 2; // actually 16 bits
 }
 
 message Update {
-    int32 var_id = 1;
+    int32 var_id = 1; // actually 16 bits
     Value val = 2;
 }
 
 message Packet {
+    uint32 req_id = 1; // set to 0 for updates
     oneof event {
-        Empty fetch_tree = 1;
-        Node tree = 2;
+        Empty fetch_tree = 2;
+        Node tree = 3;
 
-        Update update = 3;
-        Call call_action = 4;
-        CallFinished action_completed = 5;
+        Update update = 4;
+        Call call_action = 5;
+        Value call_completed = 6;
+        Empty call_failed = 7;
 
-        Subscription change_sub = 6;
-        int32 subscribed = 7;
-        int32 sub_failed = 8;
+        Subscribe change_sub = 8;
+        Cancel cancel_sub = 9;
+        bool success = 10;
 
-        int32 cancel_sub = 9;
-        int32 cancelled = 10;
-        int32 sub_not_found = 11;
+        uint32 cancelled = 11;
 
         Empty ping = 12;
-        int32 pong = 13; // contains number of subscriptions
+        int32 pong = 13; // contains number of subscriptions active
     }
 }

@@ -35,13 +35,14 @@ namespace telegraph {
     subscription_ptr
     remote_namespace::subscribe(io::yield_ctx& yield,
             const uuid& ctx, const std::vector<std::string>& path,
-            int32_t min_interval, int32_t max_interval) {
+            interval min_interval, interval max_interval, interval timeout) {
         return nullptr;
     }
 
     value
     remote_namespace::call(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string>& path, value arg) {
+                const uuid& ctx, 
+                const std::vector<std::string>& path, value arg, interval timeout) {
         return value();
     }
 
