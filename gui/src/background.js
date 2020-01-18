@@ -63,11 +63,11 @@ app.on('ready', async () => {
     // Electron will not launch with Devtools extensions installed on Windows 10 with dark mode
     // If you are not using Windows 10 dark mode, you may uncomment these lines
     // In addition, if the linked issue is closed, you can upgrade electron and uncomment these lines
-    // try {
-    //   await installVueDevtools()
-    // } catch (e) {
-    //   console.error('Vue Devtools failed to install:', e.toString())
-    // }
+    try {
+      await installVueDevtools()
+    } catch (e) {
+      console.error('Vue Devtools failed to install:', e.toString())
+    }
 
   }
   createWindow()
@@ -89,5 +89,22 @@ if (isDevelopment) {
 }
 
 // Setup the backend server
-import spawnServer from './server'
-spawnServer()
+
+import path from 'path';
+import { exec } from 'child_process';
+import * as fs from'fs';
+
+const resourcesPath = app.isPackaged ?
+  path.dirname(app.getAppPath()) :
+  path.resolve('resources');
+
+/*
+var serverProcess = exec('./server', {
+  cwd: resourcesPath,
+  stdio: ["pipe", process.stdout, process.stderr]
+}, () => { console.log('Server exited') })
+
+process.on('exit', function() {
+  serverProcess.kill();
+});
+*/

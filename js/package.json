@@ -1,22 +1,21 @@
 {
-  "name": "per-com",
+  "name": "telegraph",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "The javascript server/client library for telegraph",
+  "main": "index.mjs",
   "author": "Daniel Pfrommer",
   "license": "MIT",
-  "files": [
-    "index.mjs",
-    "lib/*.mjs",
-    "bin/*"
-  ],
-  "scripts": {
-    "server": "scripts/server.mjs",
-    "client": "scripts/client.mjs"
-  },
   "dependencies": {
-    "@grpc/proto-loader": "^0.5.1",
-    "eslint": "^6.2.0",
-    "grpc": "^1.22.2",
-    "signals": "^1.0.0"
+    "high-res-timeout": "^1.0.8",
+    "isomorphic-ws": "^4.0.1",
+    "protobufjs": "^6.8.8",
+    "signals": "^1.0.0",
+    "uuid": "^3.3.3",
+    "ws": "^7.2.1"
+  },
+  "scripts": {
+    "generate": "node generate.mjs",
+    "test-server": "node test-server.mjs",
+    "test-client": "node test-client.mjs"
   }
 }

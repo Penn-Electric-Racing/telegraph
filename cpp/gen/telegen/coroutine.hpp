@@ -21,9 +21,10 @@
         __bp = n; \
         case n: \
             awaitable.resume(); \
-            if (::telegen::coroutine::ref(awaitable) != -1) { \
+            if (!awaitable.is_finished()) {\
+                __bp = n; \
                 goto exit_reenter; \
-            } \
+            }\
     }
 
 #define TELEGEN_AWAIT_WHILE_IMPL_(n, condition) \
@@ -80,8 +81,13 @@ namespace telegen {
 
         constexpr coroutine() : breakpoint_(0) {}
 
-        constexpr void reset() { breakpoint_ = 0; }
+        // people can overload reset if they want,
+        // but they must always make sure to call super::reset()
+        // so that the breakpoint is also reset
+        constexpr virtual void reset() { breakpoint_ = 0; }
+
         constexpr void finish() { breakpoint_ = -1; }
+        constexpr bool is_finished() { return breakpoint_ < 0; }
 
         // will run a coroutine until it is done
         inline void run() {
@@ -93,12 +99,6 @@ namespace telegen {
         virtual void resume() = 0;
     private:
         int breakpoint_;
-    };
-
-    struct co_join : public coroutine {
-    public:
-        void resume() {
-        }
     };
 }
 

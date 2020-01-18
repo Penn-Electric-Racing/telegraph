@@ -1,6 +1,6 @@
 #include "hocon.hpp"
 
-#include "../errors.hpp"
+#include "errors.hpp"
 
 #include <hocon/config_parse_options.hpp>
 #include <hocon/config.hpp>

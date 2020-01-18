@@ -1,44 +1,50 @@
 syntax = "proto3";
 
-import "proto/common.proto";
+import "common.proto";
 
-package telegraph.proto;
+package telegraph.stream;
 
-message SubscribeRequest {
-    int32 variable = 1;
-    int32 request_number = 2;
-    int32 min_interval = 3; // in microseconds
-    int32 max_interval = 4; // in microseconds
+message Subscribe {
+    uint32 var_id = 1; // actually 16 bits
+    uint32 min_interval = 2; // actually 16 bits
+    uint32 max_interval = 3; // actually 16 bits
+    uint32 timeout = 4; // actually 16 bits
 }
 
-message CancelSubscription {
-    int32 subscription_id = 1;
+message Call {
+    uint32 action_id = 1; // actually 16 bits
+    uint32 timeout = 2; // actually 16 bits
+    Value arg = 3;
 }
 
-message ChildrenRequest {
-    int32 parent_id = 1;
+message Cancel {
+    uint32 var_id = 1; // actually 16 bits
+    uint32 timeout = 2; // actually 16 bits
 }
 
-message Children {
-    int32 parent_id = 1;
-    repeated Node children = 2;
+message Update {
+    int32 var_id = 1; // actually 16 bits
+    Value val = 2;
 }
 
-message StreamEvent {
+message Packet {
+    uint32 req_id = 1; // set to 0 for updates
     oneof event {
-        ChildrenRequest children_request = 1;
-        Children children = 2;
+        Empty fetch_tree = 2;
+        Node tree = 3;
 
-        SubscribeRequest subscribe_request = 3;
-        SubscribeCompleted subscribe_completed = 4;
-        CancelSubscription cancel_subscription = 5;
+        Update update = 4;
+        Call call_action = 5;
+        Value call_completed = 6;
+        Empty call_failed = 7;
 
-        ActionCalled action_request = 6;
-        ActionCompleted action_completed = 7;
-        PackUpdate pack_update = 8;
+        Subscribe change_sub = 8;
+        Cancel cancel_sub = 9;
+        bool success = 10;
+
+        uint32 cancelled = 11;
+
+        Empty ping = 12;
+        int32 pong = 13; // contains number of subscriptions active
     }
-}
-
-message StreamPacket {
-    repeated StreamEvent events = 1;
 }

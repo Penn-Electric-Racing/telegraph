@@ -1,24 +1,23 @@
 syntax = "proto3";
 
-package telegraph.proto;
+package telegraph;
 
-message Empty {
-}
+message Empty {}
 
 message Group {
-    int32 id = 1;
-    int32 parent = 2;
-    string name = 3;
-    string pretty = 4;
-    string desc = 5;
+    int32 id = 1; // optional
+    string name = 2;
+    string pretty = 3;
+    string desc = 4;
 
-    string schema = 6;
-    int32 version = 7;
+    string schema = 5;
+    int32 version = 6;
+
+    repeated Node children = 7;
 }
 
 message Variable {
-    int32 id = 1;
-    int32 parent = 2;
+    int32 id = 1; // optional
     string name = 3;
     string pretty = 4;
     string desc = 5;
@@ -27,8 +26,7 @@ message Variable {
 }
 
 message Action {
-    int32 id = 1;
-    int32 parent = 2;
+    int32 id = 1; // optional
     string name = 3;
     string pretty = 4;
     string desc = 5;
@@ -37,21 +35,11 @@ message Action {
     Type ret_type = 7;
 }
 
-message Stream {
-    int32 id = 1;
-    int32 parent = 2;
-    string name = 3;
-    string pretty = 4;
-    string desc = 5;
-}
-
 message Node {
     oneof node {
-        int32 id = 2;
-        Group group = 3;
-        Variable var = 4;
-        Action action = 5;
-        Stream stream = 6;
+        Group group = 1;
+        Variable var = 2;
+        Action action = 3;
     }
 }
 
@@ -81,42 +69,23 @@ message Type {
 
 message Value {
     oneof type {
-        bool b = 1;
-        uint32 en = 2;
-        uint32 ui8 = 3;
-        uint32 ui16 = 4;
-        uint32 ui32 = 5;
-        uint64 ui64 = 6;
-        int32 i8 = 7;
-        int32 i16 = 8;
-        int32 i32 = 9;
-        int64 i64 = 10;
-        float f = 11;
-        double d = 12;
-        Empty none = 13;
+        Empty none = 1;
+        int32 en = 2;
+        bool b = 3;
+        uint32 u8 = 4;
+        uint32 u16 = 5;
+        uint32 u32 = 6;
+        uint64 u64 = 7;
+        int32  i8 = 8;
+        int32  i16 = 9;
+        int32  i32 = 10;
+        int64  i64 = 11;
+        float  f = 12;
+        double d = 13;
     }
 }
 
-message SubscribeCompleted {
-    int32 request_number = 1;
-    int32 subscription_id = 2;
-    // The top 24 bits of the pack id are the actual pack id, and the
-    // bottom 8 bits are the offset to the variable inside the pack
-    int32 pack_id_and_offset = 3;
-}
-
-message PackUpdate {
-    int32 pack_id = 1;
+message Datapoint {
+    int64 timestamp = 1;
     Value value = 2;
-}
-
-message ActionCalled {
-    int32 action = 1;
-    int32 request_number = 2;
-    Value arg = 3;
-}
-
-message ActionCompleted {
-    int32 request_number = 1;
-    Value ret = 2;
 }
