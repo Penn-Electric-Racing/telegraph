@@ -10,6 +10,7 @@ if (!existsSync("resources")) {
   build = true;
 }
 
+build = false;
 if (build) {
   execSync("bazel build server", {
     cwd: "../cpp/",
