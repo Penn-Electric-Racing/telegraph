@@ -38,9 +38,9 @@ namespace telegraph {
         io::deadline_timer timer(ioc_, boost::posix_time::milliseconds(1000));
         std::shared_ptr<node> tree;
 
-        tree_req req = {
-            .event = timer, .tree = tree
-        };
+        tree_req req;
+	req.event = &timer;
+	req.tree = &tree;
 
         tree_reqs_.push_back(req);
 
@@ -75,9 +75,9 @@ namespace telegraph {
                 boost::posix_time::milliseconds(100));
         value ret; // invalid value by default
 
-        call_req req = {
-            .event = timer, .ret = ret
-        };
+        call_req req;
+	req.event = &timer;
+	req.ret = &ret;
         // put the request in the callback handlers map
         call_reqs_.insert(std::make_pair(cid, req));
 

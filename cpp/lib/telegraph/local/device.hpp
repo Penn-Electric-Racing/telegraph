@@ -24,12 +24,12 @@ namespace telegraph {
     class device : public local_context {
     private:
         struct call_req {
-            io::deadline_timer& event;
-            value& ret;
+            io::deadline_timer* event;
+            value* ret;
         };
         struct tree_req {
-            io::deadline_timer& event;
-            std::shared_ptr<node>& tree;
+            io::deadline_timer* event;
+            std::shared_ptr<node>* tree;
         };
 
         std::deque<stream::Packet> write_queue_;

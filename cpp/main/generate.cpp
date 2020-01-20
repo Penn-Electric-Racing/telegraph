@@ -19,11 +19,11 @@ int main(int argc, char** argv) {
     std::string config_name = argv[2];
 
     std::filesystem::path output_path = argv[3];
-    std::string output_name = output_path.filename();
-    std::string output_dir = output_path.parent_path();
+    std::string output_name = output_path.filename().string();
+    std::string output_dir = output_path.parent_path().string();
 
     hocon_parser parser;
-    json j = parser.parse_file(config_path);
+    json j = parser.parse_file(config_path.string());
 
     // contains the tree
     config c(j);

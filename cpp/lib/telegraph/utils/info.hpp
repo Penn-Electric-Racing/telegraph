@@ -15,18 +15,19 @@ namespace telegraph {
             std::string str;
             std::map<std::string, info> object;
             std::vector<info> array;
+	    inline box() {}
             ~box() {}
         } value_;
     public:
-        info() : type_(Empty), value_ {} {}
-        info(float num) : type_(Number), value_ { .number = num } {}
-        info(const std::string& str) : type_(String), value_ { .str = str } {}
-        info(const std::vector<info>& a) : type_(Array), value_ { .array = a } {}
-        info(const std::map<std::string, info>& o) : type_(Object), value_ { .object = o } {}
+        inline info() : type_(Empty), value_() {}
+        inline info(float num) : type_(Number), value_() { value_.number = num; }
+        inline info(const std::string& str) : type_(String), value_() { value_.str = str; }
+        inline info(const std::vector<info>& a) : type_(Array), value_() { value_.array = a; }
+        inline info(const std::map<std::string, info>& o) : type_(Object), value_() { value_.object = o; }
 
-        info(std::string&& str) : type_(String), value_ { .str = std::move(str) } {}
-        info(std::vector<info>&& a) : type_(Array), value_ { .array = std::move(a) } {}
-        info(std::map<std::string, info>&& o) : type_(Object), value_ { .object = std::move(o) } {}
+        inline info(std::string&& str) : type_(String), value_() { value_.str = std::move(str); }
+        inline info(std::vector<info>&& a) : type_(Array), value_() { value_.array = std::move(a); } 
+        inline info(std::map<std::string, info>&& o) : type_(Object), value_() { value_.object = std::move(o); }
 
         info(info&& i) : type_(i.type_), value_{} {
             switch(type_) {
