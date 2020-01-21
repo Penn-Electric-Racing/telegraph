@@ -19,17 +19,23 @@ int main(int argc, char** argv) {
 
     io::io_context ioc;
 
-    auto dev_task = std::make_shared<device_io_task>(ioc, "device", port);
-
     io::spawn(ioc,
         [&](io::yield_context yield) {
+            // wrap the yield_context
             io::yield_ctx c(yield);
+
+            // register the task
+            auto dev_task = std::make_shared<device_io_task>(ioc, "device", port);
+            dev_task->reg(c, &ns);
 
             // start the io task
             dev_task->start(c, info(baud));
             auto q = ns.contexts(c, uuid(), std::string(), "device");
+            if (q->size() != 1) {
+                std::cerr << "unable to open device" << std::endl;
+                return;
+            }
             auto dev = q->result();
-
             // fetch the tree
             auto tree = dev->fetch(c);
             if (!tree) {

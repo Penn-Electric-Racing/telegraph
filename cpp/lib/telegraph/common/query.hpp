@@ -36,7 +36,7 @@ namespace telegraph {
             query() : added(), removed(), src_(), filter_() {}
             query(const std::shared_ptr<query>& src,
                     const std::function<bool(const T&)>& filter) 
-                    : src_(src), filter_(filter) {
+                    : added(), removed(), src_(src), filter_(filter) {
                 for (auto& v : src->current) {
                     if (filter(v.second)) current.insert(v);
                 }
@@ -62,6 +62,10 @@ namespace telegraph {
 
             bool has(const key& k) const {
                 return current.find(k) != current.end();
+            }
+
+            constexpr size_t size() const {
+                return current.size();
             }
 
             const T &result() const {

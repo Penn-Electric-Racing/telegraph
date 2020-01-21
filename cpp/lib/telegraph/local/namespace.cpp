@@ -152,7 +152,7 @@ namespace telegraph {
 
     local_task::local_task(io::io_context& ioc, const std::string& name, 
             const std::string& type, const info& i) 
-                : task(ioc, rand_uuid(), name, type, i) {}
+                : task(ioc, rand_uuid(), name, type, i), ns_(nullptr) {}
 
     void
     local_task::reg(io::yield_ctx& yield, local_namespace* ns) {

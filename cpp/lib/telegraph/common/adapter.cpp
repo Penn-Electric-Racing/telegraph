@@ -45,12 +45,15 @@ namespace telegraph {
     subscription_ptr
     adapter::subscribe(io::yield_ctx& yield, 
             interval min_interval, interval max_interval, interval timeout) {
-        if (change(yield, min_interval, max_interval, timeout)) {
-            sub* s = new sub(this, min_interval, max_interval);
-            subs_.insert(s);
-            // TODO: Queue sending last_val to s
+        sub* s = new sub(this, min_interval, max_interval);
+        subs_.insert(s);
+
+        // if we successfully changed the subscription
+        if (recalculate(yield, timeout)) {
             return subscription_ptr(s);
         } else {
+            subs_.erase(s);
+            delete s;
             return subscription_ptr();
         }
     }

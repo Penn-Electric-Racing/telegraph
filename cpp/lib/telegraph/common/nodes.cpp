@@ -57,7 +57,7 @@ namespace telegraph {
     group*
     group::unpack(const Group& g) {
         std::vector<node*> children;
-        for (int i = 0; g.children_size(); i++) {
+        for (int i = 0; i < g.children_size(); i++) {
             children.push_back(node::unpack(g.children(i)));
         }
         return new group(g.id(), g.name(), g.pretty(),

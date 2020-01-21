@@ -48,8 +48,9 @@ namespace telegraph {
         };
     public:
         adapter(io::io_context& ioc, 
-                const std::function<void(interval, interval)>& change,
-                const std::function<void()> cancel);
+                const std::function<void(yield_ctx&, interval, interval, 
+                                        interval timeout)>& change,
+                const std::function<void(yield_ctx&, interval timeout)> cancel);
 
         // on update
         void update(value v);
