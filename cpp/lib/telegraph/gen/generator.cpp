@@ -246,22 +246,27 @@ namespace telegraph {
             }
         } else if (dynamic_cast<const variable*>(n) != nullptr) {
             const variable* v = dynamic_cast<const variable*>(n);
+            try {
             std::string type = "telegen::variable<" + type_to_cpp_ident(v->get_type()) + ">";
-            code += type + " " + v->get_name() + " = " + 
-                           type + "(" + std::to_string(v->get_id()) + ", \"" + v->get_name() + 
-                           "\", \"" + v->get_pretty() + "\", \"" + v->get_desc() + "\", &" + 
+            code += type + " " + v->get_name() + " = " +
+                           type + "(" + std::to_string(v->get_id()) + ", \"" + v->get_name() +
+                           "\", \"" + v->get_pretty() + "\", \"" + v->get_desc() + "\", &" +
                            type_to_name(v->get_type()) + "_type);";
+            } catch (telegraph::missing_error &e) {
+                std::cerr << "variable name: " << v->get_name() << std::endl;
+                throw telegraph::missing_error("");
+            }
 
             accessors[v->get_id()] = accessor_prefix + v->get_name();
         } else if (dynamic_cast<const action*>(n) != nullptr) {
             const action* a = dynamic_cast<const action*>(n);
-            std::string type = "telegen::action<" + type_to_cpp_ident(a->get_ret_type()) + 
-                                    "," + type_to_cpp_ident(a->get_arg_type()) + ">";
-            code += type + " " + a->get_name() +  " = " + type + 
-                            "(" + std::to_string(a->get_id()) + ", \"" + 
+            std::string type = "telegen::action<" + type_to_cpp_ident(a->get_arg_type()) +
+                                    "," + type_to_cpp_ident(a->get_ret_type()) + ">";
+            code += type + " " + a->get_name() +  " = " + type +
+                            "(" + std::to_string(a->get_id()) + ", \"" +
                                 a->get_name() + "\", \"" +
-                                a->get_pretty() + "\", \"" + 
-                                a->get_desc() + "\", &" + 
+                                a->get_pretty() + "\", \"" +
+                                a->get_desc() + "\", &" +
                                 type_to_name(a->get_arg_type()) + "_type, &" +
                                 type_to_name(a->get_ret_type()) + "_type);";
 
