@@ -76,14 +76,24 @@ namespace telegraph {
     static std::string type_to_cpp_ident(const type& t) {
         if (t.get_name().length() > 0) {
             // return the c++ ified type name
-            return t.get_name();
+            std::string n = t.get_name();
+            std::transform(n.begin(), n.end(), n.begin(), [](char ch) {
+                return std::isspace(ch) ? '_' : std::tolower(ch);
+            });
+            return n;
         } else {
             return type_to_cpp_builtin(t);
         }
     }
 
     static std::string type_to_name(const type& t) {
-        if (t.get_name().length() > 0) return t.get_name();
+        if (t.get_name().length() > 0) {
+            std::string n = t.get_name();
+            std::transform(n.begin(), n.end(), n.begin(), [](char ch) {
+                return std::isspace(ch) ? '_' : std::tolower(ch);
+            });
+            return n;
+        }
         switch(t.get_class()) {
             case type::None:    return "none";
             case type::Bool:    return "bool";
@@ -97,7 +107,7 @@ namespace telegraph {
             case type::Int64:   return "int64";
             case type::Float:   return "float";
             case type::Double:  return "double";
-            default: throw missing_error("Not a builtin, must have name!");
+            default: throw missing_error("Not a builtin, enum must have name!");
         }
     }
 

@@ -74,13 +74,18 @@ namespace telegraph {
     static type unpack_type(const json& json) {
         type t(type::Invalid);
         if (json.is_object()) {
-            t = type(unpack_type_class(json.value("type", "invalid")));
+            if (json.find("type") == json.end())
+                throw parse_error("for type objects, expecting type key");
+
+            t = unpack_type(json["type"]);
+            if (json.find("type_name") != json.end()) {
+                t.set_name(json["type_name"]);
+            }
             if (t.get_class() == type::Enum) {
                 std::vector<std::string> strs = json.value<std::vector<std::string>>("labels", {});
                 t.set_labels(std::move(strs));
                 if (json.find("type_name") == json.end())
                     throw parse_error("enum type expects type_name: " + json.dump());
-                t.set_name(json["type_name"]);
             }
         } else if (json.is_string()) {
             t = type(unpack_type_class(json.get<std::string>()));
@@ -125,6 +130,28 @@ namespace telegraph {
         return new group(id, name, pretty, desc, schema, version, std::move(children));
     }
 
+    static node* unpack_array(int32_t* id_counter, const std::string& name, const json& j) {
+        int32_t id = (*id_counter)++;
+        size_t length = j.value("length", 0);
+        if (length == 0) {
+            throw parse_error("array must have array_length > 0");
+        }
+        int version = j.value("version", 0);
+        std::string pretty = j.value("pretty", "");
+        std::string desc = j.value("desc", "");
+
+        if (j.find("of") == j.end()) {
+            throw parse_error("array must have 'of' key supplying array type");
+        }
+        const json& array_type = j["of"];
+
+        std::vector<node*> children;
+        for (size_t i = 0; i < length; i++) {
+            children.push_back(unpack_node(id_counter, std::to_string(i), array_type));
+        }
+        return new group(id, name, pretty, desc, "array", version, std::move(children));
+    }
+
     static node* unpack_node(int32_t* id_counter, const std::string& name, 
                              const json& json) {
         if (json.is_string()) return unpack_variable(id_counter, name, json);
@@ -135,6 +162,10 @@ namespace telegraph {
             return unpack_group(id_counter, name, json);
         } else if (type == "action") {
             return unpack_action(id_counter, name, json);
+        } else if (type == "array") {
+            // pseudo-type -- translates into group with
+            // "array" schema and a bunch of children
+            return unpack_array(id_counter, name, json);
         } else {
             return unpack_variable(id_counter, name, json);
         }
