@@ -145,7 +145,7 @@ namespace telegraph {
             const type* tp = elem.second;
             if (tp->get_class() == type::Enum) {
                 // generate an enum
-                code += "enum class " + tp->get_name() + " : uint8_t {\n";
+                code += "enum class " + type_to_cpp_ident(*tp) + " : uint8_t {\n";
                 std::string subcode = "";
                 // go through each of the labels and convert to cpp style, joining by commas
                 bool first = true;
