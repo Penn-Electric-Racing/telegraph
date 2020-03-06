@@ -17,7 +17,7 @@ namespace telegraph {
             public std::enable_shared_from_this<remote_namespace> {
         friend class remote_context;
     private:
-        mutable connection& conn_;
+        connection& conn_;
     public:
         // must also wait on init()!
         remote_namespace(connection& conn);

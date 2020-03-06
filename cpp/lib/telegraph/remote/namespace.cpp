@@ -2,8 +2,22 @@
 #include "../common/nodes.hpp"
 
 namespace telegraph {
-    remote_namespace::remote_namespace(relay* r, connection* conn)
-                        : namespace_(uuid()), relay_(r), conn_(conn) {
+    remote_namespace::remote_namespace(connection& conn)
+                        : namespace_(uuid()), 
+                          conn_(conn) {
+    }
+
+    remote_namespace::~remote_namespace() {
+        // cleanup...
+    }
+
+    void
+    remote_namespace::connect(io::yield_ctx& yield) {
+    }
+
+    bool
+    remote_namespace::is_connected() const {
+        return get_uuid().is_nil();
     }
 
     query_ptr<mount_info>

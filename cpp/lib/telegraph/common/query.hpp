@@ -25,6 +25,9 @@ namespace telegraph {
     // without resorting to filters
     template<typename T>
         class query : public std::enable_shared_from_this<query<T>> {
+        private:
+            std::shared_ptr<query> src_;
+            std::function<bool(const T&)> filter_;
         public:
             using key = typename query_key<T>::type;
 
@@ -33,7 +36,7 @@ namespace telegraph {
             signal<io::yield_ctx&, const T&> removed;
             std::unordered_map<key, T> current;
 
-            query() : added(), removed(), src_(), filter_() {}
+            query() {}
             query(const std::shared_ptr<query>& src,
                     const std::function<bool(const T&)>& filter) 
                     : src_(src), filter_(filter) {
@@ -43,6 +46,7 @@ namespace telegraph {
                 src_->added.add(this, [this] (io::yield_ctx& c, const T& v) { add_(c, v); });
                 src_->removed.add(this, [this] (io::yield_ctx& c, const T& v) { remove_(c, v); });
             }
+
             ~query() {
                 if (src_) {
                     src_->added.remove(this);
@@ -98,9 +102,11 @@ namespace telegraph {
                 const T& v = current.at(k);
                 remove_(yield, v);
             }
-        private:
-            std::shared_ptr<query> src_;
-            std::function<bool(const T&)> filter_;
+
+            typename std::unordered_map<key, T>::iterator begin() { return current.begin(); }
+            typename std::unordered_map<key, T>::iterator begin() const { return current.begin(); }
+            typename std::unordered_map<key, T>::iterator end() { return current.end(); }
+            typename std::unordered_map<key, T>::iterator end() const { return current.end(); }
         };
 
     template<typename T>

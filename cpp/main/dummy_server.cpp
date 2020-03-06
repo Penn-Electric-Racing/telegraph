@@ -33,14 +33,15 @@ int main(int argc, char** argv) {
     boost::asio::io_context ctx;
 
     // create a relay for this namespace
-    relay server(&ns);
+    relay server(ctx, &ns);
 
     // start a server on the relay
     // this will enqueue callbacks on the io context
     auto const address = net::ip::make_address("0.0.0.0");
     const unsigned short port = 8081;
 
-    server.bind(tcp::endpoint{address, port}, ctx)->run();
+    // will queue a server
+    server.bind(tcp::endpoint{address, port})->run();
 
     // process requests on the io context
     ctx.run();

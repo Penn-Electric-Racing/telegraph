@@ -39,8 +39,8 @@ namespace telegraph {
         std::shared_ptr<node> tree;
 
         tree_req req;
-	req.event = &timer;
-	req.tree = &tree;
+        req.event = &timer;
+        req.tree = &tree;
 
         tree_reqs_.push_back(req);
 
@@ -76,8 +76,8 @@ namespace telegraph {
         value ret; // invalid value by default
 
         call_req req;
-	req.event = &timer;
-	req.ret = &ret;
+        req.event = &timer;
+        req.ret = &ret;
         // put the request in the callback handlers map
         call_reqs_.insert(std::make_pair(cid, req));
 
