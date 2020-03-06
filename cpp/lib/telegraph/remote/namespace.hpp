@@ -12,16 +12,20 @@ namespace telegraph {
     class relay;
     class connection;
 
-    class remote_namespace : public namespace_ {
+    class remote_namespace : 
+            public namespace_,
+            public std::enable_shared_from_this<remote_namespace> {
         friend class remote_context;
+    private:
+        mutable connection& conn_;
     public:
-        // both relay and connection must outlive
-        // the remote_namespace object
-        remote_namespace(relay* r, connection* conn);
+        // must also wait on init()!
+        remote_namespace(connection& conn);
+        // closes any open quieries on our side
+        ~remote_namespace();
 
-        // sets up the uuid, handlers on the
-        // connection
-        bool init(io::yield_ctx& ctx);
+        void connect(io::yield_ctx& yield);
+        bool is_connected() const;
 
         query_ptr<mount_info> mounts(io::yield_ctx& yield,
                                     const uuid& srcs_of=uuid(),
@@ -54,9 +58,6 @@ namespace telegraph {
 
         void mount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
         void unmount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
-    private:
-        relay* relay_;
-        connection* conn_;
     };
 
     /*

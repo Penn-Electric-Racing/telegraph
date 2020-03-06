@@ -8,6 +8,8 @@
 #include <boost/beast/core.hpp>
 #include <boost/beast/websocket.hpp>
 #include <memory>
+#include <string>
+#include <string_view>
 
 namespace telegraph {
     class namespace_;
@@ -36,6 +38,9 @@ namespace telegraph {
         class client_connection: 
             public std::enable_shared_from_this<client_connection>,
             public connection {
+        private:
+            forwarder local_fwd_;
+            remote_namespace remote_ns_;
         public:
             client_connection(relay* r, boost::asio::ip::tcp::socket&& socket);
             void run();
@@ -48,24 +53,61 @@ namespace telegraph {
             void on_accept(boost::beast::error_code ec);
             void on_read(boost::beast::error_code ec, size_t bytes_transferred);
 
-            relay* relay_;
-            remote_namespace ns_;
-
             boost::beast::websocket::stream<
                     boost::beast::tcp_stream> ws_;
             boost::beast::flat_buffer buffer_;
         };
 
-        relay(namespace_* ns);
+        // remote connect represents one of our remote connections
+        // to a server
+        class remote_connection: 
+            public std::enable_shared_from_this<client_connection>,
+            public connection {
+        private:
+            forwarder local_fwd_;
+            remote_namespace remote_;
+
+            boost::beast::websocket::stream<
+                    boost::beast::tcp_stream> ws_;
+            boost::beast::flat_buffer buffer_;
+
+            std::string host_;
+            std::string port_;
+        public:
+            remote_connection(io::io_context& ioc, 
+                    name_space* local_ns, 
+                    const std::string_view& host, 
+                    const std::string_view& port);
+
+            // will connect to the server and return a shared pointer
+            // to the remote namespace. If already connected will just return
+            // the shared_ptr
+
+            std::shared_ptr<remote_namespace> connect(io::yield_ctx yield);
+
+            // for connection, will queue the send
+            void send(io::yield_context yield, const api::Packet& p) override;
+        private:
+            void on_resolve(boost::beast::error_code ec,
+                            tcp::resolver::results_type results);
+            void on_connect(boost::beast::error_code ec,
+                            tcp::resolver::results_type::endpoint_type ep);
+
+            void do_read();
+            void on_accept(boost::beast::error_code ec);
+            void on_read(boost::beast::error_code ec, size_t bytes_transferred);
+        };
+
+        relay(boost::asio::io_conext& ioc, namespace_* ns);
         ~relay();
 
-        std::shared_ptr<listener> bind(boost::asio::ip::tcp::endpoint ep, 
-                                       boost::asio::io_context& ioc);
+        std::shared_ptr<listener> bind(boost::asio::ip::tcp::endpoint ep);
+        std::shared_ptr<remote_connection> connect(const std::string& host, const std::string& port);
+
         friend class client_connection;
+        friend class remote_connection;
     private:
         namespace_* local_;
-        // registered namespaces
-        std::unordered_map<uuid, namespace_*> reg_;
     };
 }
 

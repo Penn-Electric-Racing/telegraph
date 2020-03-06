@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#include "../utils/errors.hpp"
+
 #include "api.pb.h"
 
 using tcp = boost::asio::ip::tcp;
@@ -136,6 +138,60 @@ namespace telegraph {
         // do the sending
     }
 
+
+    void
+    relay::remote_connection::remote_connection(io::io_context& ctx, 
+                        name_space* local_ns,
+                        const std::string_view& host,
+                        const std::string_view& port) :
+                local_fwd_(local_ns, this), // will register handlers with connection
+                remote_(this), ws_(boost::asio::make_strand(ctx)), buffer_(),
+                host_(host), port_(port) {}
+
+    std::shared_ptr<remote_namespace>
+    relay::remote_connection::connect(io::yield_ctx yield) {
+        if (!ws_.is_open()) {
+            beast::error_code ec;
+
+            tcp::resolver resolver(ws_.get_executor());
+            auto const results = resolver.async_resolve(host_, port_, yield[ec]);
+            if (ec) throw io_error("failed to resolve address " + host_ + ":" + port_);
+
+            beast::get_lowest_layer(ws_).expires_after(std::chronoe::seconds(1));
+
+            beast::get_lowest_layer(ws_).async_connect(results, yield[ec]);
+            if (ec) throw io_error("failed to connect to remote " + host_ + ":" + port_);
+
+            // beast has its own timeout system now
+            beast::get_lowest_layer(ws_).expires_never();
+            ws_.set_option(
+                websocket::stream_base::timeout::suggested(
+                    beast::role_type::client));
+
+            ws_.set_option(websocket::stream_base::decorator(
+                    [](websocket::request_type& req) {
+                    req.set(http::field::user_agent,
+                            std::string(BOOST_BEAST_VERSION_STRING) + " telegraph-client")
+                    }));
+            ws_.async_handshake(host, "/", yield[ec]);
+            if (ec) throw io_error("failed handshake with " + host_ + ":" + port_);
+            // we are connected!
+            // queue a read
+            do_read();
+        }
+        // fetch uuid, setup remote namespace
+        // if not already done
+        if (!remote_.is_connected()) {
+            remote_.connect(yield);
+        }
+        return std::shared_ptr<remote_namespace>(shared_from_this(), 
+                    &this->remote_);
+    }
+
+    void
+    relay::send(io::yield_ctx, yield, const api::Packet& p) {
+    }
+
     relay::relay(namespace_* ns) : local_(ns), reg_() {
         // put in the registry
         reg_[ns->get_uuid()] = ns;
@@ -145,5 +201,10 @@ namespace telegraph {
     std::shared_ptr<relay::listener>
     relay::bind(tcp::endpoint ep, net::io_context& ctx) {
         return std::make_shared<listener>(this, ctx, ep);
+    }
+
+    std::shared_ptr<relay::remote_connection>
+    relay::connect(const std::string& host, const std::string& port) {
+        return std::make_shared<remote_connection>(ctx, local_, host, port);
     }
 }

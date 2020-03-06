@@ -8,11 +8,11 @@
 using namespace telegraph;
 
 int main(int argc, char** argv) {
-    char* dir = std::getenv("BUILD_WORKSPACE_DIRECTORY");
-    std::string file = (dir ? std::string(dir) : ".") + "/cpp/main/example.conf";
-    hocon_parser parser;
-    json j = parser.parse_file(file);
-    // parse the json
-    config c(j);
-    std::cout << *(c.get_tree()) << std::endl;
+    auto const address = net::ip::make_address("127.0.0.1");
+    const unsigned short port = 8081;
+
+    local_namespace ns;
+    relay client(&ns);
+    client.connect(tcp::endpoint{address, port}, ctx)->run();
+    // client is connected
 }
