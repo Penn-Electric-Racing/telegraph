@@ -79,13 +79,12 @@ namespace telegen {
                 write_packet(p);
             }
 
-            void push_update(int32_t var_id, const value& v) {
+            void push_update(node::id var_id, const value& v) {
                 telegraph_stream_Packet p =
                     telegraph_stream_Packet_init_default;
-                p.req_id = 0;
+                p.req_id = var_id;
                 p.which_event = telegraph_stream_Packet_update_tag;
-                p.event.update.var_id = var_id;
-                v.pack(&p.event.update.val);
+                v.pack(&p.event.update);
                 write_packet(p);
             }
 
@@ -218,7 +217,7 @@ namespace telegen {
                                  &packet, PB_ENCODE_DELIMITED)) {
                     // should never be reached!
                     #ifndef NDEBUG
-                    while(true) {} 
+                    while(true) {}
                     #endif
                 }
                 util::crc32_finalize(state.crc);

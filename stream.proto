@@ -22,18 +22,14 @@ message Cancel {
     uint32 timeout = 2; // actually 16 bits
 }
 
-message Update {
-    int32 var_id = 1; // actually 16 bits
-    Value val = 2;
-}
-
 message Packet {
-    uint32 req_id = 1; // set to 0 for updates
+    uint32 req_id = 1; // set to var_id for updates
     oneof event {
         Empty fetch_tree = 2;
         Node tree = 3;
 
-        Update update = 4;
+        // SPECIAL: uses req_id for var_id for update
+        Value update = 4;
         Call call_action = 5;
         Value call_completed = 6;
         Empty call_failed = 7;

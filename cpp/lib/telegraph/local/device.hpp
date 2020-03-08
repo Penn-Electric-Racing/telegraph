@@ -23,22 +23,19 @@ namespace telegraph {
     class device_io_worker;
     class device : public local_context {
     private:
-        struct call_req {
-            io::deadline_timer* event;
-            value* ret;
-        };
-        struct tree_req {
-            io::deadline_timer* event;
-            std::shared_ptr<node>* tree;
-        };
-
         std::deque<stream::Packet> write_queue_;
         io::streambuf write_buf_;
         io::streambuf read_buf_;
 
-        uint32_t call_id_counter_;
-        std::unordered_map<uint32_t, call_req> call_reqs_;
-        std::deque<tree_req> tree_reqs_;
+        uint32_t req_id_;
+        struct req {
+            io::deadline_timer* timer;
+            stream::Packet* packet;
+            constexpr req(io::deadline_timer* t, stream::Packet* p) 
+                : timer(t), packet(p) {}
+        };
+
+        std::unordered_map<uint32_t, req> reqs_;
         
         // subscription adapters
         std::unordered_map<node::id, adapter> adapters_;
@@ -51,8 +48,10 @@ namespace telegraph {
         ~device();
 
         // init should be called right after construction!
-        // or the context will not have a tree
-        void init(io::yield_ctx&);
+        // or the context will not have a tree (this is done by device_io_task)
+        bool init(io::yield_ctx&);
+
+        void destroy(io::yield_ctx&) override;
 
         // the overridden functions
         subscription_ptr subscribe(io::yield_ctx& ctx, variable* v,
@@ -103,20 +102,12 @@ namespace telegraph {
 
         // will queue a write out
         // called from within the port executing strand
-        void on_start();
         void do_reading(size_t requested = 0); // requested of 0 just read any amount
         void on_read(const boost::system::error_code& ec, size_t transferred);
 
         void do_write_next();
         void write_packet(stream::Packet&& p);
-
-        void on_read(const stream::Packet& p);
-
-        void start_call(uint32_t call_id, node::id action_id, value arg);
-        void start_fetch();
-        void start_change_sub(node::id var_id, interval min_interval, 
-                                interval max_interval, interval timeout);
-        void start_cancel_sub(node::id var_id, interval timeout);
+        void on_read(stream::Packet&& p);
     };
 
     // the io_task doesn't actually do the work, but
