@@ -48,16 +48,12 @@ namespace telegraph {
         };
     public:
         adapter(io::io_context& ioc, 
-                const std::function<void(yield_ctx&, interval, interval, 
+                const std::function<bool(io::yield_ctx&, interval, interval, 
                                         interval timeout)>& change,
-                const std::function<void(yield_ctx&, interval timeout)> cancel);
+                const std::function<bool(io::yield_ctx&, interval timeout)> cancel);
 
         // on update
         void update(value v);
-        // on subscribed reply
-        void subscribed(bool success);
-        // on cancel (solicited/unsolicited)
-        void cancelled(bool success);
 
         subscription_ptr subscribe(io::yield_ctx& yield, 
                 interval min_interval, interval max_interval, 
@@ -70,16 +66,15 @@ namespace telegraph {
 
         io::io_context& ioc_;
 
-        std::function<void(interval, interval)> change_sub_;
-        std::function<void()> cancel_sub_;
+        std::function<bool(io::yield_ctx&, interval, interval, interval)> change_sub_;
+        std::function<bool(io::yield_ctx&, interval)> cancel_sub_;
 
         bool subscribed_;
         interval min_interval_;
         interval max_interval_;
 
+        bool running_op_;
         std::deque<io::deadline_timer*> waiting_ops_;
-        io::deadline_timer* current_op_;
-        bool op_success_;
 
         std::unordered_set<sub*> subs_;
 
