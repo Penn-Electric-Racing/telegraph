@@ -21,8 +21,6 @@ namespace telegraph {
             static type get(const T& v) { return v; }
         };
 
-    // TODO: optimize query for uuid-based lookup
-    // without resorting to filters
     template<typename T>
         class query : public std::enable_shared_from_this<query<T>> {
         private:
@@ -47,7 +45,7 @@ namespace telegraph {
                 src_->removed.add(this, [this] (io::yield_ctx& c, const T& v) { remove_(c, v); });
             }
 
-            ~query() {
+            virtual ~query() {
                 if (src_) {
                     src_->added.remove(this);
                     src_->removed.remove(this);

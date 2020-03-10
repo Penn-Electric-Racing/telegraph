@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 
 #include "common.pb.h"
@@ -26,8 +27,8 @@ namespace telegraph {
         friend group;
     public:
         using id = uint16_t;
-        inline node(id i, const std::string& name, 
-             const std::string& pretty, const std::string& desc) : 
+        inline node(id i, const std::string_view& name, 
+             const std::string_view& pretty, const std::string_view& desc) : 
                 id_(i), name_(name), pretty_(pretty), 
                 desc_(desc), ctx_(), parent_(nullptr) {}
         inline virtual ~node() {}
@@ -97,8 +98,8 @@ namespace telegraph {
 
     class group : public node {
     public:
-        inline group(id i, const std::string& name, const std::string& pretty,
-                    const std::string& desc, const std::string& schema, int version,
+        inline group(id i, const std::string_view& name, const std::string_view& pretty,
+                    const std::string_view& desc, const std::string_view& schema, int version,
                     std::vector<node*>&& children) : 
                 node(i, name, pretty, desc),
                 schema_(schema), version_(version), 
@@ -213,8 +214,8 @@ namespace telegraph {
 
     class variable : public node {
     public:
-        variable(id i, const std::string& name, 
-                const std::string& pretty, const std::string& desc,
+        variable(id i, const std::string_view& name, 
+                const std::string_view& pretty, const std::string_view& desc,
                 const type& t) : node(i, name, pretty, desc), data_type_(t) {}
         const type& get_type() const { return data_type_; }
 
@@ -228,8 +229,8 @@ namespace telegraph {
 
     class action : public node {
     public:
-        action(id i, const std::string& name,
-                const std::string& pretty, const std::string& desc,
+        action(id i, const std::string_view& name,
+                const std::string_view& pretty, const std::string_view& desc,
                 const type& arg_type, const type& ret_type) : 
                 node(i, name, pretty, desc), arg_type_(arg_type), ret_type_(ret_type) {}
         const type& get_arg_type() const { return arg_type_; }

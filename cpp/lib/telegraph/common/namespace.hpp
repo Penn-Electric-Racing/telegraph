@@ -116,7 +116,7 @@ namespace telegraph {
 
     protected:
         io::io_context& ioc_;
-        const uuid uuid_;
+        uuid uuid_;
         const std::string name_;
         const std::string type_;
         const info info_;

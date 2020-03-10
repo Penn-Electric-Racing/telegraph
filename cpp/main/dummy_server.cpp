@@ -2,7 +2,7 @@
 #include <telegraph/gen/config.hpp>
 #include <telegraph/common/nodes.hpp>
 #include <telegraph/local/namespace.hpp>
-#include <telegraph/remote/relay.hpp>
+#include <telegraph/remote/server.hpp>
 
 #include <iostream>
 #include <filesystem>
@@ -28,20 +28,22 @@ int main(int argc, char** argv) {
     std::cout << "read tree: " << std::endl;
     std::cout << *t << std::endl;
 
-    local_namespace ns;
+    std::shared_ptr<local_namespace> ns = std::make_shared<local_namespace>();
 
     boost::asio::io_context ctx;
-
-    // create a relay for this namespace
-    relay server(ctx, &ns);
 
     // start a server on the relay
     // this will enqueue callbacks on the io context
     auto const address = net::ip::make_address("0.0.0.0");
     const unsigned short port = 8081;
 
-    // will queue a server
-    server.bind(tcp::endpoint{address, port})->run();
+    io::spawn(ctx,
+        [&](io::yield_context yield) {
+            io::yield_ctx c(yield);
+
+            server s(ctx, tcp::endpoint{address,port}, ns);
+            s.run(c);
+        });
 
     // process requests on the io context
     ctx.run();

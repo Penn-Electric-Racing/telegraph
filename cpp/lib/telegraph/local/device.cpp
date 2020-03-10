@@ -207,7 +207,7 @@ namespace telegraph {
                 return;
             }
         }
-        // calcualte crc
+        // calculate crc
         uint32_t crc_expected = 0;
         uint32_t crc_actual = 0;
         {
@@ -235,6 +235,10 @@ namespace telegraph {
         if (crc_actual == crc_expected) {
             // parse the message
             std::istream input_stream(&read_buf_);
+			google::protobuf::io::IstreamInputStream iss{&input_stream};
+			google::protobuf::io::CodedInputStream input{&iss};
+			input.PushLimit(length);
+
             stream::Packet packet;
             packet.ParseFromIstream(&input_stream);
             on_read(std::move(packet));

@@ -1,5 +1,13 @@
 #include "namespace.hpp"
 #include "../common/nodes.hpp"
+#include "../utils/errors.hpp"
+#include "../utils/uuid.hpp"
+
+#include "connection.hpp"
+#include "api.pb.h"
+
+#include <boost/uuid/uuid_io.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace telegraph {
     remote_namespace::remote_namespace(connection& conn)
@@ -13,6 +21,13 @@ namespace telegraph {
 
     void
     remote_namespace::connect(io::yield_ctx& yield) {
+        api::Packet req;
+        req.mutable_query_ns(); // set to use query_ns
+        api::Packet res = conn_.request_response(yield, std::move(req));
+        if (res.payload_case() != api::Packet::kNsUuid) {
+            throw remote_error("did not errors");
+        }
+        uuid_ = boost::lexical_cast<uuid>(res.ns_uuid());
     }
 
     bool

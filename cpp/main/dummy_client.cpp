@@ -1,6 +1,7 @@
 #include <telegraph/local/namespace.hpp>
-#include <telegraph/remote/relay.hpp>
+#include <telegraph/remote/client.hpp>
 #include <telegraph/common/nodes.hpp>
+#include <telegraph/utils/errors.hpp>
 
 #include <iostream>
 #include <filesystem>
@@ -16,33 +17,36 @@ int main(int argc, char** argv) {
     auto const port = "8081";
 
     boost::asio::io_context ioc;
-    local_namespace ns;
-    relay client(ioc, &ns);
-    auto conn = client.connect(address, port);
     io::spawn(ioc,
-        [&](io::yield_context yield) {
-            io::yield_ctx c(yield);
-            io::executor_work_guard<io::io_context::executor_type> work(ioc.get_executor());
+        [&](io::yield_context byield) {
+            try {
+                io::yield_ctx yield(byield);
 
-            // do the actual connection
-            auto rns = conn->connect(c);
-            // now we have the remote namespace
+                std::shared_ptr<local_namespace> ns = std::make_shared<local_namespace>();
+                client conn(ioc, address, port, ns);
 
-            auto contexts = rns->contexts(c);
-            if (!contexts) {
-                std::cerr << "unable to fetch contexts" << std::endl;
-            } else {
-                // iterate through the contexts
-                // we retrieved
-                for (auto i : *contexts) {
-                    // fetch the tree
-                    auto ctx = i.second;
-                    std::cout << "got context: " << ctx->get_name() << std::endl;
-                    auto tree = ctx->fetch(c);
-                    if (tree) {
-                        std::cout << *tree << std::endl;
+                // do the actual connection
+                auto rns = conn.connect(yield);
+                // now we have the remote namespace
+
+                auto contexts = rns->contexts(yield);
+                if (!contexts) {
+                    std::cerr << "unable to fetch contexts" << std::endl;
+                } else {
+                    // iterate through the contexts
+                    // we retrieved
+                    for (auto i : *contexts) {
+                        // fetch the tree
+                        auto ctx = i.second;
+                        std::cout << "got context: " << ctx->get_name() << std::endl;
+                        auto tree = ctx->fetch(yield);
+                        if (tree) {
+                            std::cout << *tree << std::endl;
+                        }
                     }
                 }
+            } catch (error& e) {
+                std::cerr << e.what() << std::endl;
             }
         });
     ioc.run();
