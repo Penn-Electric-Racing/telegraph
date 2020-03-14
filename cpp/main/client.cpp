@@ -13,13 +13,13 @@
 using namespace telegraph;
 
 int main(int argc, char** argv) {
+    auto const address = "127.0.0.1";
+    auto const port = "8081";
+
     boost::asio::io_context ioc;
 
     std::shared_ptr<local_namespace> ns = std::make_shared<local_namespace>(ioc);
     client conn(ioc, address, port, ns);
-
-    auto const address = "127.0.0.1";
-    auto const port = "8081";
 
     io::spawn(ioc,
         [&](io::yield_context byield) {

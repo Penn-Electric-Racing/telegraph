@@ -4,6 +4,7 @@
 #include <boost/asio/post.hpp>
 
 namespace telegraph {
+    /*
     static const uint32_t max_time = std::numeric_limits<interval>::max();
 
     bool
@@ -147,4 +148,5 @@ namespace telegraph {
     bool
     adapter::cancel(sub* s) {
     }
+    */
 }

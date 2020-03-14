@@ -38,7 +38,7 @@ namespace telegraph {
         std::unordered_map<uint32_t, req> reqs_;
         
         // subscription adapters
-        std::unordered_map<node::id, adapter> adapters_;
+        // std::unordered_map<node::id, adapter> adapters_;
 
         io::serial_port port_;
     public:
@@ -114,13 +114,13 @@ namespace telegraph {
     public:
         device_scan_task(io::io_context& ioc, const std::string_view& name);
 
-        void start(io::yield_ctx&, const info& info) override;
-
+        void start(io::yield_ctx&) override;
         void stop(io::yield_ctx&) override;
+
+        info_stream_ptr query(io::yield_ctx&, const info& info) override;
 
         void destroy(io::yield_ctx&) override;
     private:
-        std::vector<std::shared_ptr<device_io_task>> devices_;
     };
 }
 #endif

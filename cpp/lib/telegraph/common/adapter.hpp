@@ -11,16 +11,14 @@
 #include <boost/asio/deadline_timer.hpp>
 
 namespace telegraph {
-    /**
-     * The internal class
-     */
-    class adapter_sub;
+
 
     /**
      * An adapter does de-multiplexing for a single stream of data.
      *
      * Note that the adapter must outlive any subscriptions that it creates
      */
+    /*
     class adapter {
     private:
         class sub : public subscription {
@@ -84,6 +82,7 @@ namespace telegraph {
         // we keep this around to send when a new subscriber connects
         value last_val_; 
     };
+    */
 }
 
 #endif

@@ -147,6 +147,26 @@ namespace telegraph {
         return t->unmount(yield, s);
     }
 
+    void
+    local_namespace::start_task(io::yield_ctx& yield, const uuid& task) {
+        auto t = tasks_->get(task);
+        if (!t) throw missing_error("no such task");
+        t->start(yield);
+    }
+
+    void
+    local_namespace::stop_task(io::yield_ctx& yield, const uuid& task) {
+        auto t = tasks_->get(task);
+        if (!t) throw missing_error("no such task");
+        t->stop(yield);
+    }
+
+    info_stream_ptr
+    local_namespace::query_task(io::yield_ctx& yield, const uuid& task, const info& i) {
+        auto t = tasks_->get(task);
+        if (!t) throw missing_error("no such task");
+        return t->query(yield, i);
+    }
 
     local_context::local_context(io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type,

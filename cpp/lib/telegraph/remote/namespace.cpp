@@ -54,6 +54,21 @@ namespace telegraph {
         return q->result();
     }
 
+    void
+    remote_namespace::destroy_context(io::yield_ctx&, const uuid& u) {
+    }
+
+    task_ptr
+    remote_namespace::create_task(io::yield_ctx& yield,
+            const std::string_view& name, const std::string_view& type,
+            const info& params, const sources_map& srcs) {
+        return nullptr;
+    }
+
+    void
+    remote_namespace::destroy_task(io::yield_ctx&, const uuid& u) {
+    }
+
     query_ptr<mount_info>
     remote_namespace::mounts(io::yield_ctx&,
             const uuid& srcs_of, const uuid& tgts_of) const {
@@ -187,6 +202,22 @@ namespace telegraph {
     remote_namespace::unmount(io::yield_ctx& yield,
             const uuid& src, const uuid& tgt) {
     }
+    
+
+    void
+    remote_namespace::start_task(io::yield_ctx& yield, const uuid& task) {
+
+    }
+
+    void
+    remote_namespace::stop_task(io::yield_ctx& yield, const uuid& task) {
+
+    }
+
+    info_stream_ptr
+    remote_namespace::query_task(io::yield_ctx& yield, const uuid& task, const info& i) {
+        return nullptr;
+    }
 
 
     // remote_context functions
@@ -202,6 +233,7 @@ namespace telegraph {
                             interval timeout) {
         return nullptr;
     }
+
     subscription_ptr
     remote_context::subscribe(io::yield_ctx& ctx, const std::vector<std::string>& variable,
                             interval min_interval, interval max_interval,

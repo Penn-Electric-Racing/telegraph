@@ -31,6 +31,7 @@ namespace telegraph {
     protected:
         bool cancelled_;
     };
+
     using info_stream_ptr = std::unique_ptr<info_stream>;
 
     class subscription {
@@ -69,6 +70,7 @@ namespace telegraph {
         interval min_interval_;
         interval max_interval_;
     };
+
     using subscription_ptr = std::unique_ptr<subscription>;
 
     /**

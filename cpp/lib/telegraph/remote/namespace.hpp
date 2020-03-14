@@ -73,6 +73,10 @@ namespace telegraph {
 
         void mount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
         void unmount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
+
+        void start_task(io::yield_ctx& yield, const uuid& task) override;
+        void stop_task(io::yield_ctx& yield, const uuid& task) override;
+        info_stream_ptr query_task(io::yield_ctx& yield, const uuid& task, const info& i) override;
     };
 
     class remote_context : public context {

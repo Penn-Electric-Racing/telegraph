@@ -85,7 +85,7 @@ namespace telegraph {
             : local_context(ioc, port, "device", make_device_info(port, baud), nullptr), 
               write_queue_(), write_buf_(), read_buf_(),
               req_id_(0), reqs_(),
-              adapters_(), port_(ioc, port) {
+              /*adapters_(),*/ port_(ioc, port) {
         port_.set_option(io::serial_port::baud_rate(baud));
 
     }
@@ -315,14 +315,19 @@ namespace telegraph {
 
     // the device scanner task that detects new ports
 
-    device_scan_task::device_scan_task(io::io_context& ioc, const std::string& name)
-                        : local_task(ioc, name, "device_scanner", info()), devices_() {}
+    device_scan_task::device_scan_task(io::io_context& ioc, const std::string_view& name)
+                        : local_task(ioc, name, "device_scanner", info()) {}
 
     void
-    device_scan_task::start(io::yield_ctx& yield, const info& info) {}
+    device_scan_task::start(io::yield_ctx& yield) {}
 
     void
     device_scan_task::stop(io::yield_ctx& yield) {}
+
+    info_stream_ptr
+    device_scan_task::query(io::yield_ctx&yield , const info& info) {
+        return nullptr;
+    }
 
     void
     device_scan_task::destroy(io::yield_ctx& yield) {
