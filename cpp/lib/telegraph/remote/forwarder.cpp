@@ -123,23 +123,73 @@ namespace telegraph {
     }
 
     void
-    forwarder::handle_contexts_query(io::yield_ctx& c, const api::Packet& p) {
-        /*
+    forwarder::handle_contexts_query(io::yield_ctx& yield, const api::Packet& p) {
         try {
             const api::ContextsQuery& q = p.contexts_query();
-            uuid ctx_uuid = boost::lexical_cast<uuid>(q.uuid());
+            uuid ctx_uuid = q.uuid().size() > 0 ? boost::lexical_cast<uuid>(q.uuid()) : uuid();
             const std::string& name = q.name();
             const std::string& type = q.type();
 
-            query_ptr<context_ptr> contexts = ns_->fetch(yield, ctx_uuid);
+            query_ptr<context_ptr> contexts = ns_->contexts(yield, ctx_uuid, name, type);
             if (!contexts) throw remote_error("unable to query contexts");
 
             // set a bunch of handlers
             api::Packet res;
+            api::ContextList* l = res.mutable_context_list();
+            for (const auto& i : *contexts) {
+                const auto& ctx = i.second;
+                api::Context* c = l->add_contexts();
+                c->set_ns(boost::lexical_cast<std::string>(ns_->get_uuid()));
+                std::string uuid = boost::lexical_cast<std::string>(ctx->get_uuid());
+                c->set_uuid(std::move(uuid));
+                c->set_name(ctx->get_name());
+                c->set_type(ctx->get_type());
+                api::Info* info = c->mutable_info();
+                ctx->get_info().pack(info);
+            }
             conn_.write_back(p.req_id(), std::move(res));
+
+            // add handlers to the query
+            int32_t req_id = p.req_id();
+            contexts->added.add(this, [this, req_id] (io::yield_ctx& yield, 
+                                                        const context_ptr& ctx) {
+                // send back a context added event
+                api::Packet p;
+                api::Context* c = p.mutable_context_added();
+                c->set_ns(boost::lexical_cast<std::string>(ns_->get_uuid()));
+                std::string uuid = boost::lexical_cast<std::string>(ctx->get_uuid());
+                c->set_uuid(std::move(uuid));
+                c->set_name(ctx->get_name());
+                c->set_type(ctx->get_type());
+                api::Info* info = c->mutable_info();
+                ctx->get_info().pack(info);
+
+                conn_.write_back(req_id, std::move(p));
+            });
+            contexts->removed.add(this, [this, req_id] (io::yield_ctx& yield, 
+                                                           const context_ptr& ctx) {
+                std::string uuid = boost::lexical_cast<std::string>(ctx->get_uuid());
+                api::Packet p;
+                p.set_context_removed(std::move(uuid));
+                conn_.write_back(req_id, std::move(p));
+            });
+
+            // set stream handler to wait for cancel
+            // this will own the query, so when
+            // the connection is destructed or the stream
+            // cancelled, the query will also be destroyed
+            conn_.set_stream_cb(req_id,
+                [this, contexts] (io::yield_ctx& yield, const api::Packet& p) {
+                    if (p.has_cancel()) {
+                        api::Packet success;
+                        success.set_success(true);
+                        conn_.write_back(p.req_id(), std::move(success));
+                        conn_.close_stream(p.req_id()); // will delete handler
+                    }
+                });
         } catch (const error& e) {
             reply_error(p, e);
-        }*/
+        }
     }
 
     void

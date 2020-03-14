@@ -143,4 +143,8 @@ namespace telegraph {
             return change(yield, std::numeric_limits<interval>::max(), 0, timeout);
         }
     }
+
+    bool
+    adapter::cancel(sub* s) {
+    }
 }

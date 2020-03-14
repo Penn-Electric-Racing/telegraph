@@ -11,6 +11,8 @@
 
 #include <memory>
 #include <optional>
+#include <string>
+#include <string_view>
 
 namespace telegraph {
     class namespace_;
@@ -40,6 +42,9 @@ namespace telegraph {
         uuid tgt;
     };
 
+    using sources_map = std::unordered_map<std::string,
+          std::variant<context_ptr, std::shared_ptr<node>>>;
+
     // underscore is to not conflict with builtin
     // namespace token
     class namespace_ {
@@ -48,18 +53,30 @@ namespace telegraph {
 
         const uuid& get_uuid() const { return uuid_; }
 
+        virtual context_ptr create_context(io::yield_ctx&, 
+                    const std::string_view& name, const std::string_view& type, 
+                    const info& params, const sources_map& srcs) = 0;
+
+        virtual void destroy_context(io::yield_ctx&, const uuid& u) = 0;
+
+        virtual task_ptr create_task(io::yield_ctx&, 
+                    const std::string_view& name, const std::string_view& type, 
+                    const info& params, const sources_map& srcs) = 0;
+
+        virtual void destroy_task(io::yield_ctx&, const uuid& u) = 0;
+
         virtual query_ptr<mount_info> mounts(io::yield_ctx&,
                     const uuid& srcs_of=uuid(),
                     const uuid& tgts_of=uuid()) const = 0;
 
         virtual query_ptr<context_ptr> contexts(io::yield_ctx&, 
                     const uuid& by_uuid=uuid(), 
-                    const std::string& by_name=std::string(), 
-                    const std::string& by_type=std::string()) const = 0;
+                    const std::string_view& by_name=std::string_view(), 
+                    const std::string_view& by_type=std::string_view()) const = 0;
 
         virtual query_ptr<task_ptr> tasks(io::yield_ctx&, const uuid& by_uuid=uuid(),
-                    const std::string& by_name=std::string(), 
-                    const std::string& by_type=std::string()) const = 0;
+                    const std::string_view& by_name=std::string(), 
+                    const std::string_view& by_type=std::string()) const = 0;
 
         // if owner is supplied, the tree may
         // be bound to that context for calls
@@ -87,6 +104,12 @@ namespace telegraph {
 
         virtual void mount(io::yield_ctx&, const uuid& src, const uuid& tgt) = 0;
         virtual void unmount(io::yield_ctx&, const uuid& src,  const uuid& tgt) = 0;
+
+        // task-related operations
+        virtual void start_task(io::yield_ctx&, const uuid& task) = 0;
+        virtual void stop_task(io::yield_ctx&, const uuid& task) = 0;
+        virtual info_stream_ptr query_task(io::yield_ctx&, const uuid& task, const info& i) = 0;
+
     protected:
         uuid uuid_;
     };
@@ -94,26 +117,29 @@ namespace telegraph {
     class task : public std::enable_shared_from_this<task> {
     public:
         inline task(io::io_context& ioc, 
-                uuid id, const std::string& name, 
-                const std::string& type, const info& i) : 
+                uuid id, const std::string_view& name, 
+                const std::string_view& type, const info& i) : 
                     ioc_(ioc), uuid_(id), 
                     name_(name), type_(type), info_(i) {}
 
         constexpr io::io_context& get_executor() { return ioc_; }
+
+        virtual std::shared_ptr<namespace_> get_namespace() = 0;
+        virtual std::shared_ptr<const namespace_> get_namespace() const = 0;
 
         const std::string& get_name() const { return name_; }
         const std::string& get_type() const { return type_; }
         const info& get_info() const { return info_; }
         const uuid& get_uuid() const { return uuid_; }
 
-        virtual namespace_* get_namespace() = 0;
-        virtual const namespace_* get_namespace() const = 0;
-
-        virtual void start(io::yield_ctx&, const info& info) = 0;
+        virtual void start(io::yield_ctx&) = 0;
         virtual void stop(io::yield_ctx&) = 0;
 
-        virtual void destroy(io::yield_ctx&) = 0;
+        virtual info_stream_ptr query(io::yield_ctx&, const info& i) = 0;
 
+        virtual void destroy(io::yield_ctx& y) { destroyed(y); }
+
+        signal<io::yield_ctx&> destroyed;
     protected:
         io::io_context& ioc_;
         uuid uuid_;
@@ -125,15 +151,15 @@ namespace telegraph {
     class context : public std::enable_shared_from_this<context> {
     public:
         inline context(io::io_context& ioc, 
-                const uuid& uuid, const std::string& name, 
-                const std::string& type, const info& i) : 
+                const uuid& uuid, const std::string_view& name, 
+                const std::string_view& type, const info& i) : 
                     ioc_(ioc), uuid_(uuid), name_(name),
                     type_(type), info_(i) {}
 
         constexpr io::io_context& get_executor() { return ioc_; }
 
-        virtual namespace_* get_namespace() = 0;
-        virtual const namespace_* get_namespace() const = 0;
+        virtual std::shared_ptr<namespace_> get_namespace() = 0;
+        virtual std::shared_ptr<const namespace_> get_namespace() const = 0;
 
         const std::string& get_name() const { return name_; }
         const std::string& get_type() const { return type_; }
@@ -172,9 +198,9 @@ namespace telegraph {
         virtual void mount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;
         virtual void unmount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;
 
-        inline virtual void destroy(io::yield_ctx& yield) { on_destroy(yield); }
+        virtual void destroy(io::yield_ctx& yield) { destroyed(yield); }
 
-        signal<io::yield_ctx&> on_destroy;
+        signal<io::yield_ctx&> destroyed;
     protected:
         io::io_context& ioc_;
         const uuid uuid_;

@@ -21,7 +21,8 @@ namespace telegraph {
           local_(local) {}
 
     client::~client() {
-        if (remote_) remote_->ws_.close(websocket::close_reason());
+        beast::error_code ec;
+        if (remote_) remote_->ws_.close(websocket::close_reason(), ec);
     }
 
     std::shared_ptr<remote_namespace>
@@ -47,6 +48,8 @@ namespace telegraph {
                     websocket::stream_base::timeout::suggested(
                         beast::role_type::client));
 
+            ws.binary(true);
+
             ws.set_option(websocket::stream_base::decorator(
                         [](websocket::request_type& req) {
                         req.set(http::field::user_agent,
@@ -63,7 +66,10 @@ namespace telegraph {
             remote_->start_reading();
 
             // connect!
-            remote_->remote_ns_.connect(cyield);
+            std::shared_ptr<remote_namespace> r(remote_, &remote_->remote_ns_);
+            std::weak_ptr<remote_namespace> wr(r);
+
+            remote_->remote_ns_.connect(cyield, wr);
         }
 
         // return aliased shared ptr
@@ -75,7 +81,7 @@ namespace telegraph {
                            const std::shared_ptr<namespace_>& local) 
         : connection(ioc, false), 
           local_fwd_(*this, local),
-          remote_ns_(*this),
+          remote_ns_(ioc, *this),
           ws_(std::move(ws)),
           write_queue_(), write_buf_() {}
 
@@ -92,6 +98,10 @@ namespace telegraph {
                 beast::error_code ec;
                 s->ws_.async_read(read_buf, yield[ec]);
 
+                if (ec && ec != websocket::error::closed
+                       && ec != io::error::operation_aborted) {
+                    std::cerr << "error " << ec.message() << std::endl;
+                }
                 if (ec) break;
 
                 {

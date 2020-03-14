@@ -52,7 +52,7 @@ namespace telegraph {
             tcp::socket&& socket, 
             const std::shared_ptr<namespace_>& local) 
         : connection(ioc, true), local_fwd_(*this, local),
-          remote_ns_(*this),
+          remote_ns_(ioc, *this),
           ws_(std::move(socket)) {}
 
     void
@@ -67,6 +67,7 @@ namespace telegraph {
         ws_.set_option(
             websocket::stream_base::timeout::suggested(
                 beast::role_type::server));
+        ws_.binary(true);
         ws_.async_accept(
             beast::bind_front_handler(
                 &remote::on_accept,
@@ -95,6 +96,10 @@ namespace telegraph {
                 beast::error_code ec;
                 s->ws_.async_read(read_buf, yield[ec]);
 
+                if (ec && ec != websocket::error::closed 
+                       && ec != io::error::operation_aborted) {
+                    std::cerr << "error" << ec.message() << std::endl;
+                }
                 if (ec) break;
 
                 {

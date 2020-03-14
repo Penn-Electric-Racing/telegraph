@@ -71,7 +71,7 @@ namespace telegraph {
         boost::system::error_code error;
         timeout.async_wait(yield.ctx[error]);
         if (error != io::error::operation_aborted) {
-            throw io_error("stream request timed out");
+            throw io_error("request timed out");
         }
 
         return res;

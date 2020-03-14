@@ -312,48 +312,6 @@ namespace telegraph {
             }
         }
     }
-    
-    device_io_task::device_io_task(io::io_context& ioc, 
-                    const std::string& name, const std::string& port)
-            : local_task(ioc, name, "device", info(port)),
-              port_name_(port), dev_() {}
-
-    void
-    device_io_task::start(io::yield_ctx& yield, const info& i) {
-        int baud = (int) i.number();
-        start(yield, "device", baud);
-    }
-
-    void
-    device_io_task::start(io::yield_ctx& yield, const std::string& name, int baud) {
-        if (dev_.lock()) throw io_error("device already open");
-        if (!ns_) throw missing_error("not registered in namespace");
-
-        auto dev = std::make_shared<device>(get_executor(), name, port_name_, baud);
-        // set up the tree
-        if (dev->init(yield)) {
-            dev->reg(yield, ns_);
-            dev_ = dev;
-        } else {
-            // stop reading from the port
-            dev->destroy(yield);
-        }
-    }
-
-    void
-    device_io_task::stop(io::yield_ctx& yield) {
-        auto dev = dev_.lock();
-        dev_.reset();
-        if (dev) {
-            dev->destroy(yield);
-        }
-    }
-
-    void
-    device_io_task::destroy(io::yield_ctx& yield) {
-        stop(yield);
-        local_task::destroy(yield);
-    }
 
     // the device scanner task that detects new ports
 

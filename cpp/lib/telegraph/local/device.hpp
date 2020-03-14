@@ -110,28 +110,12 @@ namespace telegraph {
         void on_read(stream::Packet&& p);
     };
 
-    // the io_task doesn't actually do the work, but
-    // will destroy the associated device on stop
-    class device_io_task : public local_task {
-    public:
-        device_io_task(io::io_context& ioc, 
-                const std::string& name, const std::string& port);
-
-        void start(io::yield_ctx&, const std::string& name, int baud);
-        void start(io::yield_ctx&, const info& info) override;
-        void stop(io::yield_ctx&) override;
-
-        void destroy(io::yield_ctx&) override;
-    private:
-        std::string port_name_;
-        std::weak_ptr<device> dev_;
-    };
-
     class device_scan_task : public local_task {
     public:
-        device_scan_task(io::io_context& ioc, const std::string& name);
+        device_scan_task(io::io_context& ioc, const std::string_view& name);
 
         void start(io::yield_ctx&, const info& info) override;
+
         void stop(io::yield_ctx&) override;
 
         void destroy(io::yield_ctx&) override;

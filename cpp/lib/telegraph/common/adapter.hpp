@@ -33,11 +33,12 @@ namespace telegraph {
                   adapter_(a), req_min_(min_interval), 
                   req_max_(max_interval) {}
 
-            bool change(io::yield_ctx& yield, 
+            void change(io::yield_ctx& yield, 
                     interval min_interval, interval max_interval, 
                     interval timeout) override;
 
-            bool cancel(io::yield_ctx& yield, interval timeout) override;
+            void cancel(io::yield_ctx& yield, interval timeout) override;
+            void cancel() override;
         private:
             void update(value v);
             void set_cancelled();
@@ -46,11 +47,14 @@ namespace telegraph {
             interval req_min_;
             interval req_max_;
         };
+        std::function<bool(io::yield_ctx&, interval, interval, interval)> change_sub_;
+        std::function<bool(io::yield_ctx&, interval)> cancel_sub_;
     public:
         adapter(io::io_context& ioc, 
                 const std::function<bool(io::yield_ctx&, interval, interval, 
                                         interval timeout)>& change,
-                const std::function<bool(io::yield_ctx&, interval timeout)> cancel);
+                const std::function<bool(io::yield_ctx&, interval timeout)> cancel,
+                const std::function<void()> cancel_imm);
 
         // on update
         void update(value v);
@@ -63,11 +67,10 @@ namespace telegraph {
         bool change(io::yield_ctx&, interval new_min, 
                 interval new_max, interval timeout);
         bool cancel(io::yield_ctx&, sub* s, interval timeout);
+        void cancel(sub* s);
 
         io::io_context& ioc_;
 
-        std::function<bool(io::yield_ctx&, interval, interval, interval)> change_sub_;
-        std::function<bool(io::yield_ctx&, interval)> cancel_sub_;
 
         bool subscribed_;
         interval min_interval_;

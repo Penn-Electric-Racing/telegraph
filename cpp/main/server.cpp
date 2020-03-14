@@ -1,7 +1,5 @@
-#include <telegraph/utils/hocon.hpp>
-#include <telegraph/gen/config.hpp>
-#include <telegraph/common/nodes.hpp>
 #include <telegraph/local/namespace.hpp>
+#include <telegraph/local/device.hpp>
 #include <telegraph/remote/server.hpp>
 
 #include <iostream>
@@ -15,22 +13,14 @@ namespace net = boost::asio;
 using tcp = boost::asio::ip::tcp;
 
 int main(int argc, char** argv) {
-    std::cout << "starting dummy server..." << std::endl;
-
-    char* dir = std::getenv("BUILD_WORKSPACE_DIRECTORY");
-    std::string file = (dir ? std::string(dir) : ".") + "/cpp/main/example.conf";
-    hocon_parser parser;
-    json j = parser.parse_file(file);
-    // parse the json
-    config c(j);
-    const node* t = c.get_tree();
-
-    std::cout << "read tree: " << std::endl;
-    std::cout << *t << std::endl;
-
-    std::shared_ptr<local_namespace> ns = std::make_shared<local_namespace>();
+    std::cout << "starting server..." << std::endl;
 
     boost::asio::io_context ctx;
+
+    std::shared_ptr<local_namespace> ns = std::make_shared<local_namespace>(ctx);
+    ns->register_task_factory("device_scanner",
+        [] () {
+    });
 
     // start a server on the relay
     // this will enqueue callbacks on the io context
@@ -40,7 +30,6 @@ int main(int argc, char** argv) {
     io::spawn(ctx,
         [&](io::yield_context yield) {
             io::yield_ctx c(yield);
-
             server s(ctx, tcp::endpoint{address,port}, ns);
             s.run(c);
         });

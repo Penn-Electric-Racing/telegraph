@@ -26,12 +26,15 @@ namespace telegraph {
         private:
             std::shared_ptr<query> src_;
             std::function<bool(const T&)> filter_;
+            bool cancelled_ = false;
         public:
             using key = typename query_key<T>::type;
 
             // public signals/map
             signal<io::yield_ctx&, const T&> added;
             signal<io::yield_ctx&, const T&> removed;
+            signal<> cancelled;
+
             std::unordered_map<key, T> current;
 
             query() {}
@@ -45,11 +48,21 @@ namespace telegraph {
                 src_->removed.add(this, [this] (io::yield_ctx& c, const T& v) { remove_(c, v); });
             }
 
-            virtual ~query() {
+            ~query() {
+                cancel();
+            }
+
+            constexpr bool is_cancelled() const { return cancelled_; }
+
+            void cancel() {
+                if (cancelled_) return;
+                cancelled_ = true;
                 if (src_) {
                     src_->added.remove(this);
                     src_->removed.remove(this);
+                    src_ = nullptr;
                 }
+                cancelled();
             }
 
             // has to be a shared_ptr so that you can call chain()

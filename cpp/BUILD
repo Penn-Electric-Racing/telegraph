@@ -23,13 +23,13 @@ cc_binary(name="device_test",
           deps=[':telegraph'])
 
 
-cc_binary(name="dummy_server",
-          srcs=glob(["main/dummy_server.cpp"]),
+cc_binary(name="server",
+          srcs=glob(["main/server.cpp"]),
           copts=cpp17_opts,
           deps=[":telegraph"])
 
-cc_binary(name="dummy_client",
-          srcs=glob(["main/dummy_client.cpp"]),
+cc_binary(name="client",
+          srcs=glob(["main/client.cpp"]),
           copts=cpp17_opts,
           deps=[":telegraph"])
 
@@ -37,12 +37,6 @@ cc_binary(name="generate",
           srcs=glob(["main/generate.cpp"]),
           copts=cpp17_opts,
           deps=[":telegraph"], visibility=["//visibility:public"])
-
-#cc_binary(name="server",
-#          srcs=glob(["main/server/**/*.hpp", "main/server/**/*.cpp"]),
-#          copts=["-std=c++17"],
-#          deps=[":telegraph"],
-#          visibility=["//visibility:public"])
 
 cc_library(name="generate_support",
           hdrs=glob(["gen/**/*.hpp"]),
