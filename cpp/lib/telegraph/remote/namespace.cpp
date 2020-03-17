@@ -146,7 +146,7 @@ namespace telegraph {
                 // and close the stream (destroying the shared ptr reference
                 // to this namespace)
                 api::Packet cancel;
-                cancel.mutable_cancel();
+                cancel.set_cancel(0); // cancel doesn't matter since this is a query--will be instantenous
                 c.write_back(req_id, std::move(cancel));
                 c.close_stream(req_id);
             });
@@ -168,27 +168,27 @@ namespace telegraph {
 
     subscription_ptr
     remote_namespace::subscribe(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string>& path,
-            interval min_interval, interval max_interval, interval timeout) {
+            const uuid& ctx, const std::vector<std::string_view>& path,
+            float min_interval, float max_interval, float timeout) {
         return nullptr;
     }
 
     value
     remote_namespace::call(io::yield_ctx& yield,
-                const uuid& ctx, 
-                const std::vector<std::string>& path, value arg, interval timeout) {
+                            const uuid& ctx, const std::vector<std::string_view>& path, 
+                            value arg, float timeout) {
         return value();
     }
 
     std::unique_ptr<data_query>
     remote_namespace::query_data(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string>& path) const {
+            const uuid& ctx, const std::vector<std::string_view>& path) const {
         return nullptr;
     }
 
     bool
     remote_namespace::write_data(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string>& path,
+            const uuid& ctx, const std::vector<std::string_view>& path,
             const std::vector<data_point>& data) {
         return false;
     }
@@ -229,26 +229,26 @@ namespace telegraph {
 
     subscription_ptr
     remote_context::subscribe(io::yield_ctx& ctx, variable* v,
-                            interval min_interval, interval max_interval,
-                            interval timeout) {
+                            float min_interval, float max_interval,
+                            float timeout) {
         return nullptr;
     }
 
     subscription_ptr
-    remote_context::subscribe(io::yield_ctx& ctx, const std::vector<std::string>& variable,
-                            interval min_interval, interval max_interval,
-                            interval timeout) {
+    remote_context::subscribe(io::yield_ctx& ctx, const std::vector<std::string_view>& variable,
+                            float min_interval, float max_interval,
+                            float timeout) {
         return nullptr;
     }
 
     value
-    remote_context::call(io::yield_ctx& ctx, action* a, value v, interval timeout) {
+    remote_context::call(io::yield_ctx& ctx, action* a, value v, float timeout) {
         return value();
     }
 
     value
-    remote_context::call(io::yield_ctx& ctx, const std::vector<std::string>& a,
-                            value v, interval timeout) {
+    remote_context::call(io::yield_ctx& ctx, const std::vector<std::string_view>& a,
+                            value v, float timeout) {
         return value();
     }
 
@@ -258,7 +258,7 @@ namespace telegraph {
         return false;
     }
     bool
-    remote_context::write_data(io::yield_ctx& yield, const std::vector<std::string>& v,
+    remote_context::write_data(io::yield_ctx& yield, const std::vector<std::string_view>& v,
                               const std::vector<data_point>& data) {
         return false;
     }
@@ -268,7 +268,7 @@ namespace telegraph {
         return nullptr;
     }
     data_query_ptr
-    remote_context::query_data(io::yield_ctx& yield, const std::vector<std::string>& n) const {
+    remote_context::query_data(io::yield_ctx& yield, const std::vector<std::string_view>& n) const {
         return nullptr;
     }
 

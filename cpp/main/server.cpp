@@ -18,9 +18,7 @@ int main(int argc, char** argv) {
     boost::asio::io_context ctx;
 
     std::shared_ptr<local_namespace> ns = std::make_shared<local_namespace>(ctx);
-    ns->register_task_factory("device_scanner",
-        [] () {
-    });
+    ns->register_task_factory("device_scanner", device_scan_task::create);
 
     // start a server on the relay
     // this will enqueue callbacks on the io context

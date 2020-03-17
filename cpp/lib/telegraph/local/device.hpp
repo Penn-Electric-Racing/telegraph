@@ -55,21 +55,23 @@ namespace telegraph {
 
         // the overridden functions
         subscription_ptr subscribe(io::yield_ctx& ctx, variable* v,
-                                interval min_interval, interval max_interval, 
-                                interval timeout) override;
-        value call(io::yield_ctx& ctx, action* a, value v, interval timeout) override;
+                                float min_interval, float max_interval, 
+                                float timeout) override;
+        value call(io::yield_ctx& ctx, action* a, value v, float timeout) override;
 
         // path-based overloads
-        inline subscription_ptr subscribe(io::yield_ctx& ctx, const std::vector<std::string>& path,
-                                interval min_interval, interval max_interval, 
-                                interval timeout) override {
+        inline subscription_ptr subscribe(io::yield_ctx& ctx, 
+                                const std::vector<std::string_view>& path,
+                                float min_interval, float max_interval, 
+                                float timeout) override {
             auto v = dynamic_cast<variable*>(tree_->from_path(path));
             if (!v) return nullptr;
             return subscribe(ctx, v, min_interval, max_interval, timeout);
         }
 
         inline value call(io::yield_ctx& ctx, 
-                const std::vector<std::string>& path, value v, interval timeout) override {
+                        const std::vector<std::string_view>& path, 
+                        value v, float timeout) override {
             auto a = dynamic_cast<action*>(tree_->from_path(path));
             if (!a) return value();
             return call(ctx, a, v, timeout);
@@ -80,13 +82,13 @@ namespace telegraph {
                 const std::vector<data_point>& d) override { return false; }
 
         inline bool write_data(io::yield_ctx&, 
-                const std::vector<std::string>& path, 
+                const std::vector<std::string_view>& path, 
                 const std::vector<data_point>& d) override { return false; }
 
         inline std::unique_ptr<data_query> query_data(io::yield_ctx& yield, 
                                             const node* n) const override { return nullptr; }
         inline std::unique_ptr<data_query> query_data(io::yield_ctx& yield, 
-                                const std::vector<std::string>& p) const override { return nullptr; }
+                                const std::vector<std::string_view>& p) const override { return nullptr; }
 
         // disable mounting
         inline void mount(io::yield_ctx&, const context_ptr& src) override {
@@ -120,7 +122,10 @@ namespace telegraph {
         info_stream_ptr query(io::yield_ctx&, const info& info) override;
 
         void destroy(io::yield_ctx&) override;
-    private:
+
+        static local_task_ptr create(io::yield_ctx&, io::io_context& ioc, 
+                const std::string_view& type, const std::string_view& name,
+                const info& params, const sources_map& srcs);
     };
 }
 #endif

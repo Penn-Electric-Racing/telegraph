@@ -10,8 +10,6 @@
 #include <memory>
 
 namespace telegraph {
-    using interval = uint16_t;
-
     class info_stream {
     public:
         info_stream() : data(), cancelled(), cancelled_(false) {}
@@ -37,38 +35,34 @@ namespace telegraph {
     class subscription {
     public:
 
-        subscription(interval min_interval, interval max_interval) 
+        subscription(float min_interval, float max_interval) 
             : cancelled_(false),
             min_interval_(min_interval), max_interval_(max_interval) {}
 
         /**
-         * On destruction cancel() should automatically be called if is_cancelled() is false
+         * On destruction cancel() should be called
          */
         virtual ~subscription() = 0;
 
-        constexpr interval get_min_interval() const { return min_interval_; }
-        constexpr interval get_max_interval() const { return max_interval_; }
+        constexpr float get_min_interval() const { return min_interval_; }
+        constexpr float get_max_interval() const { return max_interval_; }
 
         /**
          * Whether this subscription is getting data
          */
         constexpr bool is_cancelled() const { return cancelled_; }
 
-        virtual void change(io::yield_ctx&, interval min_interval, interval max_interval, 
-                                            interval timeout=1000) = 0;
-        virtual void cancel(io::yield_ctx& yield, interval timeout=1000) = 0;
-
-        /**
-         * Cancel and don't wait for a response
-         */
-        virtual void cancel() = 0; 
+        virtual void change(io::yield_ctx&, float min_interval, 
+                            float max_interval, float timeout) = 0;
+        virtual void cancel(io::yield_ctx& yield, float timeout) = 0;
+        virtual void cancel() = 0;  // cancel, don't wait for response
 
         signal<value> data;
         signal<> cancelled;
     protected:
         bool cancelled_;
-        interval min_interval_;
-        interval max_interval_;
+        float min_interval_;
+        float max_interval_;
     };
 
     using subscription_ptr = std::unique_ptr<subscription>;

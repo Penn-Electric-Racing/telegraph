@@ -9,8 +9,10 @@
 #include "../utils/errors.hpp"
 
 #include "../common/query.hpp"
+#include "../common/data.hpp"
 #include "../common/namespace.hpp"
 
+#include <unordered_map>
 
 namespace telegraph {
     class connection;
@@ -22,6 +24,8 @@ namespace telegraph {
     private:
         connection& conn_;
         std::shared_ptr<namespace_> ns_;
+        // active subscriptions
+        std::unordered_map<int32_t, subscription_ptr> subs_;
     public:
         // will register handlers
         forwarder(connection& conn, 

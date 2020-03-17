@@ -90,10 +90,9 @@ message Create {
     repeated SourceEntry sources = 4;
 }
 
-message StartTask {
+message StatusRequest {
     string uuid = 1;
     Info info = 2;
-    repeated SourceEntry sources = 3;
 }
 
 // tree operations
@@ -103,6 +102,7 @@ message Subscription {
     repeated string variable = 2;
     float min_interval = 3;
     float max_interval = 4;
+    float timeout = 5;
 }
 
 message Call {
@@ -129,7 +129,7 @@ message DataPacket {
 message Packet {
     sint32 req_id = 1;
     oneof payload {
-        Empty cancel = 2;
+        float cancel = 2; // timeout for sub cancel response from board, ignored for queries
         string error = 3;
         bool success = 4;
 
@@ -189,10 +189,14 @@ message Packet {
         string destroy_context = 34;
         string destroy_task = 35;
 
-        StartTask start_task = 36;
+        // task-related queries
+        string start_task = 36;
         string stop_task = 37;
 
-        Mount mount = 38;
-        Mount unmount = 39;
+        StatusRequest status_request = 38;
+        Info status_update = 39;
+
+        Mount mount = 40;
+        Mount unmount = 41;
     }
 }

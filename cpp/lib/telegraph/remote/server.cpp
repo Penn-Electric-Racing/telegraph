@@ -97,8 +97,9 @@ namespace telegraph {
                 s->ws_.async_read(read_buf, yield[ec]);
 
                 if (ec && ec != websocket::error::closed 
-                       && ec != io::error::operation_aborted) {
-                    std::cerr << "error" << ec.message() << std::endl;
+                       && ec != io::error::operation_aborted
+                       && ec != io::error::eof) {
+                    std::cerr << "error: " << ec.message() << std::endl;
                 }
                 if (ec) break;
 

@@ -12,6 +12,7 @@
 #include <variant>
 #include <iostream>
 #include <iomanip>
+#include <memory>
 
 namespace telegraph {
     // crc utilities
@@ -136,16 +137,15 @@ namespace telegraph {
 
     subscription_ptr 
     device::subscribe(io::yield_ctx& ctx, variable* v,
-                        interval min_interval, interval max_interval, interval timeout) {
+                        float min_interval, float max_interval, float timeout) {
         // get the adapter
         return nullptr;
     }
 
     value
-    device::call(io::yield_ctx& yield, action* a, value arg, interval timeout) {
+    device::call(io::yield_ctx& yield, action* a, value arg, float timeout) {
         return value();
     }
-
 
     void
     device::do_reading(size_t requested) {
@@ -331,5 +331,12 @@ namespace telegraph {
 
     void
     device_scan_task::destroy(io::yield_ctx& yield) {
+    }
+
+    local_task_ptr
+    device_scan_task::create(io::yield_ctx&, io::io_context& ioc,
+            const std::string_view& type, const std::string_view& name,
+            const info& params, const sources_map& srcs) {
+        return std::make_shared<device_scan_task>(ioc, name);
     }
 }

@@ -14,9 +14,8 @@ namespace telegraph {
 
 
     /**
-     * An adapter does de-multiplexing for a single stream of data.
-     *
-     * Note that the adapter must outlive any subscriptions that it creates
+     * An adapter can multiplex multiple subscriptions
+     * over another subscription
      */
     /*
     class adapter {

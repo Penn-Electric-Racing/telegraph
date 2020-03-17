@@ -10,7 +10,7 @@
 #include <vector>
 #include <string>
 #include <string_view>
-#include <unordered_map>
+#include <map>
 
 #include "common.pb.h"
 
@@ -51,20 +51,20 @@ namespace telegraph {
         std::vector<std::string> path() const;
 
         // To be overloaded by group
-        virtual inline node* from_path(const std::vector<std::string>& p, 
+        virtual node* from_path(const std::vector<std::string_view>& p, 
                                        size_t idx=0) {
             return p.size() <= idx ? nullptr : this;
         }
-        virtual inline const node* from_path(const std::vector<std::string>& p, 
+        virtual const node* from_path(const std::vector<std::string_view>& p, 
                                        size_t idx=0) const {
             return p.size() <= idx ? nullptr : this;
         }
-        virtual inline std::vector<node*> nodes() {
+        virtual std::vector<node*> nodes() {
             std::vector<node*> n; 
             n.push_back(this);
             return n;
         }
-        virtual inline std::vector<const node*> nodes() const {
+        virtual std::vector<const node*> nodes() const {
             std::vector<const node*> n; 
             n.push_back(this);
             return n;
@@ -117,38 +117,34 @@ namespace telegraph {
         const std::string& get_schema() const { return schema_; }
         int get_version() const { return version_; }
 
-        virtual inline void set_ctx(const context_ptr& ctx) { 
+        virtual void set_ctx(const context_ptr& ctx) { 
             if (ctx_) throw tree_error("context already set");
             ctx_ = ctx; 
             for (node* n : children_) n->set_ctx(ctx);
         }
 
-        inline node* from_path(const std::vector<std::string>& p, 
+        node* from_path(const std::vector<std::string_view>& p, 
                                 size_t idx=0) override {
             if (idx > p.size()) return nullptr;
             else if (idx == p.size()) return this;
             else {
-                try {
-                    return children_map_.at(p[idx]);
-                } catch (const std::out_of_range& e) {
-                    return nullptr;
-                }
+                auto it = children_map_.find(p[idx]);
+                if (it == children_map_.end()) return nullptr;
+                return it->second;
             }
         }
-        inline const node* from_path(const std::vector<std::string>& p, 
+        const node* from_path(const std::vector<std::string_view>& p, 
                                         size_t idx=0) const override {
             if (idx > p.size()) return nullptr;
             else if (idx == p.size()) return this;
             else {
-                try {
-                    return children_map_.at(p[idx]);
-                } catch (const std::out_of_range& e) {
-                    return nullptr;
-                }
+                auto it = children_map_.find(p[idx]);
+                if (it == children_map_.end()) return nullptr;
+                return it->second;
             }
         }
 
-        inline std::vector<node*> nodes() override {
+        std::vector<node*> nodes() override {
             std::vector<node*> n; 
             n.push_back(this);
             for (node* c : children_) {
@@ -158,7 +154,7 @@ namespace telegraph {
             }
             return n;
         }
-        inline std::vector<const node*> nodes() const override {
+        std::vector<const node*> nodes() const override {
             std::vector<const node*> n; 
             n.push_back(this);
             for (const node* c : children_) {
@@ -208,7 +204,7 @@ namespace telegraph {
         int version_;
 
         std::vector<node*> children_;
-        std::unordered_map<std::string, node*> children_map_;
+        std::map<std::string, node*, std::less<>> children_map_;
     };
 
 

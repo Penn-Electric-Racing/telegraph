@@ -18,6 +18,8 @@
 namespace telegraph {
     class local_context;
     class local_task;
+    using local_context_ptr = std::shared_ptr<local_context>;
+    using local_task_ptr = std::shared_ptr<local_task>;
 
     class local_namespace : 
             public std::enable_shared_from_this<local_namespace>,
@@ -35,13 +37,11 @@ namespace telegraph {
         query_ptr<task_ptr> tasks_;
         query_ptr<mount_info> mounts_;
 
-        using task_factory = std::function<std::shared_ptr<local_task>(
-                                    io::yield_ctx&,io::io_context&, 
+        using task_factory = std::function<local_task_ptr(io::yield_ctx&,io::io_context&, 
                                     const std::string_view&, const std::string_view&,
                                     const info&, const sources_map&)>;
 
-        using context_factory = std::function<std::shared_ptr<local_context>(
-                                    io::yield_ctx&,io::io_context&, 
+        using context_factory = std::function<local_context_ptr(io::yield_ctx&,io::io_context&, 
                                     const std::string_view&, const std::string_view&, 
                                     const info&, const sources_map&)>;
 
@@ -91,17 +91,17 @@ namespace telegraph {
                                     context_ptr owner=context_ptr()) const override;
 
         subscription_ptr subscribe(io::yield_ctx& yield,
-               const uuid& ctx, const std::vector<std::string>& path,
-               interval min_interval, interval max_interval, interval timeout) override;
+               const uuid& ctx, const std::vector<std::string_view>& path,
+               float min_interval, float max_interval, float timeout) override;
 
         value call(io::yield_ctx& yield, const uuid& ctx, 
-                const std::vector<std::string>& path, value arg, interval timeout) override;
+                const std::vector<std::string_view>& path, value arg, float timeout) override;
 
         std::unique_ptr<data_query> query_data(io::yield_ctx& yield,
-                const uuid& ctx, const std::vector<std::string>& path) const override;
+                const uuid& ctx, const std::vector<std::string_view>& path) const override;
 
         bool write_data(io::yield_ctx& yield, const uuid& ctx, 
-                    const std::vector<std::string>& path,
+                    const std::vector<std::string_view>& path,
                     const std::vector<data_point>& data) override;
 
         void mount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;

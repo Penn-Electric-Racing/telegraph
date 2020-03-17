@@ -92,6 +92,31 @@ namespace telegraph {
 
     void
     forwarder::handle_change_sub(io::yield_ctx& c, const api::Packet& p) {
+        try {
+            int32_t id = p.req_id();
+            const auto& cs = p.change_sub();
+
+            uuid ctx_uuid = boost::lexical_cast<uuid>(cs.uuid());
+            float min_int = cs.min_interval();
+            float max_int = cs.max_interval();
+            float timeout = cs.max_interval();
+
+            auto it = subs_.find(id);
+
+            if (it == subs_.end()) {
+                // new subscription!
+                std::vector<std::string_view> path;
+                for (const auto& s : cs.variable()) {
+                    path.push_back(s);
+                }
+                ns_->subscribe(c, ctx_uuid, path, min_int, max_int, timeout);
+            } else {
+                const auto& sub = it->second;
+                sub->change(c, min_int, max_int, timeout);
+            }
+        } catch (const error& e) {
+            reply_error(p, e);
+        }
     }
 
     void
@@ -180,7 +205,7 @@ namespace telegraph {
             // cancelled, the query will also be destroyed
             conn_.set_stream_cb(req_id,
                 [this, contexts] (io::yield_ctx& yield, const api::Packet& p) {
-                    if (p.has_cancel()) {
+                    if (p.payload_case() == api::Packet::kCancel) {
                         api::Packet success;
                         success.set_success(true);
                         conn_.write_back(p.req_id(), std::move(success));

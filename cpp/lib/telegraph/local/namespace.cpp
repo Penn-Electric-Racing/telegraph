@@ -95,8 +95,8 @@ namespace telegraph {
 
     subscription_ptr
     local_namespace::subscribe(io::yield_ctx& yield,
-                    const uuid& ctx, const std::vector<std::string>& path,
-                    interval min_interval, interval max_interval, interval timeout) {
+                    const uuid& ctx, const std::vector<std::string_view>& path,
+                    float min_interval, float max_interval, float timeout) {
         if (!contexts_->has(ctx)) return nullptr;
         auto c = contexts_->get(ctx);
         return c->subscribe(yield, path, min_interval, max_interval, timeout);
@@ -104,7 +104,7 @@ namespace telegraph {
 
     value
     local_namespace::call(io::yield_ctx& yield, const uuid& ctx, 
-            const std::vector<std::string>& path, value arg, interval timeout) {
+            const std::vector<std::string_view>& path, value arg, float timeout) {
         if (!contexts_->has(ctx)) return value();
         auto c = contexts_->get(ctx);
         return c->call(yield, path, arg, timeout);
@@ -112,7 +112,7 @@ namespace telegraph {
 
     std::unique_ptr<data_query>
     local_namespace::query_data(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string>& path) const {
+            const uuid& ctx, const std::vector<std::string_view>& path) const {
         if (!contexts_->has(ctx)) return nullptr;
         auto c = contexts_->get(ctx);
         return c->query_data(yield, path);
@@ -120,7 +120,7 @@ namespace telegraph {
 
     bool 
     local_namespace::write_data(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string>& path,
+            const uuid& ctx, const std::vector<std::string_view>& path,
             const std::vector<data_point>& data) {
         auto c = contexts_->get(ctx);
         if (!c) throw missing_error("no such context");
