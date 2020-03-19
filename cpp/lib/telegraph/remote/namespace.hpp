@@ -42,18 +42,6 @@ namespace telegraph {
 
         void destroy_task(io::yield_ctx&, const uuid& u) override;
 
-        query_ptr<mount_info> mounts(io::yield_ctx& yield,
-                                    const uuid& srcs_of=uuid(),
-                                    const uuid& tgts_of=uuid()) const override;
-
-        query_ptr<context_ptr> contexts(io::yield_ctx&, const uuid& by_uuid=uuid(), 
-                                            const std::string_view& by_name=std::string(), 
-                                            const std::string_view& by_type=std::string()) const override;
-
-        query_ptr<task_ptr> tasks(io::yield_ctx&,  const uuid& by_uuid=uuid(), 
-                                    const std::string_view& by_name=std::string(), 
-                                    const std::string_view& by_type=std::string()) const override;
-
         std::shared_ptr<node> fetch(io::yield_ctx& yield, const uuid& uuid, 
                                     context_ptr owner=context_ptr()) const override;
 
@@ -81,6 +69,8 @@ namespace telegraph {
 
     class remote_context : public context {
     public:
+        friend class remote_namespace;
+
         remote_context(io::io_context& ioc, 
                 const std::shared_ptr<remote_namespace>& ns, const uuid& uuid,
                 const std::string_view& name, const std::string_view& type, 
@@ -91,29 +81,21 @@ namespace telegraph {
 
         std::shared_ptr<node> fetch(io::yield_ctx& ctx) override;
 
-        // tree manipulation functions
-        subscription_ptr  subscribe(io::yield_ctx& ctx, variable* v, 
-                                float min_interval, float max_interval, 
-                                float timeout) override;
         subscription_ptr  subscribe(io::yield_ctx& ctx, 
                                 const std::vector<std::string_view>& variable,
                                 float min_interval, float max_interval,
                                 float timeout) override;
 
-        value call(io::yield_ctx& ctx, action* a, value v, float timeout) override;
         value call(io::yield_ctx& ctx, const std::vector<std::string_view>& a, 
                             value v, float timeout) override;
 
-        bool write_data(io::yield_ctx& yield, variable* v, 
-                                    const std::vector<data_point>& data) override;
         bool write_data(io::yield_ctx& yield, const std::vector<std::string_view>& var,
                                     const std::vector<data_point>& data) override;
 
-        data_query_ptr query_data(io::yield_ctx& yield, const node* n) const override;
         data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& n) const override;
 
         // mount-querying functions
-        query_ptr<mount_info> mounts(io::yield_ctx& yield, bool srcs=true, bool tgts=true) const override;
+        collection_ptr<mount_info> mounts(bool srcs=true, bool tgts=true) const override;
 
         void mount(io::yield_ctx& ctx, const context_ptr& src) override;
         void unmount(io::yield_ctx& ctx, const context_ptr& src) override;

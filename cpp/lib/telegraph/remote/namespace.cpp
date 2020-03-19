@@ -10,8 +10,9 @@
 #include <boost/lexical_cast.hpp>
 
 namespace telegraph {
+
     remote_namespace::remote_namespace(io::io_context& ioc, connection& conn)
-                        : namespace_(uuid()), ioc_(ioc), conn_(conn) {
+                        : namespace_(), ioc_(ioc), conn_(conn) {
     }
 
     remote_namespace::~remote_namespace() {
@@ -25,15 +26,17 @@ namespace telegraph {
         api::Packet req;
         req.mutable_query_ns(); // set to use query_ns
         api::Packet res = conn_.request_response(yield, std::move(req));
-        if (res.payload_case() != api::Packet::kNsUuid) {
-            throw remote_error("did not get ns_uuid response");
+        if (res.payload_case() != api::Packet::kNs) {
+            throw remote_error("did not get namespace response!");
         }
-        uuid_ = boost::lexical_cast<uuid>(res.ns_uuid());
+        // unpack the contexts/tasks/mounts
+
+        // add listeners for add/remove of contexts/tasks/mounts
     }
 
     bool
     remote_namespace::is_connected() const {
-        return get_uuid().is_nil();
+        return wptr_.lock() == nullptr;
     }
 
     context_ptr
@@ -46,12 +49,7 @@ namespace telegraph {
         if (res.context_created().size() == 0)
             throw io_error("expected context_created");
         uuid ctx_uuid = boost::lexical_cast<uuid>(res.context_created());
-
-        // send create request
-        query_ptr<context_ptr> q = contexts(yield, ctx_uuid);
-        if (!q)
-            throw io_error("unable to query contexts");
-        return q->result();
+        return contexts->get(ctx_uuid);
     }
 
     void
@@ -67,97 +65,6 @@ namespace telegraph {
 
     void
     remote_namespace::destroy_task(io::yield_ctx&, const uuid& u) {
-    }
-
-    query_ptr<mount_info>
-    remote_namespace::mounts(io::yield_ctx&,
-            const uuid& srcs_of, const uuid& tgts_of) const {
-        return nullptr;
-    }
-
-    query_ptr<context_ptr>
-    remote_namespace::contexts(io::yield_ctx& yield,
-            const uuid& by_uuid, const std::string_view& by_name, 
-            const std::string_view& by_type) const {
-        api::Packet qp;
-        api::ContextsQuery* cq = qp.mutable_contexts_query();
-
-        if (!by_uuid.is_nil()) cq->set_uuid(boost::lexical_cast<std::string>(by_uuid));
-        if (by_name.size() > 0) {
-            std::string n{by_name};
-            cq->set_name(std::move(n));
-        }
-        if (by_type.size() > 0) {
-            std::string t{by_type};
-            cq->set_type(std::move(t));
-        }
-
-        // make the query object
-        query_ptr<context_ptr> q = std::make_shared<query<context_ptr>>();
-
-        std::weak_ptr<query<context_ptr>> wq{q};
-        api::Packet res = conn_.request_stream(yield, std::move(qp),
-            [wq, this] (io::yield_ctx& yield, const api::Packet& p) {
-                query_ptr<context_ptr> q = wq.lock();
-                if (!q) return;
-                if (p.has_context_added()) {
-                    auto s = wptr_.lock(); // get ptr to this namespace
-                    const api::Context& c = p.context_added();
-                    uuid u = boost::lexical_cast<uuid>(c.uuid());
-                    context_ptr ctx = std::make_shared<remote_context>(ioc_, s, 
-                            u, c.name(), c.type(), params{c.params()});
-                    q->add_(ctx);
-                } else if (p.context_removed().size() > 0) {
-                    uuid u = boost::lexical_cast<uuid>(p.context_removed());
-                    context_ptr ctx = q->get(u);
-                    q->remove_by_key_(u);
-                    // trigger destroyed signal so we don't have a destroy message being sent back
-                    // when using destroy()
-                    ctx->destroyed();
-                }
-            });
-
-        int32_t req_id = res.req_id();
-
-        // from the response populate the query
-        if (!res.has_context_list()) {
-            throw remote_error("did not receive context list in response");
-        }
-
-        // get shared ptr to this remote namespace
-        // so as long as the query/contexts are alive, the namespace
-        // remains alive
-        auto s = wptr_.lock();
-
-        const api::ContextList& l = res.context_list();
-        for (int i = 0; i < l.contexts_size(); i++) {
-            const api::Context& c = l.contexts(i);
-            uuid u = boost::lexical_cast<uuid>(c.uuid());
-            context_ptr ctx = std::make_shared<remote_context>(ioc_, s, 
-                    u, c.name(), c.type(), params{c.params()});
-            q->current.emplace(std::make_pair(u, ctx));
-        }
-
-        // tie query cancelled handler to a shared
-        // ptr to this namespace
-        q->cancelled.add([s, req_id] () {
-                connection& c = s->get_conn();
-                // write cancel message
-                // and close the stream (destroying the shared ptr reference
-                // to this namespace)
-                api::Packet cancel;
-                cancel.set_cancel(0); // cancel doesn't matter since this is a query--will be instantenous
-                c.write_back(req_id, std::move(cancel));
-                c.close_stream(req_id);
-            });
-        return q;
-    }
-
-    query_ptr<task_ptr>
-    remote_namespace::tasks(io::yield_ctx& yield,
-            const uuid& by_uuid, const std::string_view& by_name,
-            const std::string_view& by_type) const {
-        return nullptr;
     }
 
     std::shared_ptr<node>
@@ -222,16 +129,17 @@ namespace telegraph {
 
     // remote_context functions
 
+    collection_ptr<mount_info>
+    remote_context::mounts(bool srcs, bool tgts) const {
+        const uuid& u = uuid_;
+        return ns_->mounts->filter([u, srcs, tgts](const mount_info& i) {
+            return (srcs && (i.tgt == u)) || (tgts && (i.src == u));
+        });
+    }
+
     std::shared_ptr<node>
     remote_context::fetch(io::yield_ctx& yield) {
         return ns_->fetch(yield, get_uuid(), shared_from_this());
-    }
-
-    subscription_ptr
-    remote_context::subscribe(io::yield_ctx& ctx, variable* v,
-                            float min_interval, float max_interval,
-                            float timeout) {
-        return nullptr;
     }
 
     subscription_ptr
@@ -242,21 +150,11 @@ namespace telegraph {
     }
 
     value
-    remote_context::call(io::yield_ctx& ctx, action* a, value v, float timeout) {
-        return value();
-    }
-
-    value
     remote_context::call(io::yield_ctx& ctx, const std::vector<std::string_view>& a,
                             value v, float timeout) {
         return value();
     }
 
-    bool
-    remote_context::write_data(io::yield_ctx& yield, variable* v,
-                              const std::vector<data_point>& data) {
-        return false;
-    }
     bool
     remote_context::write_data(io::yield_ctx& yield, const std::vector<std::string_view>& v,
                               const std::vector<data_point>& data) {
@@ -264,16 +162,7 @@ namespace telegraph {
     }
 
     data_query_ptr
-    remote_context::query_data(io::yield_ctx& yield, const node* n) const {
-        return nullptr;
-    }
-    data_query_ptr
     remote_context::query_data(io::yield_ctx& yield, const std::vector<std::string_view>& n) const {
-        return nullptr;
-    }
-
-    query_ptr<mount_info>
-    remote_context::mounts(io::yield_ctx& yield, bool srcs, bool tgts) const {
         return nullptr;
     }
 

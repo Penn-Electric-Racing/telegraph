@@ -29,12 +29,6 @@ namespace telegraph {
             error(m) {}
     };
 
-    class query_error: public error {
-    public:
-        inline query_error(const std::string_view& m) : 
-            error(m) {}
-    };
-
 
     class generate_error : public error {
     public:

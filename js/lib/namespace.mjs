@@ -89,6 +89,9 @@ export class Namespace {
 
   getUUID() { return this._uuid; }
 
+  async createContext(name, type, params, sources) { return null; }
+  async destroyContext(name, type, params, sources) { return null; }
+
   async mounts({srcsOf=null, tgtsOf=null}) {  return null; }
   async contexts({byUuid=null, byName=null, byType=null}) { return null; }
   async tasks({byUuid=null, byName=null, byType=null}) { return null; }

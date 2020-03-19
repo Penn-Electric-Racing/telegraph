@@ -18,6 +18,20 @@ namespace telegraph {
         conn_.set_handler(api::Packet::kFetchTree, 
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_fetch_tree(c, p); });
 
+        conn_.set_handler(api::Packet::kMount,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_mount(c, p); });
+        conn_.set_handler(api::Packet::kUnmount,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_unmount(c, p); });
+
+        conn_.set_handler(api::Packet::kCreateContext,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_create_context(c, p); });
+        conn_.set_handler(api::Packet::kCreateTask,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_create_task(c, p); });
+        conn_.set_handler(api::Packet::kDestroyContext,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy_context(c, p); });
+        conn_.set_handler(api::Packet::kDestroyTask,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy_task(c, p); });
+
         conn_.set_handler(api::Packet::kChangeSub,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_change_sub(c, p); });
         conn_.set_handler(api::Packet::kCallAction,
@@ -35,30 +49,22 @@ namespace telegraph {
         conn_.set_handler(api::Packet::kQueryTask,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_query_task(c, p); });
 
-        conn_.set_handler(api::Packet::kMount,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_mount(c, p); });
-        conn_.set_handler(api::Packet::kUnmount,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_unmount(c, p); });
-
-        conn_.set_handler(api::Packet::kContextsQuery,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_contexts_query(c, p); });
-        conn_.set_handler(api::Packet::kMountsQuery,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_mounts_query(c, p); });
-        conn_.set_handler(api::Packet::kTasksQuery,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_tasks_query(c, p); });
-
-        conn_.set_handler(api::Packet::kCreateContext,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_create_context(c, p); });
-        conn_.set_handler(api::Packet::kCreateTask,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_create_task(c, p); });
-        conn_.set_handler(api::Packet::kDestroyContext,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy_context(c, p); });
-        conn_.set_handler(api::Packet::kDestroyTask,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy_task(c, p); });
     }
 
     forwarder::~forwarder() {
-        // unset the handlers
+        // unset the handlers for context added/removed
+        if (!ns_) return;
+
+        auto c = ns_->contexts;
+        auto t = ns_->tasks;
+        auto m = ns_->mounts;
+
+        c->added.remove(this);
+        c->removed.remove(this);
+        t->added.remove(this);
+        t->removed.remove(this);
+        m->added.remove(this);
+        m->removed.remove(this);
     }
 
     void
@@ -70,9 +76,105 @@ namespace telegraph {
 
     void
     forwarder::handle_query_ns(io::yield_ctx& yield, const api::Packet& p) {
+        int32_t req_id = p.req_id();
         api::Packet res;
-        res.set_ns_uuid(boost::lexical_cast<std::string>(ns_->get_uuid()));
+        api::Namespace* ns = res.mutable_ns();
+
+        auto c = ns_->contexts;
+        auto t = ns_->tasks;
+        auto m = ns_->mounts;
+
+        // dump all the contexts/tasks/mounts
+        for (const auto& i : *c) {
+            auto& ctx = i.second;
+            std::string uuid = boost::lexical_cast<std::string>(ctx->get_uuid());
+
+            api::Context* ct = ns->add_contexts();
+            ct->set_uuid(std::move(uuid));
+            ct->set_name(ctx->get_name());
+            ct->set_type(ctx->get_type());
+            api::Params* p = ct->mutable_params();
+            ctx->get_params().pack(p);
+        }
+        for (const auto& i : *t) {
+            auto& task = i.second;
+            std::string uuid = boost::lexical_cast<std::string>(task->get_uuid());
+
+            api::Task* ta = ns->add_tasks();
+            ta->set_uuid(std::move(uuid));
+            ta->set_name(task->get_name());
+            ta->set_type(task->get_type());
+            api::Params* p = ta->mutable_params();
+            task->get_params().pack(p);
+        }
+        for (const auto& i : *m) {
+            auto& mount = i.second;
+            std::string src = boost::lexical_cast<std::string>(mount.src);
+            std::string tgt = boost::lexical_cast<std::string>(mount.tgt);
+
+            api::Mount* mt = ns->add_mounts();
+            mt->set_src(std::move(src));
+            mt->set_tgt(std::move(tgt));
+        }
+
         conn_.write_back(p.req_id(), std::move(res));
+
+        c->added.add(this, [this, req_id] (const context_ptr& ctx) {
+            api::Packet res;
+            api::Context* c = res.mutable_context_added();
+            std::string uuid = boost::lexical_cast<std::string>(ctx->get_uuid());
+            c->set_uuid(std::move(uuid));
+            c->set_name(ctx->get_name());
+            c->set_type(ctx->get_type());
+            api::Params* p = c->mutable_params();
+            ctx->get_params().pack(p);
+
+            conn_.write_back(req_id, std::move(res));
+        });
+        c->removed.add(this, [this, req_id] (const context_ptr& ctx) {
+            api::Packet res;
+            std::string u = boost::lexical_cast<std::string>(ctx->get_uuid());
+            res.set_context_removed(std::move(u));
+            conn_.write_back(req_id, std::move(res));
+        });
+
+        t->added.add(this, [this, req_id] (const task_ptr& task) {
+            api::Packet res;
+            api::Task* t = res.mutable_task_added();
+            std::string uuid = boost::lexical_cast<std::string>(task->get_uuid());
+            t->set_uuid(std::move(uuid));
+            t->set_name(task->get_name());
+            t->set_type(task->get_type());
+            api::Params* p = t->mutable_params();
+            task->get_params().pack(p);
+            conn_.write_back(req_id, std::move(res));
+        });
+        t->removed.add(this, [this, req_id] (const task_ptr& task) {
+            api::Packet res;
+            std::string u = boost::lexical_cast<std::string>(task->get_uuid());
+            res.set_task_removed(std::move(u));
+            conn_.write_back(req_id, std::move(res));
+        });
+        m->added.add(this, [this, req_id] (const mount_info& m) {
+            api::Packet res;
+            std::string src = boost::lexical_cast<std::string>(m.src);
+            std::string tgt = boost::lexical_cast<std::string>(m.tgt);
+
+            api::Mount* mt = res.mutable_mount_added();
+            mt->set_src(std::move(src));
+            mt->set_tgt(std::move(tgt));
+            conn_.write_back(req_id, std::move(res));
+        });
+        m->removed.add(this, [this, req_id] (const mount_info& m) {
+            api::Packet res;
+            std::string src = boost::lexical_cast<std::string>(m.src);
+            std::string tgt = boost::lexical_cast<std::string>(m.tgt);
+
+            api::Mount* mt = res.mutable_mount_removed();
+            mt->set_src(std::move(src));
+            mt->set_tgt(std::move(tgt));
+            conn_.write_back(req_id, std::move(res));
+        });
     }
 
     void
@@ -297,194 +399,6 @@ namespace telegraph {
             api::Packet res;
             res.set_success(true);
             conn_.write_back(req_id, std::move(res));
-        } catch (const error& e) {
-            reply_error(p, e);
-        }
-    }
-
-    void
-    forwarder::handle_contexts_query(io::yield_ctx& yield, const api::Packet& p) {
-        try {
-            const api::ContextsQuery& q = p.contexts_query();
-            uuid ctx_uuid = q.uuid().size() > 0 ? boost::lexical_cast<uuid>(q.uuid()) : uuid();
-            const std::string& name = q.name();
-            const std::string& type = q.type();
-
-            query_ptr<context_ptr> contexts = ns_->contexts(yield, ctx_uuid, name, type);
-            if (!contexts) throw remote_error("unable to query contexts");
-
-            // set a bunch of handlers
-            api::Packet res;
-            api::ContextList* l = res.mutable_context_list();
-            for (const auto& i : *contexts) {
-                const auto& ctx = i.second;
-                api::Context* c = l->add_contexts();
-                std::string uuid = boost::lexical_cast<std::string>(ctx->get_uuid());
-                c->set_uuid(std::move(uuid));
-                c->set_name(ctx->get_name());
-                c->set_type(ctx->get_type());
-                api::Params* params = c->mutable_params();
-                ctx->get_params().pack(params);
-            }
-            conn_.write_back(p.req_id(), std::move(res));
-
-            // add handlers to the query
-            int32_t req_id = p.req_id();
-            contexts->added.add(this, [this, req_id] (const context_ptr& ctx) {
-                // send back a context added event
-                api::Packet p;
-                api::Context* c = p.mutable_context_added();
-                std::string uuid = boost::lexical_cast<std::string>(ctx->get_uuid());
-                c->set_uuid(std::move(uuid));
-                c->set_name(ctx->get_name());
-                c->set_type(ctx->get_type());
-                api::Params* params = c->mutable_params();
-                ctx->get_params().pack(params);
-
-                conn_.write_back(req_id, std::move(p));
-            });
-            contexts->removed.add(this, [this, req_id] (const context_ptr& ctx) {
-                std::string uuid = boost::lexical_cast<std::string>(ctx->get_uuid());
-                api::Packet p;
-                p.set_context_removed(std::move(uuid));
-                conn_.write_back(req_id, std::move(p));
-            });
-
-            contexts->cancelled.add(this, [this, req_id] () {
-                api::Packet cancel;
-                cancel.set_cancel(0);
-                conn_.write_back(req_id, std::move(cancel));
-                conn_.close_stream(req_id);
-            });
-
-            // set stream handler to wait for cancel
-            // this will own the query, so when
-            // the connection is destructed or the stream
-            // cancelled, the query will also be destroyed
-            conn_.set_stream_cb(req_id,
-                [this, contexts] (io::yield_ctx& yield, const api::Packet& p) {
-                    if (p.payload_case() == api::Packet::kCancel) {
-                        // will trigger cancelled(), which will write back a cancel packet
-                        // before closing the stream and removing the captured query ptr
-                        contexts->cancel(); 
-                    }
-                });
-        } catch (const error& e) {
-            reply_error(p, e);
-        }
-    }
-
-    void
-    forwarder::handle_mounts_query(io::yield_ctx& c, const api::Packet& p) {
-        try {
-            int32_t req_id = p.req_id();
-            const api::MountsQuery& q = p.mounts_query();
-            uuid srcs_of = q.srcs_of().size() > 0 ? boost::lexical_cast<uuid>(q.srcs_of()) : uuid();
-            uuid tgts_of = q.tgts_of().size() > 0 ? boost::lexical_cast<uuid>(q.tgts_of()) : uuid();
-
-            query_ptr<mount_info> mounts = ns_->mounts(c, srcs_of, tgts_of);
-            if (!mounts) throw remote_error("unable to fetch mounts, got null query");
-
-            api::Packet res;
-            api::MountList* m = res.mutable_mount_list();
-            for (const auto& i : mounts->current) {
-                const auto& mount = i.second;
-                api::Mount* mt = m->add_mounts();
-                mt->set_src(boost::lexical_cast<std::string>(mount.src));
-                mt->set_tgt(boost::lexical_cast<std::string>(mount.tgt));
-            }
-            conn_.write_back(req_id, std::move(res));
-            mounts->added.add(this, [this, req_id] (const mount_info& mount) {
-                api::Packet p;
-                api::Mount* m = p.mutable_mount_added();
-                m->set_src(boost::lexical_cast<std::string>(mount.src));
-                m->set_tgt(boost::lexical_cast<std::string>(mount.tgt));
-                conn_.write_back(req_id, std::move(p));
-            });
-            mounts->removed.add(this, [this, req_id] (const mount_info& mount) {
-                api::Packet p;
-                api::Mount* m = p.mutable_mount_removed();
-                m->set_src(boost::lexical_cast<std::string>(mount.src));
-                m->set_tgt(boost::lexical_cast<std::string>(mount.tgt));
-                conn_.write_back(req_id, std::move(p));
-            });
-            mounts->cancelled.add(this, [this, req_id] () {
-                conn_.close_stream(req_id);
-                api::Packet cancel;
-                cancel.set_cancel(0);
-                conn_.write_back(req_id, std::move(cancel));
-            });
-
-            conn_.set_stream_cb(req_id,
-                [this, mounts] (io::yield_ctx& yield, const api::Packet& p) {
-                    if (p.payload_case() == api::Packet::kCancel) {
-                        mounts->cancel(); // will trigger cancelled(), send a response and remove this streamcb
-                    }
-                });
-        } catch (const error& e) {
-            reply_error(p, e);
-        }
-    }
-
-    void
-    forwarder::handle_tasks_query(io::yield_ctx& c, const api::Packet& p) {
-        try {
-            int32_t req_id = p.req_id();
-            const api::TasksQuery& q = p.tasks_query();
-            uuid u = q.uuid().size() > 0 ? boost::lexical_cast<uuid>(q.uuid()) : uuid();
-            const std::string& name = q.name();
-            const std::string& type = q.type();
-
-            query_ptr<task_ptr> query = ns_->tasks(c, u, name, type);
-            if (!query) throw remote_error("unable to query tasks");
-
-            api::Packet res;
-            api::TaskList* l = res.mutable_task_list();
-            for (const auto& i : *query) {
-                const task_ptr& t = i.second;
-                api::Task* task = l->add_tasks();
-                std::string uuid = boost::lexical_cast<std::string>(t->get_uuid());
-                task->set_uuid(std::move(uuid));
-                task->set_name(t->get_name());
-                task->set_type(t->get_type());
-                api::Params* par = task->mutable_params();
-                t->get_params().pack(par);
-            }
-
-            query->added.add(this, [this, req_id] (const task_ptr& t) {
-                // send back a context added event
-                api::Packet p;
-                api::Task* task = p.mutable_task_added();
-                std::string uuid = boost::lexical_cast<std::string>(t->get_uuid());
-                task->set_uuid(std::move(uuid));
-                task->set_name(t->get_name());
-                task->set_type(t->get_type());
-                api::Params* par = task->mutable_params();
-                t->get_params().pack(par);
-
-                conn_.write_back(req_id, std::move(p));
-            });
-            query->removed.add(this, [this, req_id] (const task_ptr& t) {
-                std::string uuid = boost::lexical_cast<std::string>(t->get_uuid());
-                api::Packet p;
-                p.set_task_removed(std::move(uuid));
-                conn_.write_back(req_id, std::move(p));
-            });
-
-            query->cancelled.add(this, [this, req_id] () {
-                conn_.close_stream(req_id);
-                api::Packet cancel;
-                cancel.set_cancel(0);
-                conn_.write_back(req_id, std::move(cancel));
-            });
-            conn_.set_stream_cb(req_id,
-                [this, query] (io::yield_ctx& yield, const api::Packet& p) {
-                    if (p.payload_case() == api::Packet::kCancel) {
-                        // will trigger cancelled(), which will write back a cancel packet
-                        // before closing the stream and removing the captured query ptr
-                        query->cancel(); 
-                    }
-                });
         } catch (const error& e) {
             reply_error(p, e);
         }

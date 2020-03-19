@@ -8,7 +8,7 @@
 #include "../utils/io_fwd.hpp"
 #include "../utils/errors.hpp"
 
-#include "../common/query.hpp"
+#include "../common/collection.hpp"
 #include "../common/data.hpp"
 #include "../common/namespace.hpp"
 
@@ -51,10 +51,6 @@ namespace telegraph {
 
         void handle_mount(io::yield_ctx&, const api::Packet& p);
         void handle_unmount(io::yield_ctx&, const api::Packet& p);
-
-        void handle_contexts_query(io::yield_ctx&, const api::Packet& p);
-        void handle_mounts_query(io::yield_ctx&, const api::Packet& p);
-        void handle_tasks_query(io::yield_ctx&, const api::Packet& p);
 
         void handle_create_context(io::yield_ctx&, const api::Packet& p);
         void handle_create_task(io::yield_ctx&, const api::Packet& p);

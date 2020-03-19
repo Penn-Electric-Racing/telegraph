@@ -26,17 +26,7 @@ namespace telegraph {
             public namespace_ {
         friend class local_context;
         friend class local_task;
-
-        // these are queries, not sets
-        // since then we can just use chain()
-        // to do the mounts, contexts, and tasks queries implementations
-        // and if somebody wants everything, we can just return
-        // a copy of the original query pointers
     private:
-        query_ptr<context_ptr> contexts_;
-        query_ptr<task_ptr> tasks_;
-        query_ptr<mount_info> mounts_;
-
         using task_factory = std::function<local_task_ptr(io::yield_ctx&,io::io_context&, 
                                     const std::string_view&, const std::string_view&,
                                     const params&, sources_map&&)>;
@@ -46,7 +36,6 @@ namespace telegraph {
                                     const params&, sources_map&&)>;
 
         io::io_context& ioc_;
-
         std::map<std::string, task_factory, std::less<>> task_factories_;
         std::map<std::string, context_factory, std::less<>> context_factories_;
     public:
@@ -73,19 +62,6 @@ namespace telegraph {
 
         void destroy_context(io::yield_ctx& y, const uuid& u) override;
         void destroy_task(io::yield_ctx& y, const uuid& u) override;
-        //
-
-        query_ptr<mount_info> mounts(io::yield_ctx& yield,
-                                    const uuid& srcs_of=uuid(),
-                                    const uuid& tgts_of=uuid()) const override;
-
-        query_ptr<context_ptr> contexts(io::yield_ctx&, const uuid& by_uuid=uuid(), 
-                                            const std::string_view& by_name=std::string(), 
-                                            const std::string_view& by_type=std::string()) const override;
-
-        query_ptr<task_ptr> tasks(io::yield_ctx&,  const uuid& by_uuid=uuid(), 
-                                    const std::string_view& by_name=std::string(), 
-                                    const std::string_view& by_type=std::string()) const override;
 
         std::shared_ptr<node> fetch(io::yield_ctx& yield, const uuid& uuid, 
                                     context_ptr owner=context_ptr()) const override;
@@ -124,10 +100,10 @@ namespace telegraph {
         void reg(io::yield_ctx& yield, const std::shared_ptr<local_namespace>& ns);
         void destroy(io::yield_ctx& yield) override;
 
+        collection_ptr<mount_info> mounts(bool srcs=true, bool tgts=true) const override;
+
         inline std::shared_ptr<node> fetch(io::yield_ctx&) override {  return tree_; }
 
-        query_ptr<mount_info> mounts(io::yield_ctx& yield,
-                bool srcs=true, bool tgts=true) const override;
         void mount(io::yield_ctx&, const context_ptr& src) override;
         void unmount(io::yield_ctx&, const context_ptr& src) override;
     protected:

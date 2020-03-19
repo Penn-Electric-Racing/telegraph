@@ -1,7 +1,7 @@
 #ifndef __TELEGRAPH_NAMESPACE_HPP__
 #define __TELEGRAPH_NAMESPACE_HPP__
 
-#include "query.hpp"
+#include "collection.hpp"
 #include "value.hpp"
 #include "data.hpp"
 #include "params.hpp"
@@ -53,9 +53,17 @@ namespace telegraph {
     // namespace token
     class namespace_ {
     public:
-        constexpr namespace_(const uuid& uuid) : uuid_(uuid) {}
+        // these are public intentionally to force subclasses
+        // to go through these variables!
+        collection_ptr<mount_info> mounts;
+        collection_ptr<context_ptr> contexts;
+        collection_ptr<task_ptr> tasks;
 
-        const uuid& get_uuid() const { return uuid_; }
+        namespace_() {
+            mounts = std::make_shared<collection<mount_info>>();
+            contexts = std::make_shared<collection<context_ptr>>();
+            tasks = std::make_shared<collection<task_ptr>>();
+        }
 
         virtual context_ptr create_context(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
@@ -68,19 +76,6 @@ namespace telegraph {
                     const params& p, sources_uuid_map&& srcs) = 0;
 
         virtual void destroy_task(io::yield_ctx&, const uuid& u) = 0;
-
-        virtual query_ptr<mount_info> mounts(io::yield_ctx&,
-                    const uuid& srcs_of=uuid(),
-                    const uuid& tgts_of=uuid()) const = 0;
-
-        virtual query_ptr<context_ptr> contexts(io::yield_ctx&, 
-                    const uuid& by_uuid=uuid(), 
-                    const std::string_view& by_name=std::string_view(), 
-                    const std::string_view& by_type=std::string_view()) const = 0;
-
-        virtual query_ptr<task_ptr> tasks(io::yield_ctx&, const uuid& by_uuid=uuid(),
-                    const std::string_view& by_name=std::string(), 
-                    const std::string_view& by_type=std::string()) const = 0;
 
         // if owner is supplied, the tree may
         // be bound to that context for calls
@@ -113,8 +108,6 @@ namespace telegraph {
         virtual void start_task(io::yield_ctx&, const uuid& task) = 0;
         virtual void stop_task(io::yield_ctx&, const uuid& task) = 0;
         virtual params_stream_ptr query_task(io::yield_ctx&, const uuid& task, const params& p) = 0;
-    protected:
-        uuid uuid_;
     };
 
     class task : public std::enable_shared_from_this<task> {
@@ -159,6 +152,9 @@ namespace telegraph {
                     ioc_(ioc), uuid_(uuid), name_(name),
                     type_(type), params_(p) {}
 
+        // mount-querying functions
+        virtual collection_ptr<mount_info> mounts(bool srcs=true, bool tgts=true) const = 0;
+
         constexpr io::io_context& get_executor() { return ioc_; }
 
         virtual std::shared_ptr<namespace_> get_namespace() = 0;
@@ -172,9 +168,6 @@ namespace telegraph {
         virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
 
         // tree manipulation functions
-        virtual subscription_ptr  subscribe(io::yield_ctx& ctx, variable* v, 
-                                float min_interval, float max_interval, 
-                                float timeout) = 0;
         virtual subscription_ptr  subscribe(io::yield_ctx& ctx, 
                                 const std::vector<std::string_view>& variable,
                                 float min_interval, float max_interval,
@@ -194,10 +187,6 @@ namespace telegraph {
         virtual data_query_ptr query_data(io::yield_ctx& yield, 
                                           const std::vector<std::string_view>& n) const = 0;
 
-        // mount-querying functions
-        virtual query_ptr<mount_info> mounts(io::yield_ctx& yield, 
-                                        bool srcs=true, bool tgts=true) const = 0;
-
         virtual void mount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;
         virtual void unmount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;
 
@@ -215,14 +204,14 @@ namespace telegraph {
     // for context/info so that we can do get() on a query
     // to get by the uuid
     template<>
-        struct query_key<std::shared_ptr<context>> {
+        struct collection_key<std::shared_ptr<context>> {
             typedef uuid type;
             static uuid get(const std::shared_ptr<context>& c) { 
                 return c->get_uuid(); 
             }
         };
     template<>
-        struct query_key<std::shared_ptr<task>> {
+        struct collection_key<std::shared_ptr<task>> {
             typedef uuid type;
             static uuid get(const std::shared_ptr<task>& t) {
                 return t->get_uuid(); 

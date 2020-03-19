@@ -54,14 +54,13 @@ namespace telegraph {
 
         void destroy(io::yield_ctx&) override;
 
-        // the overridden functions
         subscription_ptr subscribe(io::yield_ctx& ctx, variable* v,
                                 float min_interval, float max_interval, 
-                                float timeout) override;
-        value call(io::yield_ctx& ctx, action* a, value v, float timeout) override;
+                                float timeout);
+        value call(io::yield_ctx& ctx, action* a, value v, float timeout);
 
         // path-based overloads
-        inline subscription_ptr subscribe(io::yield_ctx& ctx, 
+        subscription_ptr subscribe(io::yield_ctx& ctx, 
                                 const std::vector<std::string_view>& path,
                                 float min_interval, float max_interval, 
                                 float timeout) override {
@@ -70,7 +69,7 @@ namespace telegraph {
             return subscribe(ctx, v, min_interval, max_interval, timeout);
         }
 
-        inline value call(io::yield_ctx& ctx, 
+        value call(io::yield_ctx& ctx, 
                         const std::vector<std::string_view>& path, 
                         value v, float timeout) override {
             auto a = dynamic_cast<action*>(tree_->from_path(path));
