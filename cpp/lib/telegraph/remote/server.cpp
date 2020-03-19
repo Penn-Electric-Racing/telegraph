@@ -109,7 +109,8 @@ namespace telegraph {
                 }
                 read_buf.consume(read_buf.size());
 
-                // handle the packet
+                // handle the packets synchronously
+                // for now (TODO: Switch to parallel handling)
                 s->received(cyield, read_packet);
             }
         });

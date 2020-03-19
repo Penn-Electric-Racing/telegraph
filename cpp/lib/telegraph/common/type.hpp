@@ -102,7 +102,7 @@ namespace telegraph {
             }
         }
 
-        inline void pack(Type* tc) const {
+        void pack(Type* tc) const {
             auto l = tc->mutable_labels();
             for (auto& s : labels_) {
                 *l->Add() = s;

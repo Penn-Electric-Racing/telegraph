@@ -32,13 +32,13 @@ namespace telegraph {
 
         context_ptr create_context(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
-                    const info& params, const sources_map& srcs) override;
+                    const params& p, sources_uuid_map&& srcs) override;
 
         void destroy_context(io::yield_ctx&, const uuid& u) override;
 
         task_ptr create_task(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
-                    const info& params, const sources_map& srcs) override;
+                    const params& p, sources_uuid_map&& srcs) override;
 
         void destroy_task(io::yield_ctx&, const uuid& u) override;
 
@@ -76,7 +76,7 @@ namespace telegraph {
 
         void start_task(io::yield_ctx& yield, const uuid& task) override;
         void stop_task(io::yield_ctx& yield, const uuid& task) override;
-        info_stream_ptr query_task(io::yield_ctx& yield, const uuid& task, const info& i) override;
+        params_stream_ptr query_task(io::yield_ctx& yield, const uuid& task, const params& p) override;
     };
 
     class remote_context : public context {
@@ -84,7 +84,7 @@ namespace telegraph {
         remote_context(io::io_context& ioc, 
                 const std::shared_ptr<remote_namespace>& ns, const uuid& uuid,
                 const std::string_view& name, const std::string_view& type, 
-                const info& i) : context(ioc, uuid, name, type, i), ns_(ns) {}
+                const params& p) : context(ioc, uuid, name, type, p), ns_(ns) {}
 
         std::shared_ptr<namespace_> get_namespace() override { return ns_; }
         std::shared_ptr<const namespace_> get_namespace() const override { return ns_; }

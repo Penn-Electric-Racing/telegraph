@@ -1,6 +1,5 @@
 #include "device.hpp"
 
-#include "../utils/info.hpp"
 #include "../utils/io.hpp"
 
 #include "stream.pb.h"
@@ -73,22 +72,20 @@ namespace telegraph {
             return crc ^ ~0U;
         }
 
-    static info make_device_info(const std::string& port, int baud) {
-        std::map<std::string, info> i;
+    static params make_device_params(const std::string& port, int baud) {
+        std::map<std::string, params> i;
         i["port"] = port;
         i["baud"] = baud;
-        return info(i);
+        return params(i);
     }
 
 
-    device::device(io::io_context& ioc, const std::string& name, 
-                    const std::string& port, int baud)
-            : local_context(ioc, port, "device", make_device_info(port, baud), nullptr), 
+    device::device(io::io_context& ioc, const std::string& name, const std::string& port, int baud)
+            : local_context(ioc, port, "device", make_device_params(port, baud), nullptr), 
               write_queue_(), write_buf_(), read_buf_(),
               req_id_(0), reqs_(),
               /*adapters_(),*/ port_(ioc, port) {
         port_.set_option(io::serial_port::baud_rate(baud));
-
     }
     device::~device() {}
 
@@ -316,7 +313,7 @@ namespace telegraph {
     // the device scanner task that detects new ports
 
     device_scan_task::device_scan_task(io::io_context& ioc, const std::string_view& name)
-                        : local_task(ioc, name, "device_scanner", info()) {}
+                        : local_task(ioc, name, "device_scanner", params()) {}
 
     void
     device_scan_task::start(io::yield_ctx& yield) {}
@@ -324,8 +321,8 @@ namespace telegraph {
     void
     device_scan_task::stop(io::yield_ctx& yield) {}
 
-    info_stream_ptr
-    device_scan_task::query(io::yield_ctx&yield , const info& info) {
+    params_stream_ptr
+    device_scan_task::query(io::yield_ctx&yield , const params& p) {
         return nullptr;
     }
 
@@ -336,7 +333,7 @@ namespace telegraph {
     local_task_ptr
     device_scan_task::create(io::yield_ctx&, io::io_context& ioc,
             const std::string_view& type, const std::string_view& name,
-            const info& params, const sources_map& srcs) {
+            const params& p, const sources_map& srcs) {
         return std::make_shared<device_scan_task>(ioc, name);
     }
 }

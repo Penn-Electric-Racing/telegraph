@@ -39,11 +39,11 @@ namespace telegraph {
 
         using task_factory = std::function<local_task_ptr(io::yield_ctx&,io::io_context&, 
                                     const std::string_view&, const std::string_view&,
-                                    const info&, const sources_map&)>;
+                                    const params&, sources_map&&)>;
 
         using context_factory = std::function<local_context_ptr(io::yield_ctx&,io::io_context&, 
                                     const std::string_view&, const std::string_view&, 
-                                    const info&, const sources_map&)>;
+                                    const params&, sources_map&&)>;
 
         io::io_context& ioc_;
 
@@ -65,11 +65,11 @@ namespace telegraph {
 
         context_ptr create_context(io::yield_ctx& yield, 
                     const std::string_view& name, const std::string_view& type, 
-                    const info& params, const sources_map& srcs) override;
+                    const params& p, sources_uuid_map&& srcs) override;
 
         task_ptr create_task(io::yield_ctx& yield, 
                     const std::string_view& name, const std::string_view& type, 
-                    const info& params, const sources_map& srcs) override;
+                    const params& p, sources_uuid_map&& srcs) override;
 
         void destroy_context(io::yield_ctx& y, const uuid& u) override;
         void destroy_task(io::yield_ctx& y, const uuid& u) override;
@@ -109,14 +109,14 @@ namespace telegraph {
 
         void start_task(io::yield_ctx& yield, const uuid& task) override;
         void stop_task(io::yield_ctx& yield, const uuid& task) override;
-        info_stream_ptr query_task(io::yield_ctx& yield, const uuid& task, const info& i) override;
+        params_stream_ptr query_task(io::yield_ctx& yield, const uuid& task, const params& i) override;
     };
 
     class local_context : public context {
     public:
         local_context(io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type, 
-                const info& i, const std::shared_ptr<node>& tree);
+                const params& i, const std::shared_ptr<node>& tree);
 
         std::shared_ptr<namespace_> get_namespace() override { return ns_.lock(); }
         std::shared_ptr<const namespace_> get_namespace() const override { return ns_.lock(); }
@@ -138,7 +138,7 @@ namespace telegraph {
     class local_task : public task {
     public:
         local_task(io::io_context& ioc, const std::string_view& name,
-                const std::string_view& type, const info& i);
+                const std::string_view& type, const params& i);
 
         std::shared_ptr<namespace_> get_namespace() override { return ns_.lock(); }
         std::shared_ptr<const namespace_> get_namespace() const override { return ns_.lock(); }

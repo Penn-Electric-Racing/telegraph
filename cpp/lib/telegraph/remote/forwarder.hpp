@@ -26,6 +26,8 @@ namespace telegraph {
         std::shared_ptr<namespace_> ns_;
         // active subscriptions
         std::unordered_map<int32_t, subscription_ptr> subs_;
+        // active task query streams
+        std::unordered_map<int32_t, params_stream_ptr> streams_;
     public:
         // will register handlers
         forwarder(connection& conn, 
@@ -45,6 +47,7 @@ namespace telegraph {
 
         void handle_start_task(io::yield_ctx&, const api::Packet& p);
         void handle_stop_task(io::yield_ctx&, const api::Packet& p);
+        void handle_query_task(io::yield_ctx&, const api::Packet& p);
 
         void handle_mount(io::yield_ctx&, const api::Packet& p);
         void handle_unmount(io::yield_ctx&, const api::Packet& p);

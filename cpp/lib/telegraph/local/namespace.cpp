@@ -15,11 +15,23 @@ namespace telegraph {
     context_ptr 
     local_namespace::create_context(io::yield_ctx& yield, 
                     const std::string_view& name, const std::string_view& type, 
-                    const info& params, const sources_map& srcs) {
+                    const params& p, sources_uuid_map&& srcs) {
+        sources_map s;
+        for (auto& i : srcs) {
+            auto& v = i.second;
+            if (v.index() == 0) {
+                uuid u = std::get<uuid>(v);
+                s.emplace(std::make_pair(i.first, contexts_->get(u)));
+            } else {
+                std::unique_ptr<node>& n = std::get<std::unique_ptr<node>>(v);
+                s.emplace(std::make_pair(i.first, std::move(n)));
+            }
+        }
+
         auto it = context_factories_.find(name);
         if (it == context_factories_.end()) return nullptr;
         else {
-            auto c = (it->second)(yield, ioc_, name, type, params, srcs);
+            auto c = (it->second)(yield, ioc_, name, type, p, std::move(s));
             if (c) c->reg(yield, shared_from_this());
             return c;
         }
@@ -35,11 +47,23 @@ namespace telegraph {
     task_ptr 
     local_namespace::create_task(io::yield_ctx& yield, 
                 const std::string_view& name, const std::string_view& type, 
-                const info& params, const sources_map& srcs) {
+                const params& p, sources_uuid_map&& srcs) {
+        sources_map s;
+        for (auto& i : srcs) {
+            auto& v = i.second;
+            if (v.index() == 0) {
+                uuid u = std::get<uuid>(v);
+                s.emplace(std::make_pair(i.first, contexts_->get(u)));
+            } else {
+                std::unique_ptr<node>& n = std::get<std::unique_ptr<node>>(v);
+                s.emplace(std::make_pair(i.first, std::move(n)));
+            }
+        }
+
         auto it = task_factories_.find(name);
         if (it == task_factories_.end()) return nullptr;
         else {
-            auto c = (it->second)(yield, ioc_, name, type, params, srcs);
+            auto c = (it->second)(yield, ioc_, name, type, p, std::move(s));
             if (c) c->reg(yield, shared_from_this());
             return c;
         }
@@ -161,8 +185,8 @@ namespace telegraph {
         t->stop(yield);
     }
 
-    info_stream_ptr
-    local_namespace::query_task(io::yield_ctx& yield, const uuid& task, const info& i) {
+    params_stream_ptr
+    local_namespace::query_task(io::yield_ctx& yield, const uuid& task, const params& i) {
         auto t = tasks_->get(task);
         if (!t) throw missing_error("no such task");
         return t->query(yield, i);
@@ -170,7 +194,7 @@ namespace telegraph {
 
     local_context::local_context(io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type,
-                const info& i, const std::shared_ptr<node>& tree) : 
+                const params& i, const std::shared_ptr<node>& tree) : 
                 context(ioc, rand_uuid(), name, type, i), tree_(tree), ns_() {}
 
     void
@@ -178,16 +202,16 @@ namespace telegraph {
         if (ns_.lock()) throw missing_error("already registered");
         if (!ns) throw missing_error("cannot register null namespace");
         ns_ = ns;
-        ns->contexts_->add_(yield, shared_from_this());
+        ns->contexts_->add_(shared_from_this());
     }
 
     void
     local_context::destroy(io::yield_ctx& yield) {
         auto s = ns_.lock();
         if (!s) return;
-        s->contexts_->remove_by_key_(yield, get_uuid());
+        s->contexts_->remove_by_key_(get_uuid());
         ns_.reset();
-        context::destroy(yield);
+        destroyed();
     }
 
     query_ptr<mount_info>
@@ -204,7 +228,7 @@ namespace telegraph {
         if (!s || !src)
             throw missing_error("not registered");
         mount_info m(src->get_uuid(), get_uuid());
-        s->mounts_->add_(yield, m);
+        s->mounts_->add_(m);
     }
 
     void
@@ -212,12 +236,12 @@ namespace telegraph {
         auto s = ns_.lock();
         if (!s || !src) return;
         mount_info m(src->get_uuid(), get_uuid());
-        s->mounts_->remove_by_key_(yield, m);
+        s->mounts_->remove_by_key_(m);
     }
 
     local_task::local_task(io::io_context& ioc, const std::string_view& name, 
-            const std::string_view& type, const info& i) 
-                : task(ioc, rand_uuid(), name, type, i), ns_() {}
+            const std::string_view& type, const params& p) 
+                : task(ioc, rand_uuid(), name, type, p), ns_() {}
 
     void
     local_task::reg(io::yield_ctx& yield, const std::shared_ptr<local_namespace>& ns) {
@@ -225,15 +249,15 @@ namespace telegraph {
         if (s) throw missing_error("task already registered");
         if (!ns) throw missing_error("cannot register task in null namespace");
         ns_ = ns;
-        ns->tasks_->add_(yield, shared_from_this());
+        ns->tasks_->add_(shared_from_this());
     }
 
     void
     local_task::destroy(io::yield_ctx& yield) {
         auto s = ns_.lock();
         if (!s) return;
-        s->tasks_->remove_by_key_(yield, get_uuid());
+        s->tasks_->remove_by_key_(get_uuid());
         ns_.reset();
-        task::destroy(yield);
+        destroyed();
     }
 }

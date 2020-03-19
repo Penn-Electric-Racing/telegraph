@@ -31,8 +31,8 @@ namespace telegraph {
             using key = typename query_key<T>::type;
 
             // public signals/map
-            signal<io::yield_ctx&, const T&> added;
-            signal<io::yield_ctx&, const T&> removed;
+            signal<const T&> added;
+            signal<const T&> removed;
             signal<> cancelled;
 
             std::unordered_map<key, T> current;
@@ -44,8 +44,8 @@ namespace telegraph {
                 for (auto& v : src->current) {
                     if (filter(v.second)) current.insert(v);
                 }
-                src_->added.add(this, [this] (io::yield_ctx& c, const T& v) { add_(c, v); });
-                src_->removed.add(this, [this] (io::yield_ctx& c, const T& v) { remove_(c, v); });
+                src_->added.add(this, [this] (const T& v) { add_(v); });
+                src_->removed.add(this, [this] (const T& v) { remove_(v); });
             }
 
             ~query() {
@@ -90,32 +90,34 @@ namespace telegraph {
             }
 
             T get(const key& k) const {
-                if (!has(k)) return T();
-                return current.at(k);
+                auto it = current.find(k);
+                if (it == current.end()) return T();
+                return it->second;
             }
 
             // public, but should not be called unless you
             // know what you are doing
-            void add_(io::yield_ctx& yield, const T& v) {
+            void add_(const T& v) {
                 if (filter_ && !filter_(v)) return;
                 auto k = query_key<T>::get(v);
                 if (has(k)) return;
                 current.insert(std::make_pair(k, v));
-                added(yield, v);
+                added(v);
             }
 
-            void remove_(io::yield_ctx& yield, const T& v) {
+            void remove_(const T& v) {
                 if (filter_ && !filter_(v)) return;
                 auto k = query_key<T>::get(v);
-                if (!has(k)) return;
-                current.erase(query_key<T>::get(v));
-                removed(yield, v);
+                auto it = current.find(k);
+                if (it == current.end()) return;
+                current.erase(it);
+                removed(v);
             }
 
-            void remove_by_key_(io::yield_ctx& yield, const key& k) {
-                if (!has(k)) return;
-                const T& v = current.at(k);
-                remove_(yield, v);
+            void remove_by_key_(const key& k) {
+                auto it = current.find(k);
+                if (it == current.end()) return;
+                remove_(it->second);
             }
 
             typename std::unordered_map<key, T>::iterator begin() { return current.begin(); }

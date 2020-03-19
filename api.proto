@@ -7,55 +7,54 @@ package telegraph.api;
 // to be converted to json
 // for both the javascript/c++ server/client code
 
-message InfoEntry {
+message ParamsEntry {
     string key = 1;
-    Info value = 2;
+    Params value = 2;
 }
 
-message InfoMap {
-    repeated InfoEntry entries = 1;
+message ParamsMap {
+    repeated ParamsEntry entries = 1;
 }
 
-message InfoList {
-    repeated Info elements = 1;
+message ParamsList {
+    repeated Params elements = 1;
 }
 
 // json-like structure, as a protobuffer
 // if all are unset, equivalent to null
-message Info {
+message Params {
     oneof content {
         float number = 1;
         string str = 2;
-        InfoMap object = 3;
-        InfoList array = 4;
+        ParamsMap object = 3;
+        ParamsList array = 4;
         Empty none = 5;
     }
 }
 
 message Context {
-    string ns = 1;
-    string uuid = 2;
-    string name = 3;
-    string type = 4;
-    Info info = 5;
-}
-
-message Mount {
-    Context src = 1; // can be of device or archive
-    Context tgt = 2; // mount point (must exist)
+    string uuid = 1;
+    string name = 2;
+    string type = 3;
+    Params params = 4;
 }
 
 message Task {
-    string ns = 1;
-    string uuid = 2;
+    string uuid = 1;
+    string name = 2;
     string type = 3;
-    Info info = 5;
+    Params params = 4;
+}
+
+message Mount {
+    string src = 1; 
+    string tgt = 2; 
 }
 
 // querying
 message MountsQuery {
-    string srcs_uuid = 2;
-    string tgts_uuid = 3;
+    string srcs_of = 2;
+    string tgts_of = 3;
 }
 
 message ContextsQuery {
@@ -67,7 +66,10 @@ message ContextsQuery {
 }
 
 message TasksQuery {
-    string type = 1;
+    // restrictive filters
+    string uuid = 1;
+    string name = 2;
+    string type = 3;
 }
 
 message MountList { repeated Mount mounts = 1; }
@@ -77,7 +79,7 @@ message ContextList { repeated Context contexts = 1; }
 message SourceEntry {
     string key = 1;
     oneof tree {
-        Context context = 3;
+        string context = 3; // context uuid
         Node root = 4;
     }
 }
@@ -86,13 +88,13 @@ message SourceEntry {
 message Create {
     string name = 1;
     string type = 2;
-    Info info = 3;
+    Params params = 3;
     repeated SourceEntry sources = 4;
 }
 
-message StatusRequest {
+message QueryTask {
     string uuid = 1;
-    Info info = 2;
+    Params params = 2;
 }
 
 // tree operations
@@ -109,6 +111,7 @@ message Call {
     string uuid = 1; // context uuid
     repeated string action = 2; // path to action, specified the children indices
     Value value = 3;
+    float timeout = 4;
 }
 
 message DataWrite {
@@ -193,8 +196,8 @@ message Packet {
         string start_task = 36;
         string stop_task = 37;
 
-        StatusRequest status_request = 38;
-        Info status_update = 39;
+        QueryTask query_task = 38;
+        Params task_update = 39;
 
         Mount mount = 40;
         Mount unmount = 41;

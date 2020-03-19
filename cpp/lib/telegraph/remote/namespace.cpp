@@ -39,7 +39,7 @@ namespace telegraph {
     context_ptr
     remote_namespace::create_context(io::yield_ctx& yield,
             const std::string_view& name, const std::string_view& type,
-            const info& params, const sources_map& srcs) {
+            const params& p, sources_uuid_map&& srcs) {
         api::Packet cp;
 
         api::Packet res = conn_.request_response(yield, std::move(cp));
@@ -61,7 +61,7 @@ namespace telegraph {
     task_ptr
     remote_namespace::create_task(io::yield_ctx& yield,
             const std::string_view& name, const std::string_view& type,
-            const info& params, const sources_map& srcs) {
+            const params& p, sources_uuid_map&& srcs) {
         return nullptr;
     }
 
@@ -104,15 +104,16 @@ namespace telegraph {
                     auto s = wptr_.lock(); // get ptr to this namespace
                     const api::Context& c = p.context_added();
                     uuid u = boost::lexical_cast<uuid>(c.uuid());
-                    context_ptr ctx = 
-                        std::make_shared<remote_context>(ioc_, s, u,
-                                                c.name(), c.type(), info{c.info()});
-                    q->add_(yield, ctx);
+                    context_ptr ctx = std::make_shared<remote_context>(ioc_, s, 
+                            u, c.name(), c.type(), params{c.params()});
+                    q->add_(ctx);
                 } else if (p.context_removed().size() > 0) {
                     uuid u = boost::lexical_cast<uuid>(p.context_removed());
-                    context_ptr p = q->get(u);
-                    q->remove_by_key_(yield, u);
-                    p->destroy(yield);
+                    context_ptr ctx = q->get(u);
+                    q->remove_by_key_(u);
+                    // trigger destroyed signal so we don't have a destroy message being sent back
+                    // when using destroy()
+                    ctx->destroyed();
                 }
             });
 
@@ -132,10 +133,9 @@ namespace telegraph {
         for (int i = 0; i < l.contexts_size(); i++) {
             const api::Context& c = l.contexts(i);
             uuid u = boost::lexical_cast<uuid>(c.uuid());
-            context_ptr ctx = 
-                std::make_shared<remote_context>(ioc_, s, u,
-                                        c.name(), c.type(), info{c.info()});
-            q->add_(yield, ctx);
+            context_ptr ctx = std::make_shared<remote_context>(ioc_, s, 
+                    u, c.name(), c.type(), params{c.params()});
+            q->current.emplace(std::make_pair(u, ctx));
         }
 
         // tie query cancelled handler to a shared
@@ -214,8 +214,8 @@ namespace telegraph {
 
     }
 
-    info_stream_ptr
-    remote_namespace::query_task(io::yield_ctx& yield, const uuid& task, const info& i) {
+    params_stream_ptr
+    remote_namespace::query_task(io::yield_ctx& yield, const uuid& task, const params& p) {
         return nullptr;
     }
 
@@ -287,6 +287,8 @@ namespace telegraph {
 
     void
     remote_context::destroy(io::yield_ctx& yield) {
-        context::destroy(yield);
+        // should trigger destroyed() when the remote context is
+        // removed from its parent query
+        ns_->destroy_context(yield, get_uuid());
     }
 }

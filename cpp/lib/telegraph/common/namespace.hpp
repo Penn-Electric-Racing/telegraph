@@ -4,8 +4,8 @@
 #include "query.hpp"
 #include "value.hpp"
 #include "data.hpp"
+#include "params.hpp"
 
-#include "../utils/info.hpp"
 #include "../utils/uuid.hpp"
 #include "../utils/io_fwd.hpp"
 
@@ -43,7 +43,11 @@ namespace telegraph {
     };
 
     using sources_map = std::unordered_map<std::string,
-          std::variant<context_ptr, std::shared_ptr<node>>>;
+              std::variant<context_ptr, std::unique_ptr<node>>>;
+
+    // like sources_map, but has uuids instead of context_ptrs
+    using sources_uuid_map = std::unordered_map<std::string,
+              std::variant<uuid, std::unique_ptr<node>>>;
 
     // underscore is to not conflict with builtin
     // namespace token
@@ -55,13 +59,13 @@ namespace telegraph {
 
         virtual context_ptr create_context(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
-                    const info& params, const sources_map& srcs) = 0;
+                    const params& p, sources_uuid_map&& srcs) = 0;
 
         virtual void destroy_context(io::yield_ctx&, const uuid& u) = 0;
 
         virtual task_ptr create_task(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
-                    const info& params, const sources_map& srcs) = 0;
+                    const params& p, sources_uuid_map&& srcs) = 0;
 
         virtual void destroy_task(io::yield_ctx&, const uuid& u) = 0;
 
@@ -108,8 +112,7 @@ namespace telegraph {
         // task-related operations
         virtual void start_task(io::yield_ctx&, const uuid& task) = 0;
         virtual void stop_task(io::yield_ctx&, const uuid& task) = 0;
-        virtual info_stream_ptr query_task(io::yield_ctx&, const uuid& task, const info& i) = 0;
-
+        virtual params_stream_ptr query_task(io::yield_ctx&, const uuid& task, const params& p) = 0;
     protected:
         uuid uuid_;
     };
@@ -118,9 +121,9 @@ namespace telegraph {
     public:
         inline task(io::io_context& ioc, 
                 uuid id, const std::string_view& name, 
-                const std::string_view& type, const info& i) : 
+                const std::string_view& type, const params& p) : 
                     ioc_(ioc), uuid_(id), 
-                    name_(name), type_(type), info_(i) {}
+                    name_(name), type_(type), params_(p) {}
 
         constexpr io::io_context& get_executor() { return ioc_; }
 
@@ -129,32 +132,32 @@ namespace telegraph {
 
         const std::string& get_name() const { return name_; }
         const std::string& get_type() const { return type_; }
-        const info& get_info() const { return info_; }
+        const params& get_params() const { return params_; }
         const uuid& get_uuid() const { return uuid_; }
 
         virtual void start(io::yield_ctx&) = 0;
         virtual void stop(io::yield_ctx&) = 0;
 
-        virtual info_stream_ptr query(io::yield_ctx&, const info& i) = 0;
+        virtual params_stream_ptr query(io::yield_ctx&, const params& p) = 0;
 
-        virtual void destroy(io::yield_ctx& y) { destroyed(y); }
+        virtual void destroy(io::yield_ctx& y) = 0;
 
-        signal<io::yield_ctx&> destroyed;
+        signal<> destroyed;
     protected:
         io::io_context& ioc_;
-        uuid uuid_;
+        uuid uuid_; // might be set after object creation...
         const std::string name_;
         const std::string type_;
-        const info info_;
+        const params params_;
     };
 
     class context : public std::enable_shared_from_this<context> {
     public:
         inline context(io::io_context& ioc, 
                 const uuid& uuid, const std::string_view& name, 
-                const std::string_view& type, const info& i) : 
+                const std::string_view& type, const params& p) : 
                     ioc_(ioc), uuid_(uuid), name_(name),
-                    type_(type), info_(i) {}
+                    type_(type), params_(p) {}
 
         constexpr io::io_context& get_executor() { return ioc_; }
 
@@ -163,7 +166,7 @@ namespace telegraph {
 
         const std::string& get_name() const { return name_; }
         const std::string& get_type() const { return type_; }
-        const info& get_info() const { return info_; }
+        const params& get_params() const { return params_; }
         const uuid& get_uuid() const { return uuid_; }
 
         virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
@@ -198,15 +201,14 @@ namespace telegraph {
         virtual void mount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;
         virtual void unmount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;
 
-        virtual void destroy(io::yield_ctx& yield) { destroyed(yield); }
-
-        signal<io::yield_ctx&> destroyed;
+        virtual void destroy(io::yield_ctx& yield) = 0;
+        signal<> destroyed;
     protected:
         io::io_context& ioc_;
         const uuid uuid_;
         const std::string name_;
         const std::string type_;
-        const info info_;
+        const params params_;
     };
 
     // query_key specialization

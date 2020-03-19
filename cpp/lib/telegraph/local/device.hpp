@@ -3,6 +3,7 @@
 
 #include "namespace.hpp"
 
+#include "../common/params.hpp"
 #include "../common/adapter.hpp"
 #include "../common/nodes.hpp"
 
@@ -119,13 +120,13 @@ namespace telegraph {
         void start(io::yield_ctx&) override;
         void stop(io::yield_ctx&) override;
 
-        info_stream_ptr query(io::yield_ctx&, const info& info) override;
+        params_stream_ptr query(io::yield_ctx&, const params& p) override;
 
         void destroy(io::yield_ctx&) override;
 
         static local_task_ptr create(io::yield_ctx&, io::io_context& ioc, 
                 const std::string_view& type, const std::string_view& name,
-                const info& params, const sources_map& srcs);
+                const params& p, const sources_map& srcs);
     };
 }
 #endif
