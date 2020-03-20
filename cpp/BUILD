@@ -17,12 +17,6 @@ cc_library(name="telegraph",
          '@boost//:asio', '@boost//:uuid', '@boost//:system']
 )
 
-cc_binary(name="device_test",
-          srcs=glob(["main/device_test.cpp"]),
-          copts=cpp17_opts,
-          deps=[':telegraph'])
-
-
 cc_binary(name="server",
           srcs=glob(["main/server.cpp"]),
           copts=cpp17_opts,
@@ -66,7 +60,7 @@ cc_proto_library(name="cc_proto_stream",
 load("@com_github_nanopb_nanopb//:gen_rules.bzl","cc_nanopb_library")
 
 cc_nanopb_library(name="cc_nanopb_common", proto_library="//:proto_common", base_name="common",
-                  includes=["."], 
+                  includes=["."],
                   visibility=["//visibility:public"])
 
 cc_nanopb_library(name="cc_nanopb_log", proto_library="//:proto_log", base_name="log",
