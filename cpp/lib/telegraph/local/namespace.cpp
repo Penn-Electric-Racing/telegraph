@@ -22,8 +22,7 @@ namespace telegraph {
                 s.emplace(std::make_pair(i.first, std::move(n)));
             }
         }
-
-        auto it = context_factories_.find(name);
+        auto it = context_factories_.find(type);
         if (it == context_factories_.end()) return nullptr;
         else {
             auto c = (it->second)(yield, ioc_, name, type, p, std::move(s));
@@ -55,7 +54,7 @@ namespace telegraph {
             }
         }
 
-        auto it = task_factories_.find(name);
+        auto it = task_factories_.find(type);
         if (it == task_factories_.end()) return nullptr;
         else {
             auto c = (it->second)(yield, ioc_, name, type, p, std::move(s));

@@ -5,6 +5,42 @@ import WebSocket from 'isomorphic-ws'
 import api from '../api.js'
 let { Packet } = api.telegraph.api;
 
+export class Params {
+  static pack(json) {
+    var type = typeof json;
+    if (Array.isArray(json)) {
+      return { array : { elements : json.map(x => Params.pack(x)) } };
+    } else if (type == "object") {
+      return { object : { 
+        entries : Object.entries(json).map(([k, v]) => 
+          { return { key: k, value: Params.pack(v) }; } )
+      } }
+    } else if (type == "number") {
+      return { number: json };
+    } else if (type == "string") {
+      return { str: json };
+    } else if (type == "boolean") {
+      return { b : json };
+    }
+  }
+  static unpack(proto) {
+    if (proto == null) return null;
+    if (protobuf.array) {
+      return protobuf.array.elements.map(Params.unpack);
+    }
+    if (protobuf.object) {
+      var obj = {};
+      for (let {key, value} of protobuf.object.entries) {
+        obj[key] = Params.unpack(value);
+      }
+    }
+    if (protobuf.number) return protobuf.number;
+    if (protobuf.str) return protobuf.str;
+    if (protobuf.b) return protobuf.b;
+    return null;
+  }
+}
+
 export class Connection {
   constructor(ws, countUp) {
     this._counter = 0;
@@ -35,8 +71,12 @@ export class Connection {
 
   disconnect() {
     return new Promise((res, rej) => {
-      this.onClose.add(res)
-      this._ws.close();
+      if (this.isOpen()) {
+        this.onClose.add(res)
+        this._ws.close();
+      } else {
+        res();
+      }
     });
   }
 

@@ -19,19 +19,21 @@ namespace telegraph {
 
     class params {
     private:
-        std::variant<std::monostate, float, 
-            std::string, std::map<std::string, params>,
+        std::variant<std::monostate, float, bool,
+            std::string, std::map<std::string, params, std::less<>>,
                 std::vector<params>> value_;
     public:
         params() : value_() {}
         params(float num) : value_(num) {}
+        params(int num) : value_((float) num) {}
+        params(bool b) : value_(b) {}
         params(const std::string& str) : value_(str) {}
         params(const std::vector<params>& a) : value_(a) {}
-        params(const std::map<std::string, params>& o) : value_(o) {}
+        params(const std::map<std::string, params, std::less<>>& o) : value_(o) {}
 
         params(std::string&& str) : value_(std::move(str)) {}
         params(std::vector<params>&& a) : value_(std::move(a)) {}
-        params(std::map<std::string, params>&& o) : value_(std::move(o)) {}
+        params(std::map<std::string, params, std::less<>>&& o) : value_(std::move(o)) {}
 
         params(params&& i) : value_(std::move(i.value_)) {}
         params(const params& i) : value_(i.value_) {}
@@ -45,13 +47,27 @@ namespace telegraph {
             value_ = std::move(i.value_);
         }
 
-        constexpr bool is_number() const {
-            return std::holds_alternative<float>(value_);
+        template<typename T>
+            T& get() {
+                return std::get<T>(value_);
+            }
+        template<typename T>
+            const T& get() const {
+                return std::get<T>(value_);
+            }
+
+        params& at(const std::string_view& s) {
+            auto& v = std::get<std::map<std::string, params, std::less<>>>(value_);
+            auto it = v.find(s);
+            if (it == v.end()) throw missing_error("missing params key");
+            return it->second;
         }
-        constexpr float number() const {
-            const float* n = std::get_if<float>(&value_);
-            if (!n) throw bad_type_error("expected type number");
-            return *n;
+
+        const params& at(const std::string_view& s) const {
+            auto& v = std::get<std::map<std::string, params, std::less<>>>(value_);
+            auto it = v.find(s);
+            if (it == v.end()) throw missing_error("missing params key");
+            return it->second;
         }
 
         void pack(api::Params*) const;

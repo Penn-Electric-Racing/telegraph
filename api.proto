@@ -24,11 +24,12 @@ message ParamsList {
 // if all are unset, equivalent to null
 message Params {
     oneof content {
-        float number = 1;
-        string str = 2;
-        ParamsMap object = 3;
-        ParamsList array = 4;
-        Empty none = 5;
+        bool b = 1;
+        float number = 2;
+        string str = 3;
+        ParamsMap object = 4;
+        ParamsList array = 5;
+        Empty none = 6;
     }
 }
 

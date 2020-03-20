@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-protoc --proto_path=../proto --python_out=. ../proto/common.proto ../proto/stream.proto
+protoc --proto_path=.. --python_out=. ../common.proto ../stream.proto

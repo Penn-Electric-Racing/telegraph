@@ -19,6 +19,7 @@ int main(int argc, char** argv) {
 
     std::shared_ptr<local_namespace> ns = std::make_shared<local_namespace>(ctx);
     ns->register_task_factory("device_scanner", device_scan_task::create);
+    ns->register_context_factory("device", device::create);
 
     // start a server on the relay
     // this will enqueue callbacks on the io context

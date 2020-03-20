@@ -43,20 +43,19 @@ namespace telegraph {
 
         io::serial_port port_;
     public:
-        device(io::io_context& ioc, 
-             const std::string& name,
-             const std::string& port, int baud);
+        device(io::io_context& ioc, const std::string& name, const std::string& port, int baud);
         ~device();
 
         // init should be called right after construction!
         // or the context will not have a tree (this is done by device_io_task)
         bool init(io::yield_ctx&);
 
-        void destroy(io::yield_ctx&) override;
+        // no querying
+        params_stream_ptr query(io::yield_ctx&, const params& p) { return nullptr; }
 
-        subscription_ptr subscribe(io::yield_ctx& ctx, variable* v,
+        subscription_ptr subscribe(io::yield_ctx& ctx, const variable* v,
                                 float min_interval, float max_interval, 
-                                float timeout);
+                                float timeout) override;
         value call(io::yield_ctx& ctx, action* a, value v, float timeout);
 
         // path-based overloads
@@ -97,6 +96,10 @@ namespace telegraph {
         inline void unmount(io::yield_ctx&, const context_ptr& src) override {
             throw bad_type_error("cannot unmount on a device");
         }
+
+        static local_context_ptr create(io::yield_ctx&, io::io_context& ioc, 
+                const std::string_view& type, const std::string_view& name,
+                const params& p, const sources_map& srcs);
     private:
         inline std::shared_ptr<device> shared_device_this() {
             return std::static_pointer_cast<device>(shared_from_this());
@@ -120,8 +123,6 @@ namespace telegraph {
         void stop(io::yield_ctx&) override;
 
         params_stream_ptr query(io::yield_ctx&, const params& p) override;
-
-        void destroy(io::yield_ctx&) override;
 
         static local_task_ptr create(io::yield_ctx&, io::io_context& ioc, 
                 const std::string_view& type, const std::string_view& name,

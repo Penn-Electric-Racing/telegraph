@@ -9,9 +9,10 @@ namespace telegraph {
         case api::Params::CONTENT_NOT_SET:
         case api::Params::kNone: break; // nothing to do, already null!
         case api::Params::kNumber: value_ = i.number(); break;
+        case api::Params::kB: value_ = i.b(); break;
         case api::Params::kStr: value_ = i.str(); break;
         case api::Params::kObject: {
-            std::map<std::string, params> map;
+            std::map<std::string, params, std::less<>> map;
             const auto& obj = i.object();
             for (int i = 0; i < obj.entries_size(); i++) {
                 const api::ParamsEntry& entry = obj.entries(i);
@@ -37,9 +38,10 @@ namespace telegraph {
         default: 
         case 0: i->mutable_none(); break;
         case 1: i->set_number(std::get<float>(value_)); break;
-        case 2: i->set_str(std::get<std::string>(value_)); break;
-        case 3: {
-            const std::map<std::string, params>& o = std::get<std::map<std::string, params>>(value_);
+        case 2: i->set_number(std::get<bool>(value_)); break;
+        case 3: i->set_str(std::get<std::string>(value_)); break;
+        case 4: {
+            const std::map<std::string, params, std::less<>>& o = std::get<std::map<std::string, params, std::less<>>>(value_);
             api::ParamsMap* m = i->mutable_object();
             for (const auto& p : o) {
                 api::ParamsEntry* e = m->add_entries();
@@ -48,7 +50,7 @@ namespace telegraph {
                 p.second.pack(in);
             }
         } break;
-        case 4: {
+        case 5: {
             const std::vector<params>& v = std::get<std::vector<params>>(value_);
             api::ParamsList* l = i->mutable_array();
             for (const params& in : v) {
@@ -66,9 +68,10 @@ namespace telegraph {
         default: 
         case 0: i->mutable_none(); break;
         case 1: i->set_number(std::get<float>(value_)); break;
-        case 2: i->set_str(std::move(std::get<std::string>(value_))); break;
-        case 3: {
-            std::map<std::string, params>& o = std::get<std::map<std::string, params>>(value_);
+        case 2: i->set_b(std::get<bool>(value_)); break;
+        case 3: i->set_str(std::move(std::get<std::string>(value_))); break;
+        case 4: {
+            std::map<std::string, params, std::less<>>& o = std::get<std::map<std::string, params, std::less<>>>(value_);
             api::ParamsMap* m = i->mutable_object();
             for (auto& p : o) {
                 api::ParamsEntry* e = m->add_entries();
@@ -77,7 +80,7 @@ namespace telegraph {
                 p.second.move(in);
             }
         } break;
-        case 4: {
+        case 5: {
             std::vector<params>& v = std::get<std::vector<params>>(value_);
             api::ParamsList* l = i->mutable_array();
             for (params& in : v) {

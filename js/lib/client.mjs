@@ -1,7 +1,12 @@
 import { Signal } from './signal.mjs'
 import { Container } from './container.mjs'
-import { Connection } from './connection.mjs'
+import { Connection, Params } from './connection.mjs'
 import WebSocket from 'isomorphic-ws'
+
+function checkError(packet) {
+  if (packet.error) throw new Error(packet.error);
+  return res;
+}
 
 // A client implements the namespace API
 export class Client {
@@ -32,7 +37,7 @@ export class Client {
   }
 
   async disconnect() {
-    if (this._conn && this._conn.isConnected()) {
+    if (this._conn) {
       await this._conn.disconnect();
     }
   }
@@ -57,10 +62,26 @@ export class Client {
         console.log('received queryNs stream packet');
         console.log(packet);
     });
+    checkError(nsRes);
     console.log(nsRes);
   }
 
-  async createContext() {
+  async createContext(name, type, params={}, srcs={}) {
+    var convertedSrcs = {}
+    var msg = {
+      createContext : {
+        name: name,
+        type: type,
+        params: Params.pack(params),
+        srcs: convertedSrcs
+      }
+    }
+    var res = await this._conn.requestResponse(msg);
+    checkError(res);
+    console.log(res);
+  }
+
+  async createTask(name, type, params={}, srcs={}) {
   }
 }
 
