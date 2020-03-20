@@ -67,7 +67,7 @@ message Create {
     repeated SourceEntry sources = 4;
 }
 
-message QueryTask {
+message Query {
     string uuid = 1;
     Params params = 2;
 }
@@ -146,25 +146,27 @@ message Packet {
         // task-related operations
         string start_task = 21;
         string stop_task = 22;
-        QueryTask query_task = 23;
-        Params task_update = 24;
+
+        Query query_task = 23;
+        Query query_context = 24;
+        Params query_update = 25;
 
         // tree operations:
-        string fetch_tree = 25; // context uuid to fetch tree
-        Node fetched_tree = 26; // response to a context fetch
+        string fetch_tree = 26; // context uuid to fetch tree
+        Node fetched_tree = 27; // response to a context fetch
 
-        Subscription change_sub = 27;
-        Type sub_type = 28;
-        Value variable_update = 29; // keep receiving until the original request id is cancelled
+        Subscription change_sub = 28;
+        Type sub_type = 29;
+        Value variable_update = 30; // keep receiving until the original request id is cancelled
 
-        Call call_action = 30;
-        Value call_return = 31;
+        Call call_action = 31;
+        Value call_return = 32;
 
         // archive operations:
-        DataWrite data_write = 32;
+        DataWrite data_write = 33;
 
-        DataQuery data_query = 33;
-        DataPacket archive_data = 34; // initial response to a query
-        DataPacket archive_update = 35; // any archive updates
+        DataQuery data_query = 34;
+        DataPacket archive_data = 35; // initial response to a query
+        DataPacket archive_update = 36; // any archive updates
     }
 }

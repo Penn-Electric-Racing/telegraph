@@ -153,6 +153,13 @@ namespace telegraph {
         return t->query(yield, i);
     }
 
+    params_stream_ptr
+    local_namespace::query_context(io::yield_ctx& yield, const uuid& task, const params& i) {
+        auto c = contexts->get(task);
+        if (!c) throw missing_error("no such context");
+        return c->query(yield, i);
+    }
+
     local_context::local_context(io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type,
                 const params& i, const std::shared_ptr<node>& tree) : 

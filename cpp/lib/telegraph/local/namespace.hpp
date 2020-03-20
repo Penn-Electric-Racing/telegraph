@@ -63,6 +63,9 @@ namespace telegraph {
         void destroy_context(io::yield_ctx& y, const uuid& u) override;
         void destroy_task(io::yield_ctx& y, const uuid& u) override;
 
+        params_stream_ptr query_task(io::yield_ctx& yield, const uuid& task, const params& i) override;
+        params_stream_ptr query_context(io::yield_ctx& yield, const uuid& task, const params& i) override;
+
         std::shared_ptr<node> fetch(io::yield_ctx& yield, const uuid& uuid, 
                                     context_ptr owner=context_ptr()) const override;
 
@@ -85,7 +88,6 @@ namespace telegraph {
 
         void start_task(io::yield_ctx& yield, const uuid& task) override;
         void stop_task(io::yield_ctx& yield, const uuid& task) override;
-        params_stream_ptr query_task(io::yield_ctx& yield, const uuid& task, const params& i) override;
     };
 
     class local_context : public context {

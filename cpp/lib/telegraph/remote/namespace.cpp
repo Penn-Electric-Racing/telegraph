@@ -67,6 +67,16 @@ namespace telegraph {
     remote_namespace::destroy_task(io::yield_ctx&, const uuid& u) {
     }
 
+    params_stream_ptr
+    remote_namespace::query_context(io::yield_ctx& yield, const uuid& task, const params& p) {
+        return nullptr;
+    }
+
+    params_stream_ptr
+    remote_namespace::query_task(io::yield_ctx& yield, const uuid& task, const params& p) {
+        return nullptr;
+    }
+
     std::shared_ptr<node>
     remote_namespace::fetch(io::yield_ctx& yield,
                         const uuid& uuid, context_ptr owner) const {
@@ -119,11 +129,6 @@ namespace telegraph {
     void
     remote_namespace::stop_task(io::yield_ctx& yield, const uuid& task) {
 
-    }
-
-    params_stream_ptr
-    remote_namespace::query_task(io::yield_ctx& yield, const uuid& task, const params& p) {
-        return nullptr;
     }
 
 

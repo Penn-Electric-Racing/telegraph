@@ -85,9 +85,8 @@ namespace telegraph {
                     context_ptr owner=context_ptr()) const = 0;
 
         // returns null if subscription failed
-        virtual subscription_ptr
-            subscribe(io::yield_ctx&,
-                    const uuid& ctx, const std::vector<std::string_view>& path,
+        virtual subscription_ptr subscribe(io::yield_ctx&, const uuid& ctx, 
+                    const std::vector<std::string_view>& path,
                     float min_interval, float max_interval, float timeout) = 0;
 
         // returns invalid value if call failed
@@ -100,6 +99,8 @@ namespace telegraph {
         virtual bool write_data(io::yield_ctx&,
                     const uuid& ctx, const std::vector<std::string_view>& path,
                     const std::vector<data_point>& data) = 0;
+
+        virtual params_stream_ptr query_context(io::yield_ctx&, const uuid& task, const params& p) = 0;
 
         virtual void mount(io::yield_ctx&, const uuid& src, const uuid& tgt) = 0;
         virtual void unmount(io::yield_ctx&, const uuid& src,  const uuid& tgt) = 0;
@@ -165,6 +166,8 @@ namespace telegraph {
         const params& get_params() const { return params_; }
         const uuid& get_uuid() const { return uuid_; }
 
+        virtual params_stream_ptr query(io::yield_ctx&, const params& p) = 0;
+
         virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
 
         // tree manipulation functions
@@ -172,20 +175,22 @@ namespace telegraph {
                                 const std::vector<std::string_view>& variable,
                                 float min_interval, float max_interval,
                                 float timeout) = 0;
+        virtual subscription_ptr  subscribe(io::yield_ctx& ctx, 
+                                const variable* v,
+                                float min_interval, float max_interval,
+                                float timeout) = 0;
 
         virtual value call(io::yield_ctx& ctx, action* a, value v, float timeout) = 0;
         virtual value call(io::yield_ctx& ctx, const std::vector<std::string_view>& a, 
-                            value v, float timeout) = 0;
+                                    value v, float timeout) = 0;
 
         virtual bool write_data(io::yield_ctx& yield, variable* v, 
                                     const std::vector<data_point>& data) = 0;
         virtual bool write_data(io::yield_ctx& yield, const std::vector<std::string_view>& var,
                                     const std::vector<data_point>& data) = 0;
 
-        virtual data_query_ptr query_data(io::yield_ctx& yield, 
-                                                          const node* n) const = 0;
-        virtual data_query_ptr query_data(io::yield_ctx& yield, 
-                                          const std::vector<std::string_view>& n) const = 0;
+        virtual data_query_ptr query_data(io::yield_ctx& yield, const node* n) const = 0;
+        virtual data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& n) const = 0;
 
         virtual void mount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;
         virtual void unmount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;

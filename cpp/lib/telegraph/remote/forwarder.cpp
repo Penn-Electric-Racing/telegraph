@@ -15,6 +15,11 @@ namespace telegraph {
         // set the handlers
         conn_.set_handler(api::Packet::kQueryNs, 
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_query_ns(c, p); });
+        conn_.set_handler(api::Packet::kQueryTask,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_query_task(c, p); });
+        conn_.set_handler(api::Packet::kQueryContext,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_query_context(c, p); });
+
         conn_.set_handler(api::Packet::kFetchTree, 
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_fetch_tree(c, p); });
 
@@ -46,8 +51,6 @@ namespace telegraph {
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_start_task(c, p); });
         conn_.set_handler(api::Packet::kStopTask,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_stop_task(c, p); });
-        conn_.set_handler(api::Packet::kQueryTask,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_query_task(c, p); });
 
     }
 
@@ -333,6 +336,46 @@ namespace telegraph {
     }
 
     void
+    forwarder::handle_query_context(io::yield_ctx& c, const api::Packet& p) {
+        try {
+            int32_t req_id = p.req_id();
+            const auto& req = p.query_context();
+            uuid u = boost::lexical_cast<uuid>(req.uuid());
+            params p{req.params()};
+            params_stream_ptr s = ns_->query_context(c, u, p);
+
+            streams_.emplace(std::make_pair(req_id, std::move(s)));
+
+            s->set_pipe([this, req_id] (params&& p) {
+                // write an update packet
+                api::Packet update;
+                p.move(update.mutable_query_update());
+                conn_.write_back(req_id, std::move(update));
+            }, [this, req_id]() {
+
+                conn_.close_stream(req_id);
+                // on close send back a cancel message
+                api::Packet cancel;
+                cancel.set_cancel(0);
+                conn_.write_back(req_id, std::move(cancel));
+
+                // will delete the stream_ptr (and this object)
+                streams_.erase(req_id);
+            });
+            conn_.set_stream_cb(req_id,
+                [this] (io::yield_ctx& yield, const api::Packet& p) {
+                    if (p.payload_case() == api::Packet::kCancel) {
+                        auto it = streams_.find(p.req_id());
+                        if (it == streams_.end()) return;
+                        it->second->close();
+                    }
+                });
+        } catch (const error& e) {
+            reply_error(p, e);
+        }
+    }
+
+    void
     forwarder::handle_query_task(io::yield_ctx& c, const api::Packet& p) {
         try {
             int32_t req_id = p.req_id();
@@ -346,7 +389,7 @@ namespace telegraph {
             s->set_pipe([this, req_id] (params&& p) {
                 // write an update packet
                 api::Packet update;
-                p.move(update.mutable_task_update());
+                p.move(update.mutable_query_update());
                 conn_.write_back(req_id, std::move(update));
             }, [this, req_id]() {
 

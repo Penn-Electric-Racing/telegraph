@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
                 auto rns = conn.connect(yield);
                 // now we have the remote namespace
 
-                auto contexts = rns->contexts(yield);
+                auto contexts = rns->contexts;
                 if (!contexts) {
                     std::cerr << "unable to fetch contexts" << std::endl;
                 } else {

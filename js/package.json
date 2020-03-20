@@ -9,7 +9,6 @@
     "high-res-timeout": "^1.0.8",
     "isomorphic-ws": "^4.0.1",
     "protobufjs": "^6.8.8",
-    "signals": "^1.0.0",
     "uuid": "^3.3.3",
     "ws": "^7.2.1"
   },

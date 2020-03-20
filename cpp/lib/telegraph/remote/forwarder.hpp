@@ -37,6 +37,10 @@ namespace telegraph {
         void reply_error(const api::Packet& p, const error& e);
 
         void handle_query_ns(io::yield_ctx&, const api::Packet& p);
+
+        void handle_query_context(io::yield_ctx&, const api::Packet& p);
+        void handle_query_task(io::yield_ctx&, const api::Packet& p);
+
         void handle_fetch_tree(io::yield_ctx&, const api::Packet& p);
 
         void handle_change_sub(io::yield_ctx&, const api::Packet& p);
@@ -47,7 +51,6 @@ namespace telegraph {
 
         void handle_start_task(io::yield_ctx&, const api::Packet& p);
         void handle_stop_task(io::yield_ctx&, const api::Packet& p);
-        void handle_query_task(io::yield_ctx&, const api::Packet& p);
 
         void handle_mount(io::yield_ctx&, const api::Packet& p);
         void handle_unmount(io::yield_ctx&, const api::Packet& p);
