@@ -62,32 +62,6 @@ namespace telegraph {
 
         void destroy_context(io::yield_ctx& y, const uuid& u) override;
         void destroy_task(io::yield_ctx& y, const uuid& u) override;
-
-        params_stream_ptr query_task(io::yield_ctx& yield, const uuid& task, const params& i) override;
-        params_stream_ptr query_context(io::yield_ctx& yield, const uuid& task, const params& i) override;
-
-        std::shared_ptr<node> fetch(io::yield_ctx& yield, const uuid& uuid, 
-                                    context_ptr owner=context_ptr()) const override;
-
-        subscription_ptr subscribe(io::yield_ctx& yield,
-               const uuid& ctx, const std::vector<std::string_view>& path,
-               float min_interval, float max_interval, float timeout) override;
-
-        value call(io::yield_ctx& yield, const uuid& ctx, 
-                const std::vector<std::string_view>& path, value arg, float timeout) override;
-
-        std::unique_ptr<data_query> query_data(io::yield_ctx& yield,
-                const uuid& ctx, const std::vector<std::string_view>& path) const override;
-
-        bool write_data(io::yield_ctx& yield, const uuid& ctx, 
-                    const std::vector<std::string_view>& path,
-                    const std::vector<data_point>& data) override;
-
-        void mount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
-        void unmount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
-
-        void start_task(io::yield_ctx& yield, const uuid& task) override;
-        void stop_task(io::yield_ctx& yield, const uuid& task) override;
     };
 
     class local_context : public context {

@@ -75,7 +75,7 @@ import Dashboard from './dashboard/Dashboard.vue'
 
 import uuidv4 from 'uuid/v4';
 
-import { Relay, LocalNamespace } from 'telegraph'
+import { Client } from 'telegraph'
 
 export default {
   name: 'App',
@@ -101,8 +101,7 @@ export default {
       tabs: [],
       activeTab: null, // the active tab ID
 
-      remoteNamespace: null,
-      localNamespace: null,
+      namespace: null,
       relay: null
     }
   },
@@ -151,9 +150,10 @@ export default {
       else this.$nextTick(() => { this.sidebarWidth = this.$refs['sidebar'].offsetWidth});
     },
 
-    async connect(delay) {
-      while (!this.remoteNamespace) {
-        this.remoteNamespace = await this.relay.connect('ws://localhost:8081');
+    async run() {
+      while (true) {
+        // connect with the client
+        this.namespace.connect('ws://localhost:8081');
         // wait 
         if (!this.remoteNamespace) {
           await new Promise((res, rej) => setTimeout(res, 2500));
@@ -168,9 +168,8 @@ export default {
   },
 
   created() {
-    this.localNamespace = new LocalNamespace();
-    this.relay = new Relay(this.localNamespace);
-    this.connect();
+    this.namespace = new Client();
+    this.run(); // will launch connection...
 
     // create a new dashboard
     this.newTab();

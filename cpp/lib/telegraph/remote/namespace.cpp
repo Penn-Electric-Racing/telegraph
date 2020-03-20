@@ -67,71 +67,6 @@ namespace telegraph {
     remote_namespace::destroy_task(io::yield_ctx&, const uuid& u) {
     }
 
-    params_stream_ptr
-    remote_namespace::query_context(io::yield_ctx& yield, const uuid& task, const params& p) {
-        return nullptr;
-    }
-
-    params_stream_ptr
-    remote_namespace::query_task(io::yield_ctx& yield, const uuid& task, const params& p) {
-        return nullptr;
-    }
-
-    std::shared_ptr<node>
-    remote_namespace::fetch(io::yield_ctx& yield,
-                        const uuid& uuid, context_ptr owner) const {
-        return nullptr;
-    }
-
-    subscription_ptr
-    remote_namespace::subscribe(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string_view>& path,
-            float min_interval, float max_interval, float timeout) {
-        return nullptr;
-    }
-
-    value
-    remote_namespace::call(io::yield_ctx& yield,
-                            const uuid& ctx, const std::vector<std::string_view>& path, 
-                            value arg, float timeout) {
-        return value();
-    }
-
-    std::unique_ptr<data_query>
-    remote_namespace::query_data(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string_view>& path) const {
-        return nullptr;
-    }
-
-    bool
-    remote_namespace::write_data(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string_view>& path,
-            const std::vector<data_point>& data) {
-        return false;
-    }
-
-    void
-    remote_namespace::mount(io::yield_ctx& yield,
-            const uuid& src, const uuid& tgt) {
-    }
-
-    void
-    remote_namespace::unmount(io::yield_ctx& yield,
-            const uuid& src, const uuid& tgt) {
-    }
-    
-
-    void
-    remote_namespace::start_task(io::yield_ctx& yield, const uuid& task) {
-
-    }
-
-    void
-    remote_namespace::stop_task(io::yield_ctx& yield, const uuid& task) {
-
-    }
-
-
     // remote_context functions
 
     collection_ptr<mount_info>
@@ -144,7 +79,7 @@ namespace telegraph {
 
     std::shared_ptr<node>
     remote_context::fetch(io::yield_ctx& yield) {
-        return ns_->fetch(yield, get_uuid(), shared_from_this());
+        return nullptr;
     }
 
     subscription_ptr

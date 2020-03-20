@@ -76,39 +76,6 @@ namespace telegraph {
                     const params& p, sources_uuid_map&& srcs) = 0;
 
         virtual void destroy_task(io::yield_ctx&, const uuid& u) = 0;
-
-        // if owner is supplied, the tree may
-        // be bound to that context for calls
-        // if it would not otherwise have an owning context
-        virtual std::shared_ptr<node>
-            fetch(io::yield_ctx&, const uuid& uuid, 
-                    context_ptr owner=context_ptr()) const = 0;
-
-        // returns null if subscription failed
-        virtual subscription_ptr subscribe(io::yield_ctx&, const uuid& ctx, 
-                    const std::vector<std::string_view>& path,
-                    float min_interval, float max_interval, float timeout) = 0;
-
-        // returns invalid value if call failed
-        virtual value call(io::yield_ctx&, const uuid& ctx, 
-                const std::vector<std::string_view>& path, value val, float timeout) = 0;
-
-        virtual std::unique_ptr<data_query> query_data(io::yield_ctx&,
-                    const uuid& ctx, const std::vector<std::string_view>& path) const = 0;
-
-        virtual bool write_data(io::yield_ctx&,
-                    const uuid& ctx, const std::vector<std::string_view>& path,
-                    const std::vector<data_point>& data) = 0;
-
-        virtual params_stream_ptr query_context(io::yield_ctx&, const uuid& task, const params& p) = 0;
-
-        virtual void mount(io::yield_ctx&, const uuid& src, const uuid& tgt) = 0;
-        virtual void unmount(io::yield_ctx&, const uuid& src,  const uuid& tgt) = 0;
-
-        // task-related operations
-        virtual void start_task(io::yield_ctx&, const uuid& task) = 0;
-        virtual void stop_task(io::yield_ctx&, const uuid& task) = 0;
-        virtual params_stream_ptr query_task(io::yield_ctx&, const uuid& task, const params& p) = 0;
     };
 
     class task : public std::enable_shared_from_this<task> {

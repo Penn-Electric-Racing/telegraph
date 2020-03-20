@@ -185,11 +185,16 @@ namespace telegraph {
         try {
             uuid ctx_uuid = boost::lexical_cast<uuid>(p.fetch_tree());
 
-            std::shared_ptr<node> n = ns_->fetch(yield, ctx_uuid);
-            if (!n) throw remote_error("unable to fetch context");
+            auto ctx = ns_->contexts->get(ctx_uuid);
+            if (!ctx) throw remote_error("no such context");
+            std::shared_ptr<node> n = ctx->fetch(yield);
             api::Packet res;
-            Node* proto = res.mutable_fetched_tree();
-            n->pack(proto);
+            if (!n) {
+                res.set_success(false);
+            } else {
+                Node* proto = res.mutable_fetched_tree();
+                n->pack(proto);
+            }
             conn_.write_back(p.req_id(), std::move(res));
         } catch (const error& e) {
             reply_error(p, e);
@@ -215,7 +220,9 @@ namespace telegraph {
                 for (const auto& s : cs.variable()) {
                     path.push_back(s);
                 }
-                auto sub = ns_->subscribe(c, ctx_uuid, path, min_int, max_int, timeout);
+                auto ctx = ns_->contexts->get(ctx_uuid);
+                if (!ctx) throw missing_error("no such context");
+                auto sub = ctx->subscribe(c, path, min_int, max_int, timeout);
                 sub->data.add([this, req_id](value v) {
                     // write the data back
                     api::Packet p;
@@ -263,7 +270,9 @@ namespace telegraph {
             }
             value v{req.value()};
             // make the call
-            value ret = ns_->call(c, u, path, v, req.timeout());
+            auto ctx = ns_->contexts->get(u);
+            if (!ctx) throw missing_error("no such context");
+            value ret = ctx->call(c, path, v, req.timeout());
             // reply with the result
             api::Packet res;
             ret.pack(res.mutable_call_return());
@@ -288,7 +297,9 @@ namespace telegraph {
             for (const auto& s : req.path()) {
                 path.push_back(s);
             }
-            bool status = ns_->write_data(c, u, path, data);
+            auto ctx = ns_->contexts->get(u);
+            if (!ctx) throw missing_error("no such context");
+            bool status = ctx->write_data(c, path, data);
             // send response
             api::Packet res;
             res.set_success(status);
@@ -312,7 +323,9 @@ namespace telegraph {
         try {
             int32_t req_id = p.req_id();
             uuid u = boost::lexical_cast<uuid>(p.start_task());
-            ns_->start_task(c, u);
+            auto task = ns_->tasks->get(u);
+            if (!task) throw missing_error("no such task");
+            task->start(c);
             api::Packet res;
             res.set_success(true);
             conn_.write_back(req_id, std::move(res));
@@ -326,7 +339,9 @@ namespace telegraph {
         try {
             int32_t req_id = p.req_id();
             uuid u = boost::lexical_cast<uuid>(p.stop_task());
-            ns_->stop_task(c, u);
+            auto task = ns_->tasks->get(u);
+            if (!task) throw missing_error("no such task");
+            task->stop(c);
             api::Packet res;
             res.set_success(true);
             conn_.write_back(req_id, std::move(res));
@@ -341,8 +356,11 @@ namespace telegraph {
             int32_t req_id = p.req_id();
             const auto& req = p.query_context();
             uuid u = boost::lexical_cast<uuid>(req.uuid());
-            params p{req.params()};
-            params_stream_ptr s = ns_->query_context(c, u, p);
+            params par{req.params()};
+
+            auto ctx = ns_->contexts->get(u);
+            if (!ctx) throw missing_error("no such context");
+            params_stream_ptr s = ctx->query(c, par);
 
             streams_.emplace(std::make_pair(req_id, std::move(s)));
 
@@ -381,8 +399,11 @@ namespace telegraph {
             int32_t req_id = p.req_id();
             const auto& req = p.query_task();
             uuid u = boost::lexical_cast<uuid>(req.uuid());
-            params p{req.params()};
-            params_stream_ptr s = ns_->query_task(c, u, p);
+            params par{req.params()};
+
+            auto task = ns_->tasks->get(u);
+            if (!task) throw missing_error("no such task");
+            params_stream_ptr s = task->query(c, par);
 
             streams_.emplace(std::make_pair(req_id, std::move(s)));
 
@@ -422,7 +443,13 @@ namespace telegraph {
             const auto& req = p.mount();
             uuid src = boost::lexical_cast<uuid>(req.src());
             uuid tgt = boost::lexical_cast<uuid>(req.tgt());
-            ns_->mount(c, src, tgt);
+
+            // get the contexts by uuid
+            auto s = ns_->contexts->get(src);
+            auto t = ns_->contexts->get(tgt);
+            if (!s || !t) throw missing_error("no such contexts");
+            t->mount(c, s);
+
             api::Packet res;
             res.set_success(true);
             conn_.write_back(req_id, std::move(res));
@@ -438,7 +465,12 @@ namespace telegraph {
             const auto& req = p.unmount();
             uuid src = boost::lexical_cast<uuid>(req.src());
             uuid tgt = boost::lexical_cast<uuid>(req.tgt());
-            ns_->unmount(c, src, tgt);
+
+            auto s = ns_->contexts->get(src);
+            auto t = ns_->contexts->get(tgt);
+            if (!s || !t) throw missing_error("no such contexts");
+            t->unmount(c, s);
+
             api::Packet res;
             res.set_success(true);
             conn_.write_back(req_id, std::move(res));
