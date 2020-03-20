@@ -1,4 +1,4 @@
-class Signal {
+export class Signal {
   constructor() {
     this.listeners = [];
     this.weakListeners = new Map();

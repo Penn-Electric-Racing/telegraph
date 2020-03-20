@@ -1,110 +1,72 @@
 import { Signal } from './signal.mjs'
 import { Container } from './container.mjs'
 import { Connection } from './connection.mjs'
+import WebSocket from 'isomorphic-ws'
 
-class Context {
-}
-
-class Task {
-}
-
-class Client {
-  constructor(address) {
-    this.connection = null;
-    this.address = address;
+// A client implements the namespace API
+export class Client {
+  constructor() {
+    this._conn = null;
 
     this.contexts = new Container();
     this.tasks = new Container();
     this.mounts = new Container();
   }
 
-  async connect() {
-    this.connection = new Connection(new Websocket(this.address), true);
-    this.connection.onClose.add(() => {
-      this.contexts.clear();
-      this.tasks.clear();
-      this.mounts.clear();
-    });
+  async connect(address) {
+    if (this._conn) throw new Error('Already connected!');
+    try {
+      this._conn = new Connection(new WebSocket(address), true);
+      this._conn.onClose.add(() => {
+        this.contexts.clear();
+        this.tasks.clear();
+        this.mounts.clear();
+      });
+      await this._conn.connect();
+      await this._queryNS();
+    } catch (e) {
+      // if we couldn't connect, set connection to null and throw an error
+      this._conn = null;
+      throw e;
+    }
   }
 
-  disconnect() {
-    return new Promise((resolve, reject) => {
-      if (this.connection.isConnected()) {
-        this.connection.onClose.add(() => {
-          resolve();
-        });
-      } else {
-        resolve();
-      }
+  async disconnect() {
+    if (this._conn && this._conn.isConnected()) {
+      await this._conn.disconnect();
     }
   }
 
   // will block until the client is disconnected
-  async run() {
+  wait() {
+    return new Promise((res, rej) => {
+      if (!this._conn.isOpen()) res();
+      else this._conn.onClose.add(res);
+    });
   }
 
   query() {
     return new ClientQuery(this);
   }
-}
 
-// the query API
-// allows for clients to build query objects and receive deltas
-// when objects match those queries/do not match those queries
-
-// that way resources can be referenced (i.e contexts/nodes) even when they are not yet available
-// due to i.e the client losing connection
-
-// you call update() on a query to feed in a resource
-// so for a NamespaceQuery update() will
-
-// represents a node query
-class NodeQuery {
-  constructor(node) {
+  async _queryNS() {
+    // send a queryNs
+    var nsRes = await this._conn.requestStream({queryNs: {}},
+            (packet) => {
+        // handle Context/Task/Mount added/removed
+        console.log('received queryNs stream packet');
+        console.log(packet);
+    });
+    console.log(nsRes);
   }
-  update(node) {
+
+  async createContext() {
   }
 }
 
-class ContextQuery {
+class RemoteContext {
 }
 
-class ContextsQuery {
+class RemoteTask {
 }
 
-class TaskQuery {
-}
-
-class TasksQuery {
-}
-
-
-//
-class ClientQuery {
-  constructor(client) {
-    this.client = client;
-    this.onChange = new Signal();
-  }
-
-  tasks() {
-    var q = new TasksQuery(this.client ? this.client.tasks : null);
-    // weak add so this query can be cleaned up automagically!
-    this.onChange.addWeak(q, (query, client) => query.update(client ? client.tasks : null));
-  }
-
-  contexts() {
-    var q = new ContextsQuery(this.client ? this.client.contexts : null);
-    // weak add so this query can be cleaned up automagically!
-    this.onChange.addWeak(q, (query, client) => query.update(client ? client.contexts : null));
-  }
-
-  mounts() {
-    var q = new MountsQuery(this.client ? this.client.mounts : null);
-    this.onChange.addWeak(q, (query, client) => query.update(client ? client.mounts : null));
-  }
-
-  update(client) {
-    this.client = client;
-    this.onChange.dispatch(client);
-  }
-}
