@@ -472,7 +472,7 @@ namespace telegraph {
                 res.set_success(false);
             } else {
                 std::string u = boost::lexical_cast<std::string>(n->get_uuid());
-                res.set_task_created(std::move(u));
+                res.set_context_created(std::move(u));
             }
             conn_.write_back(req_id, std::move(res));
         } catch (const error& e) {

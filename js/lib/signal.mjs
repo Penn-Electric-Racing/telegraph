@@ -27,8 +27,10 @@ export class Signal {
     for (let l of this.listeners) {
       l(...args);
     }
-    for (let [o, f] of this.weakListeners) {
-      f(o, ...args);
+    for (let [o, fs] of this.weakListeners) {
+      for (let f of fs) {
+        f(o, ...args);
+      }
     }
   }
 }

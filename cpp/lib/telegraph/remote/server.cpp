@@ -120,7 +120,6 @@ namespace telegraph {
     server::remote::do_write_next() {
         if (write_queue_.size() == 0) return;
         auto p = std::move(write_queue_.front());
-        write_queue_.pop_front();
         {
             std::ostream output_stream(&write_buf_);
             p.SerializeToOstream(&output_stream);
@@ -131,6 +130,7 @@ namespace telegraph {
         ws_.async_write(write_buf_.data(),
                 [shared] (const boost::system::error_code& ec, size_t transferred) {
                     shared->write_buf_.consume(transferred);
+                    shared->write_queue_.pop_front();
                     if (ec) return;
                     shared->do_write_next();
                 });

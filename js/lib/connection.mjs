@@ -25,18 +25,18 @@ export class Params {
   }
   static unpack(proto) {
     if (proto == null) return null;
-    if (protobuf.array) {
+    if (proto.array) {
       return protobuf.array.elements.map(Params.unpack);
     }
-    if (protobuf.object) {
+    if (proto.object) {
       var obj = {};
-      for (let {key, value} of protobuf.object.entries) {
+      for (let {key, value} of proto.object.entries) {
         obj[key] = Params.unpack(value);
       }
     }
-    if (protobuf.number) return protobuf.number;
-    if (protobuf.str) return protobuf.str;
-    if (protobuf.b) return protobuf.b;
+    if (proto.number) return proto.number;
+    if (proto.str) return proto.str;
+    if (proto.b) return proto.b;
     return null;
   }
 }
@@ -46,7 +46,14 @@ export class Connection {
     this._counter = 0;
     this._countUp = countUp;
     this._ws = ws;
-    this._ws.onclose = () => { this.onClose.dispatch() };
+    this._ws.onclose = () => { 
+      this._handlers.clear();
+      // send back a null response to indicate connection closed
+      for (let r of this._openRequests.values()) { r(null); }
+      this._openRequests.clear();
+      this._openStreams.clear();
+      this.onClose.dispatch()
+    };
     this._ws.onmessage = (msg, flags) => {
       var array = new Uint8Array(msg.data);
       var packet = Packet.decode(array);
@@ -122,7 +129,7 @@ export class Connection {
   async requestResponse(req) {
     var send = new Promise((res, rej) => {
       var reqId = this._countUp ? this._counter++ : this._counter--;
-      this._openRequests.set(reqId, (packet) => res(packet));
+      this._openRequests.set(reqId, (packet) => packet == null ? rej('Connection closed') : res(packet));
       req.reqId = reqId;
       this.send(req);
     });
@@ -132,7 +139,7 @@ export class Connection {
   async requestStream(req, handler) {
     var send = new Promise((res, rej) => {
       var reqId = this._countUp ? this._counter++ : this._counter--;
-      this._openRequests.set(reqId, (packet) => res(packet));
+      this._openRequests.set(reqId, (packet) => packet == null ? rej('Connection closed') : res(packet));
       this._openStreams.set(reqId, handler);
       req.reqId = reqId;
       this.send(req);

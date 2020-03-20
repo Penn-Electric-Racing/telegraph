@@ -39,14 +39,14 @@ namespace telegraph {
         port_.close();
     }
 
-    bool
+    void
     device::init(io::yield_ctx& yield) {
         // start reading (we can't do this in the constructor
         // since there shared_from_this() doesn't work)
         auto sthis = shared_device_this();
         io::dispatch(port_.get_executor(), [sthis] () { sthis->do_reading(0); });
 
-        io::deadline_timer timer(ioc_, boost::posix_time::milliseconds(10000));
+        io::deadline_timer timer(ioc_, boost::posix_time::milliseconds(1000));
 
         uint32_t req_id = req_id_++;
         stream::Packet res;
@@ -64,16 +64,16 @@ namespace telegraph {
         boost::system::error_code ec;
         timer.async_wait(yield.ctx[ec]);
         // if we timed out
-        if (ec != io::error::operation_aborted ||
-                !res.has_tree()) {
-            return false;
+        if (ec != io::error::operation_aborted) {
+            throw io_error("timed out when connecting to " + params_.at("port").get<std::string>());
+        }
+        if (!res.has_tree()) {
+            throw io_error("got bad response when connecting to " + params_.at("port").get<std::string>());
         }
         // create shared pointer from unpacked tree
         std::shared_ptr<node> tree(node::unpack(res.tree()));
         tree_ = tree;
         reqs_.erase(req_id);
-
-        return tree_ != nullptr;
     }
 
     subscription_ptr 
@@ -181,7 +181,7 @@ namespace telegraph {
 			input.PushLimit(length);
 
             stream::Packet packet;
-            packet.ParseFromIstream(&input_stream);
+            packet.ParseFromCodedStream(&input);
             on_read(std::move(packet));
         }
 
@@ -241,8 +241,6 @@ namespace telegraph {
         if (p.has_update()) {
             // updates have var_id in the req_id
             std::cout << "got updated!" << std::endl;
-            // spawn a coroutine to deal with the
-            // update
         } else {
             // look at the req_id
             uint32_t req_id = p.req_id();

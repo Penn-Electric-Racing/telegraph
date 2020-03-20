@@ -50,7 +50,9 @@ namespace telegen {
     constexpr telegraph_Type_Class to_proto_type_class(type_class c) {
         switch (c) {
         case type_class::Invalid: return telegraph_Type_Class_INVALID;
+        case type_class::None: return telegraph_Type_Class_NONE;
         case type_class::Bool: return telegraph_Type_Class_BOOL;
+        case type_class::Enum: return telegraph_Type_Class_ENUM;
         case type_class::Uint8: return telegraph_Type_Class_UINT8;
         case type_class::Uint16: return telegraph_Type_Class_UINT16;
         case type_class::Uint32: return telegraph_Type_Class_UINT32;

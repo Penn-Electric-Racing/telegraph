@@ -46,9 +46,9 @@ namespace telegraph {
         device(io::io_context& ioc, const std::string& name, const std::string& port, int baud);
         ~device();
 
-        // init should be called right after construction!
+        // init should be called right after construction! (this is done by create)
         // or the context will not have a tree (this is done by device_io_task)
-        bool init(io::yield_ctx&);
+        void init(io::yield_ctx&);
 
         // no querying
         params_stream_ptr query(io::yield_ctx&, const params& p) { return nullptr; }
