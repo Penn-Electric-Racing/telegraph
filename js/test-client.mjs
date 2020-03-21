@@ -1,27 +1,23 @@
-import { Relay, LocalNamespace, Context } from './index.mjs'
-import protobuf from 'protobufjs'
+import { Client } from './index.mjs'
 
 (async () => {
+  let ns = new Client();
+
   try {
-    var proto = await protobuf.load('../proto/api.proto')
+    await ns.connect('ws://localhost:8081/');
+    var devs = ns.contexts.filter(c => c.type == 'device');
+    if (devs.empty) {
+      await ns.createContext('live', 'device', { baud: 115200, port: '/dev/ttyACM0' });
+    }
+    // dev should now be here!
+    let dev = devs.unwrap();
+    let tree = await dev.fetch();
+    console.log(tree.toString());
+    await dev.destroy(); // close the device
   } catch (e) {
     console.log(e);
+  } finally {
+    await ns.disconnect();
   }
-  var ns = new LocalNamespace();
-  var relay = new Relay(ns, proto);
-
-  // connect (gives us a namespace to play around with)
-  var fns = await relay.connect('ws://localhost:8081/');
-  if (!fns) {
-    console.log('failed to connect');
-    return;
-  }
-  console.log('connected!');
-
-  // fetch the live contexts from this namespace
-  var ctxs = await fns.contexts({by_name:'live'});
-  var ctx = [...ctxs.all][0];
-  var tree = await ctx.fetch();
-  console.log(tree.toString());
 })()
 

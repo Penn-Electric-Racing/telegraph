@@ -14,9 +14,9 @@
                  dragIgnoreFrom=".noDrag"
                  :key="item.i">
         <component 
-         v-bind:is="tileDataMap.get(item.i) ? tileDataMap.get(item.i).type : null"
-               :id="item.i" :ns="ns"
-               :dataMap="tileDataMap" @delete="remove(item.i)"/>
+         v-bind:is="tileData[item.i] ? tileData[item.i].type : null"
+               :id="item.i" :nsQuery="nsQuery"
+               :data="tileData[item.i]" @delete="remove(item.i)"/>
       </grid-item>
     </grid-layout>
   </div>
@@ -26,7 +26,7 @@
   import Vue from 'vue'
   import VueGridLayout from 'vue-grid-layout'
   import interact from 'interactjs'
-  import { Namespace } from 'telegraph'
+  import { NamespaceQuery } from 'telegraph'
 
   import uuidv4 from 'uuid';
 
@@ -43,7 +43,7 @@
     props: {
       name: String,
       id: String,
-      ns: Namespace
+      nsQuery: NamespaceQuery
     },
     data: function() {
       return {
@@ -51,12 +51,12 @@
         rowHeight: 30,
         dragOver: false,
         layout: [], // stores widget id, x, y, width, height
-        tileDataMap: new Map() // map from widget id => widget data object
+        tileData: {} // map from widget id => widget data object
       };
     },
     methods: {
       remove(id) {
-        this.tileDataMap.delete(id);
+        delete this.tileData[id];
         this.layout.splice(this.layout.findIndex(x => x.i == id), 1);
       },
       drop(x, y, data) {
@@ -67,11 +67,11 @@
 
         var tile = Vue.observable(
           { type: 'Placeholder',  
-            ctx: data.getContext().getName(), 
+            ctx: data.getContext().name,
             node: data.path() });
 
         var tileUUID = uuidv4();
-        this.tileDataMap.set(tileUUID, tile);
+        this.tileData[tileUUID] = tile;
 
         // data should be a node
         this.layout.push({i: tileUUID, x:col, y:row, w:4, h:4});

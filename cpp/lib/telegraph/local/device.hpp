@@ -3,6 +3,7 @@
 
 #include "namespace.hpp"
 
+#include "../common/params.hpp"
 #include "../common/adapter.hpp"
 #include "../common/nodes.hpp"
 
@@ -38,38 +39,38 @@ namespace telegraph {
         std::unordered_map<uint32_t, req> reqs_;
         
         // subscription adapters
-        std::unordered_map<node::id, adapter> adapters_;
+        // std::unordered_map<node::id, adapter> adapters_;
 
         io::serial_port port_;
     public:
-        device(io::io_context& ioc, 
-             const std::string& name,
-             const std::string& port, int baud);
+        device(io::io_context& ioc, const std::string& name, const std::string& port, int baud);
         ~device();
 
-        // init should be called right after construction!
+        // init should be called right after construction! (this is done by create)
         // or the context will not have a tree (this is done by device_io_task)
-        bool init(io::yield_ctx&);
+        void init(io::yield_ctx&);
 
-        void destroy(io::yield_ctx&) override;
+        // no querying
+        params_stream_ptr query(io::yield_ctx&, const params& p) { return nullptr; }
 
-        // the overridden functions
-        subscription_ptr subscribe(io::yield_ctx& ctx, variable* v,
-                                interval min_interval, interval max_interval, 
-                                interval timeout) override;
-        value call(io::yield_ctx& ctx, action* a, value v, interval timeout) override;
+        subscription_ptr subscribe(io::yield_ctx& ctx, const variable* v,
+                                float min_interval, float max_interval, 
+                                float timeout) override;
+        value call(io::yield_ctx& ctx, action* a, value v, float timeout);
 
         // path-based overloads
-        inline subscription_ptr subscribe(io::yield_ctx& ctx, const std::vector<std::string>& path,
-                                interval min_interval, interval max_interval, 
-                                interval timeout) override {
+        subscription_ptr subscribe(io::yield_ctx& ctx, 
+                                const std::vector<std::string_view>& path,
+                                float min_interval, float max_interval, 
+                                float timeout) override {
             auto v = dynamic_cast<variable*>(tree_->from_path(path));
             if (!v) return nullptr;
             return subscribe(ctx, v, min_interval, max_interval, timeout);
         }
 
-        inline value call(io::yield_ctx& ctx, 
-                const std::vector<std::string>& path, value v, interval timeout) override {
+        value call(io::yield_ctx& ctx, 
+                        const std::vector<std::string_view>& path, 
+                        value v, float timeout) override {
             auto a = dynamic_cast<action*>(tree_->from_path(path));
             if (!a) return value();
             return call(ctx, a, v, timeout);
@@ -80,13 +81,13 @@ namespace telegraph {
                 const std::vector<data_point>& d) override { return false; }
 
         inline bool write_data(io::yield_ctx&, 
-                const std::vector<std::string>& path, 
+                const std::vector<std::string_view>& path, 
                 const std::vector<data_point>& d) override { return false; }
 
         inline std::unique_ptr<data_query> query_data(io::yield_ctx& yield, 
                                             const node* n) const override { return nullptr; }
         inline std::unique_ptr<data_query> query_data(io::yield_ctx& yield, 
-                                const std::vector<std::string>& p) const override { return nullptr; }
+                                const std::vector<std::string_view>& p) const override { return nullptr; }
 
         // disable mounting
         inline void mount(io::yield_ctx&, const context_ptr& src) override {
@@ -95,6 +96,10 @@ namespace telegraph {
         inline void unmount(io::yield_ctx&, const context_ptr& src) override {
             throw bad_type_error("cannot unmount on a device");
         }
+
+        static local_context_ptr create(io::yield_ctx&, io::io_context& ioc, 
+                const std::string_view& type, const std::string_view& name,
+                const params& p, const sources_map& srcs);
     private:
         inline std::shared_ptr<device> shared_device_this() {
             return std::static_pointer_cast<device>(shared_from_this());
@@ -110,33 +115,18 @@ namespace telegraph {
         void on_read(stream::Packet&& p);
     };
 
-    // the io_task doesn't actually do the work, but
-    // will destroy the associated device on stop
-    class device_io_task : public local_task {
-    public:
-        device_io_task(io::io_context& ioc, 
-                const std::string& name, const std::string& port);
-
-        void start(io::yield_ctx&, const std::string& name, int baud);
-        void start(io::yield_ctx&, const info& info) override;
-        void stop(io::yield_ctx&) override;
-
-        void destroy(io::yield_ctx&) override;
-    private:
-        std::string port_name_;
-        std::weak_ptr<device> dev_;
-    };
-
     class device_scan_task : public local_task {
     public:
-        device_scan_task(io::io_context& ioc, const std::string& name);
+        device_scan_task(io::io_context& ioc, const std::string_view& name);
 
-        void start(io::yield_ctx&, const info& info) override;
+        void start(io::yield_ctx&) override;
         void stop(io::yield_ctx&) override;
 
-        void destroy(io::yield_ctx&) override;
-    private:
-        std::vector<std::shared_ptr<device_io_task>> devices_;
+        params_stream_ptr query(io::yield_ctx&, const params& p) override;
+
+        static local_task_ptr create(io::yield_ctx&, io::io_context& ioc, 
+                const std::string_view& type, const std::string_view& name,
+                const params& p, const sources_map& srcs);
     };
 }
 #endif

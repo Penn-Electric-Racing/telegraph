@@ -3,169 +3,142 @@
 #include "../utils/errors.hpp"
 
 namespace telegraph {
-    local_namespace::local_namespace() 
-            : namespace_(rand_uuid()) {
-        contexts_ = std::make_shared<query<context_ptr>>();
-        tasks_ = std::make_shared<query<task_ptr>>();
-        mounts_ = std::make_shared<query<mount_info>>();
+    local_namespace::local_namespace(io::io_context& ioc) 
+            : namespace_(),
+              ioc_(ioc), task_factories_(), context_factories_() {}
+
+    context_ptr 
+    local_namespace::create_context(io::yield_ctx& yield, 
+                    const std::string_view& name, const std::string_view& type, 
+                    const params& p, sources_uuid_map&& srcs) {
+        sources_map s;
+        for (auto& i : srcs) {
+            auto& v = i.second;
+            if (v.index() == 0) {
+                uuid u = std::get<uuid>(v);
+                s.emplace(std::make_pair(i.first, contexts->get(u)));
+            } else {
+                std::unique_ptr<node>& n = std::get<std::unique_ptr<node>>(v);
+                s.emplace(std::make_pair(i.first, std::move(n)));
+            }
+        }
+        auto it = context_factories_.find(type);
+        if (it == context_factories_.end()) return nullptr;
+        else {
+            auto c = (it->second)(yield, ioc_, name, type, p, std::move(s));
+            if (c) c->reg(yield, shared_from_this());
+            return c;
+        }
     }
 
-    query_ptr<mount_info>
-    local_namespace::mounts(io::yield_ctx& yield,
-                            const uuid& srcs_of, const uuid& tgts_of) const {
-        if (srcs_of.is_nil() && tgts_of.is_nil()) return mounts_;
-        return mounts_->chain([srcs_of, tgts_of](const mount_info& m) {
-                return srcs_of.is_nil() ? false : (m.tgt == srcs_of) ||
-                tgts_of.is_nil() ? false :(m.src == tgts_of);
-        });
+    void 
+    local_namespace::destroy_context(io::yield_ctx& y, const uuid& u) {
+        context_ptr c = contexts->get(u);
+        if (!c) return;
+        c->destroy(y);
     }
 
-    query_ptr<context_ptr>
-    local_namespace::contexts(io::yield_ctx& yield,
-                        const uuid& by_uuid, const std::string& by_name, 
-                        const std::string& by_type) const {
-        if (by_uuid.is_nil() && by_name.empty() && by_type.empty()) return contexts_;
-        return contexts_->chain([by_uuid, by_name, by_type](const context_ptr& p) {
-                return (by_uuid.is_nil()  || by_uuid == p->get_uuid()) &&
-                       (by_name.empty() || by_name == p->get_name()) &&
-                       (by_type.empty() || by_type == p->get_type());
-            });
+    task_ptr 
+    local_namespace::create_task(io::yield_ctx& yield, 
+                const std::string_view& name, const std::string_view& type, 
+                const params& p, sources_uuid_map&& srcs) {
+        sources_map s;
+        for (auto& i : srcs) {
+            auto& v = i.second;
+            if (v.index() == 0) {
+                uuid u = std::get<uuid>(v);
+                s.emplace(std::make_pair(i.first, contexts->get(u)));
+            } else {
+                std::unique_ptr<node>& n = std::get<std::unique_ptr<node>>(v);
+                s.emplace(std::make_pair(i.first, std::move(n)));
+            }
+        }
+
+        auto it = task_factories_.find(type);
+        if (it == task_factories_.end()) return nullptr;
+        else {
+            auto c = (it->second)(yield, ioc_, name, type, p, std::move(s));
+            if (c) c->reg(yield, shared_from_this());
+            return c;
+        }
     }
 
-    query_ptr<task_ptr>
-    local_namespace::tasks(io::yield_ctx& yield,
-                        const uuid& by_uuid, const std::string& by_name,
-                        const std::string& by_type) const {
-        if (by_uuid.is_nil() && by_name.empty() && by_type.empty()) return tasks_;
-        return tasks_->chain([by_uuid, by_name, by_type](const task_ptr& p) {
-                return (by_uuid.is_nil() ||  by_uuid == p->get_uuid()) &&
-                       (by_name.empty() || by_name == p->get_name()) &&
-                       (by_type.empty() || by_type == p->get_type());
-            });
-    }
-
-    std::shared_ptr<node>
-    local_namespace::fetch(io::yield_ctx& yield,
-                        const uuid& uuid, context_ptr owner) const {
-        return contexts_->has(uuid) ? 
-            contexts_->get(uuid)->fetch(yield) : nullptr;
-    }
-
-    subscription_ptr
-    local_namespace::subscribe(io::yield_ctx& yield,
-                    const uuid& ctx, const std::vector<std::string>& path,
-                    interval min_interval, interval max_interval, interval timeout) {
-        if (!contexts_->has(ctx)) return nullptr;
-        auto c = contexts_->get(ctx);
-        return c->subscribe(yield, path, min_interval, max_interval, timeout);
-    }
-
-    value
-    local_namespace::call(io::yield_ctx& yield, const uuid& ctx, 
-            const std::vector<std::string>& path, value arg, interval timeout) {
-        if (!contexts_->has(ctx)) return value();
-        auto c = contexts_->get(ctx);
-        return c->call(yield, path, arg, timeout);
-    }
-
-    std::unique_ptr<data_query>
-    local_namespace::query_data(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string>& path) const {
-        if (!contexts_->has(ctx)) return nullptr;
-        auto c = contexts_->get(ctx);
-        return c->query_data(yield, path);
-    }
-
-    bool 
-    local_namespace::write_data(io::yield_ctx& yield,
-            const uuid& ctx, const std::vector<std::string>& path,
-            const std::vector<data_point>& data) {
-        auto c = contexts_->get(ctx);
-        if (!c) throw missing_error("no such context");
-        return c->write_data(yield, path, data);
-    }
-
-    void
-    local_namespace::mount(io::yield_ctx& yield,
-            const uuid& src, const uuid& tgt) {
-        auto s = contexts_->get(src);
-        auto t = contexts_->get(tgt);
-        if (!s || !t) 
-            throw missing_error("no such contexts");
-        return t->mount(yield, s);
-    }
-
-    void
-    local_namespace::unmount(io::yield_ctx& yield,
-                            const uuid& src, const uuid& tgt) {
-        auto s = contexts_->get(src);
-        auto t = contexts_->get(tgt);
-        if (!s || !t) 
-            throw missing_error("no such context");
-        return t->unmount(yield, s);
+    void 
+    local_namespace::destroy_task(io::yield_ctx& y, const uuid& u) {
+        task_ptr t = tasks->get(u);
+        if (!t) return;
+        t->destroy(y);
     }
 
 
     local_context::local_context(io::io_context& ioc, 
-                const std::string& name, const std::string& type,
-                const info& i, const std::shared_ptr<node>& tree) : 
-                context(ioc, rand_uuid(), name, type, i), tree_(tree), ns_(nullptr) {}
+                const std::string_view& name, const std::string_view& type,
+                const params& i, const std::shared_ptr<node>& tree) : 
+                context(ioc, rand_uuid(), name, type, i), tree_(tree), ns_() {}
 
     void
-    local_context::reg(io::yield_ctx& yield, local_namespace* ns) {
-        if (ns_) throw missing_error("already registered");
+    local_context::reg(io::yield_ctx& yield, const std::shared_ptr<local_namespace>& ns) {
+        if (ns_.lock()) throw missing_error("already registered");
         if (!ns) throw missing_error("cannot register null namespace");
         ns_ = ns;
-        ns->contexts_->add_(yield, shared_from_this());
+        ns->contexts->add_(shared_from_this());
     }
 
     void
     local_context::destroy(io::yield_ctx& yield) {
-        if (!ns_) return;
-        ns_->contexts_->remove_by_key_(yield, get_uuid());
-        ns_ = nullptr;
+        auto s = ns_.lock();
+        if (!s) return;
+        s->contexts->remove_by_key_(get_uuid());
+        ns_.reset();
+        destroyed();
     }
 
-    query_ptr<mount_info>
-    local_context::mounts(io::yield_ctx& yield, bool srcs, bool tgts) const {
-        if (!ns_) 
-            throw missing_error("not registered");
-        return ns_->mounts(yield, srcs || !tgts ? get_uuid() : uuid(), 
-                                   tgts ? get_uuid() : uuid());
+    collection_ptr<mount_info>
+    local_context::mounts(bool srcs, bool tgts) const {
+        auto s = ns_.lock();
+        if (!s) throw missing_error("not registered");
+        const uuid& u = uuid_;
+        return s->mounts->filter([u, srcs, tgts](const mount_info& i) {
+            return (srcs && (i.tgt == u)) || (tgts && (i.src == u));
+        });
     }
 
     void
     local_context::mount(io::yield_ctx& yield, const context_ptr& src) {
-        if (!ns_ || !src)
+        auto s = ns_.lock();
+        if (!s || !src)
             throw missing_error("not registered");
         mount_info m(src->get_uuid(), get_uuid());
-        ns_->mounts_->add_(yield, m);
+        s->mounts->add_(m);
     }
 
     void
     local_context::unmount(io::yield_ctx& yield, const context_ptr& src) {
-        if (!ns_ || !src) return;
+        auto s = ns_.lock();
+        if (!s || !src) return;
         mount_info m(src->get_uuid(), get_uuid());
-        ns_->mounts_->remove_by_key_(yield, m);
-        return;
+        s->mounts->remove_by_key_(m);
     }
 
-    local_task::local_task(io::io_context& ioc, const std::string& name, 
-            const std::string& type, const info& i) 
-                : task(ioc, rand_uuid(), name, type, i), ns_(nullptr) {}
+    local_task::local_task(io::io_context& ioc, const std::string_view& name, 
+            const std::string_view& type, const params& p) 
+                : task(ioc, rand_uuid(), name, type, p), ns_() {}
 
     void
-    local_task::reg(io::yield_ctx& yield, local_namespace* ns) {
-        if (ns_) throw missing_error("task already registered");
+    local_task::reg(io::yield_ctx& yield, const std::shared_ptr<local_namespace>& ns) {
+        auto s = ns_.lock();
+        if (s) throw missing_error("task already registered");
         if (!ns) throw missing_error("cannot register task in null namespace");
         ns_ = ns;
-        ns_->tasks_->add_(yield, shared_from_this());
+        ns->tasks->add_(shared_from_this());
     }
 
     void
     local_task::destroy(io::yield_ctx& yield) {
-        if (!ns_) return;
-        ns_->tasks_->remove_by_key_(yield, get_uuid());
-        ns_ = nullptr;
+        auto s = ns_.lock();
+        if (!s) return;
+        s->tasks->remove_by_key_(get_uuid());
+        ns_.reset();
+        destroyed();
     }
 }

@@ -86,6 +86,6 @@ message Value {
 }
 
 message Datapoint {
-    int64 timestamp = 1;
+    uint64 timestamp = 1;
     Value value = 2;
 }

@@ -252,11 +252,11 @@ export class Type {
       case Type.DOUBLE._class: type = 13; break;
       default: type = 0; break; // invalid
     }
-    return {name: this._name, class: type, labels: this._labels};
+    return {name: this._name, type: type, labels: this._labels};
   }
 
   static unpack(proto) {
-    switch(proto.class) {
+    switch(proto.type) {
       case 0: return Type.INVALID;
       case 1: return Type.NONE;
       case 2: return new Type(proto.name, proto.labels, Type.ENUM._class);

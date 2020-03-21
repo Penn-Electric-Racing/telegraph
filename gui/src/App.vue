@@ -42,7 +42,7 @@
           <div v-show="activeSidebar=='contexts'">
             Contexts
           </div>
-          <LivePage v-show="activeSidebar=='live'" :ns="remoteNamespace"/>
+          <LivePage v-show="activeSidebar=='live'" :nsQuery="nsQuery"/>
         </TabArea>
       </div>
 
@@ -50,7 +50,7 @@
         <component :is="tab.type" 
                    :name="tab.name" 
                    :id="tab.id"
-                   :ns="remoteNamespace"
+                   :nsQuery="nsQuery"
                    :key="tab.id"
                    @renamed="(name) => {renameTab(tab.id, name)}"
                    v-for="tab in tabs"
@@ -75,11 +75,12 @@ import Dashboard from './dashboard/Dashboard.vue'
 
 import uuidv4 from 'uuid/v4';
 
-import { Relay, LocalNamespace } from 'telegraph'
+import { Client } from 'telegraph'
 
 export default {
   name: 'App',
   data () {
+    var namespace = new Client();
     return {
       sidebarShowing: true,
       sidebarWidth: null,
@@ -101,8 +102,8 @@ export default {
       tabs: [],
       activeTab: null, // the active tab ID
 
-      remoteNamespace: null,
-      localNamespace: null,
+      namespace: namespace,
+      nsQuery: namespace.query(),
       relay: null
     }
   },
@@ -151,26 +152,23 @@ export default {
       else this.$nextTick(() => { this.sidebarWidth = this.$refs['sidebar'].offsetWidth});
     },
 
-    async connect(delay) {
-      while (!this.remoteNamespace) {
-        this.remoteNamespace = await this.relay.connect('ws://localhost:8081');
-        // wait 
-        if (!this.remoteNamespace) {
-          await new Promise((res, rej) => setTimeout(res, 2500));
+    async run() {
+      while (true) {
+        // connect with the client
+        try {
+          await this.namespace.connect('ws://localhost:8081');
+          await this.namespace.wait(); // wait until done
+        } catch (e) {
+          console.log('failed to connect, retrying...', e)
         }
+        // try and reconnect every 5 seconds after losing connection
+        await new Promise((res, rej) => setTimeout(res, 5000));
       }
-      this.remoteNamespace.destroyed.add(() => {
-        this.remoteNamespace = null;
-        this.connect();
-      });
-      return true;
     }
   },
 
   created() {
-    this.localNamespace = new LocalNamespace();
-    this.relay = new Relay(this.localNamespace);
-    this.connect();
+    this.run(); // will launch connection...
 
     // create a new dashboard
     this.newTab();

@@ -7,69 +7,55 @@ package telegraph.api;
 // to be converted to json
 // for both the javascript/c++ server/client code
 
-message InfoEntry {
+message ParamsEntry {
     string key = 1;
-    Info value = 2;
+    Params value = 2;
+}
+
+message ParamsMap {
+    repeated ParamsEntry entries = 1;
+}
+
+message ParamsList {
+    repeated Params elements = 1;
 }
 
 // json-like structure, as a protobuffer
 // if all are unset, equivalent to null
-message Info {
-    float number = 2;
-    string str = 3;
-
-    bool is_object = 4;
-    repeated InfoEntry object = 5;
-    bool is_array = 6;
-    repeated Info array = 7;
+message Params {
+    oneof content {
+        bool b = 1;
+        float number = 2;
+        string str = 3;
+        ParamsMap object = 4;
+        ParamsList array = 5;
+        Empty none = 6;
+    }
 }
 
 message Context {
-    string ns = 1;
-    string uuid = 2;
-    string name = 3;
-    string type = 4;
-    Info info = 5;
-}
-
-message Mount {
-    Context src = 1; // can be of device or archive
-    Context tgt = 2; // mount point (must exist)
-}
-
-message Task {
-    string ns = 1;
-    string uuid = 2;
-    string type = 3;
-    Info info = 5;
-}
-
-// querying
-message MountsQuery {
-    string srcs_uuid = 2;
-    string tgts_uuid = 3;
-}
-
-message ContextsQuery {
-    // will include any that match either of these
-    // and all if both unset
     string uuid = 1;
     string name = 2;
     string type = 3;
+    Params params = 4;
 }
 
-message TasksQuery {
-    string type = 1;
+message Task {
+    string uuid = 1;
+    string name = 2;
+    string type = 3;
+    Params params = 4;
 }
 
-message MountList { repeated Mount mounts = 1; }
-message TaskList { repeated Task tasks = 1; }
-message ContextList { repeated Context contexts = 1; }
+message Mount {
+    string src = 1; 
+    string tgt = 2; 
+}
 
 message SourceEntry {
     string key = 1;
     oneof tree {
-        Context context = 3;
+        string context = 3; // context uuid
         Node root = 4;
     }
 }
@@ -78,14 +64,19 @@ message SourceEntry {
 message Create {
     string name = 1;
     string type = 2;
-    Info info = 3;
+    Params params = 3;
     repeated SourceEntry sources = 4;
 }
 
-message StartTask {
+message Query {
     string uuid = 1;
-    Info info = 2;
-    repeated SourceEntry sources = 3;
+    Params params = 2;
+}
+
+message Namespace {
+    repeated Context contexts = 2;
+    repeated Task tasks = 3;
+    repeated Mount mounts = 4;
 }
 
 // tree operations
@@ -95,12 +86,14 @@ message Subscription {
     repeated string variable = 2;
     float min_interval = 3;
     float max_interval = 4;
+    float timeout = 5;
 }
 
 message Call {
     string uuid = 1; // context uuid
     repeated string action = 2; // path to action, specified the children indices
     Value value = 3;
+    float timeout = 4;
 }
 
 message DataWrite {
@@ -121,7 +114,7 @@ message DataPacket {
 message Packet {
     sint32 req_id = 1;
     oneof payload {
-        Empty cancel = 2;
+        float cancel = 2; // timeout for sub cancel response from board, ignored for queries
         string error = 3;
         bool success = 4;
 
@@ -129,62 +122,52 @@ message Packet {
         // single associated namespace uuid that cannot change
         // this can also be used as a heartbeat packet since it has no sideaffects
         Empty query_ns = 5;
-        string ns_uuid = 6;
+        Namespace ns = 6;
+
+        Context context_added = 7;
+        string context_removed = 8; // uuid of removed context
+
+        Task task_added = 9;
+        string task_removed = 10;
+
+        Mount mount_added = 11;
+        Mount mount_removed = 12;
+
+        Mount mount = 13;
+        Mount unmount = 14;
+
+        Create create_context = 15;
+        Create create_task = 16;
+        string context_created = 17; // uuid of created context
+        string task_created = 18; // uuid of created task
+
+        string destroy_context = 19;
+        string destroy_task = 20;
+
+        // task-related operations
+        string start_task = 21;
+        string stop_task = 22;
+
+        Query query_task = 23;
+        Query query_context = 24;
+        Params query_update = 25;
 
         // tree operations:
+        string fetch_tree = 26; // context uuid to fetch tree
+        Node fetched_tree = 27; // response to a context fetch
 
-        string fetch_tree = 7; // context uuid to fetch tree
-        Node fetched_tree = 8; // response to a context fetch
+        Subscription change_sub = 28;
+        Type sub_type = 29;
+        Value variable_update = 30; // keep receiving until the original request id is cancelled
 
-        Subscription change_sub = 9;
-        Type sub_type = 10;
-        Value variable_update = 11; // keep receiving until the original request id is cancelled
-
-        Call call_action = 12;
-        Value call_return = 13;
+        Call call_action = 31;
+        Value call_return = 32;
 
         // archive operations:
-        DataWrite data_write = 14;
+        DataWrite data_write = 33;
 
-        DataQuery data_query = 15;
-        DataPacket archive_data = 16; // initial response to a query
-        DataPacket archive_update = 17; // any archive updates
-
-        // context queries:
-        ContextsQuery contexts_query = 18;
-
-        ContextList context_list = 19;
-        Context context_added = 20;
-        string context_removed = 21; // uuid of removed context
-
-        // mount queries:
-        MountsQuery mounts_query = 22; // queries mounts in foreign namespace, 
-                                       // but returned mounts can be cross-namespace
-                                       // (returns all with src or tgt in foreign namespace)
-        MountList mount_list = 23;
-        Mount mount_added = 24;
-        Mount mount_removed = 25;
-
-        // task queries:
-        TasksQuery tasks_query = 26; // find out what io tasks are running in the foreign namespace
-        TaskList task_list = 27;
-        Task task_added = 28;
-        string task_removed = 29; // task uuid
-
-        // create/destroy contexts/tasks/mounts
-
-        Create create_context = 30;
-        Create create_task = 31;
-        string context_created = 32; // uuid of created context
-        string task_created = 33; // uuid of created task
-
-        string destroy_context = 34;
-        string destroy_task = 35;
-
-        StartTask start_task = 36;
-        string stop_task = 37;
-
-        Mount mount = 38;
-        Mount unmount = 39;
+        DataQuery data_query = 34;
+        DataPacket archive_data = 35; // initial response to a query
+        DataPacket archive_update = 36; // any archive updates
     }
 }

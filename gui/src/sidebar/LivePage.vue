@@ -1,10 +1,10 @@
 <template>
   <div class="live-view">
-    <TreeView class="live-tree" :tree="liveTree" placeholder="No Connection"/>
+    <TreeView class="live-tree" :treeQuery="liveNodesQuery" placeholder="No Connection"/>
     <div class="connection-selectors">
       <ComboBox :options="ports"/>
       <ComboBox :options="bauds"/>
-      <Button :text="connectionText" @click="this.liveContext ? disconnect() : connect()"/>
+      <Button :text="this.live ? 'Disconnect' : 'Connect'" @click="this.live ? disconnect() : connect()"/>
     </div>
   </div>
 </template>
@@ -14,28 +14,30 @@ import TreeView from './TreeView.vue'
 
 import ComboBox from '../components/ComboBox.vue'
 import Button from '../components/Button.vue'
-import { ContextsRetriever, ContextRetriever, Namespace } from 'telegraph'
+import { NamespaceQuery } from 'telegraph'
 
 export default {
   name: 'LivePage',
   components: {TreeView, ComboBox, Button},
   props: {
-    ns: Namespace
+    nsQuery: NamespaceQuery
   },
   data: function() {
     return {
       ports : [],
       bauds : ['Auto', 10, 11, 123],
       devices: [],
-      live: null,
-      liveTree: null,
-      devicesRetriever: null,
-      liveRetriever: null
+      live: null // the live context
     }
   },
+  created() {
+  },
   computed: {
-    connectionText() {
-      return this.liveContext ? 'Disconnect' : 'Connect'
+    liveContextQuery() {
+      return this.nsQuery.contexts.unwrap(); //filter(c => c.name == 'live' ).unwrap();
+    },
+    liveNodesQuery() {
+      return this.liveContextQuery.fetch();
     }
   },
   methods: {
@@ -43,30 +45,18 @@ export default {
     },
     async disconnect() {
     },
-    namespaceChanged(ns) {
-      this.devicesRetriever.namespaceChanged(ns);
-      this.liveRetriever.namespaceChanged(ns);
+  },
+  created() {
+    if (this.liveContextQuery) {
+      this.live = this.liveContextQuery.current;
+      this.liveContextQuery.updated.add((newContext) => { this.live = newContext; });
     }
   },
   watch: {
-    ns(val) { 
-      this.namespaceChanged(val) 
-    },
-    live(ctx) {
-      if (ctx) ctx.fetch().then((t) => this.liveTree = t);
-      else this.liveTree = null;
+    liveContext() {
+      this.live = this.liveContextQuery.current;
+      this.liveContextQuery.updated.add((newContext) => { this.live = newContext; });
     }
-  },
-  created() {
-    this.devicesRetriever = new ContextsRetriever({by_type:'device'}, this.devices),
-    this.liveRetriever = new ContextRetriever({by_name:'live'}, (ctx) => this.live = ctx)
-    this.namespaceChanged(this.ns);
-  },
-  destroyed() {
-    this.devicesRetriever.stop();
-    this.liveRetriever.stop();
-    this.devicesRetriever = null;
-    this.liveRetriever = null;
   }
 }
 </script>

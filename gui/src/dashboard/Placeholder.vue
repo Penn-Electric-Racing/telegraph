@@ -14,11 +14,10 @@
     name: 'Placeholder',
     props: {
       id: String,
-      dataMap: Map
+      data: Object
     },
     data() { 
       return {
-        data: null,
         width: null,
         height: null,
         // TODO: Make a registry
@@ -41,9 +40,6 @@
       select(type) {
         this.data.type = type;
       }
-    },
-    created() {
-      this.data = this.dataMap.get(this.id);
     },
     mounted() {
       new ResizeObserver(() => {

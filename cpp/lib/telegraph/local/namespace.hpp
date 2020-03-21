@@ -5,96 +5,100 @@
 
 #include "../utils/uuid.hpp"
 #include "../utils/errors.hpp"
+#include "../utils/io_fwd.hpp"
 
 #include "../common/namespace.hpp"
 
 #include <memory>
+#include <string>
+#include <string_view>
+#include <map>
+#include <functional>
 
 namespace telegraph {
-    class local_namespace : public namespace_ {
+    class local_context;
+    class local_task;
+    using local_context_ptr = std::shared_ptr<local_context>;
+    using local_task_ptr = std::shared_ptr<local_task>;
+
+    class local_namespace : 
+            public std::enable_shared_from_this<local_namespace>,
+            public namespace_ {
         friend class local_context;
         friend class local_task;
-
-        // these are queries, not sets
-        // since then we can just use chain()
-        // to do the mounts, contexts, and tasks queries implementations
-        // and if somebody wants everything, we can just return
-        // a copy of the original query pointers
     private:
-        query_ptr<context_ptr> contexts_;
-        query_ptr<task_ptr> tasks_;
-        query_ptr<mount_info> mounts_;
+        using task_factory = std::function<local_task_ptr(io::yield_ctx&,io::io_context&, 
+                                    const std::string_view&, const std::string_view&,
+                                    const params&, sources_map&&)>;
+
+        using context_factory = std::function<local_context_ptr(io::yield_ctx&,io::io_context&, 
+                                    const std::string_view&, const std::string_view&, 
+                                    const params&, sources_map&&)>;
+
+        io::io_context& ioc_;
+        std::map<std::string, task_factory, std::less<>> task_factories_;
+        std::map<std::string, context_factory, std::less<>> context_factories_;
     public:
-        local_namespace();
+        local_namespace(io::io_context& ioc);
 
-        query_ptr<mount_info> mounts(io::yield_ctx& yield,
-                                    const uuid& srcs_of=uuid(),
-                                    const uuid& tgts_of=uuid()) const override;
+        // add factories
+        void register_task_factory(const std::string& type, const task_factory& f) {
+            task_factories_.emplace(std::make_pair(type, f));
+        }
 
-        query_ptr<context_ptr> contexts(io::yield_ctx&, const uuid& by_uuid=uuid(), 
-                                            const std::string& by_name=std::string(), 
-                                            const std::string& by_type=std::string()) const override;
+        void register_context_factory(const std::string& type, const context_factory& f) {
+            context_factories_.emplace(std::make_pair(type, f));
+        }
 
-        query_ptr<task_ptr> tasks(io::yield_ctx&,  const uuid& by_uuid=uuid(), 
-                                    const std::string& by_name=std::string(), 
-                                    const std::string& by_type=std::string()) const override;
+        //
 
-        std::shared_ptr<node> fetch(io::yield_ctx& yield, const uuid& uuid, 
-                                    context_ptr owner=context_ptr()) const override;
+        context_ptr create_context(io::yield_ctx& yield, 
+                    const std::string_view& name, const std::string_view& type, 
+                    const params& p, sources_uuid_map&& srcs) override;
 
-        subscription_ptr subscribe(io::yield_ctx& yield,
-               const uuid& ctx, const std::vector<std::string>& path,
-               interval min_interval, interval max_interval, interval timeout) override;
+        task_ptr create_task(io::yield_ctx& yield, 
+                    const std::string_view& name, const std::string_view& type, 
+                    const params& p, sources_uuid_map&& srcs) override;
 
-        value call(io::yield_ctx& yield, const uuid& ctx, 
-                const std::vector<std::string>& path, value arg, interval timeout) override;
-
-        std::unique_ptr<data_query> query_data(io::yield_ctx& yield,
-                const uuid& ctx, const std::vector<std::string>& path) const override;
-
-        bool write_data(io::yield_ctx& yield, const uuid& ctx, 
-                    const std::vector<std::string>& path,
-                    const std::vector<data_point>& data) override;
-
-        void mount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
-        void unmount(io::yield_ctx& yield, const uuid& src, const uuid& tgt) override;
+        void destroy_context(io::yield_ctx& y, const uuid& u) override;
+        void destroy_task(io::yield_ctx& y, const uuid& u) override;
     };
 
     class local_context : public context {
     public:
         local_context(io::io_context& ioc, 
-                const std::string& name, const std::string& type, 
-                const info& i, const std::shared_ptr<node>& tree);
+                const std::string_view& name, const std::string_view& type, 
+                const params& i, const std::shared_ptr<node>& tree);
 
-        inline namespace_* get_namespace() override { return ns_; }
-        inline const namespace_* get_namespace() const override { return ns_; }
+        std::shared_ptr<namespace_> get_namespace() override { return ns_.lock(); }
+        std::shared_ptr<const namespace_> get_namespace() const override { return ns_.lock(); }
 
-        void reg(io::yield_ctx& yield, local_namespace* ns);
+        void reg(io::yield_ctx& yield, const std::shared_ptr<local_namespace>& ns);
         void destroy(io::yield_ctx& yield) override;
+
+        collection_ptr<mount_info> mounts(bool srcs=true, bool tgts=true) const override;
 
         inline std::shared_ptr<node> fetch(io::yield_ctx&) override {  return tree_; }
 
-        query_ptr<mount_info> mounts(io::yield_ctx& yield,
-                bool srcs=true, bool tgts=true) const override;
         void mount(io::yield_ctx&, const context_ptr& src) override;
         void unmount(io::yield_ctx&, const context_ptr& src) override;
     protected:
         std::shared_ptr<node> tree_;
-        local_namespace* ns_;
+        std::weak_ptr<local_namespace> ns_;
     };
 
     class local_task : public task {
     public:
-        local_task(io::io_context& ioc, const std::string& name,
-                const std::string& type, const info& i);
+        local_task(io::io_context& ioc, const std::string_view& name,
+                const std::string_view& type, const params& i);
 
-        inline namespace_* get_namespace() override { return ns_; }
-        inline const namespace_* get_namespace() const override { return ns_; }
+        std::shared_ptr<namespace_> get_namespace() override { return ns_.lock(); }
+        std::shared_ptr<const namespace_> get_namespace() const override { return ns_.lock(); }
 
-        void reg(io::yield_ctx& ctx, local_namespace* ns);
+        void reg(io::yield_ctx& ctx, const std::shared_ptr<local_namespace>& ns);
         void destroy(io::yield_ctx& ctx) override;
     protected:
-        local_namespace* ns_;
+        std::weak_ptr<local_namespace> ns_;
     };
 }
 

@@ -120,11 +120,6 @@ raf@^3.4.0:
   dependencies:
     performance-now "^2.1.0"
 
-signals@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/signals/-/signals-1.0.0.tgz#65f0c1599352b35372ecaae5a250e6107376ed69"
-  integrity sha1-ZfDBWZNSs1Ny7KrlolDmEHN27Wk=
-
 uuid@^3.3.3:
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.3.tgz#4568f0216e78760ee1dbf3a4d2cf53e224112866"

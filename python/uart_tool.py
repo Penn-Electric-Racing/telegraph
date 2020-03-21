@@ -60,7 +60,6 @@ def read_packet():
         payload = buf[:-4]
 
         msg = _VarintBytes(size) + payload
-        print(msg.hex())
         expected_checksum = crc32(msg)
         checksum, = struct.unpack('<I', buf[-4:])
         if expected_checksum != checksum:

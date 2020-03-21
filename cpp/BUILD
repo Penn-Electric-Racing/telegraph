@@ -17,19 +17,13 @@ cc_library(name="telegraph",
          '@boost//:asio', '@boost//:uuid', '@boost//:system']
 )
 
-cc_binary(name="device_test",
-          srcs=glob(["main/device_test.cpp"]),
-          copts=cpp17_opts,
-          deps=[':telegraph'])
-
-
-cc_binary(name="dummy_server",
-          srcs=glob(["main/dummy_server.cpp"]),
+cc_binary(name="server",
+          srcs=glob(["main/server.cpp"]),
           copts=cpp17_opts,
           deps=[":telegraph"])
 
-cc_binary(name="dummy_client",
-          srcs=glob(["main/dummy_client.cpp"]),
+cc_binary(name="client",
+          srcs=glob(["main/client.cpp"]),
           copts=cpp17_opts,
           deps=[":telegraph"])
 
@@ -37,12 +31,6 @@ cc_binary(name="generate",
           srcs=glob(["main/generate.cpp"]),
           copts=cpp17_opts,
           deps=[":telegraph"], visibility=["//visibility:public"])
-
-#cc_binary(name="server",
-#          srcs=glob(["main/server/**/*.hpp", "main/server/**/*.cpp"]),
-#          copts=["-std=c++17"],
-#          deps=[":telegraph"],
-#          visibility=["//visibility:public"])
 
 cc_library(name="generate_support",
           hdrs=glob(["gen/**/*.hpp"]),
@@ -72,7 +60,7 @@ cc_proto_library(name="cc_proto_stream",
 load("@com_github_nanopb_nanopb//:gen_rules.bzl","cc_nanopb_library")
 
 cc_nanopb_library(name="cc_nanopb_common", proto_library="//:proto_common", base_name="common",
-                  includes=["."], 
+                  includes=["."],
                   visibility=["//visibility:public"])
 
 cc_nanopb_library(name="cc_nanopb_log", proto_library="//:proto_log", base_name="log",
