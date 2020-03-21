@@ -1,10 +1,17 @@
 import { Signal } from './signal.mjs'
 
 export class Collection {
-  constructor() {
+  constructor(parent=null) {
     this.current = new Map();
     this.added = new Signal();
     this.removed = new Signal();
+
+    // parents have weak
+    // references to their children, but
+    // make children have strong references
+    // to their parents so that the parents
+    // are kept around
+    this._parent = parent;
   }
 
   get empty() {
@@ -15,48 +22,24 @@ export class Collection {
     return this.current.size;
   }
 
+  // returns a filtered collection,
+  // which is connected to this collection
+  // by weak reference
   filter(f) {
-    var filtered = new Collection();
+    var filtered = new Collection(this);
     for (let o of this.current.values()) {
-      if (f(o)) filtered.add(o);
+      if (f(o)) filtered._add(o);
     }
     // add weakly so if the filtered version is dropped,
     // there are no reprocussions for us keeping them around
-    this.added.addWeak(filtered, (w, o) => { if (f(o)) w.add(o) });
-    this.removed.addWeak(filtered, (w, o) => { w.removeUUID(o); });
+    this.added.addWeak(filtered, (w, o) => { if (f(o)) w._add(o) });
+    this.removed.addWeak(filtered, (w, o) => { w._removeUUID(o); });
     return filtered;
   }
 
   unwrap() {
-    if (this.size != 1) throw new Error("Cannot unwrap collection of size > 1");
+    if (this.size != 1) return null;
     return this.current.values().next().value;
-  }
-
-  add(o) {
-    this.current.set(o.uuid, o);
-    this.added.dispatch(o);
-  }
-
-  remove(o) {
-    if (this.current.has(o.uuid)) {
-      this.current.delete(o.uuid);
-      this.removed.dispatch(o);
-    }
-  }
-
-  removeUUID(u) {
-    if (this.current.has(u)) {
-      var o = this.current.get(u);
-      this.current.delete(u);
-      this.removed.dispatch(o);
-    }
-  }
-
-  clear() {
-    for (let o of this.current.values()) {
-      this.removed.dispatch(o);
-    }
-    this.current.clear();
   }
 
   has(o) {
@@ -73,5 +56,34 @@ export class Collection {
 
   [Symbol.iterator]() {
     return this.current.values();
+  }
+
+  // to be used internally only...
+
+  _add(o) {
+    this.current.set(o.uuid, o);
+    this.added.dispatch(o);
+  }
+
+  _remove(o) {
+    if (this.current.has(o.uuid)) {
+      this.current.delete(o.uuid);
+      this.removed.dispatch(o);
+    }
+  }
+
+  _removeUUID(u) {
+    if (this.current.has(u)) {
+      var o = this.current.get(u);
+      this.current.delete(u);
+      this.removed.dispatch(o);
+    }
+  }
+
+  _clear() {
+    for (let o of this.current.values()) {
+      this.removed.dispatch(o);
+    }
+    this.current.clear();
   }
 }

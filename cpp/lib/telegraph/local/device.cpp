@@ -25,7 +25,7 @@ namespace telegraph {
 
 
     device::device(io::io_context& ioc, const std::string& name, const std::string& port, int baud)
-            : local_context(ioc, port, "device", make_device_params(port, baud), nullptr), 
+            : local_context(ioc, name, "device", make_device_params(port, baud), nullptr), 
               write_queue_(), write_buf_(), read_buf_(),
               req_id_(0), reqs_(),  // adapters_(),
               port_(ioc) {
@@ -254,7 +254,7 @@ namespace telegraph {
 
     local_context_ptr
     device::create(io::yield_ctx& yield, io::io_context& ioc,
-            const std::string_view& type, const std::string_view& name,
+            const std::string_view& name, const std::string_view& type,
             const params& p, const sources_map& srcs) {
         int baud = (int) p.at("baud").get<float>();
         const std::string& port = p.at("port").get<std::string>();
@@ -281,7 +281,7 @@ namespace telegraph {
 
     local_task_ptr
     device_scan_task::create(io::yield_ctx&, io::io_context& ioc,
-            const std::string_view& type, const std::string_view& name,
+            const std::string_view& name, const std::string_view& type,
             const params& p, const sources_map& srcs) {
         return std::make_shared<device_scan_task>(ioc, name);
     }

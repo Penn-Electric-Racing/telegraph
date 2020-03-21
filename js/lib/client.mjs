@@ -3,6 +3,7 @@ import { Node } from './nodes.mjs'
 import { Collection } from './collection.mjs'
 import { Connection, Params } from './connection.mjs'
 import WebSocket from 'isomorphic-ws'
+import { NamespaceQuery } from './query.mjs'
 
 function checkError(packet) {
   if (packet.error) throw new Error(packet.error);
@@ -19,14 +20,20 @@ export class Client {
     this.mounts = new Collection();
   }
 
+  query() { 
+    var query = new NamespaceQuery(this);
+    query.update(this);
+    return query;
+  }
+
   async connect(address) {
     if (this._conn) throw new Error('Already connected!');
     try {
       this._conn = new Connection(new WebSocket(address), true);
       this._conn.onClose.add(() => {
-        this.contexts.clear();
-        this.tasks.clear();
-        this.mounts.clear();
+        this.contexts._clear();
+        this.tasks._clear();
+        this.mounts._clear();
       });
       await this._conn.connect();
       await this._queryNS();
@@ -52,47 +59,44 @@ export class Client {
     });
   }
 
-  query() {
-    return new ClientQuery(this);
-  }
-
   async _queryNS() {
     // send a queryNs
     var nsRes = await this._conn.requestStream({queryNs: {}}, (packet) => {
         // handle Context/Task/Mount added/removed
         if (packet.contextAdded) {
           let c = packet.contextAdded;
-          this.contexts.add(new RemoteContext(this, c.uuid, c.name, c.type, Params.unpack(c.params)));
+          this.contexts._add(new RemoteContext(this, c.uuid, c.name, c.type, Params.unpack(c.params)));
 
         } else if (packet.contextRemoved) {
-          this.contexts.removeUUID(packet.contextRemoved);
+          this.contexts._removeUUID(packet.contextRemoved);
 
         } else if (packet.taskAdded) {
           let t = packet.taskAdded;
-          this.tasks.add(new RemoteTask(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
+          this.tasks._add(new RemoteTask(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
 
         } else if (packet.taskRemoved) {
-          this.tasks.removeUUID(packet.contextRemoved);
+          this.tasks._removeUUID(packet.contextRemoved);
 
         } else if (packet.mountAdded) {
           var m = packet.mountAdded;
-          this.mounts.add({ uuid : m.src + '/' + m.tgt, src: m.src, tgt: m.tgt });
+          this.mounts._add({ uuid : m.src + '/' + m.tgt, src: m.src, tgt: m.tgt });
 
         } else if (packet.mountRemoved) {
           var u = packet.mountRemoved.src + '/ ' + packet.mountRemoved.tgt;
-          this.mounts.removeUUID(u);
+          this.mounts._removeUUID(u);
         }
     });
     checkError(nsRes);
     // populate the namespace based on the query
+    if (!nsRes.ns) throw new Error("Malformed response!");
     for (let c of nsRes.ns.contexts) {
-      this.contexts.add(new RemoteContext(this, c.uuid, c.name, c.type, Params.unpack(c.params)));
+      this.contexts._add(new RemoteContext(this, c.uuid, c.name, c.type, Params.unpack(c.params)));
     }
     for (let t of nsRes.ns.tasks) {
-      this.tasks.add(new RemoteTask(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
+      this.tasks._add(new RemoteTask(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
     }
     for (let m of nsRes.ns.mounts) {
-      this.mounts.add({ uuid : m.src + '/' + m.tgt, src: m.src, tgt: m.tgt });
+      this.mounts._add({ uuid : m.src + '/' + m.tgt, src: m.src, tgt: m.tgt });
     }
   }
 
@@ -153,10 +157,12 @@ class RemoteContext {
       var res = await conn.requestResponse(msg);
       checkError(res);
       if (!res.fetchedTree) throw new Error("unexpected response: " + res);
-      var tree = Node.unpack(res.fetchedTree);
-      tree.setContext(this);
-      this._cached_tree = tree;
-      return tree;
+      if (!this._cached_tree) {
+        var tree = Node.unpack(res.fetchedTree);
+        tree.setContext(this);
+        this._cached_tree = tree;
+      }
+      return this._cached_tree;
     } else {
       return this._cached_tree;
     }

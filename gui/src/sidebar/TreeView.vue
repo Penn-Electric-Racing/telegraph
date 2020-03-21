@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { Node } from 'telegraph'
+import { NodeQuery } from 'telegraph'
 
 import NodeView from './NodeView.vue'
 import TextField from '../components/TextField.vue';
@@ -21,14 +21,26 @@ export default {
   components: { NodeView, TextField },
   data () {
     return {
-      filter: ''
+      filter: '',
+      tree: null
     }
   },
-
   props: {
-    tree: Node,
+    treeQuery: NodeQuery,
     placeholder: { type: String, default: "Not Found" }
   },
+  created() {
+    if (this.treeQuery) {
+      this.tree = this.treeQuery.current;
+      this.treeQuery.updated.add((newTree) => { this.tree = newTree });
+    }
+  },
+  watch: {
+    treeQuery() {
+      this.tree = this.treeQuery.current;
+      this.treeQuery.updated.add((newTree) => { this.tree = newTree });
+    }
+  }
 }
 </script>
 

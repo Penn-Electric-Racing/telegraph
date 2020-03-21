@@ -46,6 +46,7 @@ export class Connection {
     this._counter = 0;
     this._countUp = countUp;
     this._ws = ws;
+    this._ws.binaryType = 'arraybuffer';
     this._ws.onclose = () => { 
       this._handlers.clear();
       // send back a null response to indicate connection closed

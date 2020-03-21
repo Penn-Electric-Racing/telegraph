@@ -68,6 +68,11 @@ namespace telegraph {
             websocket::stream_base::timeout::suggested(
                 beast::role_type::server));
         ws_.binary(true);
+        ws_.set_option(websocket::stream_base::decorator(
+            [](websocket::response_type& res) {
+                res.set(http::field::server, 
+                        std::string(BOOST_BEAST_VERSION_STRING) + " telegraph-server");
+            }));
         ws_.async_accept(
             beast::bind_front_handler(
                 &remote::on_accept,
@@ -96,19 +101,18 @@ namespace telegraph {
                 beast::error_code ec;
                 s->ws_.async_read(read_buf, yield[ec]);
 
-                if (ec && ec != websocket::error::closed 
-                       && ec != io::error::operation_aborted
-                       && ec != io::error::eof) {
-                    std::cerr << "error: " << ec.message() << std::endl;
+                if (ec && ec != websocket::error::closed
+                       && ec != io::error::not_connected // we get these on sudden disconnect
+                       && ec != io::error::connection_reset) { 
+                    std::cerr << "error: " << ec.message() << " " << ec << std::endl;
                 }
                 if (ec) break;
-
                 {
                     std::istream input_stream(&read_buf);
                     read_packet.ParseFromIstream(&input_stream);
                 }
+                // should be no bytes left but just in case
                 read_buf.consume(read_buf.size());
-
                 // handle the packets synchronously
                 // for now (TODO: Switch to parallel handling)
                 s->received(cyield, read_packet);
