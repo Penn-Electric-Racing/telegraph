@@ -5,7 +5,7 @@
 namespace telegraph {
     local_namespace::local_namespace(io::io_context& ioc) 
             : namespace_(),
-              ioc_(ioc), task_factories_(), context_factories_() {}
+              ioc_(ioc), component_factories_(), context_factories_() {}
 
     context_ptr 
     local_namespace::create_context(io::yield_ctx& yield, 
@@ -38,8 +38,8 @@ namespace telegraph {
         c->destroy(y);
     }
 
-    task_ptr 
-    local_namespace::create_task(io::yield_ctx& yield, 
+    component_ptr 
+    local_namespace::create_component(io::yield_ctx& yield, 
                 const std::string_view& name, const std::string_view& type, 
                 const params& p, sources_uuid_map&& srcs) {
         sources_map s;
@@ -54,8 +54,8 @@ namespace telegraph {
             }
         }
 
-        auto it = task_factories_.find(type);
-        if (it == task_factories_.end()) return nullptr;
+        auto it = component_factories_.find(type);
+        if (it == component_factories_.end()) return nullptr;
         else {
             auto c = (it->second)(yield, ioc_, name, type, p, std::move(s));
             if (c) c->reg(yield, shared_from_this());
@@ -64,8 +64,8 @@ namespace telegraph {
     }
 
     void 
-    local_namespace::destroy_task(io::yield_ctx& y, const uuid& u) {
-        task_ptr t = tasks->get(u);
+    local_namespace::destroy_component(io::yield_ctx& y, const uuid& u) {
+        component_ptr t = components->get(u);
         if (!t) return;
         t->destroy(y);
     }
@@ -120,24 +120,24 @@ namespace telegraph {
         s->mounts->remove_by_key_(m);
     }
 
-    local_task::local_task(io::io_context& ioc, const std::string_view& name, 
+    local_component::local_component(io::io_context& ioc, const std::string_view& name, 
             const std::string_view& type, const params& p) 
-                : task(ioc, rand_uuid(), name, type, p), ns_() {}
+                : component(ioc, rand_uuid(), name, type, p), ns_() {}
 
     void
-    local_task::reg(io::yield_ctx& yield, const std::shared_ptr<local_namespace>& ns) {
+    local_component::reg(io::yield_ctx& yield, const std::shared_ptr<local_namespace>& ns) {
         auto s = ns_.lock();
-        if (s) throw missing_error("task already registered");
-        if (!ns) throw missing_error("cannot register task in null namespace");
+        if (s) throw missing_error("component already registered");
+        if (!ns) throw missing_error("cannot register component in null namespace");
         ns_ = ns;
-        ns->tasks->add_(shared_from_this());
+        ns->components->add_(shared_from_this());
     }
 
     void
-    local_task::destroy(io::yield_ctx& yield) {
+    local_component::destroy(io::yield_ctx& yield) {
         auto s = ns_.lock();
         if (!s) return;
-        s->tasks->remove_by_key_(get_uuid());
+        s->components->remove_by_key_(get_uuid());
         ns_.reset();
         destroyed();
     }

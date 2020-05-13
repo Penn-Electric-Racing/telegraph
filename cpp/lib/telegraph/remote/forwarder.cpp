@@ -15,10 +15,10 @@ namespace telegraph {
         // set the handlers
         conn_.set_handler(api::Packet::kQueryNs, 
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_query_ns(c, p); });
-        conn_.set_handler(api::Packet::kQueryTask,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_query_task(c, p); });
-        conn_.set_handler(api::Packet::kQueryContext,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_query_context(c, p); });
+        conn_.set_handler(api::Packet::kStreamComponent,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_stream_component(c, p); });
+        conn_.set_handler(api::Packet::kStreamContext,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_stream_context(c, p); });
 
         conn_.set_handler(api::Packet::kFetchTree, 
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_fetch_tree(c, p); });
@@ -30,12 +30,12 @@ namespace telegraph {
 
         conn_.set_handler(api::Packet::kCreateContext,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_create_context(c, p); });
-        conn_.set_handler(api::Packet::kCreateTask,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_create_task(c, p); });
+        conn_.set_handler(api::Packet::kCreateComponent,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_create_component(c, p); });
         conn_.set_handler(api::Packet::kDestroyContext,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy_context(c, p); });
-        conn_.set_handler(api::Packet::kDestroyTask,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy_task(c, p); });
+        conn_.set_handler(api::Packet::kDestroyComponent,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy_component(c, p); });
 
         conn_.set_handler(api::Packet::kChangeSub,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_change_sub(c, p); });
@@ -47,11 +47,6 @@ namespace telegraph {
         conn_.set_handler(api::Packet::kDataQuery,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_data_query(c, p); });
 
-        conn_.set_handler(api::Packet::kStartTask,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_start_task(c, p); });
-        conn_.set_handler(api::Packet::kStopTask,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_stop_task(c, p); });
-
     }
 
     forwarder::~forwarder() {
@@ -59,7 +54,7 @@ namespace telegraph {
         if (!ns_) return;
 
         auto c = ns_->contexts;
-        auto t = ns_->tasks;
+        auto t = ns_->components;
         auto m = ns_->mounts;
 
         c->added.remove(this);
@@ -84,10 +79,10 @@ namespace telegraph {
         api::Namespace* ns = res.mutable_ns();
 
         auto c = ns_->contexts;
-        auto t = ns_->tasks;
+        auto t = ns_->components;
         auto m = ns_->mounts;
 
-        // dump all the contexts/tasks/mounts
+        // dump all the contexts/components/mounts
         for (const auto& i : *c) {
             auto& ctx = i.second;
             std::string uuid = boost::lexical_cast<std::string>(ctx->get_uuid());
@@ -100,15 +95,15 @@ namespace telegraph {
             ctx->get_params().pack(p);
         }
         for (const auto& i : *t) {
-            auto& task = i.second;
-            std::string uuid = boost::lexical_cast<std::string>(task->get_uuid());
+            auto& component = i.second;
+            std::string uuid = boost::lexical_cast<std::string>(component->get_uuid());
 
-            api::Task* ta = ns->add_tasks();
+            api::Component* ta = ns->add_components();
             ta->set_uuid(std::move(uuid));
-            ta->set_name(task->get_name());
-            ta->set_type(task->get_type());
+            ta->set_name(component->get_name());
+            ta->set_type(component->get_type());
             api::Params* p = ta->mutable_params();
-            task->get_params().pack(p);
+            component->get_params().pack(p);
         }
         for (const auto& i : *m) {
             auto& mount = i.second;
@@ -141,21 +136,21 @@ namespace telegraph {
             conn_.write_back(req_id, std::move(res));
         });
 
-        t->added.add(this, [this, req_id] (const task_ptr& task) {
+        t->added.add(this, [this, req_id] (const component_ptr& component) {
             api::Packet res;
-            api::Task* t = res.mutable_task_added();
-            std::string uuid = boost::lexical_cast<std::string>(task->get_uuid());
+            api::Component* t = res.mutable_component_added();
+            std::string uuid = boost::lexical_cast<std::string>(component->get_uuid());
             t->set_uuid(std::move(uuid));
-            t->set_name(task->get_name());
-            t->set_type(task->get_type());
+            t->set_name(component->get_name());
+            t->set_type(component->get_type());
             api::Params* p = t->mutable_params();
-            task->get_params().pack(p);
+            component->get_params().pack(p);
             conn_.write_back(req_id, std::move(res));
         });
-        t->removed.add(this, [this, req_id] (const task_ptr& task) {
+        t->removed.add(this, [this, req_id] (const component_ptr& component) {
             api::Packet res;
-            std::string u = boost::lexical_cast<std::string>(task->get_uuid());
-            res.set_task_removed(std::move(u));
+            std::string u = boost::lexical_cast<std::string>(component->get_uuid());
+            res.set_component_removed(std::move(u));
             conn_.write_back(req_id, std::move(res));
         });
         m->added.add(this, [this, req_id] (const mount_info& m) {
@@ -319,55 +314,23 @@ namespace telegraph {
     }
 
     void
-    forwarder::handle_start_task(io::yield_ctx& c, const api::Packet& p) {
+    forwarder::handle_stream_context(io::yield_ctx& c, const api::Packet& p) {
         try {
             int32_t req_id = p.req_id();
-            uuid u = boost::lexical_cast<uuid>(p.start_task());
-            auto task = ns_->tasks->get(u);
-            if (!task) throw missing_error("no such task");
-            task->start(c);
-            api::Packet res;
-            res.set_success(true);
-            conn_.write_back(req_id, std::move(res));
-        } catch (const error& e) {
-            reply_error(p, e);
-        }
-    }
-
-    void
-    forwarder::handle_stop_task(io::yield_ctx& c, const api::Packet& p) {
-        try {
-            int32_t req_id = p.req_id();
-            uuid u = boost::lexical_cast<uuid>(p.stop_task());
-            auto task = ns_->tasks->get(u);
-            if (!task) throw missing_error("no such task");
-            task->stop(c);
-            api::Packet res;
-            res.set_success(true);
-            conn_.write_back(req_id, std::move(res));
-        } catch (const error& e) {
-            reply_error(p, e);
-        }
-    }
-
-    void
-    forwarder::handle_query_context(io::yield_ctx& c, const api::Packet& p) {
-        try {
-            int32_t req_id = p.req_id();
-            const auto& req = p.query_context();
+            const auto& req = p.stream_context();
             uuid u = boost::lexical_cast<uuid>(req.uuid());
             params par{req.params()};
 
             auto ctx = ns_->contexts->get(u);
             if (!ctx) throw missing_error("no such context");
-            params_stream_ptr s = ctx->query(c, par);
+            params_stream_ptr s = ctx->stream(c, par);
 
             streams_.emplace(std::make_pair(req_id, std::move(s)));
 
             s->set_pipe([this, req_id] (params&& p) {
                 // write an update packet
                 api::Packet update;
-                p.move(update.mutable_query_update());
+                p.move(update.mutable_stream_update());
                 conn_.write_back(req_id, std::move(update));
             }, [this, req_id]() {
 
@@ -394,23 +357,23 @@ namespace telegraph {
     }
 
     void
-    forwarder::handle_query_task(io::yield_ctx& c, const api::Packet& p) {
+    forwarder::handle_stream_component(io::yield_ctx& c, const api::Packet& p) {
         try {
             int32_t req_id = p.req_id();
-            const auto& req = p.query_task();
+            const auto& req = p.stream_component();
             uuid u = boost::lexical_cast<uuid>(req.uuid());
             params par{req.params()};
 
-            auto task = ns_->tasks->get(u);
-            if (!task) throw missing_error("no such task");
-            params_stream_ptr s = task->query(c, par);
+            auto component = ns_->components->get(u);
+            if (!component) throw missing_error("no such component");
+            params_stream_ptr s = component->stream(c, par);
 
             streams_.emplace(std::make_pair(req_id, std::move(s)));
 
             s->set_pipe([this, req_id] (params&& p) {
                 // write an update packet
                 api::Packet update;
-                p.move(update.mutable_query_update());
+                p.move(update.mutable_stream_update());
                 conn_.write_back(req_id, std::move(update));
             }, [this, req_id]() {
 
@@ -513,10 +476,10 @@ namespace telegraph {
     }
 
     void
-    forwarder::handle_create_task(io::yield_ctx& yield, const api::Packet& p) {
+    forwarder::handle_create_component(io::yield_ctx& yield, const api::Packet& p) {
         try {
             int32_t req_id = p.req_id();
-            const auto& c = p.create_context();
+            const auto& c = p.create_component();
             const std::string& name = c.name();
             const std::string& type = c.type();
             params par{c.params()};
@@ -531,13 +494,13 @@ namespace telegraph {
                     m.emplace(std::make_pair(se.key(), std::move(n)));
                 }
             }
-            task_ptr n = ns_->create_task(yield, name, type, par, std::move(m));
+            component_ptr n = ns_->create_component(yield, name, type, par, std::move(m));
             api::Packet res;
             if (!n) {
                 res.set_success(false);
             } else {
                 std::string u = boost::lexical_cast<std::string>(n->get_uuid());
-                res.set_task_created(std::move(u));
+                res.set_component_created(std::move(u));
             }
             conn_.write_back(req_id, std::move(res));
         } catch (const error& e) {
@@ -550,6 +513,6 @@ namespace telegraph {
     }
 
     void
-    forwarder::handle_destroy_task(io::yield_ctx& c, const api::Packet& p) {
+    forwarder::handle_destroy_component(io::yield_ctx& c, const api::Packet& p) {
     }
 }

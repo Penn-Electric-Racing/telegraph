@@ -3,5 +3,6 @@ export { Type, Value, Node, Group,
 export { Client } from './lib/client.mjs'
 export { NamespaceQuery, NodeQuery,
          ContextQuery, ContextsQuery,
-         TaskQuery, TasksQuery,
+         ComponentQuery, ComponentsQuery,
          MountQuery, MountsQuery } from './lib/query.mjs'
+export { Namespace, Context, Component } from './lib/namespace.mjs'

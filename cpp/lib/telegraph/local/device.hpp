@@ -37,9 +37,9 @@ namespace telegraph {
         };
 
         std::unordered_map<uint32_t, req> reqs_;
-        
+
         // subscription adapters
-        // std::unordered_map<node::id, adapter> adapters_;
+        std::unordered_map<node::id, std::shared_ptr<adapter_base>> adapters_;
 
         io::serial_port port_;
     public:
@@ -51,7 +51,7 @@ namespace telegraph {
         void init(io::yield_ctx&);
 
         // no querying
-        params_stream_ptr query(io::yield_ctx&, const params& p) { return nullptr; }
+        params_stream_ptr stream(io::yield_ctx&, const params& p) { return nullptr; }
 
         subscription_ptr subscribe(io::yield_ctx& ctx, const variable* v,
                                 float min_interval, float max_interval, 
@@ -115,16 +115,13 @@ namespace telegraph {
         void on_read(stream::Packet&& p);
     };
 
-    class device_scan_task : public local_task {
+    class device_scanner : public local_component {
     public:
-        device_scan_task(io::io_context& ioc, const std::string_view& name);
+        device_scanner(io::io_context& ioc, const std::string_view& name);
 
-        void start(io::yield_ctx&) override;
-        void stop(io::yield_ctx&) override;
+        params_stream_ptr stream(io::yield_ctx&, const params& p) override;
 
-        params_stream_ptr query(io::yield_ctx&, const params& p) override;
-
-        static local_task_ptr create(io::yield_ctx&, io::io_context& ioc, 
+        static local_component_ptr create(io::yield_ctx&, io::io_context& ioc, 
                 const std::string_view& type, const std::string_view& name,
                 const params& p, const sources_map& srcs);
     };

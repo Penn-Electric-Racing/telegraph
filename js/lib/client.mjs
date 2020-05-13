@@ -4,6 +4,7 @@ import { Collection } from './collection.mjs'
 import { Connection, Params } from './connection.mjs'
 import WebSocket from 'isomorphic-ws'
 import { NamespaceQuery } from './query.mjs'
+import { Component, Context, Namespace } from './namespace.mjs'
 
 function checkError(packet) {
   if (packet.error) throw new Error(packet.error);
@@ -11,12 +12,13 @@ function checkError(packet) {
 }
 
 // A client implements the namespace API
-export class Client {
+export class Client extends Namespace {
   constructor() {
+    super();
     this._conn = null;
 
     this.contexts = new Collection();
-    this.tasks = new Collection();
+    this.components = new Collection();
     this.mounts = new Collection();
   }
 
@@ -32,8 +34,9 @@ export class Client {
       this._conn = new Connection(new WebSocket(address), true);
       this._conn.onClose.add(() => {
         this.contexts._clear();
-        this.tasks._clear();
+        this.components._clear();
         this.mounts._clear();
+        this._conn = null;
       });
       await this._conn.connect();
       await this._queryNS();
@@ -62,7 +65,7 @@ export class Client {
   async _queryNS() {
     // send a queryNs
     var nsRes = await this._conn.requestStream({queryNs: {}}, (packet) => {
-        // handle Context/Task/Mount added/removed
+        // handle Context/Component/Mount added/removed
         if (packet.contextAdded) {
           let c = packet.contextAdded;
           this.contexts._add(new RemoteContext(this, c.uuid, c.name, c.type, Params.unpack(c.params)));
@@ -70,12 +73,12 @@ export class Client {
         } else if (packet.contextRemoved) {
           this.contexts._removeUUID(packet.contextRemoved);
 
-        } else if (packet.taskAdded) {
-          let t = packet.taskAdded;
-          this.tasks._add(new RemoteTask(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
+        } else if (packet.componentAdded) {
+          let t = packet.componentAdded;
+          this.components._add(new RemoteComponent(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
 
-        } else if (packet.taskRemoved) {
-          this.tasks._removeUUID(packet.contextRemoved);
+        } else if (packet.componentRemoved) {
+          this.components._removeUUID(packet.contextRemoved);
 
         } else if (packet.mountAdded) {
           var m = packet.mountAdded;
@@ -92,8 +95,8 @@ export class Client {
     for (let c of nsRes.ns.contexts) {
       this.contexts._add(new RemoteContext(this, c.uuid, c.name, c.type, Params.unpack(c.params)));
     }
-    for (let t of nsRes.ns.tasks) {
-      this.tasks._add(new RemoteTask(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
+    for (let t of nsRes.ns.components) {
+      this.components._add(new RemoteComponent(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
     }
     for (let m of nsRes.ns.mounts) {
       this.mounts._add({ uuid : m.src + '/' + m.tgt, src: m.src, tgt: m.tgt });
@@ -107,42 +110,43 @@ export class Client {
         name: name,
         type: type,
         params: Params.pack(params),
-        srcs: convertedSrcs
+        sources: convertedSrcs
       }
     }
     var res = await this._conn.requestResponse(msg);
     checkError(res);
-    if (res.succes == false) return null;
-    if (!res.contextCreated) throw new Error("unexpected response: " + res);
+    if (res.success == false) return null;
+    if (!res.contextCreated) throw new Error("unexpected response: " + JSON.stringify(res));
     return this.contexts.get(res.contextCreated);
   }
 
-  async createTask(name, type, params={}, srcs={}) {
+  async createComponent(name, type, params={}, srcs={}) {
     var convertedSrcs = {}
     var msg = {
-      createTask: {
+      createComponent: {
         name: name,
         type: type,
         params: Params.pack(params),
-        srcs: convertedSrcs
+        sources: convertedSrcs
       }
     }
     var res = await this._conn.requestResponse(msg);
     checkError(res);
-    if (res.succes == false) return null;
-    if (!res.taskCreated) throw new Error("unexpected response: " + res);
-    return this.tasks.get(res.taskCreated);
+    if (res.success == false) return null;
+    if (!res.componentCreated) throw new Error("unexpected response: " + JSON.stringify(res));
+    return this.components.get(res.componentCreated);
   }
 }
 
-class RemoteContext {
+class RemoteContext extends Context {
   constructor(ns, uuid, name, type, params) {
+    super();
     this.ns = ns;
     this.uuid = uuid;
     this.name = name;
     this.type = type;
     this.params = params;
-
+    this._adapters = new Map();
   }
 
   // will use locally-cached copy, re-fetch otherwise
@@ -168,12 +172,27 @@ class RemoteContext {
     }
   }
 
+  async subscribe(variable, minInterval, maxInterval, timeout) {
+    return await this.subscribePath(variable.path(), minInterval, maxInterval, timeout);
+  }
+
+  async subscribePath(path, minInterval, maxInterval, timeout) {
+    var key = path.join('/');
+    var adapter = this._adapters.get(key);
+    if (!adapter) {
+      adapter = new Adapter();
+      adapter.onClose.add(() => this.adapters_.delete(key));
+      this._adapters.set(key, adapter);
+    }
+  }
+
   async destroy() {
   }
 }
 
-class RemoteTask {
+class RemoteComponent extends Component {
   constructor(ns, uuid, name, type, params) {
+    super();
     this.ns = ns;
     this.uuid = uuid;
     this.name = name;

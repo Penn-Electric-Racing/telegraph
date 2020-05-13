@@ -17,9 +17,9 @@ namespace telegraph {
             min_interval_(min_interval), max_interval_(max_interval) {}
 
         /**
-         * On destruction cancelled() should still be triggered
+         * On destruction cancel() should be triggered
          */
-        virtual ~subscription() = 0;
+        virtual ~subscription() {}
 
         constexpr const type& get_type() const { return type_; }
         constexpr float get_min_interval() const { return min_interval_; }
@@ -33,6 +33,7 @@ namespace telegraph {
         virtual void change(io::yield_ctx&, float min_interval, 
                             float max_interval, float timeout) = 0;
         virtual void cancel(io::yield_ctx& yield, float timeout) = 0;
+        virtual void cancel() = 0; // cancel immediately
 
         signal<value> data;
         signal<> cancelled;

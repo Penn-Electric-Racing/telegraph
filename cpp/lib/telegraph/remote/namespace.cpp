@@ -29,9 +29,9 @@ namespace telegraph {
         if (res.payload_case() != api::Packet::kNs) {
             throw remote_error("did not get namespace response!");
         }
-        // unpack the contexts/tasks/mounts
+        // unpack the contexts/components/mounts
 
-        // add listeners for add/remove of contexts/tasks/mounts
+        // add listeners for add/remove of contexts/components/mounts
     }
 
     bool
@@ -56,15 +56,15 @@ namespace telegraph {
     remote_namespace::destroy_context(io::yield_ctx&, const uuid& u) {
     }
 
-    task_ptr
-    remote_namespace::create_task(io::yield_ctx& yield,
+    component_ptr
+    remote_namespace::create_component(io::yield_ctx& yield,
             const std::string_view& name, const std::string_view& type,
             const params& p, sources_uuid_map&& srcs) {
         return nullptr;
     }
 
     void
-    remote_namespace::destroy_task(io::yield_ctx&, const uuid& u) {
+    remote_namespace::destroy_component(io::yield_ctx&, const uuid& u) {
     }
 
     // remote_context functions

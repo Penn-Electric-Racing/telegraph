@@ -27,8 +27,8 @@ namespace telegraph {
     class data_query;
     using data_query_ptr = std::unique_ptr<data_query>;
 
-    class task;
-    using task_ptr = std::shared_ptr<task>;
+    class component;
+    using component_ptr = std::shared_ptr<component>;
 
     class context;
     using context_ptr = std::shared_ptr<context>;
@@ -57,12 +57,12 @@ namespace telegraph {
         // to go through these variables!
         collection_ptr<mount_info> mounts;
         collection_ptr<context_ptr> contexts;
-        collection_ptr<task_ptr> tasks;
+        collection_ptr<component_ptr> components;
 
         namespace_() {
             mounts = std::make_shared<collection<mount_info>>();
             contexts = std::make_shared<collection<context_ptr>>();
-            tasks = std::make_shared<collection<task_ptr>>();
+            components = std::make_shared<collection<component_ptr>>();
         }
 
         virtual context_ptr create_context(io::yield_ctx&, 
@@ -71,16 +71,16 @@ namespace telegraph {
 
         virtual void destroy_context(io::yield_ctx&, const uuid& u) = 0;
 
-        virtual task_ptr create_task(io::yield_ctx&, 
+        virtual component_ptr create_component(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
                     const params& p, sources_uuid_map&& srcs) = 0;
 
-        virtual void destroy_task(io::yield_ctx&, const uuid& u) = 0;
+        virtual void destroy_component(io::yield_ctx&, const uuid& u) = 0;
     };
 
-    class task : public std::enable_shared_from_this<task> {
+    class component : public std::enable_shared_from_this<component> {
     public:
-        inline task(io::io_context& ioc, 
+        inline component(io::io_context& ioc, 
                 uuid id, const std::string_view& name, 
                 const std::string_view& type, const params& p) : 
                     ioc_(ioc), uuid_(id), 
@@ -96,10 +96,7 @@ namespace telegraph {
         const params& get_params() const { return params_; }
         const uuid& get_uuid() const { return uuid_; }
 
-        virtual void start(io::yield_ctx&) = 0;
-        virtual void stop(io::yield_ctx&) = 0;
-
-        virtual params_stream_ptr query(io::yield_ctx&, const params& p) = 0;
+        virtual params_stream_ptr stream(io::yield_ctx&, const params& p) = 0;
 
         virtual void destroy(io::yield_ctx& y) = 0;
 
@@ -133,7 +130,7 @@ namespace telegraph {
         const params& get_params() const { return params_; }
         const uuid& get_uuid() const { return uuid_; }
 
-        virtual params_stream_ptr query(io::yield_ctx&, const params& p) = 0;
+        virtual params_stream_ptr stream(io::yield_ctx&, const params& p) = 0;
 
         virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
 
@@ -183,9 +180,9 @@ namespace telegraph {
             }
         };
     template<>
-        struct collection_key<std::shared_ptr<task>> {
+        struct collection_key<std::shared_ptr<component>> {
             typedef uuid type;
-            static uuid get(const std::shared_ptr<task>& t) {
+            static uuid get(const std::shared_ptr<component>& t) {
                 return t->get_uuid(); 
             }
         };

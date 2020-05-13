@@ -31,7 +31,7 @@ namespace telegraph {
                     return *this;
                 }
 
-                void operator()(T&&... v) const { 
+                void operator()(T... v) const { 
                     // by maintaining an iterator ahead of the current
                     // one you can safely remove the listener currently
                     // being called while we iterate through the map

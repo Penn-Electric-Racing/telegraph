@@ -42,6 +42,7 @@
           <div v-show="activeSidebar=='contexts'">
             Contexts
           </div>
+          <ComponentsPage v-show="activeSidebar=='components'" :nsQuery="nsQuery"/>
           <LivePage v-show="activeSidebar=='live'" :nsQuery="nsQuery"/>
         </TabArea>
       </div>
@@ -53,9 +54,8 @@
                    :nsQuery="nsQuery"
                    :key="tab.id"
                    @renamed="(name) => {renameTab(tab.id, name)}"
-                   v-for="tab in tabs"
-                   v-show="tab.id==activeTab"
-                   v-if="tab.id==activeTab || !tab.offload"/>
+                   v-for="tab in loadedTabs"
+                   v-show="tab.id==activeTab"/>
       </TabArea>
     </div>
   </div>
@@ -68,6 +68,7 @@ import TabArea from './components/TabArea.vue'
 import FlatButton from './components/FlatButton.vue'
 
 import LivePage from './sidebar/LivePage.vue'
+import ComponentsPage from './sidebar/ComponentsPage.vue'
 
 // interface components
 import Burger from './sidebar/Burger.vue'
@@ -75,7 +76,7 @@ import Dashboard from './dashboard/Dashboard.vue'
 
 import uuidv4 from 'uuid/v4';
 
-import { Client } from 'telegraph'
+import { Client, NamespaceQuery } from 'telegraph'
 
 export default {
   name: 'App',
@@ -86,9 +87,10 @@ export default {
       sidebarWidth: null,
       sidebarHeaders: [
                        {"icon":"wifi", "id": "live"}, 
-                       {"icon":"box", "id": "contexts"}, 
-                       {"icon":"edit", "id": "logs"},
                        {"icon":"columns", "id": "dashboards"}, 
+                       {"icon":"edit", "id": "logs"},
+                       {"icon":"box", "id": "contexts"}, 
+                       {"icon":"tasks", "id": "components"}, 
                        {"icon":"cogs", "id": "settings"}, 
                       ], 
       activeSidebar: "live",
@@ -103,14 +105,27 @@ export default {
       activeTab: null, // the active tab ID
 
       namespace: namespace,
-      nsQuery: namespace.query(),
+      nsQuery: new NamespaceQuery(),
       relay: null
+    }
+  },
+
+  computed : {
+    loadedTabs() {
+      let loaded = [];
+      for (let t of this.tabs) {
+        if (t == this.activeTab || !t.offloaded) {
+          loaded.push(t);
+        }
+      }
+      return loaded;
     }
   },
 
   components: {
     TabSwitcher, TabArea,
-    LivePage, FlatButton,
+    LivePage, ComponentsPage,
+    FlatButton,
 
     Burger, Dashboard
   },
@@ -157,9 +172,12 @@ export default {
         // connect with the client
         try {
           await this.namespace.connect('ws://localhost:8081');
+          this.nsQuery.update(this.namespace);
           await this.namespace.wait(); // wait until done
+          this.nsQuery.update(null); // set namespace to null
         } catch (e) {
-          console.log('failed to connect, retrying...', e)
+          console.log('failed to connect, retrying...');
+          console.log(e)
         }
         // try and reconnect every 5 seconds after losing connection
         await new Promise((res, rej) => setTimeout(res, 5000));
