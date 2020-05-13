@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import TreeView from './TreeView.vue'
+import TreeView from '../views/TreeView.vue'
 
 import ComboBox from '../components/ComboBox.vue'
 import Button from '../components/Button.vue'

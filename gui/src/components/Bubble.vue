@@ -1,11 +1,18 @@
 <template>
   <div class="bubble" ref="bubble">
-    <div class="bubble-header">
-      {{ header }}
+    <div class="bubble-stack">
+      <div class="bubble-header">
+        <slot name="header">
+        </slot>
+      </div>
+      <div class="bubble-content" v-if="hasContent">
+        <slot name="content">
+        </slot>
+      </div>
     </div>
-    <div class="bubble-content" v-if="hasContent">
-      <slot name="content">
-      </slot>
+    <div class="bubble-sidebar" v-if="hasSidebar">
+        <slot name="sidebar">
+        </slot>
     </div>
   </div>
 </template>
@@ -15,9 +22,9 @@
   export default {
     name: 'Bubble',
     props: {
-      header: String,
       draggable: { type: Boolean, default: false },
       hasContent: { type: Boolean, default: false },
+      hasSidebar: { type: Boolean, default: false },
       dragData: { type: Object, default: null }
     },
     mounted() {
@@ -79,6 +86,17 @@
     overflow: hidden;
     touch-action: none;
     margin: 10px 2px 10px 2px;
+
+    display: flex;
+    flex-direction: row;
+  }
+  .bubble-stack {
+    width: 100%;
+  }
+  .bubble-sidebar {
+    width: 32px;
+    display: flex;
+    flex-direction: column;
   }
   .bubble-header {
     background-color: #272c30;

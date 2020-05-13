@@ -1,19 +1,29 @@
 <template>
     <div class="components-page">
-        <ComponentView v-for="component in components" 
-                    :key="component.uuid"
-                    :component="component"/>
+        <div class="components">
+            <ComponentView v-for="component in components" 
+                        :key="component.uuid"
+                        :component="component"/>
+        </div>
+        <Bubble @click="createNew" class="plus-bubble">
+            <template v-slot:header>
+                <div class="plus">
+                    <font-awesome-icon icon="plus"/>
+                </div>
+            </template>
+        </Bubble>
     </div>
 </template>
 
 <script>
-import ComponentView from './ComponentView.vue'
+import ComponentView from '../views/ComponentView.vue'
+import Bubble from '../components/Bubble.vue'
 
 import { NamespaceQuery } from 'telegraph'
 
 export default {
     name: 'ComponentsPage',
-    components: {ComponentView},
+    components: {ComponentView, Bubble},
     props: {
         nsQuery: NamespaceQuery
     },
@@ -26,11 +36,15 @@ export default {
     created() {
         if (this.nsQuery) {
             this.componentCollection = this.nsQuery.components.collect();
-            console.log(this.nsQuery);
             this.componentCollection.added.add(x => this.components.push(x));
             this.componentCollection.removed.add(x => this.components.splice(this.components.indexOf(x), 1));
         } else {
             this.componentCollection = null;
+        }
+    },
+    methods: {
+        createNew() {
+            console.log("creating!");
         }
     },
     watch: {
@@ -54,5 +68,21 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: stretch;
+    }
+    .components {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .plus {
+        font-size: 1.2rem;
+        text-align: center;
+    }
+    .plus-bubble {
+        transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+    }
+    .plus-bubble:hover {
+        color: #1c8ed7;
     }
 </style>
