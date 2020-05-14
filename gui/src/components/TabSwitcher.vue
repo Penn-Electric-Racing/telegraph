@@ -15,8 +15,6 @@
         <font-awesome-icon icon="times"/>
       </span>
     </div>
-    <div class="plus">
-    </div>
   </div>
 </template>
 
@@ -41,11 +39,9 @@
         e.srcElement.contentEditable = false;
         this.renameTab(id, e.srcElement.textContent);
       },
-
       enter(e, id) {
         this.requestStopEdit(e, id);
       },
-
       selectTab(id) {
         this.$emit('selected', id)
       },

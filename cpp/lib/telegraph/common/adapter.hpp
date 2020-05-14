@@ -4,84 +4,247 @@
 #include <deque>
 #include <functional>
 #include <unordered_set>
+#include <memory>
 
 #include "data.hpp"
-#include "../utils/io_fwd.hpp"
 
+#include "../utils/io.hpp"
+#include <boost/asio/error.hpp>
+#include <boost/asio/dispatch.hpp>
 #include <boost/asio/deadline_timer.hpp>
 
 namespace telegraph {
-
-
-    /**
-     * An adapter can multiplex multiple subscriptions
-     * over another subscription
-     */
-    /*
-    class adapter {
-    private:
-        class sub : public subscription {
-            friend class adapter;
-        public:
-            inline sub(adapter* a, 
-                    interval min_interval, 
-                    interval max_interval) 
-                : subscription(min_interval, max_interval),
-                  adapter_(a), req_min_(min_interval), 
-                  req_max_(max_interval) {}
-
-            void change(io::yield_ctx& yield, 
-                    interval min_interval, interval max_interval, 
-                    interval timeout) override;
-
-            void cancel(io::yield_ctx& yield, interval timeout) override;
-            void cancel() override;
-        private:
-            void update(value v);
-            void set_cancelled();
-
-            adapter* adapter_;
-            interval req_min_;
-            interval req_max_;
-        };
-        std::function<bool(io::yield_ctx&, interval, interval, interval)> change_sub_;
-        std::function<bool(io::yield_ctx&, interval)> cancel_sub_;
+    // adapters and variables are subscription providers
+    class adapter_base {
     public:
-        adapter(io::io_context& ioc, 
-                const std::function<bool(io::yield_ctx&, interval, interval, 
-                                        interval timeout)>& change,
-                const std::function<bool(io::yield_ctx&, interval timeout)> cancel,
-                const std::function<void()> cancel_imm);
-
-        // on update
-        void update(value v);
-
-        subscription_ptr subscribe(io::yield_ctx& yield, 
-                interval min_interval, interval max_interval, 
-                interval timeout=1000);
-    private:
-        void failure(io::yield_ctx&);
-        bool change(io::yield_ctx&, interval new_min, 
-                interval new_max, interval timeout);
-        bool cancel(io::yield_ctx&, sub* s, interval timeout);
-        void cancel(sub* s);
-
-        io::io_context& ioc_;
-
-
-        bool subscribed_;
-        interval min_interval_;
-        interval max_interval_;
-
-        bool running_op_;
-        std::deque<io::deadline_timer*> waiting_ops_;
-
-        std::unordered_set<sub*> subs_;
-
-        // we keep this around to send when a new subscriber connects
-        value last_val_; 
+        virtual ~adapter_base() {}
+        // return null on failure
+        virtual subscription_ptr subscribe(io::yield_ctx& yield, 
+                float min_interval, float max_interval, float timeout) = 0;
+        virtual void update(value v) = 0;
     };
-    */
+
+    template<typename ChangeFunc, typename CancelFunc>
+        class adapter : public adapter_base,
+                        public std::enable_shared_from_this<adapter<ChangeFunc, CancelFunc>> {
+        private:
+            friend class sub;
+            using wadapter_ptr = std::weak_ptr<adapter<ChangeFunc, CancelFunc>>;
+            class sub : public subscription {
+                friend class adapter;
+            private:
+                wadapter_ptr adapter_;
+                std::chrono::time_point<std::chrono::system_clock> last_update_;
+            public:
+                sub(const wadapter_ptr& a, 
+                    type t, float min_interval, float max_interval) 
+                    : subscription(t, min_interval, max_interval),
+                      adapter_(a), last_update_() {}
+
+                // on destruct do immediate cancel
+                ~sub() {
+                    cancel();
+                }
+
+                void change(io::yield_ctx& yield, 
+                        float min_interval, float max_interval, 
+                        float timeout) override {
+                    min_interval_ = min_interval;
+                    max_interval_ = max_interval;
+                    auto a = adapter_.lock();
+                    if (!a) return;
+                    a->change(yield, timeout);
+                }
+
+                void cancel(io::yield_ctx& yield, float timeout) override {
+                    if (!cancelled_) {
+                        cancelled_ = true;
+                        auto a = adapter_.lock();
+                        if (!a) return;
+                        a->cancel(yield, this, timeout);
+                        cancelled();
+                    }
+                }
+
+                void cancel() override {
+                    if (!cancelled_) {
+                        cancelled_ = true;
+                        auto a = adapter_.lock();
+                        if (!a) return;
+                        a->cancel(this);
+                        cancelled();
+                    }
+                }
+            private:
+                void update(const std::chrono::time_point<std::chrono::system_clock> tp, const value& v) {
+                    // check if enough time has expired to send another update
+                    // for this sub
+                    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(tp - last_update_);
+                    if (duration.count() > min_interval_*1000) {
+                        last_update_ = tp;
+                        data(v);
+                    }
+                }
+            };
+
+
+            io::io_context& ioc_;
+            type type_; // type of the variable
+
+            // current values
+            bool subscribed_;
+            float min_interval_;
+            float max_interval_;
+
+            // if an op is running
+            bool running_op_;
+            std::deque<io::deadline_timer*> waiting_ops_;
+            std::unordered_set<sub*> subs_;
+
+            ChangeFunc change_;
+            CancelFunc cancel_;
+        public:
+            adapter(io::io_context& ioc, type t, ChangeFunc change, CancelFunc cancel) :
+                    ioc_(ioc), type_(t), subscribed_(false),
+                    min_interval_(0), max_interval_(0), 
+                    running_op_(false), waiting_ops_(), subs_(),
+                    change_(change), cancel_(cancel) {}
+
+            // will push out an update...
+            void update(value v) override {
+                // push out values...
+                auto tp = std::chrono::system_clock::now();
+                for (sub* s : subs_) s->update(tp, v);
+            }
+
+            // will block until the change subscribe
+            // request goes through
+            subscription_ptr subscribe(io::yield_ctx& yield, 
+                    float min_interval, float max_interval, 
+                    float timeout) override {
+                // calculate new min_interval_
+                auto wp = std::enable_shared_from_this<
+                            adapter<ChangeFunc, CancelFunc>>::
+                                weak_from_this();
+                sub* s = new sub(wp,
+                    type_, min_interval, max_interval);
+                subs_.insert(s);
+                if (!change(yield, timeout)) {
+                    // create a new subscription object
+                    subs_.erase(s);
+                    return nullptr;
+                }
+                return std::unique_ptr<subscription>(s);
+            }
+        private:
+            bool change(io::yield_ctx& yield, float timeout) {
+                float new_min = std::numeric_limits<float>::max();
+                float new_max = 0;
+                // compute new min_intervals
+                for (sub* s : subs_) {
+                    float ma = s->get_max_interval();
+                    float mi = s->get_min_interval();
+                    if (mi < new_min) new_min = mi;
+                    if ((ma > 0 && ma < new_max) || new_max == 0) 
+                        new_max = ma;
+                }
+                // if we don't need a new subscription
+                if (subscribed_ && new_min == min_interval_ && 
+                    new_max == max_interval_) {
+                    return true;
+                }
+                // queue a request
+                if (running_op_) {
+                    // put in queue
+                    io::deadline_timer qt{ioc_};
+                    waiting_ops_.push_back(&qt);
+                    boost::system::error_code ec;
+                    qt.async_wait(yield.ctx[ec]);
+                    if (ec != io::error::operation_aborted) {
+                        waiting_ops_.erase(std::remove(waiting_ops_.begin(), 
+                                            waiting_ops_.end(), &qt), 
+                                                waiting_ops_.end());
+                        // if we timed out!
+                        return false;
+                    } else {
+                        // remove from front!
+                        waiting_ops_.pop_front();
+                    }
+                }
+                running_op_ = true;
+
+                bool s = change_(yield, new_min, new_max, timeout);
+
+                running_op_ = false;
+                // notify next person
+                if (waiting_ops_.size() > 0) {
+                    waiting_ops_.front()->cancel();
+                }
+
+                return s;
+            }
+
+            bool cancel(io::yield_ctx& yield, sub* s, float timeout) {
+                if (running_op_) {
+                    // put in queue
+                    io::deadline_timer qt{ioc_};
+                    waiting_ops_.push_back(&qt);
+                    boost::system::error_code ec;
+                    qt.async_wait(yield.ctx[ec]);
+                    if (ec != io::error::operation_aborted) {
+                        waiting_ops_.erase(std::remove(waiting_ops_.begin(), 
+                                            waiting_ops_.end(), &qt), 
+                                                waiting_ops_.end());
+                        // if we timed out!
+                        subs_.erase(s);
+                        return false;
+                    } else {
+                        // remove from front!
+                        waiting_ops_.pop_front();
+                    }
+                }
+                running_op_ = true;
+                subs_.erase(s);
+                bool success = true;
+                if (subs_.size() > 0) {
+                    float new_min = std::numeric_limits<float>::max();
+                    float new_max = 0;
+                    // compute new min_intervals
+                    for (sub* s : subs_) {
+                        float ma = s->get_max_interval();
+                        float mi = s->get_min_interval();
+                        if (mi < new_min) new_min = mi;
+                        if ((ma > 0 && ma < new_max) || new_max == 0) 
+                            new_max = ma;
+                    }
+                    // if we don't need a new subscription
+                    if (!subscribed_ || new_min != min_interval_ ||
+                            new_max != max_interval_) {
+                        success = change_(yield, new_min, new_max, timeout);
+                    }
+                } else {
+                    success = cancel_(yield, timeout);
+                }
+                running_op_ = false;
+                // notify next person
+                if (waiting_ops_.size() > 0) {
+                    waiting_ops_.front()->cancel();
+                }
+                return success;
+            }
+
+            // cancel immediately
+            void cancel(sub* s) {
+                auto sp = std::enable_shared_from_this<
+                            adapter<ChangeFunc, CancelFunc>>::
+                                shared_from_this();
+                subs_.erase(s);
+                io::spawn(ioc_, [sp, s] (io::yield_context yield) {
+                    io::yield_ctx y{yield};
+                    sp->cancel(y, s, 0.1); // 0.1 second timeout on cancel request
+                });
+            }
+        };
 }
 
 #endif

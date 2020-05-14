@@ -27,7 +27,7 @@ namespace telegraph {
     device::device(io::io_context& ioc, const std::string& name, const std::string& port, int baud)
             : local_context(ioc, name, "device", make_device_params(port, baud), nullptr), 
               write_queue_(), write_buf_(), read_buf_(),
-              req_id_(0), reqs_(),  // adapters_(),
+              req_id_(0), reqs_(), adapters_(),
               port_(ioc) {
         boost::system::error_code ec;
         port_.open(port, ec);
@@ -46,14 +46,16 @@ namespace telegraph {
         auto sthis = shared_device_this();
         io::dispatch(port_.get_executor(), [sthis] () { sthis->do_reading(0); });
 
-        io::deadline_timer timer(ioc_, boost::posix_time::milliseconds(1000));
-
-        uint32_t req_id = req_id_++;
+        io::deadline_timer timer(ioc_, 
+            boost::posix_time::milliseconds(1000));
+        uint32_t req_id = sthis->req_id_++;
         stream::Packet res;
-        reqs_.emplace(req_id, req(&timer, &res));
 
+        sthis->reqs_.emplace(req_id, req(&timer, &res));
+
+        // put in request
         io::dispatch(port_.get_executor(),
-                [sthis, &timer, &res, &req_id] () {
+                [sthis, req_id] () {
                     stream::Packet p;
                     p.set_req_id(req_id);
                     p.mutable_fetch_tree();
@@ -63,6 +65,7 @@ namespace telegraph {
         // need to handle error code
         boost::system::error_code ec;
         timer.async_wait(yield.ctx[ec]);
+        reqs_.erase(req_id);
         // if we timed out
         if (ec != io::error::operation_aborted) {
             throw io_error("timed out when connecting to " + params_.at("port").get<std::string>());
@@ -73,13 +76,96 @@ namespace telegraph {
         // create shared pointer from unpacked tree
         std::shared_ptr<node> tree(node::unpack(res.tree()));
         tree_ = tree;
-        reqs_.erase(req_id);
     }
 
     subscription_ptr 
-    device::subscribe(io::yield_ctx& ctx, const variable* v,
+    device::subscribe(io::yield_ctx& yield, const variable* v,
                         float min_interval, float max_interval, float timeout) {
-        // get the adapter from the variable!
+        // get the adapter for the variable
+        node::id id = v->get_id();
+        auto it = adapters_.find(id);
+        if (it == adapters_.end()) {
+            auto wp = std::weak_ptr<device>(shared_device_this());
+            auto change = [wp, id](io::yield_ctx& yield, float new_min, 
+                            float new_max, float timeout) -> bool {
+                // get a shared pointer to the device
+                // will be invalid if the device 
+                // has been destroyed
+                auto sthis = wp.lock();
+                if (!sthis) return false;
+
+                io::deadline_timer timer(sthis->ioc_, 
+                    boost::posix_time::milliseconds(1000));
+                uint32_t req_id = sthis->req_id_++;
+                stream::Packet res;
+
+                sthis->reqs_.emplace(req_id, req(&timer, &res));
+
+                // put in the request
+                io::dispatch(sthis->port_.get_executor(),
+                        [sthis, req_id, id, new_min, new_max, timeout] () {
+                            stream::Packet p;
+                            p.set_req_id(req_id);
+                            stream::Subscribe* s = p.mutable_change_sub();
+                            s->set_var_id(id);
+                            s->set_timeout((uint32_t) (1000*timeout));
+                            s->set_min_interval((uint32_t) (1000*new_min));
+                            s->set_max_interval((uint32_t) (1000*new_max));
+                            sthis->write_packet(std::move(p));
+                        });
+                // wait for response
+                boost::system::error_code ec;
+                timer.async_wait(yield.ctx[ec]);
+                sthis->reqs_.erase(req_id);
+                if (ec != io::error::operation_aborted) {
+                    // timed out!
+                    return false;
+                }
+                if (!res.success()) {
+                    return false;
+                }
+                return true;
+            };
+            auto cancel = [wp, id](io::yield_ctx& yield, 
+                                        float timeout) -> bool {
+                // do the subscribe
+                auto sthis = wp.lock();
+                if (!sthis) return false;
+
+                io::deadline_timer timer(sthis->ioc_, 
+                    boost::posix_time::milliseconds(1000));
+                uint32_t req_id = sthis->req_id_++;
+                stream::Packet res;
+
+                sthis->reqs_.emplace(req_id, req(&timer, &res));
+
+                // put in the request
+                io::dispatch(sthis->port_.get_executor(),
+                        [sthis, req_id, id, timeout] () {
+                            stream::Packet p;
+                            p.set_req_id(req_id);
+                            stream::Cancel * c = p.mutable_cancel_sub();
+                            c->set_var_id(id);
+                            c->set_timeout((uint32_t) (1000*timeout));
+                            sthis->write_packet(std::move(p));
+                        });
+                // wait for response
+                boost::system::error_code ec;
+                timer.async_wait(yield.ctx[ec]);
+                sthis->reqs_.erase(req_id);
+                if (ec != io::error::operation_aborted) {
+                    // timed out!
+                    return false;
+                }
+                if (!res.success()) {
+                    return false;
+                }
+                return true;
+            };
+            auto a = std::make_shared<adapter<decltype(change), decltype(cancel)>>(
+                                ioc_, v->get_type(), change, cancel);
+            adapters_.emplace(id, a);
+        }
         return nullptr;
     }
 
@@ -265,24 +351,22 @@ namespace telegraph {
 
     // the device scanner task that detects new ports
 
-    device_scan_task::device_scan_task(io::io_context& ioc, const std::string_view& name)
-                        : local_task(ioc, name, "device_scanner", params()) {}
+    device_scanner::device_scanner(io::io_context& ioc, const std::string_view& name)
+                        : local_component(ioc, name, "device_scanner", params()) {}
 
-    void
-    device_scan_task::start(io::yield_ctx& yield) {}
-
-    void
-    device_scan_task::stop(io::yield_ctx& yield) {}
 
     params_stream_ptr
-    device_scan_task::query(io::yield_ctx&yield , const params& p) {
-        return nullptr;
+    device_scanner::stream(io::yield_ctx& yield , const params& p) {
+        auto stream = std::make_unique<params_stream>();
+        stream->write(params{1});
+        stream->close();
+        return stream;
     }
 
-    local_task_ptr
-    device_scan_task::create(io::yield_ctx&, io::io_context& ioc,
+    local_component_ptr
+    device_scanner::create(io::yield_ctx&, io::io_context& ioc,
             const std::string_view& name, const std::string_view& type,
             const params& p, const sources_map& srcs) {
-        return std::make_shared<device_scan_task>(ioc, name);
+        return std::make_shared<device_scanner>(ioc, name);
     }
 }

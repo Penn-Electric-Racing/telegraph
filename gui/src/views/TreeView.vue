@@ -1,12 +1,10 @@
 <template>
   <div class="tree-view">
     <TextField class="tree-search" v-model="filter" placeholder="Enter Filter..."/>
-
-    <NodeView class="tree" :node="tree" v-if="tree != undefined"/>
-    <div class="tree-placeholder" v-else>
-      <p>{{ placeholder }}</p>
-    </div>
-
+    <ScrollPane v-if="tree != undefined">
+      <NodeView class="tree" :node="tree"/>
+    </ScrollPane>
+    <Placeholder v-else :text="placeholder"/>
   </div>
 </template>
 
@@ -15,10 +13,12 @@ import { NodeQuery } from 'telegraph'
 
 import NodeView from './NodeView.vue'
 import TextField from '../components/TextField.vue';
+import Placeholder from '../components/Placeholder.vue';
+import ScrollPane from '../components/ScrollPane.vue';
 
 export default {
   name: 'TreeView',
-  components: { NodeView, TextField },
+  components: { NodeView, TextField, Placeholder },
   data () {
     return {
       filter: '',
@@ -45,28 +45,7 @@ export default {
 </script>
 
 <style scoped>
-.tree-placeholder {
-  border: 2px dashed #5E6870;
-  border-radius: 16px;
-  box-sizing: border-box;
-
-  margin: 10px;
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: #5E687033;
-  font-size: 2rem;
-}
-
 .tree {
-  margin: 5px;
-}
-.tree-placeholder p {
-  text-align: center;
   margin: 5px;
 }
 .tree-view {

@@ -17,17 +17,18 @@
 
 namespace telegraph {
     class local_context;
-    class local_task;
+    class local_component;
     using local_context_ptr = std::shared_ptr<local_context>;
-    using local_task_ptr = std::shared_ptr<local_task>;
+    using local_component_ptr = std::shared_ptr<local_component>;
 
     class local_namespace : 
             public std::enable_shared_from_this<local_namespace>,
             public namespace_ {
         friend class local_context;
-        friend class local_task;
+        friend class local_component
+   ;
     private:
-        using task_factory = std::function<local_task_ptr(io::yield_ctx&,io::io_context&, 
+        using component_factory = std::function<local_component_ptr(io::yield_ctx&,io::io_context&, 
                                     const std::string_view&, const std::string_view&,
                                     const params&, sources_map&&)>;
 
@@ -36,14 +37,14 @@ namespace telegraph {
                                     const params&, sources_map&&)>;
 
         io::io_context& ioc_;
-        std::map<std::string, task_factory, std::less<>> task_factories_;
+        std::map<std::string, component_factory, std::less<>> component_factories_;
         std::map<std::string, context_factory, std::less<>> context_factories_;
     public:
         local_namespace(io::io_context& ioc);
 
         // add factories
-        void register_task_factory(const std::string& type, const task_factory& f) {
-            task_factories_.emplace(std::make_pair(type, f));
+        void register_component_factory(const std::string& type, const component_factory& f) {
+            component_factories_.emplace(std::make_pair(type, f));
         }
 
         void register_context_factory(const std::string& type, const context_factory& f) {
@@ -56,12 +57,12 @@ namespace telegraph {
                     const std::string_view& name, const std::string_view& type, 
                     const params& p, sources_uuid_map&& srcs) override;
 
-        task_ptr create_task(io::yield_ctx& yield, 
+        component_ptr create_component(io::yield_ctx& yield, 
                     const std::string_view& name, const std::string_view& type, 
                     const params& p, sources_uuid_map&& srcs) override;
 
         void destroy_context(io::yield_ctx& y, const uuid& u) override;
-        void destroy_task(io::yield_ctx& y, const uuid& u) override;
+        void destroy_component(io::yield_ctx& y, const uuid& u) override;
     };
 
     class local_context : public context {
@@ -87,9 +88,10 @@ namespace telegraph {
         std::weak_ptr<local_namespace> ns_;
     };
 
-    class local_task : public task {
+    class local_component : public component {
     public:
-        local_task(io::io_context& ioc, const std::string_view& name,
+        local_component
+   (io::io_context& ioc, const std::string_view& name,
                 const std::string_view& type, const params& i);
 
         std::shared_ptr<namespace_> get_namespace() override { return ns_.lock(); }

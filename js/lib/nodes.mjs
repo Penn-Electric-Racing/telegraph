@@ -142,8 +142,8 @@ export class Variable extends Node {
 
   getType() { return this._type; }
 
-  subscribe(minInterval, maxInterval) {
-    return this._ctx ? this._ctx.subscribe(this, minInterval, maxInterval) : null;
+  subscribe(minInterval, maxInterval, timeout=1) {
+    return this._ctx ? this._ctx.subscribe(this, minInterval, maxInterval, timeout) : null;
   }
 
   feed() {

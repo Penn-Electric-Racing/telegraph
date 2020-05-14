@@ -1,5 +1,5 @@
 <template>
-  <div class="live-view">
+  <div class="live-page">
     <TreeView class="live-tree" :treeQuery="liveNodesQuery" placeholder="No Connection"/>
     <div class="connection-selectors">
       <ComboBox :options="ports"/>
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import TreeView from './TreeView.vue'
+import TreeView from '../views/TreeView.vue'
 
 import ComboBox from '../components/ComboBox.vue'
 import Button from '../components/Button.vue'
@@ -27,10 +27,9 @@ export default {
       ports : [],
       bauds : ['Auto', 10, 11, 123],
       devices: [],
+      devicesStream: null,
       live: null // the live context
     }
-  },
-  created() {
   },
   computed: {
     liveContextQuery() {
@@ -38,31 +37,49 @@ export default {
     },
     liveNodesQuery() {
       return this.liveContextQuery.fetch();
+    },
+    scannerQuery() {
+      return this.nsQuery.components.extract(x => x.type == 'device_scanner');
     }
   },
   methods: {
+    liveContextUpdated(live) {
+      this.live = live;
+    },
+    scannerUpdated(scanner) {
+      if (!scanner && this.nsQuery.current) {
+        // request to create a scanner
+        var ns = this.nsQuery.current;
+        ns.createComponent('scanner', 'device_scanner', {}, {});
+      }
+      this.scanner = scanner;
+    },
     async connect() {
     },
     async disconnect() {
     },
   },
-  created() {
-    if (this.liveContextQuery) {
-      this.live = this.liveContextQuery.current;
-      this.liveContextQuery.updated.add((newContext) => { this.live = newContext; });
-    }
-  },
   watch: {
-    liveContext() {
-      this.live = this.liveContextQuery.current;
-      this.liveContextQuery.updated.add((newContext) => { this.live = newContext; });
+    liveContextQuery(n, o) {
+      if (o) {
+        o.updated.remove(this.liveContextUpdated);
+      }
+      this.liveContextUpdated(this.liveContextQuery.current);
+      this.liveContextQuery.updated.add(this.liveContextUpdated);
+    },
+    scannerQuery(n, o) {
+      if (o) {
+        o.updated.remove(this.scannerUpdated);
+      }
+      this.scannerUpdated(this.scannerQuery.current);
+      this.scannerQuery.updated.add(this.scannerUpdated);
     }
   }
 }
 </script>
 
 <style scoped>
-.live-view {
+.live-page {
   height: 100%;
   width: 100%;
   display: flex;

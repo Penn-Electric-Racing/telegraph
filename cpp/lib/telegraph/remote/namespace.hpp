@@ -36,11 +36,11 @@ namespace telegraph {
 
         void destroy_context(io::yield_ctx&, const uuid& u) override;
 
-        task_ptr create_task(io::yield_ctx&, 
+        component_ptr create_component(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
                     const params& p, sources_uuid_map&& srcs) override;
 
-        void destroy_task(io::yield_ctx&, const uuid& u) override;
+        void destroy_component(io::yield_ctx&, const uuid& u) override;
     };
 
     class remote_context : public context {

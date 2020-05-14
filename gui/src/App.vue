@@ -2,61 +2,79 @@
   http://demo.adminbootstrap.com/right/1.0.0/index.html */
 <template>
   <div id="app">
-    <!-- TODO: Instead of making the sidebar adjust size to its content maybe
-        have the sidebar be draggable-resizable so you can choose how large you want it
-        and the content in the sidebar can expand/show more things 
-        (small picture graphs, etc) if you make it bigger -->
-
-    <div id="header-container">
-      <Burger :expanded="sidebarShowing" @toggle="toggleSidebar"
-         :style="{minWidth: sidebarWidth > 0 ? sidebarWidth + 'px' : null}"></Burger>
-
-      <TabSwitcher :tabs="tabs" 
-                   :active="activeTab" 
-                   :closeable="true" :editable="true" :draggable="true"
-                   @selected="selectTab"
-                   @closed="closeTab"
-                   @renamed="renameTab"/>
-      <div class="header-button-container">
-        <FlatButton id="new-tab" icon="plus" @click="newTab"/>
-      </div>
-      <div class="header-spacer"/>
+    <div id="popup-pane" :style="{zIndex: numPopups > 0 ? 1 : -1}">
+        <Popup v-for="(popup, idx) in popups" :name="popup.name" :id="popup.id" :key="popup.id"
+                @popup="newPopup" @newtab="newTab" @close="() => {closePopup(popup.id)}"
+                @focus="() => { focusPopup(popup.id) }">
+          <component :is="popup.type" 
+                    :name="popup.name" 
+                    :id="popup.id"
+                    :nsQuery="nsQuery"
+                    :key="popup.id"
+                    v-bind="popup.props"
+                    :z-index="idx"
+                    @renamed="(name) => {renamePopup(popup.id, name)}"/>
+        </Popup>
     </div>
+    <div id="app-content">
+      <!-- TODO: Instead of making the sidebar adjust size to its content maybe
+          have the sidebar be draggable-resizable so you can choose how large you want it
+          and the content in the sidebar can expand/show more things 
+          (small picture graphs, etc) if you make it bigger -->
 
-    <div id="content-container">
-      <div id="sidebar" v-show="sidebarShowing" ref="sidebar">
-        <div id="sidebar-header">
-          <TabSwitcher :tabs="sidebarHeaders" :active="activeSidebar" 
-                       @selected="selectSidebar"/>
+      <div id="header-container">
+        <Burger :expanded="sidebarShowing" @toggle="toggleSidebar"
+          :style="{minWidth: sidebarWidth > 0 ? sidebarWidth + 'px' : null}"></Burger>
+
+        <TabSwitcher :tabs="tabs" 
+                    :active="activeTab" 
+                    :closeable="true" :editable="true" :draggable="true"
+                    @selected="selectTab"
+                    @closed="closeTab"
+                    @renamed="renameTab"/>
+        <div class="header-button-container">
+          <FlatButton id="new-tab" icon="plus" @click="newDashboard"/>
         </div>
-        <TabArea id="sidebar-area">
-          <div v-show="activeSidebar=='settings'">
-            Settings
+        <div class="header-spacer"/>
+      </div>
+
+      <div id="content-container">
+        <div id="sidebar" v-show="sidebarShowing" ref="sidebar">
+          <div id="sidebar-header">
+            <TabSwitcher :tabs="sidebarHeaders" :active="activeSidebar" 
+                        @selected="selectSidebar"/>
           </div>
-          <div v-show="activeSidebar=='dashboards'">
-            Saved Dashboards
-          </div>
-          <div v-show="activeSidebar=='logs'">
-            Logs
-          </div>
-          <div v-show="activeSidebar=='contexts'">
-            Contexts
-          </div>
-          <LivePage v-show="activeSidebar=='live'" :nsQuery="nsQuery"/>
+          <TabArea id="sidebar-area" @newtab="newTab" @popup="newPopup">
+            <div v-show="activeSidebar=='settings'">
+              Settings
+            </div>
+            <div v-show="activeSidebar=='dashboards'">
+              Saved Dashboards
+            </div>
+            <div v-show="activeSidebar=='logs'">
+              Logs
+            </div>
+            <ContextsPage v-show="activeSidebar=='contexts'" :nsQuery="nsQuery"/>
+            <ComponentsPage v-show="activeSidebar=='components'" :nsQuery="nsQuery"/>
+            <LivePage v-show="activeSidebar=='live'" :nsQuery="nsQuery"/>
+          </TabArea>
+        </div>
+
+        <TabArea id="content-area">
+          <component :is="tab.type" 
+                    :name="tab.name" 
+                    :id="tab.id"
+                    :nsQuery="nsQuery"
+                    :key="tab.id"
+                    v-bind="tab.props"
+                    @popup="newPopup"
+                    @newtab="newTab"
+                    @renamed="(name) => {renameTab(tab.id, name)}"
+                    @close="() => {closeTab(tab.id)}"
+                    v-for="tab in loadedTabs"
+                    v-show="tab.id==activeTab"/>
         </TabArea>
       </div>
-
-      <TabArea id="content-area">
-        <component :is="tab.type" 
-                   :name="tab.name" 
-                   :id="tab.id"
-                   :nsQuery="nsQuery"
-                   :key="tab.id"
-                   @renamed="(name) => {renameTab(tab.id, name)}"
-                   v-for="tab in tabs"
-                   v-show="tab.id==activeTab"
-                   v-if="tab.id==activeTab || !tab.offload"/>
-      </TabArea>
     </div>
   </div>
 </template>
@@ -64,31 +82,36 @@
 <script>
 import TabSwitcher from './components/TabSwitcher.vue'
 import TabArea from './components/TabArea.vue'
+import Popup from './components/Popup.vue'
 
 import FlatButton from './components/FlatButton.vue'
 
-import LivePage from './sidebar/LivePage.vue'
+import LivePage from './pages/LivePage.vue'
+import ComponentsPage from './pages/ComponentsPage.vue'
+import ContextsPage from './pages/ContextsPage.vue'
 
 // interface components
-import Burger from './sidebar/Burger.vue'
+import Burger from './Burger.vue'
 import Dashboard from './dashboard/Dashboard.vue'
 
 import uuidv4 from 'uuid/v4';
 
-import { Client } from 'telegraph'
+import { Client, NamespaceQuery } from 'telegraph'
 
 export default {
   name: 'App',
   data () {
     var namespace = new Client();
     return {
+      popups: [],
       sidebarShowing: true,
       sidebarWidth: null,
       sidebarHeaders: [
                        {"icon":"wifi", "id": "live"}, 
-                       {"icon":"box", "id": "contexts"}, 
-                       {"icon":"edit", "id": "logs"},
                        {"icon":"columns", "id": "dashboards"}, 
+                       {"icon":"edit", "id": "logs"},
+                       {"icon":"box", "id": "contexts"}, 
+                       {"icon":"tasks", "id": "components"}, 
                        {"icon":"cogs", "id": "settings"}, 
                       ], 
       activeSidebar: "live",
@@ -103,14 +126,31 @@ export default {
       activeTab: null, // the active tab ID
 
       namespace: namespace,
-      nsQuery: namespace.query(),
+      nsQuery: new NamespaceQuery(),
       relay: null
+    }
+  },
+
+  computed : {
+    loadedTabs() {
+      let loaded = [];
+      for (let t of this.tabs) {
+        if (t == this.activeTab || !t.offloaded) {
+          loaded.push(t);
+        }
+      }
+      return loaded;
+    },
+    numPopups() {
+      return this.popups.length;
     }
   },
 
   components: {
     TabSwitcher, TabArea,
-    LivePage, FlatButton,
+    LivePage, ComponentsPage,
+    ContextsPage,
+    FlatButton, Popup,
 
     Burger, Dashboard
   },
@@ -119,6 +159,24 @@ export default {
     selectSidebar(id) {
       this.activeSidebar = id;
     },
+    toggleSidebar() {
+      this.sidebarShowing = !this.sidebarShowing
+      if (!this.sidebarShowing) this.sidebarWidth = 0;
+      else this.$nextTick(() => { this.sidebarWidth = this.$refs['sidebar'].offsetWidth});
+    },
+
+    newDashboard() {
+      var id = uuidv4();
+      this.tabs.push({type: 'Dashboard',
+                      name: 'Untitled', 
+                      props: {},
+                      id: id });
+      if (this.activeTab == null) this.activeTab = id;
+    },
+
+    newTab() {
+    },
+
     selectTab(id) {
       this.activeTab = id
     },
@@ -138,18 +196,35 @@ export default {
       }
     },
 
-    newTab() {
-      var id = uuidv4();
-      this.tabs.push({type: 'Dashboard',
-                      name: 'Untitled', 
-                      id: id });
-      if (this.activeTab == null) this.activeTab = id;
+    newPopup(popup) {
+      this.popups.push(popup);
     },
 
-    toggleSidebar() {
-      this.sidebarShowing = !this.sidebarShowing
-      if (!this.sidebarShowing) this.sidebarWidth = 0;
-      else this.$nextTick(() => { this.sidebarWidth = this.$refs['sidebar'].offsetWidth});
+    closePopup(id) {
+      for (let [index, p] of this.popups.entries()) {
+        if (p.id == id) {
+          this.popups.splice(index, 1);
+          break;
+        }
+      }
+    },
+
+    focusPopup(id) {
+      let popup = null;
+      for (let [index, p] of this.popups.entries()) {
+        if (p.id == id) {
+          popup = p;
+          this.popups.splice(index, 1);
+          break;
+        }
+      }
+      if (popup) {
+        this.popups.push(popup);
+      }
+    },
+
+    renamePopup(id, newName) {
+
     },
 
     async run() {
@@ -157,9 +232,12 @@ export default {
         // connect with the client
         try {
           await this.namespace.connect('ws://localhost:8081');
+          this.nsQuery.update(this.namespace);
           await this.namespace.wait(); // wait until done
+          this.nsQuery.update(null); // set namespace to null
         } catch (e) {
-          console.log('failed to connect, retrying...', e)
+          console.log('failed to connect, retrying...');
+          console.log(e)
         }
         // try and reconnect every 5 seconds after losing connection
         await new Promise((res, rej) => setTimeout(res, 5000));
@@ -190,13 +268,29 @@ html, body {
   height: 100%;
   margin: 0;
 }
+#popup-pane {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+#popup-pane.darkened {
+  z-index: 1000000;
+}
 #app {
+  width: 100%;
+  height: 100%;
   font-family: "Roboto", sans-serif, "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   background-color: #343C42;
   color: #88939C;
+}
+#app-content {
+  z-index: 0;
+
   width: 100%;
   height: 100%;
 

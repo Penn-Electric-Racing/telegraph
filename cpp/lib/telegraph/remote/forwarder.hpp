@@ -26,7 +26,7 @@ namespace telegraph {
         std::shared_ptr<namespace_> ns_;
         // active subscriptions
         std::unordered_map<int32_t, subscription_ptr> subs_;
-        // active task query streams
+        // active component query streams
         std::unordered_map<int32_t, params_stream_ptr> streams_;
     public:
         // will register handlers
@@ -38,8 +38,8 @@ namespace telegraph {
 
         void handle_query_ns(io::yield_ctx&, const api::Packet& p);
 
-        void handle_query_context(io::yield_ctx&, const api::Packet& p);
-        void handle_query_task(io::yield_ctx&, const api::Packet& p);
+        void handle_stream_context(io::yield_ctx&, const api::Packet& p);
+        void handle_stream_component(io::yield_ctx&, const api::Packet& p);
 
         void handle_fetch_tree(io::yield_ctx&, const api::Packet& p);
 
@@ -49,16 +49,13 @@ namespace telegraph {
         void handle_data_write(io::yield_ctx&, const api::Packet& p);
         void handle_data_query(io::yield_ctx&, const api::Packet& p);
 
-        void handle_start_task(io::yield_ctx&, const api::Packet& p);
-        void handle_stop_task(io::yield_ctx&, const api::Packet& p);
-
         void handle_mount(io::yield_ctx&, const api::Packet& p);
         void handle_unmount(io::yield_ctx&, const api::Packet& p);
 
         void handle_create_context(io::yield_ctx&, const api::Packet& p);
-        void handle_create_task(io::yield_ctx&, const api::Packet& p);
+        void handle_create_component(io::yield_ctx&, const api::Packet& p);
         void handle_destroy_context(io::yield_ctx&, const api::Packet& p);
-        void handle_destroy_task(io::yield_ctx&, const api::Packet& p);
+        void handle_destroy_component(io::yield_ctx&, const api::Packet& p);
     };
 }
 

@@ -1,15 +1,27 @@
 <template>
-  <Bubble v-if="isGroup" class="node-bubble" :draggable="true" :dragData="node"
-                          :header="node.getName()" :hasContent="true">
+  <Bubble v-if="isGroup" class="node-bubble" 
+                :draggable="true" :dragData="node"
+                :hasContent="true">
+    <template v-slot:header>
+        {{ node.getName() }}
+    </template>
     <template v-slot:content>
       <NodeView v-for="n in children" :node="n" :key="n.getName()"/>
     </template>
   </Bubble>
 
-  <Bubble v-else-if="isAction" class="node-bubble" :draggable="true" :dragData="node"
-                        :header="node.getName()"/>
-  <Bubble v-else-if="isVariable" class="node-bubble" :draggable="true" :dragData="node"
-                        :header="node.getName()"/>
+  <Bubble v-else-if="isAction" class="node-bubble" 
+                    :draggable="true" :dragData="node">
+    <template v-slot:header>
+        {{ node.getName() }}
+    </template>
+  </Bubble>
+  <Bubble v-else-if="isVariable" class="node-bubble" 
+                    :draggable="true" :dragData="node">
+    <template v-slot:header>
+        {{ node.getName() }}
+    </template>
+  </Bubble>
 </template>
 
 <script>

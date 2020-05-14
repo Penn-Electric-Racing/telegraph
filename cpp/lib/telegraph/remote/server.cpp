@@ -97,7 +97,9 @@ namespace telegraph {
             io::streambuf read_buf;
             api::Packet read_packet;
 
+            int i = 0;
             while (true) {
+                i++;
                 beast::error_code ec;
                 s->ws_.async_read(read_buf, yield[ec]);
 

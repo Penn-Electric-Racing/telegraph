@@ -40,7 +40,7 @@ message Context {
     Params params = 4;
 }
 
-message Task {
+message Component {
     string uuid = 1;
     string name = 2;
     string type = 3;
@@ -68,14 +68,14 @@ message Create {
     repeated SourceEntry sources = 4;
 }
 
-message Query {
+message Stream {
     string uuid = 1;
     Params params = 2;
 }
 
 message Namespace {
     repeated Context contexts = 2;
-    repeated Task tasks = 3;
+    repeated Component components = 3;
     repeated Mount mounts = 4;
 }
 
@@ -127,8 +127,8 @@ message Packet {
         Context context_added = 7;
         string context_removed = 8; // uuid of removed context
 
-        Task task_added = 9;
-        string task_removed = 10;
+        Component component_added = 9;
+        string component_removed = 10;
 
         Mount mount_added = 11;
         Mount mount_removed = 12;
@@ -137,20 +137,16 @@ message Packet {
         Mount unmount = 14;
 
         Create create_context = 15;
-        Create create_task = 16;
+        Create create_component = 16;
         string context_created = 17; // uuid of created context
-        string task_created = 18; // uuid of created task
+        string component_created = 18; // uuid of created component 
 
         string destroy_context = 19;
-        string destroy_task = 20;
+        string destroy_component = 20;
 
-        // task-related operations
-        string start_task = 21;
-        string stop_task = 22;
-
-        Query query_task = 23;
-        Query query_context = 24;
-        Params query_update = 25;
+        Stream stream_component = 23;
+        Stream stream_context = 24;
+        Params stream_update = 25;
 
         // tree operations:
         string fetch_tree = 26; // context uuid to fetch tree

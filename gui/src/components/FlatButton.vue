@@ -9,7 +9,7 @@
     name: 'FlatButton',
     props: {
       icon: { type: String, default: undefined},
-      iconSize: { type: String, default: 'lg'}
+      iconSize: { type: String, default: undefined}
     }
   }
 </script>
