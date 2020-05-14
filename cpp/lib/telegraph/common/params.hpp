@@ -96,6 +96,7 @@ namespace telegraph {
         }
 
         void write(params&& p) {
+            if (closed_) return;
             if (handler_) handler_(std::move(p));
             else queued_.emplace_back(std::move(p));
         }

@@ -7,7 +7,7 @@
         @click.stop="$emit('focus')">
         <div class="popup-header">
             <span class="popup-name">{{ name }}</span>
-            <span class="popup-close" @click.stop="$emit('close')">&times</span>
+            <span class="popup-close" @click.stop="$emit('close')">&times;</span>
         </div>
         <div class="popup-content">
             <slot></slot>
