@@ -89,6 +89,7 @@ export default {
 .live-tree {
   height: 100%;
   width: 100%;
+  min-height: 0;
 }
 .connection-selector {
   width: 100%;

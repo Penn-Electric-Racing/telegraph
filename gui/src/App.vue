@@ -25,17 +25,17 @@
       <div id="header-container">
         <Burger :expanded="sidebarShowing" @toggle="toggleSidebar"
           :style="{minWidth: sidebarWidth > 0 ? sidebarWidth + 'px' : null}"></Burger>
-
-        <TabSwitcher :tabs="tabs" 
-                    :active="activeTab" 
-                    :closeable="true" :editable="true" :draggable="true"
-                    @selected="selectTab"
-                    @closed="closeTab"
-                    @renamed="renameTab"/>
+        <div class="header-tabs">
+          <TabSwitcher :tabs="tabs" 
+                      :active="activeTab" 
+                      :closeable="true" :editable="true" :draggable="true"
+                      @selected="selectTab"
+                      @closed="closeTab"
+                      @renamed="renameTab"/>
+        </div>
         <div class="header-button-container">
           <FlatButton id="new-tab" icon="plus" @click="newDashboard"/>
         </div>
-        <div class="header-spacer"/>
       </div>
 
       <div id="content-container">
@@ -307,20 +307,22 @@ html, body {
 
   display: flex;
   align-items: stretch;
-  align-content: stretch;
   flex-direction: row;
+}
+
+.header-tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  flex: 1;
+  min-width: 0;
 }
 
 .header-button-container {
   color: #5e6870;
   display: flex;
   align-items: center;
-  align-content: center;
   padding: 5px;
-}
-
-.header-spacer {
-  width: 100%;
 }
 
 #new-tab:hover {

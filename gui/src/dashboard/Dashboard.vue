@@ -1,24 +1,28 @@
 <template>
   <div class="dashboard" ref="dashboard">
-    <grid-layout
-        :layout.sync="layout"
-        :col-num="numCols"
-        :row-height="rowHeight">
-      <grid-item v-for="item in layout"
-                 class="tile"
-                 :x="item.x"
-                 :y="item.y"
-                 :w="item.w"
-                 :h="item.h"
-                 :i="item.i"
-                 dragIgnoreFrom=".noDrag"
-                 :key="item.i">
-        <component 
-         v-bind:is="tileData[item.i] ? tileData[item.i].type : null"
-               :id="item.i" :nsQuery="nsQuery"
-               :data="tileData[item.i]" @delete="remove(item.i)"/>
-      </grid-item>
-    </grid-layout>
+    <ScrollArea>
+      <div class="grid-container">
+        <grid-layout
+            :layout.sync="layout"
+            :col-num="numCols"
+            :row-height="rowHeight">
+          <grid-item v-for="item in layout"
+                    class="tile"
+                    :x="item.x"
+                    :y="item.y"
+                    :w="item.w"
+                    :h="item.h"
+                    :i="item.i"
+                    dragIgnoreFrom=".noDrag"
+                    :key="item.i">
+            <component 
+            v-bind:is="tileData[item.i] ? tileData[item.i].type : null"
+                  :id="item.i" :nsQuery="nsQuery"
+                  :data="tileData[item.i]" @delete="remove(item.i)"/>
+          </grid-item>
+        </grid-layout>
+      </div>
+    </ScrollArea>
   </div>
 </template>
 
@@ -27,6 +31,8 @@
   import VueGridLayout from 'vue-grid-layout'
   import interact from 'interactjs'
   import { NamespaceQuery } from 'telegraph'
+
+  import ScrollArea from '../components/ScrollArea.vue'
 
   import uuidv4 from 'uuid';
 
@@ -39,7 +45,8 @@
     name: 'Dashboard',
     components: {ControlPanel, Graph, Placeholder,
       GridLayout: VueGridLayout.GridLayout, 
-      GridItem: VueGridLayout.GridItem},
+      GridItem: VueGridLayout.GridItem,
+      ScrollArea},
     props: {
       name: String,
       id: String,

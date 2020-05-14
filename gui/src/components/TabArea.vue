@@ -5,9 +5,8 @@
 </template>
 
 <style scoped>
-  .tabview {
-    width: 100%;
-    height: 100%;
+  .tabarea {
+    flex: 1;
     display: flex;
     flex-direction: column;
   }

@@ -1,6 +1,6 @@
 <template>
     <div class="requests-page">
-        <ScrollPane>
+        <ScrollArea>
             <div class="requests-list">
                 <div class="request" v-for="(r, i) in requests" :key="i">
                     <div class="params message">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-        </ScrollPane>
+        </ScrollArea>
         <div class="requests-form">
             <TextField v-model="data" placeholder="Request JSON..." @submit="submit"/>
             <Button text="Send" class="request-submit-button" @click="submit"/>
@@ -39,7 +39,7 @@ import TableData from '../components/TableData.vue'
 
 import TextField from '../components/TextField.vue'
 import Button from '../components/Button.vue'
-import ScrollPane from '../components/ScrollPane.vue'
+import ScrollArea from '../components/ScrollArea.vue'
 
 import JsonPretty from 'vue-json-pretty'
 import Vue from 'vue'
@@ -48,7 +48,7 @@ export default {
     name: 'StreamRequestPage',
     components: {Table, TableRow, TableHeader, 
                  TableData, TextField, Button,
-                 JsonPretty, ScrollPane},
+                 JsonPretty, ScrollArea},
     props: {
         resource: Object
     },

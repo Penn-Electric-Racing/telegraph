@@ -1,12 +1,12 @@
 <template>
     <div class="components-page">
-        <ScrollPane>
+        <ScrollArea>
             <div class="components">
                     <ComponentView v-for="component in components" 
                                 :key="component.uuid"
                                 :component="component"/>
             </div>
-        </ScrollPane>
+        </ScrollArea>
         <Bubble @click="createNew" class="plus-bubble">
             <template v-slot:header>
                 <div class="plus">
@@ -20,7 +20,7 @@
 <script>
 import ComponentView from '../views/ComponentView.vue'
 import Bubble from '../components/Bubble.vue'
-import ScrollPane from '../components/ScrollPane.vue'
+import ScrollArea from '../components/ScrollArea.vue'
 
 import CreatePage from './CreatePage.vue'
 
@@ -33,7 +33,7 @@ Vue.component('CreatePage', CreatePage);
 
 export default {
     name: 'ComponentsPage',
-    components: {ComponentView, Bubble, ScrollPane},
+    components: {ComponentView, Bubble, ScrollArea},
     props: {
         nsQuery: NamespaceQuery
     },

@@ -1,12 +1,12 @@
 <template>
     <div class="contexts-page">
-        <ScrollPane>
+        <ScrollArea>
             <div class="cotnexts">
                     <ContextView v-for="context in contexts" 
                                 :key="context.uuid"
                                 :context="context"/>
             </div>
-        </ScrollPane>
+        </ScrollArea>
         <Bubble @click="createNew" class="plus-bubble">
             <template v-slot:header>
                 <div class="plus">
@@ -20,7 +20,7 @@
 <script>
 import ContextView from '../views/ContextView.vue'
 import Bubble from '../components/Bubble.vue'
-import ScrollPane from '../components/ScrollPane.vue'
+import ScrollArea from '../components/ScrollArea.vue'
 
 import CreatePage from './CreatePage.vue'
 
@@ -33,7 +33,7 @@ Vue.component('CreatePage', CreatePage);
 
 export default {
     name: 'ContextsPage',
-    components: {ContextView, Bubble, ScrollPane},
+    components: {ContextView, Bubble, ScrollArea},
     props: {
         nsQuery: NamespaceQuery
     },
