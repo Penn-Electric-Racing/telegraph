@@ -93,7 +93,7 @@ namespace telegraph {
     variable::unpack(const Variable& proto) {
         return new variable(proto.id(), proto.name(), 
                             proto.pretty(), proto.desc(),
-                            type::unpack(proto.data_type()));
+                            value_type::unpack(proto.data_type()));
     }
 
     void
@@ -121,8 +121,8 @@ namespace telegraph {
     action::unpack(const Action& proto) {
         return new action(proto.id(), proto.name(),
                         proto.pretty(), proto.desc(),
-                        type::unpack(proto.arg_type()),
-                        type::unpack(proto.ret_type()));
+                        value_type::unpack(proto.arg_type()),
+                        value_type::unpack(proto.ret_type()));
     }
 
     void

@@ -102,7 +102,7 @@ namespace telegraph {
     }
 
     data_query_ptr
-    remote_context::query_data(io::yield_ctx& yield, const std::vector<std::string_view>& n) const {
+    remote_context::query_data(io::yield_ctx& yield, const std::vector<std::string_view>& n) {
         return nullptr;
     }
 

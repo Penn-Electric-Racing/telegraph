@@ -3,11 +3,12 @@
 
 #include <vector>
 #include <string>
+#include <string_view>
 
 #include "common.pb.h"
 
 namespace telegraph {
-    class type {
+    class value_type {
     public:
         enum type_class {
             Invalid, None, Enum,
@@ -16,18 +17,23 @@ namespace telegraph {
             Int8, Int16, Int32, Int64,
             Float, Double
         };
-        inline type() : class_(Invalid), name_(), labels_() {}
-        inline type(type_class c) : class_(c), name_(), labels_() {}
+        value_type() : class_(Invalid), name_(), labels_() {}
+        value_type(type_class c) : class_(c), name_(), labels_() {}
+        value_type(const std::string_view& name, const std::vector<std::string>& labels)
+            : class_(Enum), name_(name), labels_(labels) {}
+        value_type(const std::string_view& name, std::vector<std::string>&& labels)
+            : class_(Enum), name_(name), labels_(std::move(labels)) {}
 
         constexpr type_class get_class() const { return class_; }
         constexpr const std::string& get_name() const { return name_; }
         constexpr const std::vector<std::string>& get_labels() const { return labels_; }
 
-        inline void add_label(const std::string& label) { labels_.push_back(label); }
+        void add_label(const std::string_view& label) { labels_.push_back(std::string{label}); }
+        void add_label(const std::string& label) { labels_.push_back(label); }
 
-        inline void set_class(type_class tc) { class_ = tc; }
-        inline void set_labels(std::vector<std::string>&& labels) { labels_ = labels; }
-        inline void set_name(const std::string& name) { name_ = name; }
+        void set_class(type_class tc) { class_ = tc; }
+        void set_labels(std::vector<std::string>&& labels) { labels_ = labels; }
+        void set_name(const std::string& name) { name_ = name; }
 
         inline std::string to_str() const {
             switch (class_) {
@@ -110,8 +116,8 @@ namespace telegraph {
             tc->set_name(name_);
             tc->set_type(pack(class_));
         }
-        inline static type unpack(const Type& tc) {
-            type t;
+        inline static value_type unpack(const Type& tc) {
+            value_type t;
             t.set_class(unpack(tc.type()));
             t.set_name(tc.name());
             std::vector<std::string> labels;
@@ -124,7 +130,7 @@ namespace telegraph {
     private:
         type_class class_;
         std::string name_; // only set for enum types
-        // contains the unit for this type
+        // contains the unit for this value_type
         // for for an enum the labels per value
         std::vector<std::string> labels_;
     };

@@ -77,7 +77,11 @@ namespace telegraph {
     local_context::local_context(io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type,
                 const params& i, const std::shared_ptr<node>& tree) : 
-                context(ioc, rand_uuid(), name, type, i), tree_(tree), ns_() {}
+                context(ioc, rand_uuid(), name, type, i), tree_(tree), ns_() {
+        if (tree) {
+            tree->set_owner(weak_from_this());
+        }
+    }
 
     void
     local_context::reg(io::yield_ctx& yield, const std::shared_ptr<local_namespace>& ns) {

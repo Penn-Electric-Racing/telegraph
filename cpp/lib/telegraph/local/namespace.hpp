@@ -90,8 +90,7 @@ namespace telegraph {
 
     class local_component : public component {
     public:
-        local_component
-   (io::io_context& ioc, const std::string_view& name,
+        local_component(io::io_context& ioc, const std::string_view& name,
                 const std::string_view& type, const params& i);
 
         std::shared_ptr<namespace_> get_namespace() override { return ns_.lock(); }

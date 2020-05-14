@@ -2,9 +2,9 @@
     <div class="components-page">
         <ScrollArea>
             <div class="components">
-                    <ComponentView v-for="component in components" 
-                                :key="component.uuid"
-                                :component="component"/>
+                <ComponentView v-for="component in components" 
+                            :key="component.uuid"
+                            :component="component"/>
             </div>
         </ScrollArea>
         <Bubble @click="createNew" class="plus-bubble">
@@ -79,8 +79,6 @@ export default {
 
 <style scoped>
     .components-page {
-        height: 100%;
-        width: 100%;
         display: flex;
         flex-direction: column;
         align-items: stretch;

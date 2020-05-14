@@ -267,6 +267,8 @@ html, body {
   width: 100%;
   height: 100%;
   margin: 0;
+  min-width: 0;
+  min-height: 0;
 }
 #popup-pane {
   position: absolute;
@@ -352,14 +354,14 @@ html, body {
 
   display: flex;
   align-items: stretch;
-  align-content: stretch;
   flex-direction: column;
 } 
 
 #sidebar-area {
-  width: 100%;
-  height: 100%;
   box-sizing: border-box;
+  flex-basis: 0;
+  flex: 1;
+  height: 100%;
 }
 
 </style>

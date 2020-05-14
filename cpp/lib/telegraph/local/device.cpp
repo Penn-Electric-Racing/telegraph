@@ -75,6 +75,7 @@ namespace telegraph {
         }
         // create shared pointer from unpacked tree
         std::shared_ptr<node> tree(node::unpack(res.tree()));
+        tree_->set_owner(shared_device_this());
         tree_ = tree;
     }
 
@@ -356,7 +357,7 @@ namespace telegraph {
 
 
     params_stream_ptr
-    device_scanner::stream(io::yield_ctx& yield , const params& p) {
+    device_scanner::request(io::yield_ctx& yield , const params& p) {
         auto stream = std::make_unique<params_stream>();
         stream->write(params{1});
         stream->close();

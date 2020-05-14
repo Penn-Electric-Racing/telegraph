@@ -323,7 +323,7 @@ namespace telegraph {
 
             auto ctx = ns_->contexts->get(u);
             if (!ctx) throw missing_error("no such context");
-            params_stream_ptr s = ctx->stream(c, par);
+            params_stream_ptr s = ctx->request(c, par);
 
             if (s) {
                 api::Packet res;
@@ -375,7 +375,7 @@ namespace telegraph {
 
             auto component = ns_->components->get(u);
             if (!component) throw missing_error("no such component");
-            params_stream_ptr s = component->stream(c, par);
+            params_stream_ptr s = component->request(c, par);
 
             if (s) {
                 api::Packet res;

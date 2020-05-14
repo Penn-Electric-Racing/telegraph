@@ -54,26 +54,26 @@ namespace telegraph {
         }
     }
 
-    static std::string type_to_cpp_builtin(const type& t) {
+    static std::string type_to_cpp_builtin(const value_type& t) {
         switch(t.get_class()) {
-            case type::None:    return "none";
-            case type::Bool:    return "bool";
-            case type::Uint8:   return "uint8_t";
-            case type::Uint16:  return "uint16_t";
-            case type::Uint32:  return "uint32_t";
-            case type::Uint64:  return "uint64_t";
-            case type::Int8:    return "int8_t";
-            case type::Int16:   return "int16_t";
-            case type::Int32:   return "int32_t";
-            case type::Int64:   return "int64_t";
-            case type::Float:   return "float";
-            case type::Double:  return "double";
+            case value_type::None:    return "none";
+            case value_type::Bool:    return "bool";
+            case value_type::Uint8:   return "uint8_t";
+            case value_type::Uint16:  return "uint16_t";
+            case value_type::Uint32:  return "uint32_t";
+            case value_type::Uint64:  return "uint64_t";
+            case value_type::Int8:    return "int8_t";
+            case value_type::Int16:   return "int16_t";
+            case value_type::Int32:   return "int32_t";
+            case value_type::Int64:   return "int64_t";
+            case value_type::Float:   return "float";
+            case value_type::Double:  return "double";
             default: throw missing_error("Not a builtin, must have name!");
         }
     }
 
     // returns an identifier for a type
-    static std::string type_to_cpp_ident(const type& t) {
+    static std::string type_to_cpp_ident(const value_type& t) {
         if (t.get_name().length() > 0) {
             // return the c++ ified type name
             std::string n = t.get_name();
@@ -86,7 +86,7 @@ namespace telegraph {
         }
     }
 
-    static std::string type_to_name(const type& t) {
+    static std::string type_to_name(const value_type& t) {
         if (t.get_name().length() > 0) {
             std::string n = t.get_name();
             std::transform(n.begin(), n.end(), n.begin(), [](char ch) {
@@ -95,18 +95,18 @@ namespace telegraph {
             return n;
         }
         switch(t.get_class()) {
-            case type::None:    return "none";
-            case type::Bool:    return "bool";
-            case type::Uint8:   return "uint8";
-            case type::Uint16:  return "uint16";
-            case type::Uint32:  return "uint32";
-            case type::Uint64:  return "uint64";
-            case type::Int8:    return "int8";
-            case type::Int16:   return "int16";
-            case type::Int32:   return "int32";
-            case type::Int64:   return "int64";
-            case type::Float:   return "float";
-            case type::Double:  return "double";
+            case value_type::None:    return "none";
+            case value_type::Bool:    return "bool";
+            case value_type::Uint8:   return "uint8";
+            case value_type::Uint16:  return "uint16";
+            case value_type::Uint32:  return "uint32";
+            case value_type::Uint64:  return "uint64";
+            case value_type::Int8:    return "int8";
+            case value_type::Int16:   return "int16";
+            case value_type::Int32:   return "int32";
+            case value_type::Int64:   return "int64";
+            case value_type::Float:   return "float";
+            case value_type::Double:  return "double";
             default: throw missing_error("Not a builtin, enum must have name!");
         }
     }
@@ -123,18 +123,18 @@ namespace telegraph {
     std::string
     generator::generate_types(const node* tree) const {
         // all the type names we need to generate
-        std::map<std::string, const type*> types;
+        std::map<std::string, const value_type*> types;
         for (const node* n : tree->nodes()) {
             // if n is a variable or an action add the types to a generation list
             if (dynamic_cast<const action*>(n) != nullptr) {
                 const action* a = dynamic_cast<const action*>(n);
-                const type& arg = a->get_arg_type();
-                const type& ret = a->get_ret_type();
+                const value_type& arg = a->get_arg_type();
+                const value_type& ret = a->get_ret_type();
                 if (arg.get_name().length() > 0) types[arg.get_name()] = &arg;
                 if (ret.get_name().length() > 0) types[ret.get_name()] = &ret;
             } else if (dynamic_cast<const variable*>(n) != nullptr) {
                 const variable* v = dynamic_cast<const variable*>(n);
-                const type& t = v->get_type();
+                const value_type& t = v->get_type();
                 if (t.get_name().length() > 0) types[t.get_name()] = &t;
             }
         }
@@ -142,8 +142,8 @@ namespace telegraph {
         std::string code;
         // go through each of the types
         for (auto elem : types) {
-            const type* tp = elem.second;
-            if (tp->get_class() == type::Enum) {
+            const value_type* tp = elem.second;
+            if (tp->get_class() == value_type::Enum) {
                 // generate an enum
                 code += "enum class " + type_to_cpp_ident(*tp) + " : uint8_t {\n";
                 std::string subcode = "";

@@ -8,11 +8,13 @@
 
 #include <cinttypes>
 #include <memory>
+#include <chrono>
 
 namespace telegraph {
     class subscription {
     public:
-        subscription(type t, float min_interval, float max_interval) 
+        constexpr static float NO_RESEND = 0;
+        subscription(value_type t, float min_interval, float max_interval) 
             : cancelled_(false), type_(t),
             min_interval_(min_interval), max_interval_(max_interval) {}
 
@@ -21,7 +23,7 @@ namespace telegraph {
          */
         virtual ~subscription() {}
 
-        constexpr const type& get_type() const { return type_; }
+        constexpr const value_type& get_type() const { return type_; }
         constexpr float get_min_interval() const { return min_interval_; }
         constexpr float get_max_interval() const { return max_interval_; }
 
@@ -39,12 +41,13 @@ namespace telegraph {
         signal<> cancelled;
     protected:
         bool cancelled_;
-        type type_;
+        value_type type_;
         float min_interval_;
         float max_interval_;
     };
     using subscription_ptr = std::unique_ptr<subscription>;
 
+    using time_point = std::chrono::time_point<std::chrono::system_clock>;
     /**
      */
     class data_point {

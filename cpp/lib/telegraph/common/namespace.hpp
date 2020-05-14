@@ -96,7 +96,7 @@ namespace telegraph {
         const params& get_params() const { return params_; }
         const uuid& get_uuid() const { return uuid_; }
 
-        virtual params_stream_ptr stream(io::yield_ctx&, const params& p) = 0;
+        virtual params_stream_ptr request(io::yield_ctx&, const params& p) = 0;
 
         virtual void destroy(io::yield_ctx& y) = 0;
 
@@ -130,7 +130,7 @@ namespace telegraph {
         const params& get_params() const { return params_; }
         const uuid& get_uuid() const { return uuid_; }
 
-        virtual params_stream_ptr stream(io::yield_ctx&, const params& p) = 0;
+        virtual params_stream_ptr request(io::yield_ctx&, const params& p) = 0;
 
         virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
 
@@ -153,8 +153,8 @@ namespace telegraph {
         virtual bool write_data(io::yield_ctx& yield, const std::vector<std::string_view>& var,
                                     const std::vector<data_point>& data) = 0;
 
-        virtual data_query_ptr query_data(io::yield_ctx& yield, const node* n) const = 0;
-        virtual data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& n) const = 0;
+        virtual data_query_ptr query_data(io::yield_ctx& yield, const variable* v) = 0;
+        virtual data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& v) = 0;
 
         virtual void mount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;
         virtual void unmount(io::yield_ctx& ctx, const std::shared_ptr<context>& src) = 0;

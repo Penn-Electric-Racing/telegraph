@@ -68,7 +68,7 @@ namespace telegraph {
         bool write_data(io::yield_ctx& yield, const std::vector<std::string_view>& var,
                                     const std::vector<data_point>& data) override;
 
-        data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& n) const override;
+        data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& n) override;
 
         // mount-querying functions
         collection_ptr<mount_info> mounts(bool srcs=true, bool tgts=true) const override;

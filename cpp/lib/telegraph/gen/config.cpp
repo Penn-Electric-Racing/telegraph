@@ -45,34 +45,34 @@ namespace telegraph {
         }
     }
 
-    static std::unordered_map<std::string, type::type_class> s_type_map = {
-        {"invalid", type::Invalid},
-        {"none", type::None},
-        {"enum", type::Enum},
-        {"bool", type::Bool},
-        {"uint8", type::Uint8},
-        {"uint16", type::Uint16},
-        {"uint32", type::Uint32},
-        {"uint64", type::Uint64},
-        {"int8", type::Int8},
-        {"int16", type::Int16},
-        {"int32", type::Int32},
-        {"int64", type::Int64},
-        {"float", type::Float},
-        {"double", type::Double}
+    static std::unordered_map<std::string, value_type::type_class> s_type_map = {
+        {"invalid", value_type::Invalid},
+        {"none", value_type::None},
+        {"enum", value_type::Enum},
+        {"bool", value_type::Bool},
+        {"uint8", value_type::Uint8},
+        {"uint16", value_type::Uint16},
+        {"uint32", value_type::Uint32},
+        {"uint64", value_type::Uint64},
+        {"int8", value_type::Int8},
+        {"int16", value_type::Int16},
+        {"int32", value_type::Int32},
+        {"int64", value_type::Int64},
+        {"float", value_type::Float},
+        {"double", value_type::Double}
     };
     static
-    type::type_class unpack_type_class(const std::string& tc) {
+    value_type::type_class unpack_type_class(const std::string& tc) {
         try { 
             return s_type_map.at(tc);
         } catch (const std::out_of_range& r) {
-            return type::Invalid;
+            return value_type::Invalid;
         }
     }
     static node* unpack_node(int32_t* id_counter, const std::string& name, const json& json);
 
-    static type unpack_type(const json& json) {
-        type t(type::Invalid);
+    static value_type unpack_type(const json& json) {
+        value_type t(value_type::Invalid);
         if (json.is_object()) {
             if (json.find("type") == json.end())
                 throw parse_error("for type objects, expecting type key");
@@ -81,21 +81,21 @@ namespace telegraph {
             if (json.find("type_name") != json.end()) {
                 t.set_name(json["type_name"]);
             }
-            if (t.get_class() == type::Enum) {
+            if (t.get_class() == value_type::Enum) {
                 std::vector<std::string> strs = json.value<std::vector<std::string>>("labels", {});
                 t.set_labels(std::move(strs));
                 if (json.find("type_name") == json.end())
                     throw parse_error("enum type expects type_name: " + json.dump());
             }
         } else if (json.is_string()) {
-            t = type(unpack_type_class(json.get<std::string>()));
+            t = value_type(unpack_type_class(json.get<std::string>()));
         } else throw parse_error("unable to parse type: " + json.dump());
         return t;
     }
 
     static variable* unpack_variable(int32_t* id_counter, const std::string& name, 
                                      const json& json) {
-        type t = unpack_type(json);
+        value_type t = unpack_type(json);
         std::string pretty = json.is_object() ? json.value("pretty", "") : "";
         std::string desc = json.is_object() ? json.value("desc", "") : "";
         return new variable((*id_counter)++, name, pretty, desc, t);
@@ -103,8 +103,8 @@ namespace telegraph {
 
     static action* unpack_action(int32_t* id_counter, const std::string& name, 
                                  const json& json) {
-        type arg(type::None);
-        type ret(type::None);
+        value_type arg(value_type::None);
+        value_type ret(value_type::None);
         if (json.find("arg") != json.end()) arg = unpack_type(json["arg"]);
         if (json.find("ret") != json.end()) ret = unpack_type(json["ret"]);
         std::string pretty = json.value("pretty", "");

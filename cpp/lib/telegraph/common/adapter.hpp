@@ -10,7 +10,6 @@
 
 #include "../utils/io.hpp"
 #include <boost/asio/error.hpp>
-#include <boost/asio/dispatch.hpp>
 #include <boost/asio/deadline_timer.hpp>
 
 namespace telegraph {
@@ -34,10 +33,10 @@ namespace telegraph {
                 friend class adapter;
             private:
                 wadapter_ptr adapter_;
-                std::chrono::time_point<std::chrono::system_clock> last_update_;
+                time_point last_update_;
             public:
                 sub(const wadapter_ptr& a, 
-                    type t, float min_interval, float max_interval) 
+                   value_type t, float min_interval, float max_interval) 
                     : subscription(t, min_interval, max_interval),
                       adapter_(a), last_update_() {}
 
@@ -76,7 +75,7 @@ namespace telegraph {
                     }
                 }
             private:
-                void update(const std::chrono::time_point<std::chrono::system_clock> tp, const value& v) {
+                void update(time_point tp, value v) {
                     // check if enough time has expired to send another update
                     // for this sub
                     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(tp - last_update_);
@@ -89,7 +88,7 @@ namespace telegraph {
 
 
             io::io_context& ioc_;
-            type type_; // type of the variable
+            value_type type_; // type of the variable
 
             // current values
             bool subscribed_;
@@ -104,7 +103,7 @@ namespace telegraph {
             ChangeFunc change_;
             CancelFunc cancel_;
         public:
-            adapter(io::io_context& ioc, type t, ChangeFunc change, CancelFunc cancel) :
+            adapter(io::io_context& ioc,value_type t, ChangeFunc change, CancelFunc cancel) :
                     ioc_(ioc), type_(t), subscribed_(false),
                     min_interval_(0), max_interval_(0), 
                     running_op_(false), waiting_ops_(), subs_(),
