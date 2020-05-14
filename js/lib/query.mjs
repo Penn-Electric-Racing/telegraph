@@ -36,13 +36,13 @@ class CollectionsQuery extends Query {
     this.queryType = queryType;
     this.selfType = selfType;
   }
-  unwrap() {
+  unwrap(strict=true) {
     var tq = new this.queryType(this);
     var self = this;
 
     function trigger(query) {
       var components = self.current;
-      query.update(components ? components.unwrap() : null);
+      query.update(components ? components.unwrap(strict) : null);
     }
 
     // update will add callbacks so that trigger()
@@ -74,18 +74,20 @@ class CollectionsQuery extends Query {
       col._remove(obj);
     }
     var onUpdate = function (col, newCollection, oldCollection) {
-      if (oldCollection) {
-        oldCollection.added.removeWeak(col, onAdd);
-        oldCollection.removed.removeWeak(col, onRemove);
-        for (let c of oldCollection) {
-          onRemove(col, c);
+      if (oldCollection != newCollection) {
+        if (oldCollection) {
+          oldCollection.added.removeWeak(col, onAdd);
+          oldCollection.removed.removeWeak(col, onRemove);
+          for (let c of oldCollection) {
+            onRemove(col, c);
+          }
         }
-      }
-      if (newCollection) {
-        newCollection.added.addWeak(col, onAdd);
-        newCollection.removed.addWeak(col, onRemove);
-        for (let c of newCollection) {
-          onAdd(col, c);
+        if (newCollection) {
+          newCollection.added.addWeak(col, onAdd);
+          newCollection.removed.addWeak(col, onRemove);
+          for (let c of newCollection) {
+            onAdd(col, c);
+          }
         }
       }
     }
@@ -103,7 +105,7 @@ class CollectionsQuery extends Query {
   }
 
   extract(f) {
-    return this.filter(f).unwrap();
+    return this.filter(f).unwrap(false);
   }
 }
 

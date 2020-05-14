@@ -356,8 +356,11 @@ namespace telegraph {
 
 
     params_stream_ptr
-    device_scanner::stream(io::yield_ctx&yield , const params& p) {
-        return nullptr;
+    device_scanner::stream(io::yield_ctx& yield , const params& p) {
+        auto stream = std::make_unique<params_stream>();
+        stream->write(params{1});
+        stream->close();
+        return stream;
     }
 
     local_component_ptr

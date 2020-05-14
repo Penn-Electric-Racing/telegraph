@@ -1,10 +1,10 @@
 <template>
-    <div class="components-page">
+    <div class="contexts-page">
         <ScrollPane>
-            <div class="components">
-                    <ComponentView v-for="component in components" 
-                                :key="component.uuid"
-                                :component="component"/>
+            <div class="cotnexts">
+                    <ContextView v-for="context in contexts" 
+                                :key="context.uuid"
+                                :context="context"/>
             </div>
         </ScrollPane>
         <Bubble @click="createNew" class="plus-bubble">
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import ComponentView from '../views/ComponentView.vue'
+import ContextView from '../views/ContextView.vue'
 import Bubble from '../components/Bubble.vue'
 import ScrollPane from '../components/ScrollPane.vue'
 
@@ -32,45 +32,45 @@ import Vue from 'vue'
 Vue.component('CreatePage', CreatePage);
 
 export default {
-    name: 'ComponentsPage',
-    components: {ComponentView, Bubble, ScrollPane},
+    name: 'ContextsPage',
+    components: {ContextView, Bubble, ScrollPane},
     props: {
         nsQuery: NamespaceQuery
     },
     data: function() {
         return {
-            componentCollection: null,
-            components: []
+            contextCollection: null,
+            contexts: []
         }
     },
     created() {
         if (this.nsQuery) {
-            this.componentCollection = this.nsQuery.components.collect();
-            this.componentCollection.added.add(x => this.components.push(x));
-            this.componentCollection.removed.add(x => this.components.splice(this.components.indexOf(x), 1));
+            this.contextCollection = this.nsQuery.contexts.collect();
+            this.contextCollection.added.add(x => this.contexts.push(x));
+            this.contextCollection.removed.add(x => this.contexts.splice(this.contexts.indexOf(x), 1));
         } else {
-            this.componentCollection = null;
+            this.contextCollection = null;
         }
     },
     methods: {
         createNew() {
             // popup a creation dialogue
             this.$bubble('popup', {
-                name: 'Create Component',
+                name: 'Create Context',
                 type: 'CreatePage',
                 id: uuidv4(),
-                props: {resourceType:'Component'}
+                props: {resourceType:'Context'}
             });
         }
     },
     watch: {
         nsQuery() {
             if (this.nsQuery) {
-                this.componentCollection = this.nsQuery.components.collect();
-                this.componentCollection.added.add(x => this.components.push(x));
-                this.componentCollection.removed.add(x => this.components.splice(this.components.indexOf(x), 1));
+                this.contextCollection = this.nsQuery.contexts.collect();
+                this.contextCollection.added.add(x => this.contexts.push(x));
+                this.contextCollection.removed.add(x => this.contexts.splice(this.contexts.indexOf(x), 1));
             } else {
-                this.componentCollection = null;
+                this.contextCollection = null;
             }
         }
     }

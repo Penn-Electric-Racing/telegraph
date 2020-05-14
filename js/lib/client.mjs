@@ -4,7 +4,7 @@ import { Collection } from './collection.mjs'
 import { Connection, Params } from './connection.mjs'
 import WebSocket from 'isomorphic-ws'
 import { NamespaceQuery } from './query.mjs'
-import { Component, Context, Namespace } from './namespace.mjs'
+import { Component, Context, Namespace, Request } from './namespace.mjs'
 
 function checkError(packet) {
   if (packet.error) throw new Error(packet.error);
@@ -64,7 +64,8 @@ export class Client extends Namespace {
 
   async _queryNS() {
     // send a queryNs
-    var nsRes = await this._conn.requestStream({queryNs: {}}, (packet) => {
+    var [nsRes, stream] = await this._conn.requestStream({queryNs: {}});
+    stream.received.add((packet) => {
         // handle Context/Component/Mount added/removed
         if (packet.contextAdded) {
           let c = packet.contextAdded;
@@ -76,30 +77,42 @@ export class Client extends Namespace {
         } else if (packet.componentAdded) {
           let t = packet.componentAdded;
           this.components._add(new RemoteComponent(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
-
         } else if (packet.componentRemoved) {
-          this.components._removeUUID(packet.contextRemoved);
-
+          this.components._removeUUID(packet.componentRemoved);
         } else if (packet.mountAdded) {
           var m = packet.mountAdded;
           this.mounts._add({ uuid : m.src + '/' + m.tgt, src: m.src, tgt: m.tgt });
 
         } else if (packet.mountRemoved) {
           var u = packet.mountRemoved.src + '/ ' + packet.mountRemoved.tgt;
-          this.mounts._removeUUID(u);
+          this.mounts._remove(u);
         }
     });
-    checkError(nsRes);
-    // populate the namespace based on the query
-    if (!nsRes.ns) throw new Error("Malformed response!");
-    for (let c of nsRes.ns.contexts) {
-      this.contexts._add(new RemoteContext(this, c.uuid, c.name, c.type, Params.unpack(c.params)));
-    }
-    for (let t of nsRes.ns.components) {
-      this.components._add(new RemoteComponent(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
-    }
-    for (let m of nsRes.ns.mounts) {
-      this.mounts._add({ uuid : m.src + '/' + m.tgt, src: m.src, tgt: m.tgt });
+    try {
+      stream.start();
+
+      checkError(nsRes);
+      // populate the namespace based on the query
+      if (!nsRes.ns) throw new Error("Malformed response!");
+      for (let c of nsRes.ns.contexts) {
+        this.contexts._add(new RemoteContext(this, c.uuid, c.name, c.type, Params.unpack(c.params)));
+      }
+      for (let t of nsRes.ns.components) {
+        this.components._add(new RemoteComponent(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
+      }
+      for (let m of nsRes.ns.mounts) {
+        this.mounts._add({ uuid : m.src + '/' + m.tgt, src: m.src, tgt: m.tgt });
+      }
+
+      // keep a reference to the stream so it stays
+      // alive
+      this._nsStream = stream;
+      var onClosed = () => { this._nsStream = null; stream.remove(onClosed); }
+      this._nsStream.closed.add(onClosed);
+    } catch (e) {
+      this._nsStream = null;
+      stream.close();
+      throw e;
     }
   }
 
@@ -135,6 +148,26 @@ export class Client extends Namespace {
     if (res.success == false) return null;
     if (!res.componentCreated) throw new Error("unexpected response: " + JSON.stringify(res));
     return this.components.get(res.componentCreated);
+  }
+
+  async destroyContext(uuid) {
+    var msg = {
+      destroyContext: uuid
+    }
+    var res = await this._conn.requestResponse(msg);
+    checkError(res);
+    if (res.success != true) 
+      throw new Error("Failed to destroy context");
+  }
+
+  async destroyComponent(uuid) {
+    var msg = {
+      destroyComponent: uuid
+    }
+    var res = await this._conn.requestResponse(msg);
+    checkError(res);
+    if (res.success != true) 
+      throw new Error("Failed to destroy component");
   }
 }
 
@@ -187,6 +220,7 @@ class RemoteContext extends Context {
   }
 
   async destroy() {
+    await this.ns.destroyContext(this.uuid);
   }
 }
 
@@ -198,5 +232,46 @@ class RemoteComponent extends Component {
     this.name = name;
     this.type = type;
     this.params = params;
+  }
+
+  async request(params) {
+    if (!this.ns || !this.ns._conn) throw new Error("Not connected!");
+    var msg = {
+      streamComponent: {
+        uuid: this.uuid,
+        params: Params.pack(params)
+      }
+    }
+    var req = new Request();
+    var [res, stream] = await this.ns._conn.requestStream(msg);
+    stream.received.add((packet) => {
+      // parse the packet
+      if (packet.streamUpdate) {
+        req.process(Params.unpack(packet.streamUpdate));
+      } else if (packet.cancel != undefined) {
+        stream.close();
+        req.close();
+      }
+    });
+    req.closed.add(() => {
+      stream.reply({cancel:0});
+    });
+
+    try {
+      checkError(res);
+      console.log(res);
+      if (!res.success) return null;
+      console.log('starting stream...');
+      // start processing messages in the stream
+      stream.start();
+    } catch (e) {
+      stream.close();
+      throw e;
+    }
+    return req;
+  }
+
+  async destroy() {
+    await this.ns.destroyComponent(this.uuid);
   }
 }

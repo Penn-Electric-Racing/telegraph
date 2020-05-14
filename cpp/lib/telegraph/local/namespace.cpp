@@ -2,6 +2,9 @@
 #include "../common/nodes.hpp"
 #include "../utils/errors.hpp"
 
+#include <boost/uuid/uuid_io.hpp>
+#include <boost/lexical_cast.hpp>
+
 namespace telegraph {
     local_namespace::local_namespace(io::io_context& ioc) 
             : namespace_(),
@@ -34,7 +37,7 @@ namespace telegraph {
     void 
     local_namespace::destroy_context(io::yield_ctx& y, const uuid& u) {
         context_ptr c = contexts->get(u);
-        if (!c) return;
+        if (!c) throw missing_error("No context with uuid " + boost::lexical_cast<std::string>(u));
         c->destroy(y);
     }
 
@@ -65,9 +68,9 @@ namespace telegraph {
 
     void 
     local_namespace::destroy_component(io::yield_ctx& y, const uuid& u) {
-        component_ptr t = components->get(u);
-        if (!t) return;
-        t->destroy(y);
+        component_ptr c = components->get(u);
+        if (!c) throw missing_error("No component with uuid " + boost::lexical_cast<std::string>(u));
+        c->destroy(y);
     }
 
 

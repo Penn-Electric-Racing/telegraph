@@ -325,32 +325,41 @@ namespace telegraph {
             if (!ctx) throw missing_error("no such context");
             params_stream_ptr s = ctx->stream(c, par);
 
-            streams_.emplace(std::make_pair(req_id, std::move(s)));
+            if (s) {
+                api::Packet res;
+                res.set_success(true);
+                conn_.write_back(req_id, std::move(res));
 
-            s->set_pipe([this, req_id] (params&& p) {
-                // write an update packet
-                api::Packet update;
-                p.move(update.mutable_stream_update());
-                conn_.write_back(req_id, std::move(update));
-            }, [this, req_id]() {
+                s->set_pipe([this, req_id] (params&& p) {
+                    // write an update packet
+                    api::Packet update;
+                    p.move(update.mutable_stream_update());
+                    conn_.write_back(req_id, std::move(update));
+                }, [this, req_id]() {
 
-                conn_.close_stream(req_id);
-                // on close send back a cancel message
-                api::Packet cancel;
-                cancel.set_cancel(0);
-                conn_.write_back(req_id, std::move(cancel));
+                    conn_.close_stream(req_id);
+                    // on close send back a cancel message
+                    api::Packet cancel;
+                    cancel.set_cancel(0);
+                    conn_.write_back(req_id, std::move(cancel));
 
-                // will delete the stream_ptr (and this object)
-                streams_.erase(req_id);
-            });
-            conn_.set_stream_cb(req_id,
-                [this] (io::yield_ctx& yield, const api::Packet& p) {
-                    if (p.payload_case() == api::Packet::kCancel) {
-                        auto it = streams_.find(p.req_id());
-                        if (it == streams_.end()) return;
-                        it->second->close();
-                    }
+                    // will delete the stream_ptr (and this object)
+                    streams_.erase(req_id);
                 });
+                streams_.emplace(std::make_pair(req_id, std::move(s)));
+                conn_.set_stream_cb(req_id,
+                    [this] (io::yield_ctx& yield, const api::Packet& p) {
+                        if (p.payload_case() == api::Packet::kCancel) {
+                            auto it = streams_.find(p.req_id());
+                            if (it == streams_.end()) return;
+                            it->second->close();
+                        }
+                    });
+            } else {
+                api::Packet res;
+                res.set_success(false);
+                conn_.write_back(req_id, std::move(res));
+            }
         } catch (const error& e) {
             reply_error(p, e);
         }
@@ -368,32 +377,42 @@ namespace telegraph {
             if (!component) throw missing_error("no such component");
             params_stream_ptr s = component->stream(c, par);
 
-            streams_.emplace(std::make_pair(req_id, std::move(s)));
+            if (s) {
+                api::Packet res;
+                res.set_success(true);
+                conn_.write_back(req_id, std::move(res));
 
-            s->set_pipe([this, req_id] (params&& p) {
-                // write an update packet
-                api::Packet update;
-                p.move(update.mutable_stream_update());
-                conn_.write_back(req_id, std::move(update));
-            }, [this, req_id]() {
+                conn_.set_stream_cb(req_id,
+                    [this] (io::yield_ctx& yield, const api::Packet& p) {
+                        if (p.payload_case() == api::Packet::kCancel) {
+                            auto it = streams_.find(p.req_id());
+                            if (it == streams_.end()) return;
+                            it->second->close();
+                        }
+                    });
+                s->set_pipe([this, req_id] (params&& p) {
+                    // write an update packet
+                    api::Packet update;
+                    p.move(update.mutable_stream_update());
+                    conn_.write_back(req_id, std::move(update));
+                }, [this, req_id]() {
+                    conn_.close_stream(req_id);
+                    // on close send back a cancel message
+                    api::Packet cancel;
+                    cancel.set_cancel(0);
+                    conn_.write_back(req_id, std::move(cancel));
 
-                conn_.close_stream(req_id);
-                // on close send back a cancel message
-                api::Packet cancel;
-                cancel.set_cancel(0);
-                conn_.write_back(req_id, std::move(cancel));
-
-                // will delete the stream_ptr (and this object)
-                streams_.erase(req_id);
-            });
-            conn_.set_stream_cb(req_id,
-                [this] (io::yield_ctx& yield, const api::Packet& p) {
-                    if (p.payload_case() == api::Packet::kCancel) {
-                        auto it = streams_.find(p.req_id());
-                        if (it == streams_.end()) return;
-                        it->second->close();
-                    }
+                    // will delete the stream_ptr (and this object)
+                    streams_.erase(req_id);
                 });
+                if (!s->is_closed()) {
+                    streams_.emplace(std::make_pair(req_id, std::move(s)));
+                }
+            } else {
+                api::Packet res;
+                res.set_success(false);
+                conn_.write_back(req_id, std::move(res));
+            }
         } catch (const error& e) {
             reply_error(p, e);
         }
@@ -509,10 +528,30 @@ namespace telegraph {
     }
 
     void
-    forwarder::handle_destroy_context(io::yield_ctx& c, const api::Packet& p) {
+    forwarder::handle_destroy_context(io::yield_ctx& yield, const api::Packet& p) {
+        try {
+            uuid u = boost::lexical_cast<uuid>(p.destroy_context());
+            ns_->destroy_context(yield, u);
+
+            api::Packet res;
+            res.set_success(true);
+            conn_.write_back(p.req_id(), std::move(res));
+        } catch (const error& e) {
+            reply_error(p, e);
+        }
     }
 
     void
-    forwarder::handle_destroy_component(io::yield_ctx& c, const api::Packet& p) {
+    forwarder::handle_destroy_component(io::yield_ctx& yield, const api::Packet& p) {
+        try {
+            uuid u = boost::lexical_cast<uuid>(p.destroy_component());
+            ns_->destroy_component(yield, u);
+
+            api::Packet res;
+            res.set_success(true);
+            conn_.write_back(p.req_id(), std::move(res));
+        } catch (const error& e) {
+            reply_error(p, e);
+        }
     }
 }

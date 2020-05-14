@@ -33,12 +33,13 @@ export class Collection {
     // add weakly so if the filtered version is dropped,
     // there are no reprocussions for us keeping them around
     this.added.addWeak(filtered, (w, o) => { if (f(o)) w._add(o) });
-    this.removed.addWeak(filtered, (w, o) => { w._removeUUID(o); });
+    this.removed.addWeak(filtered, (w, o) => { w._remove(o); });
     return filtered;
   }
 
-  unwrap() {
-    if (this.size != 1) return null;
+  unwrap(strict=true) {
+    if (strict && this.size != 1) return null;
+    else if (this.size == 0) return null;
     return this.current.values().next().value;
   }
 

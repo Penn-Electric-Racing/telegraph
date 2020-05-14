@@ -59,19 +59,18 @@ export default {
     async disconnect() {
     },
   },
-  created() {
-    this.liveContextUpdated(this.liveContextQuery.current);
-    this.liveContextQuery.updated.add(this.liveContextUpdated);
-
-    this.scannerUpdated(this.scannerQuery.current, true);
-    this.scannerQuery.updated.add(this.scannerUpdated);
-  },
   watch: {
-    liveContextQuery() {
+    liveContextQuery(n, o) {
+      if (o) {
+        o.updated.remove(this.liveContextUpdated);
+      }
       this.liveContextUpdated(this.liveContextQuery.current);
       this.liveContextQuery.updated.add(this.liveContextUpdated);
     },
-    scannerQuery() {
+    scannerQuery(n, o) {
+      if (o) {
+        o.updated.remove(this.scannerUpdated);
+      }
       this.scannerUpdated(this.scannerQuery.current);
       this.scannerQuery.updated.add(this.scannerUpdated);
     }

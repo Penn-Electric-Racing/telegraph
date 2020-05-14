@@ -4,7 +4,8 @@
   <div id="app">
     <div id="popup-pane" :style="{zIndex: numPopups > 0 ? 1 : -1}">
         <Popup v-for="(popup, idx) in popups" :name="popup.name" :id="popup.id" :key="popup.id"
-                @close="() => {closePopup(popup.id)}" @popup="newPopup" @newtab="newTab">
+                @popup="newPopup" @newtab="newTab" @close="() => {closePopup(popup.id)}"
+                @focus="() => { focusPopup(popup.id) }">
           <component :is="popup.type" 
                     :name="popup.name" 
                     :id="popup.id"
@@ -53,9 +54,7 @@
             <div v-show="activeSidebar=='logs'">
               Logs
             </div>
-            <div v-show="activeSidebar=='contexts'">
-              Contexts
-            </div>
+            <ContextsPage v-show="activeSidebar=='contexts'" :nsQuery="nsQuery"/>
             <ComponentsPage v-show="activeSidebar=='components'" :nsQuery="nsQuery"/>
             <LivePage v-show="activeSidebar=='live'" :nsQuery="nsQuery"/>
           </TabArea>
@@ -68,7 +67,10 @@
                     :nsQuery="nsQuery"
                     :key="tab.id"
                     v-bind="tab.props"
+                    @popup="newPopup"
+                    @newtab="newTab"
                     @renamed="(name) => {renameTab(tab.id, name)}"
+                    @close="() => {closeTab(tab.id)}"
                     v-for="tab in loadedTabs"
                     v-show="tab.id==activeTab"/>
         </TabArea>
@@ -80,11 +82,13 @@
 <script>
 import TabSwitcher from './components/TabSwitcher.vue'
 import TabArea from './components/TabArea.vue'
+import Popup from './components/Popup.vue'
 
 import FlatButton from './components/FlatButton.vue'
 
 import LivePage from './pages/LivePage.vue'
 import ComponentsPage from './pages/ComponentsPage.vue'
+import ContextsPage from './pages/ContextsPage.vue'
 
 // interface components
 import Burger from './Burger.vue'
@@ -145,7 +149,8 @@ export default {
   components: {
     TabSwitcher, TabArea,
     LivePage, ComponentsPage,
-    FlatButton,
+    ContextsPage,
+    FlatButton, Popup,
 
     Burger, Dashboard
   },
@@ -196,7 +201,26 @@ export default {
     },
 
     closePopup(id) {
+      for (let [index, p] of this.popups.entries()) {
+        if (p.id == id) {
+          this.popups.splice(index, 1);
+          break;
+        }
+      }
+    },
 
+    focusPopup(id) {
+      let popup = null;
+      for (let [index, p] of this.popups.entries()) {
+        if (p.id == id) {
+          popup = p;
+          this.popups.splice(index, 1);
+          break;
+        }
+      }
+      if (popup) {
+        this.popups.push(popup);
+      }
     },
 
     renamePopup(id, newName) {
@@ -250,7 +274,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
 }
 #popup-pane.darkened {
   z-index: 1000000;
@@ -258,15 +282,15 @@ html, body {
 #app {
   width: 100%;
   height: 100%;
-}
-#app-content {
-  z-index: 0;
   font-family: "Roboto", sans-serif, "Noto Color Emoji";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   background-color: #343C42;
   color: #88939C;
+}
+#app-content {
+  z-index: 0;
+
   width: 100%;
   height: 100%;
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="bubble" ref="bubble">
+  <div class="bubble" ref="bubble" v-on="$listeners">
     <div class="bubble-stack">
       <div class="bubble-header">
         <slot name="header">

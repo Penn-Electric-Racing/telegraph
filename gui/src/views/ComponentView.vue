@@ -28,13 +28,16 @@
 import { Component } from 'telegraph'
 
 import Bubble  from '../components/Bubble.vue'
-import uuidv4 from 'uuid/v4';
 
 // globally register the componentinfopage
 import ComponentInfoPage from '../pages/ComponentInfoPage.vue'
+import StreamRequestPage from '../pages/StreamRequestPage.vue'
 
+import uuidv4 from 'uuid/v4';
 import Vue from 'vue'
+
 Vue.component('ComponentInfoPage', ComponentInfoPage);
+Vue.component('StreamRequestPage', StreamRequestPage);
 
 export default {
     name: 'ComponentView',
@@ -44,16 +47,25 @@ export default {
     },
     methods: {
         destroy() {
+            if (this.component) {
+                this.component.destroy();
+            }
         },
         streamRequest() {
-
+            var popup = {
+                name: "Requests for " + this.component.name,
+                type: 'StreamRequestPage',
+                props: {resource: this.component},
+                id: uuidv4()
+            };
+            this.$bubble('popup', popup);
         },
         info() {
             // create the popup
             var popup = {
                 name: 'Component Information',
                 type: 'ComponentInfoPage',
-                props: {},
+                props: {component: this.component},
                 id: uuidv4(),
                 root: null
             };

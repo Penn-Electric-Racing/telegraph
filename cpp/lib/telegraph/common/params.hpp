@@ -79,7 +79,7 @@ namespace telegraph {
         bool closed_;
         std::function<void(params&& p)> handler_;
         std::function<void()> on_close_;
-        std::vector<params> queued_; // back-queue before
+        std::vector<params> queued_; // back-queue if handler not set
     public:
         params_stream() : 
             closed_(false), handler_(), 
@@ -99,10 +99,10 @@ namespace telegraph {
             if (handler_) handler_(std::move(p));
             else queued_.emplace_back(std::move(p));
         }
-        void set_pipe(std::function<void(params&& p)>&& h,
-                      std::function<void()>&& on_close) {
-            handler_ = std::move(h);
-            on_close_ = std::move(on_close);
+        void set_pipe(const std::function<void(params&& p)>& h,
+                      const std::function<void()>& on_close) {
+            handler_ = h;
+            on_close_ = on_close;
             for (auto& p : queued_) {
                 h(std::move(p));
             }

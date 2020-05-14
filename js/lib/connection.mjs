@@ -7,6 +7,7 @@ let { Packet } = api.telegraph.api;
 
 export class Params {
   static pack(json) {
+    if (json == null || json == undefined) return {none: {}};
     var type = typeof json;
     if (Array.isArray(json)) {
       return { array : { elements : json.map(x => Params.pack(x)) } };
@@ -38,6 +39,41 @@ export class Params {
     if (proto.str) return proto.str;
     if (proto.b) return proto.b;
     return null;
+  }
+}
+
+export class Stream {
+  constructor(reqId, conn) {
+    this.reqId = reqId;
+    this.conn = conn;
+    this.closed = new Signal();
+    this.isClosed = false;
+    this.received = new Signal();
+
+    this.buffer = [];
+  }
+  start() {
+    var b = this.buffer;
+    this.buffer = null;
+    for (let m of b) {
+      this.received.dispatch(m);
+    }
+  }
+  process(m) {
+    if (this.buffer) {
+      this.buffer.push(m);
+    } else {
+      this.received.dispatch(m);
+    }
+  }
+  close() {
+    if (!this.isClosed) {
+      this.isClosed = true;
+      this.closed.dispatch();
+    }
+  }
+  reply(msg) {
+    this.conn.writeBack(this.reqId, msg);
   }
 }
 
@@ -106,11 +142,13 @@ export class Connection {
   }
 
   send(packet) {
+    console.log('sent:', packet);
     var buffer = Packet.encode(packet).finish();
     this._ws.send(buffer);
   }
 
   received(packet) {
+    console.log('received:', packet);
     var reqId = packet.reqId;
     var payloadType = packet.payload;
 
@@ -123,7 +161,7 @@ export class Connection {
       return;
     }
     if (this._openStreams.has(reqId)) {
-      this._openStreams.get(reqId)(packet);
+      this._openStreams.get(reqId).process(packet);
     }
   }
 
@@ -137,14 +175,18 @@ export class Connection {
     return await send;
   }
 
-  async requestStream(req, handler) {
+  async requestStream(req) {
+    var stream = new Stream(-1, this);
     var send = new Promise((res, rej) => {
       var reqId = this._countUp ? this._counter++ : this._counter--;
+      stream.reqId = reqId;
+      stream.closed.add(() => this._openStreams.delete(reqId));
       this._openRequests.set(reqId, (packet) => packet == null ? rej('Connection closed') : res(packet));
-      this._openStreams.set(reqId, handler);
+      this._openStreams.set(reqId, stream);
       req.reqId = reqId;
       this.send(req);
     });
-    return await send;
+    var reply = await send;
+    return [reply, stream];
   }
 }

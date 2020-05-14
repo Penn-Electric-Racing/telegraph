@@ -11,8 +11,6 @@
     display: flex;
     flex-direction: column;
   }
-  .headers {
-  }
   .header {
     box-sizing: border-box;
     height: 50px;
@@ -37,5 +35,4 @@
     methods: {
     }
   }
-  
 </script>
