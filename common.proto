@@ -69,19 +69,20 @@ message Type {
 
 message Value {
     oneof type {
-        Empty none = 1;
-        int32 en = 2;
-        bool b = 3;
-        uint32 u8 = 4;
-        uint32 u16 = 5;
-        uint32 u32 = 6;
-        uint64 u64 = 7;
-        int32  i8 = 8;
-        int32  i16 = 9;
-        int32  i32 = 10;
-        int64  i64 = 11;
-        float  f = 12;
-        double d = 13;
+        Empty invalid = 1;
+        Empty none = 2;
+        int32 en = 3;
+        bool b = 4;
+        uint32 u8 = 5;
+        uint32 u16 = 6;
+        uint32 u32 = 7;
+        uint64 u64 = 8;
+        int32  i8 = 9;
+        int32  i16 = 10;
+        int32  i32 = 11;
+        int64  i64 = 12;
+        float  f = 13;
+        double d = 14;
     }
 }
 

@@ -16,9 +16,9 @@
                     dragIgnoreFrom=".noDrag"
                     :key="item.i">
             <component 
-            v-bind:is="tileData[item.i] ? tileData[item.i].type : null"
-                  :id="item.i" :nsQuery="nsQuery"
-                  :data="tileData[item.i]" @delete="remove(item.i)"/>
+              v-bind:is="tileData[item.i] ? tileData[item.i].type : null"
+                    :id="item.i" :nsQuery="nsQuery"
+                    :data="tileData[item.i]" @close="remove(item.i)"/>
           </grid-item>
         </grid-layout>
       </div>
@@ -119,6 +119,8 @@
   .dashboard {
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: column;
   }
   .drop-activated {
     opacity: 0.5;

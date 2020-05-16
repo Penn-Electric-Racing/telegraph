@@ -23,12 +23,12 @@ namespace telegraph {
         virtual void update(value v) = 0;
     };
 
-    template<typename ChangeFunc, typename CancelFunc>
+    template<typename PollFunc, typename ChangeFunc, typename CancelFunc>
         class adapter : public adapter_base,
-                        public std::enable_shared_from_this<adapter<ChangeFunc, CancelFunc>> {
+                        public std::enable_shared_from_this<adapter<PollFunc, ChangeFunc, CancelFunc>> {
         private:
             friend class sub;
-            using wadapter_ptr = std::weak_ptr<adapter<ChangeFunc, CancelFunc>>;
+            using wadapter_ptr = std::weak_ptr<adapter<PollFunc, ChangeFunc, CancelFunc>>;
             class sub : public subscription {
                 friend class adapter;
             private:
@@ -45,13 +45,25 @@ namespace telegraph {
                     cancel();
                 }
 
+                void poll() override {
+                    auto a = adapter_.lock();
+                    if (!a) {
+                        cancel();
+                        return;
+                    }
+                    a->poll();
+                }
+
                 void change(io::yield_ctx& yield, 
                         float min_interval, float max_interval, 
                         float timeout) override {
                     min_interval_ = min_interval;
                     max_interval_ = max_interval;
                     auto a = adapter_.lock();
-                    if (!a) return;
+                    if (!a) {
+                        cancel();
+                        return;
+                    }
                     a->change(yield, timeout);
                 }
 
@@ -59,7 +71,10 @@ namespace telegraph {
                     if (!cancelled_) {
                         cancelled_ = true;
                         auto a = adapter_.lock();
-                        if (!a) return;
+                        if (!a) {
+                            cancel();
+                            return;
+                        }
                         a->cancel(yield, this, timeout);
                         cancelled();
                     }
@@ -69,8 +84,9 @@ namespace telegraph {
                     if (!cancelled_) {
                         cancelled_ = true;
                         auto a = adapter_.lock();
-                        if (!a) return;
-                        a->cancel(this);
+                        if (a) {
+                            a->cancel(this);
+                        }
                         cancelled();
                     }
                 }
@@ -100,14 +116,16 @@ namespace telegraph {
             std::deque<io::deadline_timer*> waiting_ops_;
             std::unordered_set<sub*> subs_;
 
+            PollFunc poll_;
             ChangeFunc change_;
             CancelFunc cancel_;
         public:
-            adapter(io::io_context& ioc,value_type t, ChangeFunc change, CancelFunc cancel) :
+            adapter(io::io_context& ioc, value_type t, 
+                    PollFunc poll, ChangeFunc change, CancelFunc cancel) :
                     ioc_(ioc), type_(t), subscribed_(false),
                     min_interval_(0), max_interval_(0), 
                     running_op_(false), waiting_ops_(), subs_(),
-                    change_(change), cancel_(cancel) {}
+                    poll_(poll), change_(change), cancel_(cancel) {}
 
             // will push out an update...
             void update(value v) override {
@@ -123,7 +141,7 @@ namespace telegraph {
                     float timeout) override {
                 // calculate new min_interval_
                 auto wp = std::enable_shared_from_this<
-                            adapter<ChangeFunc, CancelFunc>>::
+                            adapter<PollFunc, ChangeFunc, CancelFunc>>::
                                 weak_from_this();
                 sub* s = new sub(wp,
                     type_, min_interval, max_interval);
@@ -136,6 +154,9 @@ namespace telegraph {
                 return std::unique_ptr<subscription>(s);
             }
         private:
+            void poll() {
+                poll_();
+            }
             bool change(io::yield_ctx& yield, float timeout) {
                 float new_min = std::numeric_limits<float>::max();
                 float new_max = 0;
@@ -235,7 +256,7 @@ namespace telegraph {
             // cancel immediately
             void cancel(sub* s) {
                 auto sp = std::enable_shared_from_this<
-                            adapter<ChangeFunc, CancelFunc>>::
+                            adapter<PollFunc, ChangeFunc, CancelFunc>>::
                                 shared_from_this();
                 subs_.erase(s);
                 io::spawn(ioc_, [sp, s] (io::yield_context yield) {

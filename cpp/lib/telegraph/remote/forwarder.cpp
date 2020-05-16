@@ -37,8 +37,8 @@ namespace telegraph {
         conn_.set_handler(api::Packet::kDestroyComponent,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy_component(c, p); });
 
-        conn_.set_handler(api::Packet::kChangeSub,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_change_sub(c, p); });
+        conn_.set_handler(api::Packet::kSubChange,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_sub_change(c, p); });
         conn_.set_handler(api::Packet::kCallAction,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_call_action(c, p); });
 
@@ -197,15 +197,15 @@ namespace telegraph {
     }
 
     void
-    forwarder::handle_change_sub(io::yield_ctx& c, const api::Packet& p) {
+    forwarder::handle_sub_change(io::yield_ctx& c, const api::Packet& p) {
         try {
             int32_t req_id = p.req_id();
-            const auto& cs = p.change_sub();
+            const auto& cs = p.sub_change();
 
             uuid ctx_uuid = boost::lexical_cast<uuid>(cs.uuid());
             float min_int = cs.min_interval();
             float max_int = cs.max_interval();
-            float timeout = cs.max_interval();
+            float timeout = cs.timeout();
 
             auto it = subs_.find(req_id);
 
@@ -221,10 +221,11 @@ namespace telegraph {
                 sub->data.add([this, req_id](value v) {
                     // write the data back
                     api::Packet p;
-                    v.pack(p.mutable_variable_update());
+                    v.pack(p.mutable_sub_update());
                     conn_.write_back(req_id, std::move(p));
                 });
                 sub->cancelled.add([this, req_id]() {
+                    subs_.erase(req_id);
                     api::Packet p;
                     p.set_cancel(0);
                     conn_.write_back(req_id, std::move(p));
@@ -233,13 +234,28 @@ namespace telegraph {
                 // handle getting a cancel() message
                 conn_.set_stream_cb(req_id, 
                     [this](io::yield_ctx& yield, const api::Packet& p) {
-                        if (p.payload_case() == api::Packet::kCancel) {
+                        if (p.payload_case() == api::Packet::kSubChange) {
+                            const api::Subscription& s = p.sub_change();
+                            bool success = false;
+                            try {
+                                subs_.at(p.req_id())->change(yield,
+                                        s.min_interval(), s.max_interval(),
+                                        s.timeout());
+                                success = true;
+                            } catch (...) {}
+                            api::Packet p;
+                            p.set_success(success);
+                            conn_.write_back(p.req_id(), std::move(p));
+                        } else if (p.payload_case() == api::Packet::kSubPoll) {
+                            subs_.at(p.req_id())->poll();
+                        } else if (p.payload_case() == api::Packet::kCancel) {
                             subs_.erase(p.req_id()); // will erase the sub and should trigger cancelled()
                         }
                     });
                 // reply with the sub type
                 api::Packet reply;
                 sub->get_type().pack(reply.mutable_sub_type());
+                conn_.write_back(req_id, std::move(reply));
 
                 // put in subs map
                 subs_.emplace(std::make_pair(req_id, std::move(sub)));

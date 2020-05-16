@@ -72,8 +72,10 @@ export class Stream {
       this.closed.dispatch();
     }
   }
-  reply(msg) {
+  send(msg) {
     this.conn.writeBack(this.reqId, msg);
+  }
+  request(msg) {
   }
 }
 

@@ -152,18 +152,19 @@ message Packet {
         string fetch_tree = 26; // context uuid to fetch tree
         Node fetched_tree = 27; // response to a context fetch
 
-        Subscription change_sub = 28;
-        Type sub_type = 29;
-        Value variable_update = 30; // keep receiving until the original request id is cancelled
+        Subscription sub_change = 28;
+        Empty sub_poll = 29;
+        Type sub_type = 30;
+        Value sub_update = 31; // keep receiving until the original request id is cancelled
 
-        Call call_action = 31;
-        Value call_return = 32;
+        Call call_action = 32;
+        Value call_return = 33;
 
         // archive operations:
-        DataWrite data_write = 33;
+        DataWrite data_write = 34;
 
-        DataQuery data_query = 34;
-        DataPacket archive_data = 35; // initial response to a query
-        DataPacket archive_update = 36; // any archive updates
+        DataQuery data_query = 35;
+        DataPacket archive_data = 36; // initial response to a query
+        DataPacket archive_update = 37; // any archive updates
     }
 }

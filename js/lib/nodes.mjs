@@ -298,7 +298,9 @@ export class Type {
 export var Value = {
   pack(val, type) {
     if (!type) return {};
+    if (val == undefined) return { invalid: {} };
     switch(type._class) {
+      case Type.INVALID._class:return { invalid: {} };
       case Type.NONE._class:   return { none: {} };
       case Type.BOOL._class:   return { b: val };
       case Type.ENUM._class:   return { en: val };
@@ -314,7 +316,7 @@ export var Value = {
       case Type.DOUBLE._class: return { d: val };
     }
   },
-  unpack(proto) {
+  unpack(proto, type) {
     if (proto.f) return proto.f;
     if (proto.d) return proto.d;
     if (proto.b) return proto.b;
@@ -327,6 +329,7 @@ export var Value = {
     if (proto.i16) return proto.i16;
     if (proto.i32) return proto.i32;
     if (proto.i64) return proto.i64;
-    return {}; // return none type
+    if (proto.none) return null;
+    return undefined;
   }
 }

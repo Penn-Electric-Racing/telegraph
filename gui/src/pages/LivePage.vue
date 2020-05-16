@@ -74,6 +74,13 @@ export default {
       this.scannerUpdated(this.scannerQuery.current);
       this.scannerQuery.updated.add(this.scannerUpdated);
     }
+  },
+  created() {
+      this.liveContextUpdated(this.liveContextQuery.current);
+      this.liveContextQuery.updated.add(this.liveContextUpdated);
+
+      this.scannerUpdated(this.scannerQuery.current);
+      this.scannerQuery.updated.add(this.scannerUpdated);
   }
 }
 </script>

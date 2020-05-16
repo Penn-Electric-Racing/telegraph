@@ -127,6 +127,9 @@ namespace telegraph {
                 }
                 return true;
             };
+            auto poll = []() {
+
+            };
             auto cancel = [wp, id](io::yield_ctx& yield, 
                                         float timeout) -> bool {
                 // do the subscribe
@@ -163,8 +166,8 @@ namespace telegraph {
                 }
                 return true;
             };
-            auto a = std::make_shared<adapter<decltype(change), decltype(cancel)>>(
-                                ioc_, v->get_type(), change, cancel);
+            auto a = std::make_shared<adapter<decltype(poll), decltype(change), decltype(cancel)>>(
+                                ioc_, v->get_type(), poll, change, cancel);
             adapters_.emplace(id, a);
         }
         return nullptr;

@@ -1,5 +1,5 @@
 <template>
-  <Panel @close="$emit('delete')">
+  <Panel @close="$emit('close')">
   </Panel>
 </template>
 

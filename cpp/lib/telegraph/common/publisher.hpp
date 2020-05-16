@@ -28,6 +28,11 @@ namespace telegraph {
             ~sub() {
                 cancel();
             }
+            void poll() {
+                auto p = publisher_.lock();
+                if (!p) return;
+                update(std::chrono::system_clock::now(), p->last_value_);
+            }
             void change(io::yield_ctx& yield,
                         float min_interval, float max_interval,
                         float timeout) override {
@@ -87,6 +92,7 @@ namespace telegraph {
         std::unordered_set<sub*> subs_;
         io::io_context& ioc_;
         value_type type_;
+        value last_value_;
     public:
         publisher(io::io_context& ioc, value_type t) : subs_(), ioc_(ioc), type_(t) {}
 
@@ -98,6 +104,7 @@ namespace telegraph {
         }
 
         void update(value v) {
+            last_value_ = v;
             auto tp = std::chrono::system_clock::now();
             for (sub* s : subs_) {
                 s->update(tp, v);

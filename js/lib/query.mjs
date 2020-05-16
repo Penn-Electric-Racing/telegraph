@@ -98,7 +98,7 @@ class CollectionsQuery extends Query {
 
   filter(f) {
     var sq = new this.selfType(this);
-    function onUpdate(query, n, o) { query.update(n ? n.filter(f) : null); }
+    function onUpdate(query, n) { query.update(n ? n.filter(f) : null); }
     onUpdate(sq, this.current, null);
     this.updated.addWeak(sq, onUpdate);
     return sq;
@@ -118,6 +118,16 @@ export class ComponentQuery extends Query {
 export class NodeQuery extends Query {
   constructor(parent=null) {
     super(parent);
+  }
+
+  fromPath(path) {
+    let nq = new NodeQuery(this);
+    function onUpdate(query, n) {
+      query.update(n ? n.fromPath(path) : null);
+    }
+    onUpdate(nq, this.current, null);
+    this.updated.addWeak(nq, onUpdate);
+    return nq;
   }
 }
 

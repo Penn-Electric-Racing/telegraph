@@ -36,11 +36,12 @@ message Packet {
 
         Subscribe change_sub = 8;
         Cancel cancel_sub = 9;
-        bool success = 10;
+        Empty poll_sub = 10;
+        bool success = 11;
 
-        uint32 cancelled = 11;
+        uint32 cancelled = 12;
 
-        Empty ping = 12;
-        int32 pong = 13; // contains number of subscriptions active
+        Empty ping = 13;
+        int32 pong = 14; // contains number of subscriptions active
     }
 }

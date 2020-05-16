@@ -48,10 +48,11 @@ namespace telegraph {
 
         constexpr value(value_type::type_class t, uint8_t v) : type_(t), value_() { value_.uint8 = v; }
 
-        value(const Value& v) :type_(value_type::None), value_() {
+        value(const Value& v) :type_(value_type::Invalid), value_() {
             switch(v.type_case()) {
             case Value::TYPE_NOT_SET: type_ = value_type::Invalid; break;
-            case Value::kNone: break;
+            case Value::kInvalid: type_ = value_type::Invalid; break;
+            case Value::kNone: type_ = value_type::None; break;
             case Value::kEn: type_ = value_type::Enum; value_.uint8 = v.en(); break;
             case Value::kB: type_ = value_type::Bool; value_.b = v.b(); break;
 
@@ -83,7 +84,7 @@ namespace telegraph {
 
         void pack(Value* v) {
             switch(type_) {
-            case value_type::Invalid: v->mutable_none(); break;
+            case value_type::Invalid: v->mutable_invalid(); break;
             case value_type::None: v->mutable_none(); break;
             case value_type::Enum: v->set_en(value_.uint8); break;
             case value_type::Bool: v->set_b(value_.b); break;

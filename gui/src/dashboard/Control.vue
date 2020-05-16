@@ -30,9 +30,10 @@
       async subscribe() {
         if (this.sub) await this.sub.cancel();
         if (this.node) {
-          this.sub = await this.node.subscribe(20, 1000);
+          this.sub = await this.node.subscribe(0.2, 1);
           if (this.sub) {
             this.sub.data.add(v => this.state = v);
+            this.sub.poll();
           } else {
             this.state = 'N/A';
           }
@@ -60,7 +61,9 @@
 
   .node-value {
     font-size: 21px;
-    padding-top: 3px;
+    padding: 3px 10px 3px 10px;
+    min-width: 3em;
+    text-align: center;
   }
   .node-label {
     font-size: 13px;

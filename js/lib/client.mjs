@@ -1,5 +1,6 @@
 import { Signal } from './signal.mjs'
-import { Node } from './nodes.mjs'
+import { Node, Type, Value } from './nodes.mjs'
+import { Adapter } from './adapter.mjs'
 import { Collection } from './collection.mjs'
 import { Connection, Params } from './connection.mjs'
 import WebSocket from 'isomorphic-ws'
@@ -191,17 +192,18 @@ class RemoteContext extends Context {
       var msg = {
         fetchTree: this.uuid
       };
-      var res = await conn.requestResponse(msg);
-      checkError(res);
-      if (!res.fetchedTree) throw new Error("unexpected response: " + res);
-      if (!this._cached_tree) {
-        var tree = Node.unpack(res.fetchedTree);
-        tree.setContext(this);
-        this._cached_tree = tree;
-      }
-      return this._cached_tree;
+      this._cached_tree = new Promise((res,rej) => {
+        conn.requestResponse(msg).then((response) => {
+          checkError(response);
+          if (!response.fetchedTree) throw new Error("unexpected response: " + response);
+          var tree = Node.unpack(response.fetchedTree);
+          tree.setContext(this);
+          res(tree);
+        });
+      });
+      return await this._cached_tree;
     } else {
-      return this._cached_tree;
+      return await this._cached_tree;
     }
   }
 
@@ -213,10 +215,85 @@ class RemoteContext extends Context {
     var key = path.join('/');
     var adapter = this._adapters.get(key);
     if (!adapter) {
-      adapter = new Adapter();
-      adapter.onClose.add(() => this.adapters_.delete(key));
+      console.log('creating new adapter!');
+      var adapter_response = null;
+
+      var adapter_stream = null;
+      var adapter_type = null;
+
+      adapter = new Adapter(
+        // poll()
+        () => {
+          if (adapter_stream == null) return;
+          adapter_stream.send({subPoll: {}});
+        },
+        // sub_change();
+        async (minInterval, maxInterval, timeout) => {
+          // if we need a new stream, get one
+          if (adapter_response == null) {
+            adapter_response = (async () => {
+              let req = {
+                subChange: {
+                  uuid: this.uuid,
+                  variable: path,
+                  minInterval: minInterval,
+                  maxInterval: maxInterval,
+                  timeout: timeout
+                }
+              };
+              let [response, s] = await this.ns._conn.requestStream(req);
+              checkError(response);
+              if (response.payload != 'subType') {
+                s.close();
+                adapter_stream = null;
+                return [null, null];
+              }
+              // add listener to the stream
+              s.received.add((m) => {
+                if (m.cancel) adapter.close();
+                else if (m.subUpdate && adapter_type) {
+                  adapter.update(Value.unpack(m.subUpdate, adapter_type));
+                }
+              });
+              s.start();
+              adapter_stream = s;
+              adapter_type = Type.unpack(response.subType);
+              return [s, adapter_type];
+            })();
+            await adapter_response;
+            if (adapter_stream == null)
+              throw new Error('Failed to subscribe!');
+          } else {
+            // we have a stream, send an update
+            await adapter_response;
+            let req = {
+              subChange: {
+                minInterval: minInterval,
+                maxInterval: maxInterval,
+                timeout: timeout
+              }
+            };
+            if (!adapter_stream) throw new Error("Bad stream!");
+            var res = await adapter_stream.request(req);
+            if (!res.success) throw new Error("Subscription change failed!");
+          }
+          // get the type
+          let [s, type] = await adapter_response;
+          return type;
+      }, 
+      // cancel()
+      async (timeout) => {
+        this._adapters.set(key, null);
+        if (adapter_stream == null) return;
+        adapter_stream.send({cancel: timeout});
+        adapter_stream.close();
+        adapter_response = null;
+        adapter_stream = null;
+        adapter_type = null;
+      });
       this._adapters.set(key, adapter);
     }
+    return await adapter.subscribe(minInterval, maxInterval, timeout);
   }
 
   async destroy() {
@@ -254,14 +331,13 @@ class RemoteComponent extends Component {
       }
     });
     req.closed.add(() => {
-      stream.reply({cancel:0});
+      stream.send({cancel:0});
+      stream.close();
     });
 
     try {
       checkError(res);
-      console.log(res);
       if (!res.success) return null;
-      console.log('starting stream...');
       // start processing messages in the stream
       stream.start();
     } catch (e) {

@@ -43,7 +43,7 @@ namespace telegraph {
 
         void handle_fetch_tree(io::yield_ctx&, const api::Packet& p);
 
-        void handle_change_sub(io::yield_ctx&, const api::Packet& p);
+        void handle_sub_change(io::yield_ctx&, const api::Packet& p);
         void handle_call_action(io::yield_ctx&, const api::Packet& p);
 
         void handle_data_write(io::yield_ctx&, const api::Packet& p);

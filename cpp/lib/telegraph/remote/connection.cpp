@@ -13,9 +13,6 @@ namespace telegraph {
 
     void
     connection::received(io::yield_ctx& yield, const api::Packet& p) {
-        if (handlers_.find(p.payload_case()) != handlers_.end()) {
-            handlers_.at(p.payload_case())(yield, p);
-        }
         if (open_requests_.find(p.req_id()) != open_requests_.end()) {
             response& r = open_requests_.at(p.req_id());
             r.packet = p;
@@ -29,6 +26,9 @@ namespace telegraph {
         if (open_streams_.find(p.req_id()) != open_streams_.end()) {
             // call the stream handler
             open_streams_.at(p.req_id())(yield, p);
+        }
+        if (handlers_.find(p.payload_case()) != handlers_.end()) {
+            handlers_.at(p.payload_case())(yield, p);
         }
     }
 

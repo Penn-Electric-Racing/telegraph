@@ -316,7 +316,8 @@ html, body {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  flex: 1;
+  flex-basis: auto;
+  flex-grow: 0;
   min-width: 0;
 }
 

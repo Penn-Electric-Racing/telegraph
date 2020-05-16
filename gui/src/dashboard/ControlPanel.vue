@@ -1,5 +1,5 @@
 <template>
-  <Panel @close="$emit('delete')" :header="header">
+  <Panel @close="$emit('close')" :header="header">
     <div class="controls">
       <Control :node="n" v-for="n in controllableNodes" :key="n.getName()"/>
     </div>
@@ -16,12 +16,20 @@
     props: {
       id: String,
       nsQuery: NamespaceQuery,
-      dataMap: Map
+      data: Object
     },
 
     data() {
       return {
         node: null,
+      }
+    },
+    created() {
+      console.log('created!', this.data);
+    },
+    methods: {
+      updateNode(node) {
+        this.node = node
       }
     },
     computed: {
@@ -31,14 +39,31 @@
       controllableNodes() {
         if (!this.node) return [];
         var c = [];
+        console.log(this.node);
         for (let n of this.node.nodes()) {
           if (n instanceof Action || n instanceof Variable) c.push(n);
         }
         return c;
       },
       nodeQuery() {
-        return null;
+        return this.nsQuery.contexts
+              .extract(x => x.name == this.data.ctx)
+              .fetch()
+              .fromPath(this.data.node);
       }
+    },
+    watch: {
+      nodeQuery(n, o) {
+        if (o) {
+          o.updated.remove(this.updateNode);
+        }
+        this.updateNode(n.current);
+        n.updated.add(this.updateNode);
+      }
+    },
+    created() {
+      this.updateNode(this.nodeQuery.current);
+      this.nodeQuery.updated.add(this.updateNode);
     }
   }
 </script>

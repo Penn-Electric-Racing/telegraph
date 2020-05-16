@@ -32,6 +32,9 @@ namespace telegraph {
          */
         constexpr bool is_cancelled() const { return cancelled_; }
 
+        // request a re-transmission of the latest value
+        virtual void poll() = 0;
+
         virtual void change(io::yield_ctx&, float min_interval, 
                             float max_interval, float timeout) = 0;
         virtual void cancel(io::yield_ctx& yield, float timeout) = 0;

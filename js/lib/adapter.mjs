@@ -28,7 +28,7 @@ class AdapterSubscriber {
     }
   }
 
-  async change(minInterval, maxInterval) {
+  async change(minInterval, maxInterval, timeout) {
     this.minInterval = minInterval;
     this.maxInterval = maxInterval;
 
@@ -36,11 +36,15 @@ class AdapterSubscriber {
     await this._adapter._recalculate();
   }
 
-  async cancel() {
+  async cancel(timeout=1) {
     this._minTimer.stop();
     this._adapter._subs.delete(this);
-    await this._adapter._recalculate();
+    await this._adapter._recalculate(timeout);
     this._adapter = null;
+  }
+
+  poll() {
+    this._adapter.poll();
   }
 }
 
@@ -49,54 +53,63 @@ class AdapterSubscriber {
 // republishing on max time
 export class Adapter {
   // these may be asynchronous functions!
-  constructor(type, changeSubscription, stopSubscription) {
-    this._type = type;
+  constructor(poll, changeSubscription, stopSubscription) {
+    this._type = null;
+    this._poll = poll;
     this._changeSubscription = changeSubscription;
     this._stopSubscription = stopSubscription;
     this._subs = new Set();
 
     this._minInterval = null;
     this._maxInterval = null;
-    this._lastVal = undefined;
   }
 
-  async _recalculate() {
+  async _recalculate(timeout) {
     var min = null;
     var max = null;
     for (let s of this._subs) {
       min = min == null ? s.minInterval : Math.min(s.minInterval, min);
-      max = max == null ? s.maxInterval : Math.min(s.maxInterval, max);
+      max = max == null || max == 0 ? 
+          s.maxInterval : Math.min(s.maxInterval, max);
     }
     if (min != this._minInterval || 
        max != this._maxInterval) {
       this._minInterval = min;
       this._maxInterval = max;
-      if (min == null) {
-        await this._stopSubscription();
+      if (this._subs.size == 0) {
+        await this._stopSubscription(timeout);
       } else {
-        await this._changeSubscription(min, max);
+        this._type = await this._changeSubscription(min, max, timeout);
       }
-      return true;
     }
-    return false;
+  }
+
+  poll() {
+    this._poll();
   }
 
   update(val) {
-    this._lastVal = val;
     for (let s of this._subs) s._notify(val);
   }
 
-  async subscribe(minInterval, maxInterval) {
-    var s = new AdapterSubscriber(this, this._type, minInterval, maxInterval);
+  async subscribe(minInterval, maxInterval, timeout) {
+    var s = new AdapterSubscriber(this, 
+          this._type, minInterval, maxInterval);
     this._subs.add(s);
-    // if the underlying subscription
-    // is not changing, push a value to the subscription next tick
-    if (!(await this._recalculate())) {
-      setTimeout(() => { 
-        if (this._lastVal != undefined) s._notify(this._lastVal);
-      }, 0);
+    try {
+      await this._recalculate(timeout);
+      s._type = this._type;
+    } catch (e) {
+      this._subs.delete(s);
+      return null;
     }
     return s;
+  }
+
+  // closing the adapter
+  // will cancel all associated
+  // subscriptions
+  close() {
   }
 }
 
