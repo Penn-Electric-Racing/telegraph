@@ -48,7 +48,7 @@ namespace telegraph {
         float min_interval_;
         float max_interval_;
     };
-    using subscription_ptr = std::unique_ptr<subscription>;
+    using subscription_ptr = std::shared_ptr<subscription>;
 
     using time_point = std::chrono::time_point<std::chrono::system_clock>;
     /**
@@ -65,7 +65,7 @@ namespace telegraph {
 
     class data_query {
     };
-    using data_query_ptr = std::unique_ptr<data_query>;
+    using data_query_ptr = std::shared_ptr<data_query>;
 }
 
 #endif

@@ -127,6 +127,11 @@ namespace telegraph {
             t.set_labels(std::move(labels));
             return t;
         }
+
+        bool operator==(const value_type& other) const {{
+            return class_ == other.class_ && name_ == other.name_
+                && labels_ == other.labels_;
+        }}
     private:
         type_class class_;
         std::string name_; // only set for enum types

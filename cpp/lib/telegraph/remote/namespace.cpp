@@ -73,7 +73,10 @@ namespace telegraph {
     remote_context::mounts(bool srcs, bool tgts) const {
         const uuid& u = uuid_;
         return ns_->mounts->filter([u, srcs, tgts](const mount_info& i) {
-            return (srcs && (i.tgt == u)) || (tgts && (i.src == u));
+            auto s = i.src.lock();
+            auto t = i.tgt.lock();
+            if (!s || !t) return false;
+            return (srcs && (t->get_uuid() == u)) || (tgts && (s->get_uuid() == u));
         });
     }
 

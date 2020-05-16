@@ -27,6 +27,7 @@ export default {
   },
   props: {
     treeQuery: NodeQuery,
+    treeRoot: Object,
     placeholder: { type: String, default: "Not Found" }
   },
   created() {
@@ -34,11 +35,17 @@ export default {
       this.tree = this.treeQuery.current;
       this.treeQuery.updated.add((newTree) => { this.tree = newTree });
     }
+    if (this.treeRoot) {
+      this.tree = this.treeRoot;
+    }
   },
   watch: {
     treeQuery() {
       this.tree = this.treeQuery.current;
       this.treeQuery.updated.add((newTree) => { this.tree = newTree });
+    },
+    treeRoot() {
+      this.tree = this.treeRoot;
     }
   }
 }

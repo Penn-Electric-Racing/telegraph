@@ -23,7 +23,11 @@
     },
     computed: {
       stateLabel() {
-        return this.state == null ? '...' : '' + this.state;
+        var str = '' + this.state;
+        if (typeof this.state == 'number' && this.state % 1 !== 0) {
+          str = this.state.toFixed(2);
+        }
+        return this.state == null ? '...' : '' + str;
       }
     },
     methods: {

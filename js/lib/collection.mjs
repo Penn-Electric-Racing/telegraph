@@ -22,6 +22,16 @@ export class Collection {
     return this.current.size;
   }
 
+  bind(array) {
+    this.added.addWeak(array, (x) => array.push(x));
+    this.removed.addWeak(array, (x) => array.splice(array.indexOf(x), 1));
+  }
+
+  unbind(array) {
+    this.added.removeWeakAll(array);
+    this.removed.removeWeakAll(array);
+  }
+
   // returns a filtered collection,
   // which is connected to this collection
   // by weak reference
@@ -41,6 +51,15 @@ export class Collection {
     if (strict && this.size != 1) return null;
     else if (this.size == 0) return null;
     return this.current.values().next().value;
+  }
+
+  extract(f) {
+    for (let o of this.current.values()) {
+      if (f(o)) {
+        return o;
+      }
+    }
+    return null;
   }
 
   has(o) {

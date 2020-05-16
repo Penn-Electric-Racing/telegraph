@@ -63,6 +63,18 @@ namespace telegraph {
         t->removed.remove(this);
         m->added.remove(this);
         m->removed.remove(this);
+
+        // we need to also avoid that during destruction
+        // a message is sent out. that will try and elongate
+        // the lifetime of the underlying connection, which can't
+        // be done at this point (because the connection is closed)
+        for (auto& s : subs_) {
+            s.second->cancelled.remove(this);
+            s.second->data.remove(this);
+        }
+        for (auto& s : streams_) {
+            s.second->reset_pipe(); // stop forwarding info
+        }
     }
 
     void
@@ -107,8 +119,10 @@ namespace telegraph {
         }
         for (const auto& i : *m) {
             auto& mount = i.second;
-            std::string src = boost::lexical_cast<std::string>(mount.src);
-            std::string tgt = boost::lexical_cast<std::string>(mount.tgt);
+            auto s = mount.src.lock();
+            auto t = mount.tgt.lock();
+            std::string src = boost::lexical_cast<std::string>(s->get_uuid());
+            std::string tgt = boost::lexical_cast<std::string>(t->get_uuid());
 
             api::Mount* mt = ns->add_mounts();
             mt->set_src(std::move(src));
@@ -155,8 +169,11 @@ namespace telegraph {
         });
         m->added.add(this, [this, req_id] (const mount_info& m) {
             api::Packet res;
-            std::string src = boost::lexical_cast<std::string>(m.src);
-            std::string tgt = boost::lexical_cast<std::string>(m.tgt);
+            auto s = m.src.lock();
+            auto t = m.tgt.lock();
+            if (!s || !t) return;
+            std::string src = boost::lexical_cast<std::string>(s->get_uuid());
+            std::string tgt = boost::lexical_cast<std::string>(t->get_uuid());
 
             api::Mount* mt = res.mutable_mount_added();
             mt->set_src(std::move(src));
@@ -165,8 +182,11 @@ namespace telegraph {
         });
         m->removed.add(this, [this, req_id] (const mount_info& m) {
             api::Packet res;
-            std::string src = boost::lexical_cast<std::string>(m.src);
-            std::string tgt = boost::lexical_cast<std::string>(m.tgt);
+            auto s = m.src.lock();
+            auto t = m.tgt.lock();
+            if (!s || !t) return;
+            std::string src = boost::lexical_cast<std::string>(s->get_uuid());
+            std::string tgt = boost::lexical_cast<std::string>(t->get_uuid());
 
             api::Mount* mt = res.mutable_mount_removed();
             mt->set_src(std::move(src));
@@ -218,6 +238,12 @@ namespace telegraph {
                 auto ctx = ns_->contexts->get(ctx_uuid);
                 if (!ctx) throw missing_error("no such context");
                 auto sub = ctx->subscribe(c, path, min_int, max_int, timeout);
+                if (!sub) {
+                    api::Packet r;
+                    r.set_success(false);
+                    conn_.write_back(req_id, std::move(r));
+                    return;
+                }
                 sub->data.add([this, req_id](value v) {
                     // write the data back
                     api::Packet p;
@@ -243,9 +269,9 @@ namespace telegraph {
                                         s.timeout());
                                 success = true;
                             } catch (...) {}
-                            api::Packet p;
-                            p.set_success(success);
-                            conn_.write_back(p.req_id(), std::move(p));
+                            api::Packet r;
+                            r.set_success(success);
+                            conn_.write_back(p.req_id(), std::move(r));
                         } else if (p.payload_case() == api::Packet::kSubPoll) {
                             subs_.at(p.req_id())->poll();
                         } else if (p.payload_case() == api::Packet::kCancel) {

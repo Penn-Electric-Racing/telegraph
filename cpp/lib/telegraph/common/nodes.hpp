@@ -82,6 +82,8 @@ namespace telegraph {
 
         virtual void set_unowned() { owner_.reset(); }
 
+        virtual bool compatible_with(node* other) const = 0;
+
         // pack and unpack functions
         virtual void pack(Node* proto) const = 0;
         static node* unpack(const Node& proto);
@@ -220,6 +222,8 @@ namespace telegraph {
 
         inline size_t num_children() const { return children_.size(); }
 
+        bool compatible_with(node* other) const override;
+
         void pack(Group* group) const;
         virtual void pack(Node* proto) const override;
         static group* unpack(const Group& g);
@@ -247,6 +251,8 @@ namespace telegraph {
             node(v), data_type_(v.get_type()) {}
         const value_type& get_type() const { return data_type_; }
 
+        bool compatible_with(node* other) const override;
+
         void pack(Variable* var) const;
         virtual void pack(Node* proto) const override;
         static variable* unpack(const Variable& proto);
@@ -271,6 +277,8 @@ namespace telegraph {
             ret_type_(a.get_ret_type()) {}
         const value_type& get_arg_type() const { return arg_type_; }
         const value_type& get_ret_type() const { return ret_type_; }
+
+        bool compatible_with(node* other) const override;
 
         void pack(Action* proto) const;
         virtual void pack(Node* proto) const override;

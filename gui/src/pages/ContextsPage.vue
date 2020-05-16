@@ -1,7 +1,7 @@
 <template>
     <div class="contexts-page">
         <ScrollArea>
-            <div class="cotnexts">
+            <div class="contexts">
                     <ContextView v-for="context in contexts" 
                                 :key="context.uuid"
                                 :context="context"/>
@@ -78,14 +78,14 @@ export default {
 </script>
 
 <style scoped>
-    .components-page {
+    .contexts-page {
         height: 100%;
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: stretch;
     }
-    .components {
+    .contexts {
         width: 100%;
         display: flex;
         flex-direction: column;

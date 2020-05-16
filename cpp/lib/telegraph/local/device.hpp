@@ -84,9 +84,9 @@ namespace telegraph {
                 const std::vector<std::string_view>& path, 
                 const std::vector<data_point>& d) override { return false; }
 
-        std::unique_ptr<data_query> query_data(io::yield_ctx& yield, 
+        data_query_ptr query_data(io::yield_ctx& yield, 
                                             const variable * n) override { return nullptr; }
-        std::unique_ptr<data_query> query_data(io::yield_ctx& yield, 
+        data_query_ptr query_data(io::yield_ctx& yield, 
                                 const std::vector<std::string_view>& p) override { return nullptr; }
 
         // disable mounting
@@ -116,8 +116,15 @@ namespace telegraph {
     };
 
     class device_scanner : public local_component {
+    private:
+        std::unordered_map<params_stream*, 
+                std::weak_ptr<params_stream>> requests_;
+        std::vector<std::string> last_devices_;
     public:
         device_scanner(io::io_context& ioc, const std::string_view& name);
+        ~device_scanner();
+
+        void init();
 
         params_stream_ptr request(io::yield_ctx&, const params& p) override;
 

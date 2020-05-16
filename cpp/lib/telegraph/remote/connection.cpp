@@ -3,6 +3,7 @@
 #include "../utils/errors.hpp"
 
 #include <chrono>
+#include <iostream>
 
 namespace telegraph {
     connection::connection(io::io_context& ioc, bool count_down) : 
@@ -10,6 +11,8 @@ namespace telegraph {
         count_down_(count_down),
         counter_(0),
         open_requests_() {}
+    connection::~connection() {
+    }
 
     void
     connection::received(io::yield_ctx& yield, const api::Packet& p) {

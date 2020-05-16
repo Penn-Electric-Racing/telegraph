@@ -4,7 +4,8 @@
     <div class="connection-selectors">
       <ComboBox :options="ports"/>
       <ComboBox :options="bauds"/>
-      <Button :text="this.live ? 'Disconnect' : 'Connect'" @click="this.live ? disconnect() : connect()"/>
+      <Button :text="devices.length > 0 ? 'Disconnect' : 'Connect'" 
+          @click="devices.length > 0 ? disconnect() : connect()"/>
     </div>
   </div>
 </template>
@@ -24,22 +25,29 @@ export default {
   },
   data: function() {
     return {
-      ports : [],
-      bauds : ['Auto', 10, 11, 123],
+      bauds : [115200, 9600],
+      ports: [],
+      portsStream: null,
       devices: [],
-      devicesStream: null,
       live: null // the live context
     }
   },
   computed: {
     liveContextQuery() {
-      return this.nsQuery.contexts.unwrap(); //filter(c => c.name == 'live' ).unwrap();
+      return this.nsQuery.contexts.extract(x => x.name == 'live' && x.type == 'container');
     },
     liveNodesQuery() {
       return this.liveContextQuery.fetch();
     },
     scannerQuery() {
       return this.nsQuery.components.extract(x => x.type == 'device_scanner');
+    },
+    devicesCollection() {
+      if (this.devicesCollection) this.devicesCollection.unbind(this.devices);
+      this.devices = [];
+      var collection = this.nsQuery.contexts.filter(x => x.type == 'device').collect();
+      collection.bind(this.devices)
+      return collection;
     }
   },
   methods: {
@@ -51,6 +59,17 @@ export default {
         // request to create a scanner
         var ns = this.nsQuery.current;
         ns.createComponent('scanner', 'device_scanner', {}, {});
+      }
+      if (this.portsStream) {
+        this.portsStream.close();
+        this.portsStream = null;
+      }
+      if (scanner) {
+        (async() => {
+          this.portsStream = await scanner.request(null);
+          this.portsStream.received.add((x) => this.ports = x);
+          this.portsStream.start();
+        })();
       }
       this.scanner = scanner;
     },

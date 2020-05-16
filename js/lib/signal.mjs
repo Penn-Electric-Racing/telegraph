@@ -23,6 +23,10 @@ export class Signal {
     c.splice(c.indexOf(f), 1);
   }
 
+  removeWeakAll(o) {
+    this.weakListeners.delete(o);
+  }
+
   dispatch(...args) {
     for (let l of this.listeners) {
       l(...args);

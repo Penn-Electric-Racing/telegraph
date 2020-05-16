@@ -79,12 +79,16 @@ namespace telegraph {
         bool closed_;
         std::function<void(params&& p)> handler_;
         std::function<void()> on_close_;
+        std::function<void()> on_destroy_;
         std::vector<params> queued_; // back-queue if handler not set
     public:
         params_stream() : 
             closed_(false), handler_(), 
             on_close_(), queued_() {}
-        ~params_stream() { close(); }
+        ~params_stream() { 
+            close(); 
+            on_destroy_();
+        }
 
         constexpr bool is_closed() const { return closed_; }
 
@@ -100,6 +104,16 @@ namespace telegraph {
             if (handler_) handler_(std::move(p));
             else queued_.emplace_back(std::move(p));
         }
+
+        void set_on_destroy(const std::function<void()>& h) {
+            on_destroy_ = h;
+        }
+
+        void reset_pipe() {
+            handler_ = std::function<void(params&&)>{};
+            on_close_ = std::function<void()>{};
+        }
+
         void set_pipe(const std::function<void(params&& p)>& h,
                       const std::function<void()>& on_close) {
             handler_ = h;
@@ -111,7 +125,7 @@ namespace telegraph {
             if (closed_) on_close_();
         }
     };
-    using params_stream_ptr = std::unique_ptr<params_stream>;
+    using params_stream_ptr = std::shared_ptr<params_stream>;
 }
 
 #endif

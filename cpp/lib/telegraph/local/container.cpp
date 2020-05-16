@@ -4,7 +4,7 @@ namespace telegraph {
     container::container(io::io_context& ioc, const std::string_view& name,
                             std::unique_ptr<node>&& tree) : 
                     local_context(ioc, name, "container", params{}, 
-                    std::shared_ptr<node>{std::move(tree)}) {}
+                        std::shared_ptr<node>{std::move(tree)}) {}
 
     params_stream_ptr
     container::request(io::yield_ctx&, const params& p) {
@@ -31,7 +31,11 @@ namespace telegraph {
         for (auto& s : var) varv.push_back(s);
         for (const context_ptr& p : mounts_) {
             auto s = p->subscribe(ctx, varv, min_interval, max_interval, timeout);
-            if (s) return s;
+            if (s) {
+                auto it = subs_.emplace(p, std::unordered_set<subscription_ptr>{}).first;
+                it->second.insert(s);
+                return s;
+            }
         }
         return nullptr;
     }

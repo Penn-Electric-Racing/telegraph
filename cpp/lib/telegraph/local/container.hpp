@@ -11,13 +11,16 @@
 #include <string>
 #include <string_view>
 #include <memory>
+#include <vector>
+#include <map>
 #include <unordered_set>
 
 namespace telegraph {
     class container : public local_context {
     private:
         std::vector<context_ptr> mounts_;
-        std::shared_ptr<node> tree_;
+        // subscriptions active on each mounted context
+        std::map<context_ptr, std::unordered_set<subscription_ptr>> subs_;
     public:
         container(io::io_context& ioc, const std::string_view& name, 
                     std::unique_ptr<node>&& tree);
@@ -62,6 +65,9 @@ namespace telegraph {
         }
 
         void mount(io::yield_ctx& y, const context_ptr& src) override { 
+            auto tree = src->fetch(y);
+            if (!tree || !tree->compatible_with(tree_.get()))
+                throw tree_error("cannot mount mismatching tree!");
             local_context::mount(y, src);
             mounts_.push_back(src); 
         }
@@ -69,8 +75,14 @@ namespace telegraph {
             local_context::unmount(y, src);
             mounts_.erase(std::remove(mounts_.begin(), 
                         mounts_.end(), src), mounts_.end());
+            auto it = subs_.find(src);
+            if (it != subs_.end()) {
+                for (auto s : it->second) {
+                    s->cancel();
+                }
+                subs_.erase(src);
+            }
         }
-        std::shared_ptr<node> fetch(io::yield_ctx&) override { return tree_; }
 
         static local_context_ptr create(io::yield_ctx&, io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type,

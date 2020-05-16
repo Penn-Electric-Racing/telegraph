@@ -36,6 +36,7 @@ namespace telegraph {
         std::unordered_map<api::Packet::PayloadCase, handler> handlers_;
     public:
         connection(io::io_context& ioc, bool count_down);
+        ~connection();
 
 		// both send/received should be non-blocking
 

@@ -1,27 +1,26 @@
 <template>
   <div>
-    <div id="top-container" v-show="showing"> 
       <div class="combobox-options"> 
-        <button class="options" :key="option" v-for="option in options" @focus="setBaudRate(option)">
+        <Button :key="option" v-for="option in options" 
+            @click="setBaudRate(option)">
           {{ option }}
-        </button>
+        </Button>
       </div>
-    </div>
-
-    <div class="bottom-container">
-      <button class="combobox-button" ref="button" @click="showing ? hideOptions() : showOptions()" v-on:blur="waitToSetBaudRate()" v-text="baudRate"/>
-    </div>
+      <Button class="combobox-button" ref="button" 
+        @click="toggleOptions()"
+        :text="selected ? '' : selected"/>
   </div>
 </template>
 
 <script>
+  import Button from './Button.vue'
   export default {
     name: 'ComboBox',
+    components: { Button, vSelect },
     data: function() {
       return { 
         selected: undefined, 
         showing: false,
-        baudRate: this.title,
       };
     },
     props: {
@@ -29,15 +28,12 @@
       title: String
     },
     methods: {
-      hideOptions() {
-        this.showing = false
+      toggleOptions() {
+        this.showing = !this.showing;
         this.$refs.button.blur()
       },
-      showOptions() {
-        this.showing = true
-      },
-      setBaudRate(input) {
-        this.baudRate = input 
+      select(input) {
+        this.selected = input;
       },
 
       waitToSetBaudRate() {
@@ -50,67 +46,3 @@
   }
   
 </script>
-
-<style scoped>
-
-  #top-container {
-    position: relative;
-    background-color: blue;
-  }
-
-  .combobox-options {
-    position: absolute;
-    bottom: 0;
-    width: 100%
-  }
-
-  .bottom-container{
-    position: relative;
-    height: 100%;
-    width: 100%;
-  }
-
-  .options:focus {
-    outline: none
-  }
-
-  .options {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-
-    width: 100%;
-    height: 100%;
-
-    position: relative;
-
-    color: #5e6870;
-    background-color: #353c42;
-    /* border-color: #272c30; */
-    border: none;
-
-    font-size: 1rem;
-  }
-
-  .options:hover {
-    background-color: rgba(36, 41, 45, 1);
-  }
-
-  .combobox-button {
-    height: 100%;
-    width: 100%;
-    font-size: 1rem; 
-    /* background-color: aqua; */
-    background-color: rgba(36, 41, 44, 0.5);
-    /* border-color: rgba(36, 41, 44, 0.5); */
-    border: none;
-    color: #5e6870;
-  }
-
-  .combobox-button:focus { 
-    outline:0 !important; 
-    background-color: rgba(36, 41, 45, 1);
-    /* border-color:  rgba(36, 41, 45, 1); */
-  }
-
-</style>

@@ -1,7 +1,6 @@
 <template>
   <Bubble v-if="isGroup" class="node-bubble" 
-                :draggable="true" :dragData="node"
-                :hasContent="true">
+                draggable hasContent :dragData="node">
     <template v-slot:header>
         {{ node.getName() }}
     </template>

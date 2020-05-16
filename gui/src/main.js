@@ -6,13 +6,15 @@ import { faCogs, faWifi, faTimes, faSlidersH,
          faCubes, faBox, faChartBar, faColumns,
          faEdit, faFolderOpen, faPlus, faTasks, 
          faTrash, faExchangeAlt, faQuestion, 
-         faServer} from '@fortawesome/free-solid-svg-icons'
+         faServer, faMagnet, faDatabase, 
+         faSatelliteDish} from '@fortawesome/free-solid-svg-icons'
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faTimes, faWifi, faCogs, faEdit, faFolderOpen, faColumns,
             faBox, faPlus, faSlidersH, faCubes, faChartBar, faTasks,
-            faTrash, faTrashAlt, faExchangeAlt, faQuestion, faServer)
+            faTrash, faTrashAlt, faExchangeAlt, faQuestion, faServer,
+            faMagnet, faDatabase, faSatelliteDish);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

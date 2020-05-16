@@ -21,11 +21,11 @@ namespace telegraph {
     class node;
 
     class subscription;
-    using subscription_ptr = std::unique_ptr<subscription>;
+    using subscription_ptr = std::shared_ptr<subscription>;
 
     class data_point;
     class data_query;
-    using data_query_ptr = std::unique_ptr<data_query>;
+    using data_query_ptr = std::shared_ptr<data_query>;
 
     class component;
     using component_ptr = std::shared_ptr<component>;
@@ -36,10 +36,11 @@ namespace telegraph {
     struct mount_info {
         constexpr mount_info() 
             : src(), tgt() {}
-        constexpr mount_info(const uuid& src, const uuid& tgt) 
+        mount_info(const std::weak_ptr<context>& src, 
+                             const std::weak_ptr<context>& tgt) 
             : src(src), tgt(tgt) {}
-        uuid src;
-        uuid tgt;
+        std::weak_ptr<context> src;
+        std::weak_ptr<context> tgt;
     };
 
     using sources_map = std::unordered_map<std::string,
@@ -189,10 +190,10 @@ namespace telegraph {
 
     // add equality operator the mount_info type
     inline bool operator==(const mount_info& lh, const mount_info& rh) {
-        return lh.src == rh.src && lh.tgt == rh.tgt;
+        return lh.src.lock() == rh.src.lock() && lh.tgt.lock() == rh.tgt.lock();
     }
     inline bool operator!=(const mount_info& lh, const mount_info& rh) {
-        return lh.src != rh.src || lh.tgt != rh.tgt;
+        return lh.src.lock() != rh.src.lock() || lh.tgt.lock() != rh.tgt.lock();
     }
 }
 
@@ -202,8 +203,12 @@ namespace std {
     template<>
         struct hash<telegraph::mount_info> {
             std::size_t operator()(const telegraph::mount_info&i) const {
-                return hash<telegraph::uuid>()(i.src) ^ 
-                       (hash<telegraph::uuid>()(i.tgt) << 1);
+                auto s = i.src.lock();
+                auto t = i.tgt.lock();
+                if (!s || !t) 
+                    return hash<telegraph::uuid>()(telegraph::uuid{});
+                return hash<telegraph::uuid>()(s->get_uuid()) ^ 
+                       (hash<telegraph::uuid>()(t->get_uuid()) << 1);
             }
         };
 }

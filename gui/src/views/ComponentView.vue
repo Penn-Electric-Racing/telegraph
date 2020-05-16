@@ -1,5 +1,5 @@
 <template>
-    <Bubble :hasContent="true" :hasSidebar="false">
+    <Bubble :hasContent="true">
         <template v-slot:header>
             <div class="items header-items">
                 <span> {{ component.name }} </span>
@@ -74,7 +74,6 @@ export default {
     }
 }
 </script>
-
 <style scoped>
 .items {
     display: flex;

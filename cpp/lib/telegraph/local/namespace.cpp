@@ -106,7 +106,10 @@ namespace telegraph {
         if (!s) throw missing_error("not registered");
         const uuid& u = uuid_;
         return s->mounts->filter([u, srcs, tgts](const mount_info& i) {
-            return (srcs && (i.tgt == u)) || (tgts && (i.src == u));
+            auto s = i.src.lock();
+            auto t = i.tgt.lock();
+            if (!s || !t) return false;
+            return (srcs && (t->get_uuid() == u)) || (tgts && (s->get_uuid() == u));
         });
     }
 
@@ -115,7 +118,7 @@ namespace telegraph {
         auto s = ns_.lock();
         if (!s || !src)
             throw missing_error("not registered");
-        mount_info m(src->get_uuid(), get_uuid());
+        mount_info m(src, weak_from_this());
         s->mounts->add_(m);
     }
 
@@ -123,7 +126,7 @@ namespace telegraph {
     local_context::unmount(io::yield_ctx& yield, const context_ptr& src) {
         auto s = ns_.lock();
         if (!s || !src) return;
-        mount_info m(src->get_uuid(), get_uuid());
+        mount_info m(src, weak_from_this());
         s->mounts->remove_by_key_(m);
     }
 

@@ -27,7 +27,7 @@ export class Params {
   static unpack(proto) {
     if (proto == null) return null;
     if (proto.array) {
-      return protobuf.array.elements.map(Params.unpack);
+      return proto.array.elements.map(Params.unpack);
     }
     if (proto.object) {
       var obj = {};

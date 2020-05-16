@@ -82,11 +82,13 @@ export class Client extends Namespace {
           this.components._removeUUID(packet.componentRemoved);
         } else if (packet.mountAdded) {
           var m = packet.mountAdded;
-          this.mounts._add({ uuid : m.src + '/' + m.tgt, src: m.src, tgt: m.tgt });
+          this.mounts._add({ uuid : m.src + '/' + m.tgt, 
+                            src: this.contexts.get(m.src), 
+                            tgt: this.contexts.get(m.tgt) });
 
         } else if (packet.mountRemoved) {
-          var u = packet.mountRemoved.src + '/ ' + packet.mountRemoved.tgt;
-          this.mounts._remove(u);
+          var u = packet.mountRemoved.src + '/' + packet.mountRemoved.tgt;
+          this.mounts._removeUUID(u);
         }
     });
     try {
@@ -102,7 +104,9 @@ export class Client extends Namespace {
         this.components._add(new RemoteComponent(this, t.uuid, t.name, t.type, Params.unpack(t.params)));
       }
       for (let m of nsRes.ns.mounts) {
-        this.mounts._add({ uuid : m.src + '/' + m.tgt, src: m.src, tgt: m.tgt });
+        this.mounts._add({ uuid : m.src + '/' + m.tgt, 
+            src: this.contexts.get(m.src), 
+            tgt: this.contexts.get(m.tgt) });
       }
 
       // keep a reference to the stream so it stays
@@ -118,7 +122,16 @@ export class Client extends Namespace {
   }
 
   async createContext(name, type, params={}, srcs={}) {
-    var convertedSrcs = {}
+    var convertedSrcs = []
+    for (let [k, v] of Object.entries(srcs)) {
+      if (v instanceof RemoteContext) {
+        convertedSrcs.push({key: k, context: v.uuid});
+      } else if (v instanceof Node) {
+        convertedSrcs.push({key: k, root: v.pack()})
+      } else {
+        throw new Error("Invalid source!");
+      }
+    }
     var msg = {
       createContext : {
         name: name,
@@ -129,13 +142,22 @@ export class Client extends Namespace {
     }
     var res = await this._conn.requestResponse(msg);
     checkError(res);
-    if (res.success == false) return null;
+    if (res.payload == 'success' && res.success == false) return null;
     if (!res.contextCreated) throw new Error("unexpected response: " + JSON.stringify(res));
     return this.contexts.get(res.contextCreated);
   }
 
   async createComponent(name, type, params={}, srcs={}) {
-    var convertedSrcs = {}
+    var convertedSrcs = []
+    for (let [k, v] of Object.entries(srcs)) {
+      if (v instanceof RemoteContext) {
+        convertedSrcs.push({key: k, context: v.uuid});
+      } else if (v instanceof Node) {
+        convertedSrcs.push({key: k, root: v.pack()})
+      } else {
+        throw new Error("Invalid source!");
+      }
+    }
     var msg = {
       createComponent: {
         name: name,
@@ -146,7 +168,7 @@ export class Client extends Namespace {
     }
     var res = await this._conn.requestResponse(msg);
     checkError(res);
-    if (res.success == false) return null;
+    if (res.payload == 'success' && res.success == false) return null;
     if (!res.componentCreated) throw new Error("unexpected response: " + JSON.stringify(res));
     return this.components.get(res.componentCreated);
   }
@@ -195,6 +217,12 @@ class RemoteContext extends Context {
       this._cached_tree = new Promise((res,rej) => {
         conn.requestResponse(msg).then((response) => {
           checkError(response);
+          if (response.payload == 'success' && 
+              response.success == false) {
+            this._cached_tree = null;
+            res(null);
+            return;
+          }
           if (!response.fetchedTree) throw new Error("unexpected response: " + response);
           var tree = Node.unpack(response.fetchedTree);
           tree.setContext(this);
@@ -294,6 +322,62 @@ class RemoteContext extends Context {
       this._adapters.set(key, adapter);
     }
     return await adapter.subscribe(minInterval, maxInterval, timeout);
+  }
+
+  async request(params) {
+    if (!this.ns || !this.ns._conn) throw new Error("Not connected!");
+    var msg = {
+      streamContext: {
+        uuid: this.uuid,
+        params: Params.pack(params)
+      }
+    }
+    var req = new Request();
+    var [res, stream] = await this.ns._conn.requestStream(msg);
+    stream.received.add((packet) => {
+      // parse the packet
+      if (packet.streamUpdate) {
+        req.process(Params.unpack(packet.streamUpdate));
+      } else if (packet.cancel != undefined) {
+        stream.close();
+        req.close();
+      }
+    });
+    req.closed.add(() => {
+      stream.send({cancel:0});
+      stream.close();
+    });
+
+    try {
+      checkError(res);
+      if (!res.success) return null;
+      // start processing messages in the stream
+      stream.start();
+    } catch (e) {
+      stream.close();
+      throw e;
+    }
+    return req;
+  }
+
+  async mount(s) {
+    if (!s) throw new Error("Bad source");
+    var msg = {
+      mount : { src: s.uuid, tgt: this.uuid }
+    };
+    var res = await this.ns._conn.requestResponse(msg);
+    checkError(res);
+    if (!res.success) throw new Error("Mount failed!");
+  }
+
+  async unmount(s) {
+    if (!s) throw new Error("Bad source");
+    var msg = {
+      unmount : { src: s.uuid, tgt: this.uuid }
+    };
+    var res = await this.ns._conn.requestResponse(msg);
+    checkError(res);
+    if (!res.success) throw new Error("Unmount failed!");
   }
 
   async destroy() {

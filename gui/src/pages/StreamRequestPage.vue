@@ -91,6 +91,13 @@ export default {
                 }
             })();
         }
+    },
+    destroyed() {
+        for (let r of this.requests) {
+            if (r.req && !r.req.isClosed) {
+                r.req.close();
+            }
+        }
     }
 }
 </script>

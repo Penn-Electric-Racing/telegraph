@@ -5,7 +5,8 @@
         <slot name="header">
         </slot>
       </div>
-      <div class="bubble-content" v-if="hasContent">
+      <div class="bubble-content" 
+            :class="{margin:!noMargin}" v-if="hasContent">
         <slot name="content">
         </slot>
       </div>
@@ -24,6 +25,7 @@
     props: {
       draggable: { type: Boolean, default: false },
       hasContent: { type: Boolean, default: false },
+      noMargin: { type: Boolean, default: false },
       hasSidebar: { type: Boolean, default: false },
       dragData: { type: Object, default: null }
     },
@@ -103,9 +105,11 @@
     padding: 2px 0px 2px 16px;
   }
   .bubble-content {
-    padding: 3px;
-    padding-left: 10px;
     background-color: #343C42;
     border-radius: 0px 0px 16px 16px;
+  }
+  .margin {
+    padding: 3px;
+    padding-left: 10px;
   }
 </style>

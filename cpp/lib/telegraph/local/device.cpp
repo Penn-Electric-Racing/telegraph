@@ -13,6 +13,9 @@
 #include <iostream>
 #include <iomanip>
 #include <memory>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 namespace telegraph {
 
@@ -354,16 +357,102 @@ namespace telegraph {
     }
 
     // the device scanner task that detects new ports
+    static std::vector<std::string> fetch_ports() {
+        std::vector<std::string> ports;
+#if defined(__linux__) && !defined(__ANDROID__)
+        try {
+            // go list files
+            fs::path dir{"/dev"};
+            fs::directory_iterator end;
+            for (fs::directory_iterator it{dir}; it != end; it++) {
+                const fs::path& p = it->path();
+                if (p.filename().string().rfind("ttyACM", 0) == 0) {
+                    ports.push_back(p.string());
+                }
+            }
+        } catch (std::exception& e) {
+            std::cout << e.what() << std::endl;
+        }
+#endif
+        return ports;
+    }
+
+    static params to_params(const std::vector<std::string>& p) {
+        std::vector<params> par;
+        for (const std::string& s : p) {
+            par.push_back(params{s});
+        }
+        return params{std::move(par)};
+    }
 
     device_scanner::device_scanner(io::io_context& ioc, const std::string_view& name)
-                        : local_component(ioc, name, "device_scanner", params()) {}
+            : local_component(ioc, name, "device_scanner", params()),
+                    requests_() {
+    }
 
+    void
+    device_scanner::init() {
+        io::io_context& ioc = ioc_;
+        // start the device scanner thread...
+        auto sp = std::static_pointer_cast<device_scanner>(shared_from_this());
+        std::weak_ptr<device_scanner> wp{sp};
+        io::spawn(ioc_, [wp, &ioc](io::yield_context yield) {
+            io::yield_ctx ctx{yield};
+            io::deadline_timer timer{ioc};
+            while (true) {
+                timer.expires_from_now(boost::posix_time::seconds(2));
+                timer.async_wait(yield);
+                {
+                    auto sp = wp.lock();
+                    if (!sp) break;
+                    std::vector<std::string> p = fetch_ports();
+                    if (p == sp->last_devices_) continue;
+                    sp->last_devices_ = p;
+                    // broadcast the ports to all parameter streams
+                    params ports = to_params(sp->last_devices_);
+                    auto it = sp->requests_.begin();
+                    while (it != sp->requests_.end()) {
+                        auto p = it->second;
+                        auto ps = p.lock();
+                        if (!ps || ps->is_closed()) {
+                            it = sp->requests_.erase(it);
+                        } else {
+                            ps->write(params{ports});
+                            it++;
+                        }
+                    }
+                }
+            }
+        });
+
+    }
+
+    device_scanner::~device_scanner() {
+        for (auto& wp : requests_) {
+            auto sp = wp.second.lock();
+            if (sp) sp->close();
+        }
+    }
 
     params_stream_ptr
     device_scanner::request(io::yield_ctx& yield , const params& p) {
-        auto stream = std::make_unique<params_stream>();
-        stream->write(params{1});
-        stream->close();
+        auto stream = std::make_shared<params_stream>();
+        requests_.emplace(stream.get(), std::weak_ptr<params_stream>{stream});
+
+        auto raw = stream.get();
+        auto sp = std::static_pointer_cast<device_scanner>(shared_from_this());
+        std::weak_ptr<device_scanner> wp{sp};
+
+        // on stream destruction remove stream from
+        // our requests if the scanner still exists
+        stream->set_on_destroy([raw, wp] () {
+            auto sp = wp.lock();
+            if (!sp) return;
+            sp->requests_.erase(raw);
+        });
+
+        params ports = to_params(fetch_ports());
+        stream->write(std::move(ports));
         return stream;
     }
 
@@ -371,6 +460,8 @@ namespace telegraph {
     device_scanner::create(io::yield_ctx&, io::io_context& ioc,
             const std::string_view& name, const std::string_view& type,
             const params& p, const sources_map& srcs) {
-        return std::make_shared<device_scanner>(ioc, name);
+        auto sp = std::make_shared<device_scanner>(ioc, name);
+        sp->init();
+        return sp;
     }
 }
