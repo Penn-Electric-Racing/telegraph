@@ -2,7 +2,9 @@
   <div class="tree-view">
     <TextField class="tree-search" v-model="filter" placeholder="Enter Filter..."/>
     <ScrollArea v-if="tree != undefined">
-      <NodeView class="tree" :node="tree"/>
+      <div>
+        <NodeView class="tree" :node="tree"/>
+      </div>
     </ScrollArea>
     <Placeholder v-else :text="placeholder"/>
   </div>
@@ -53,8 +55,8 @@ export default {
 
 <style scoped>
 .tree {
+  display: block;
   margin: 5px;
-  min-height: 0px;
 }
 .tree-view {
   display: flex;

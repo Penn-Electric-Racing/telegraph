@@ -10,6 +10,7 @@ namespace telegraph {
                            : local_context(ioc, name, "dummy_device", 
                                     params{}, std::move(tree))  {}
 
+    dummy_device::~dummy_device() {}
     void
     dummy_device::add_publisher(const variable* v, const publisher_ptr& p) {
         publishers_.emplace(v, p);

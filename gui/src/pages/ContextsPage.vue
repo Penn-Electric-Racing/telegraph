@@ -2,7 +2,7 @@
     <div class="contexts-page">
         <ScrollArea>
             <div class="contexts">
-                    <ContextView v-for="context in contexts" 
+                    <ContextView v-for="context in sortedContexts" 
                                 :key="context.uuid"
                                 :context="context"/>
             </div>
@@ -43,16 +43,27 @@ export default {
             contexts: []
         }
     },
-    created() {
-        if (this.nsQuery) {
-            this.contextCollection = this.nsQuery.contexts.collect();
-            this.contextCollection.added.add(x => this.contexts.push(x));
-            this.contextCollection.removed.add(x => this.contexts.splice(this.contexts.indexOf(x), 1));
-        } else {
-            this.contextCollection = null;
+    computed: {
+        sortedContexts() {
+            return this.contexts.slice().sort((a,b) => a.name.localeCompare(b.name));
         }
     },
+    created() {
+        this.nsUpdated()
+    },
     methods: {
+        nsUpdated() {
+            if (this.nsQuery) {
+                this.contextCollection = this.nsQuery.contexts.collect();
+                this.contexts = [];
+                for (let c of this.contextCollection) this.contexts.push(c);
+                this.contextCollection.added.add(x => this.contexts.push(x));
+                this.contextCollection.removed.add(x => this.contexts.splice(this.contexts.indexOf(x), 1));
+            } else {
+                this.contexts = [];
+                this.contextCollection = null;
+            }
+        },
         createNew() {
             // popup a creation dialogue
             this.$bubble('popup', {
@@ -65,13 +76,7 @@ export default {
     },
     watch: {
         nsQuery() {
-            if (this.nsQuery) {
-                this.contextCollection = this.nsQuery.contexts.collect();
-                this.contextCollection.added.add(x => this.contexts.push(x));
-                this.contextCollection.removed.add(x => this.contexts.splice(this.contexts.indexOf(x), 1));
-            } else {
-                this.contextCollection = null;
-            }
+            this.nsUpdated();
         }
     }
 }

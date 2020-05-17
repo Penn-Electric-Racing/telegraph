@@ -101,40 +101,37 @@ export default {
             };
             this.$bubble('popup', popup);
         },
-        toggleLive() {
-            (async () => {
-                if (!this.context) return;
-                let ns = this.context.ns;
+        async toggleLive() {
+            if (!this.context) return;
+            let ns = this.context.ns;
 
-                let live = ns.contexts
-                    .extract(x => x.type == 'container' && x.name == 'live');
-                if (live == null) {
-                    // create a new context
-                    live = await ns.createContext('live', 'container', {}, {src: this.context});
+            let live = ns.contexts
+                .extract(x => x.type == 'container' && x.name == 'live');
+            if (live == null) {
+                // create a new context
+                live = await ns.createContext('live', 'container', {}, {src: this.context});
+            }
+            if (!live) return;
+            if (!this.isLive) {
+                try {
+                    await live.mount(this.context);
+                } catch (e) {
+                    // if mount fails, destroy
+                    // the live context, recreate
+                    // and remount
+                    await live.destroy();
+                    live = await ns.createContext('live', 'container', 
+                                                {}, {src: this.context});
+                    await live.mount(this.context);
                 }
-                if (!live) return;
-                if (!this.isLive) {
-                    try {
-                        await live.mount(this.context);
-                    } catch (e) {
-                        // if mount fails, destroy
-                        // the live context, recreate
-                        // and remount
-                        await live.destroy();
-                        live = await ns.createContext('live', 'container', 
-                                                    {}, {src: this.context});
-                        console.log(live);
-                        await live.mount(this.context);
-                    }
-                } else {
-                    await live.unmount(this.context);
-                    // if there is nobody else mounted
-                    // on the container, destroy...
-                    if (ns.mounts.filter(m => m.tgt == live).empty) {
-                        await live.destroy();
-                    }
+            } else {
+                await live.unmount(this.context);
+                // if there is nobody else mounted
+                // on the container, destroy...
+                if (ns.mounts.filter(m => m.tgt == live).empty) {
+                    await live.destroy();
                 }
-            })();
+            }
         },
         toggleData() {
             this.dataShowing = !this.dataShowing;

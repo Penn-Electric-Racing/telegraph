@@ -17,6 +17,7 @@ namespace telegraph {
     public:
         dummy_device(io::io_context& ioc, const std::string_view& name,
                     std::unique_ptr<node>&& s);
+        ~dummy_device();
 
         void add_publisher(const variable* v, const publisher_ptr& p);
         void add_handler(const action* a, const handler& h);

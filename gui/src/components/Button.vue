@@ -23,6 +23,7 @@
     font-size: 0.9rem;
     padding: 4px 8px 4px 8px;
     border-radius: 5px;
+    min-height: calc(1rem + 12px);
   }
   .button:hover {
     background-color: #265beb;

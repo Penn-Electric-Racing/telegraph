@@ -34,6 +34,7 @@ export class Params {
       for (let {key, value} of proto.object.entries) {
         obj[key] = Params.unpack(value);
       }
+      return obj;
     }
     if (proto.number) return proto.number;
     if (proto.str) return proto.str;

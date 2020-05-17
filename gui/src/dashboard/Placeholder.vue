@@ -50,7 +50,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 .placeholder {
   display: flex;
   flex-wrap: wrap-reverse;

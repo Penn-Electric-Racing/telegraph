@@ -4,7 +4,7 @@
             <div class="requests-list">
                 <div class="request" v-for="(r, i) in requests" :key="i">
                     <div class="params message">
-                        <span class="outbound prefix">&lt;&lt;</span>
+                        <span class="outbound prefix" @click="r.req.close()">&lt;&lt;</span>
                         <JsonPretty :data="r.payload"/>
                     </div>
 
@@ -123,9 +123,14 @@ export default {
 }
 .outbound {
     color: #1d81df;
+    transition: color 0.5s ease-in-out;
+}
+.outbound:hover {
+    color: #ed4949;
 }
 .prefix {
     margin-right: 0.5rem;
+    user-select: none;
 }
 .request-submit-button {
     margin-left: 0.5rem;

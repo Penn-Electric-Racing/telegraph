@@ -95,6 +95,18 @@ namespace telegraph {
     local_context::destroy(io::yield_ctx& yield) {
         auto s = ns_.lock();
         if (!s) return;
+        // remove all mounts associated with this
+        // context
+        std::vector<mount_info> mounts;
+        for (const auto &m : *s->mounts) {
+            if (m.second.tgt.lock().get() == this || 
+                m.second.src.lock().get() == this) {
+                mounts.push_back(m.second);
+            }
+        }
+        for (const auto& m : mounts) {
+            s->mounts->remove_(m);
+        }
         s->contexts->remove_by_key_(get_uuid());
         ns_.reset();
         destroyed();

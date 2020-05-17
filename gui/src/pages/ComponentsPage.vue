@@ -2,7 +2,7 @@
     <div class="components-page">
         <ScrollArea>
             <div class="components">
-                <ComponentView v-for="component in components" 
+                <ComponentView v-for="component in sortedComponents" 
                             :key="component.uuid"
                             :component="component"/>
             </div>
@@ -41,6 +41,11 @@ export default {
         return {
             componentCollection: null,
             components: []
+        }
+    },
+    computed: {
+        sortedComponents() {
+            return this.components.slice().sort((a,b) => a.name.localeCompare(b.name));
         }
     },
     created() {

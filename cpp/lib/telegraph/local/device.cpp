@@ -26,7 +26,6 @@ namespace telegraph {
         return params(std::move(i));
     }
 
-
     device::device(io::io_context& ioc, const std::string& name, const std::string& port, int baud)
             : local_context(ioc, name, "device", make_device_params(port, baud), nullptr), 
               write_queue_(), write_buf_(), read_buf_(),
@@ -78,8 +77,11 @@ namespace telegraph {
         }
         // create shared pointer from unpacked tree
         std::shared_ptr<node> tree(node::unpack(res.tree()));
-        tree_->set_owner(shared_device_this());
         tree_ = tree;
+        if (tree_) {
+            tree_->set_owner(shared_device_this());
+            tree_ = tree;
+        }
     }
 
     subscription_ptr 
@@ -184,16 +186,21 @@ namespace telegraph {
     void
     device::do_reading(size_t requested) {
         auto shared = shared_device_this();
+        std::weak_ptr<device> weak{shared};
         if (requested > 0) {
             io::async_read(port_, read_buf_, boost::asio::transfer_exactly(requested),
-                    [shared] (const boost::system::error_code& ec, size_t transferred) {
-                        shared->on_read(ec, transferred);
+                    [weak] (const boost::system::error_code& ec, size_t transferred) {
+                        auto s = weak.lock();
+                        if (!s) return;
+                        s->on_read(ec, transferred);
                     });
         } else {
             // if bytes is 0 we just try and read some
             io::async_read(port_, read_buf_, boost::asio::transfer_at_least(1),
-                [shared] (const boost::system::error_code& ec, size_t transferred) {
-                    shared->on_read(ec, transferred);
+                [weak] (const boost::system::error_code& ec, size_t transferred) {
+                    auto s = weak.lock();
+                    if (!s) return;
+                    s->on_read(ec, transferred);
                 });
         }
     }
@@ -215,7 +222,7 @@ namespace telegraph {
                 break;
             }
             // next byte
-            if (header_pos > read_buf_.size()) break;
+            if (header_pos >= read_buf_.size()) break;
             byte = *(io::buffers_begin(read_buf_.data()) + (header_pos++));
 
             length |= (uint32_t) (byte & 0x7F) << bitpos;
@@ -276,6 +283,8 @@ namespace telegraph {
             stream::Packet packet;
             packet.ParseFromCodedStream(&input);
             on_read(std::move(packet));
+        } else {
+            std::cerr << "bad message of length " << length << std::endl;
         }
 
         // consume the message bytes and the checksum
