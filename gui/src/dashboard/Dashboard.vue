@@ -130,6 +130,5 @@
     color: #88939C;
     border: 0px;
     border-radius: 4px;
-    overflow: hidden;
   }
 </style>

@@ -29,7 +29,10 @@
 
     border: 0px;
     border-radius: 4px;
-    overflow: hidden;
+    box-shadow: 2px 2px 5px 2px #272c30;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
   }
 
   .panel-header {
@@ -86,8 +89,9 @@
     padding-right: 20px;
     padding-bottom: 9px;
     padding-left: 20px;
-    height: 100%;
-    width: 100%;
+    flex: 1;
+    min-height: 0;
     box-sizing: border-box;
+    overflow: hidden;
   }
 </style>

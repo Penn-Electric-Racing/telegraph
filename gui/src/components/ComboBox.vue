@@ -50,9 +50,10 @@
     },
     changed: {
       options() {
+        console.log(this.options.indexOf(this.value));
         if (this.value != null && 
-            this.options.indexOf(this.value) < 0) {
-          this.$emit('input', input);
+            this.options.indexOf(this.value) >= 0) {
+          this.$emit('input', null);
         }
       }
     }

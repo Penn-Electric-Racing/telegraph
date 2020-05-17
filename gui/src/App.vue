@@ -269,6 +269,7 @@ html, body {
   margin: 0;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
 }
 #popup-pane {
   position: absolute;
@@ -345,6 +346,7 @@ html, body {
 #content-area {
   width: 100%;
   height: 100%;
+  box-shadow: inset 1px 1px 5px 1px #272c30;
 }
 
 #sidebar  {

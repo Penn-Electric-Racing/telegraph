@@ -58,7 +58,9 @@ namespace telegraph {
                     cancelled_ = true;
                     // remove from publisher
                     auto p = publisher_.lock();
-                    p->subs_.erase(this);
+                    if(p) {
+                        p->subs_.erase(this);
+                    }
                     max_timer_.cancel();
                 }
             }

@@ -378,7 +378,6 @@ namespace telegraph {
                     p.move(update.mutable_stream_update());
                     conn_.write_back(req_id, std::move(update));
                 }, [this, req_id]() {
-
                     conn_.close_stream(req_id);
                     // on close send back a cancel message
                     api::Packet cancel;
@@ -394,7 +393,9 @@ namespace telegraph {
                         if (p.payload_case() == api::Packet::kCancel) {
                             auto it = streams_.find(p.req_id());
                             if (it == streams_.end()) return;
+                            it->second->reset_pipe();
                             it->second->close();
+                            streams_.erase(p.req_id());
                         }
                     });
             } else {
