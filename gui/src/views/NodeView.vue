@@ -5,7 +5,7 @@
         {{ node.getName() }}
     </template>
     <template v-slot:content>
-      <NodeView v-for="n in children" :node="n" :key="n.getName()"/>
+      <NodeView v-for="n in children" :node="n" :filter="filter" :key="n.getName()"/>
     </template>
   </Bubble>
 
@@ -35,12 +35,41 @@ export default {
     isAction() { return this.node instanceof Action },
     isVariable() { return this.node instanceof Variable },
     children() {
-      return this.node.getChildren ? this.node.getChildren() : [];
+      let children = this.node.getChildren ? this.node.getChildren() : [];
+      let f = [];
+      if (!this.filter) {
+        f = children;
+      } else {
+        let anyOf = this.filter.split(' ');
+        for (let c of children) {
+          var allow = false;
+          for (let d of c.nodes()) {
+            var path = '/' + d.path().join('.');
+            for (let p of anyOf) {
+              var parts = p.split('/');
+              let d = '';
+              if (parts.length > 0 && parts[0].length == 0) {
+                parts.shift();
+                d = '/';
+              }
+              d = d + parts.join('.');
+              if (path.indexOf(d) >= 0) {
+                allow = true;
+                break;
+              }
+            }
+            if (allow) break;
+          }
+          if (allow) f.push(c);
+        }
+      }
+      return f;
     }
   },
   props: {
-    node: Node
-  }
+    node: Node,
+    filter: {type: String, default: null}
+  },
 }
 </script>
 

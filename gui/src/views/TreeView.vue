@@ -3,7 +3,7 @@
     <TextField class="tree-search" v-model="filter" placeholder="Enter Filter..."/>
     <ScrollArea v-if="tree != undefined">
       <div>
-        <NodeView class="tree" :node="tree"/>
+        <NodeView class="tree" :node="tree" :filter="filter"/>
       </div>
     </ScrollArea>
     <Placeholder v-else :text="placeholder"/>

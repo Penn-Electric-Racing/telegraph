@@ -268,7 +268,6 @@ export default {
     },
 
     saveDashboards(event) {
-      event.preventDefault();
       delete event['returnValue']
 
       try {
