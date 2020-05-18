@@ -100,6 +100,9 @@ namespace telegraph {
             case value_type::Double: v->set_d(value_.d); break;
             }
         }
+        static value unpack(const Value& v) {
+            return value{v};
+        }
     private:
         value_type::type_class type_;
         box value_;

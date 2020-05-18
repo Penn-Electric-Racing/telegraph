@@ -100,13 +100,14 @@ const resourcesPath = app.isPackaged ?
   path.dirname(app.getAppPath()) :
   path.resolve('resources');
 
-/*
-var serverProcess = exec('./server', {
-  cwd: resourcesPath,
-  stdio: ["pipe", process.stdout, process.stderr]
-}, () => { console.log('Server exited') })
+var serverProcess = null;
+if (!isDevelopment) {
+  serverProcess = exec('./server', {
+    cwd: resourcesPath,
+    stdio: ["pipe", process.stdout, process.stderr]
+  }, () => { console.log('Server exited') })
 
-process.on('exit', function() {
-  serverProcess.kill();
-});
-*/
+  process.on('exit', function() {
+    if (serverProcess) serverProcess.kill();
+  });
+}

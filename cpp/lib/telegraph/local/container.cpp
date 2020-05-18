@@ -7,7 +7,11 @@ namespace telegraph {
                         std::shared_ptr<node>{std::move(tree)}) {}
 
     params_stream_ptr
-    container::request(io::yield_ctx&, const params& p) {
+    container::request(io::yield_ctx& ctx, const params& p) {
+        for (const context_ptr& c : mounts_) {
+            auto s = c->request(ctx, p);
+            if (s) return s;
+        }
         return nullptr;
     }
 

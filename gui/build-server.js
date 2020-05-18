@@ -21,4 +21,8 @@ if (build) {
 
   // Fix the permissions on the binary
   chmodSync("resources/server", 0o777);
+} else {
+  copyFileSync("../bazel-bin/cpp/server", "resources/server");
+  // Fix the permissions on the binary
+  chmodSync("resources/server", 0o777);
 }

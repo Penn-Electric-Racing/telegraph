@@ -243,7 +243,6 @@ class RemoteContext extends Context {
     var key = path.join('/');
     var adapter = this._adapters.get(key);
     if (!adapter) {
-      console.log('creating new adapter!');
       var adapter_response = null;
 
       var adapter_stream = null;

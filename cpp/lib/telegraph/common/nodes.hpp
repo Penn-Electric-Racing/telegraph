@@ -53,11 +53,11 @@ namespace telegraph {
         // To be overloaded by group
         virtual node* from_path(const std::vector<std::string_view>& p, 
                                        size_t idx=0) {
-            return p.size() <= idx ? nullptr : this;
+            return idx != p.size() ? nullptr : this;
         }
         virtual const node* from_path(const std::vector<std::string_view>& p, 
                                        size_t idx=0) const {
-            return p.size() <= idx ? nullptr : this;
+            return idx != p.size() ? nullptr : this;
         }
         virtual std::vector<node*> nodes() {
             std::vector<node*> n; 
@@ -158,7 +158,7 @@ namespace telegraph {
             else {
                 auto it = children_map_.find(p[idx]);
                 if (it == children_map_.end()) return nullptr;
-                return it->second;
+                return it->second->from_path(p, ++idx);
             }
         }
         const node* from_path(const std::vector<std::string_view>& p, 
@@ -168,7 +168,7 @@ namespace telegraph {
             else {
                 auto it = children_map_.find(p[idx]);
                 if (it == children_map_.end()) return nullptr;
-                return it->second;
+                return it->second->from_path(p, ++idx);
             }
         }
 

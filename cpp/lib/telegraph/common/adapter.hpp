@@ -72,7 +72,7 @@ namespace telegraph {
                         cancelled_ = true;
                         auto a = adapter_.lock();
                         if (!a) {
-                            cancel();
+                            cancelled();
                             return;
                         }
                         a->cancel(yield, this, timeout);

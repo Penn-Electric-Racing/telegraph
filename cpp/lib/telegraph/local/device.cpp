@@ -42,7 +42,7 @@ namespace telegraph {
     }
 
     void
-    device::init(io::yield_ctx& yield) {
+    device::init(io::yield_ctx& yield, int timeout_millisec) {
         // start reading (we can't do this in the constructor
         // since there shared_from_this() doesn't work)
         auto sthis = shared_device_this();
@@ -80,7 +80,31 @@ namespace telegraph {
         tree_ = tree;
         if (tree_) {
             tree_->set_owner(shared_device_this());
-            tree_ = tree;
+
+            // start a "ping" task that periodically sends pings
+            auto wp = weak_device_this();
+            io::io_context& ioc = ioc_;
+            io::spawn(ioc_, [&ioc, wp, timeout_millisec](io::yield_context yield) {
+                io::deadline_timer timer{ioc};
+                while (true) {
+                    timer.expires_from_now(
+                        boost::posix_time::milliseconds(timeout_millisec));
+                    timer.async_wait(yield);
+                    // send a ping
+                    {
+                        auto sp = wp.lock();
+                        if (!sp) break;
+                        uint32_t req_id = sp->req_id_++;
+                        io::dispatch(sp->port_.get_executor(),
+                            [sp, req_id]() {
+                                stream::Packet p;
+                                p.set_req_id(req_id);
+                                p.mutable_ping();
+                                sp->write_packet(std::move(p));
+                            });
+                    }
+                }
+            });
         }
     }
 
@@ -132,14 +156,28 @@ namespace telegraph {
                 }
                 return true;
             };
-            auto poll = []() {
-
+            auto poll = [wp]() {
+                auto sthis = wp.lock();
+                if (!sthis) return;
+                uint32_t req_id = sthis->req_id_++;
+                io::dispatch(sthis->port_.get_executor(),
+                    [sthis, req_id] () {
+                        stream::Packet p;
+                        p.set_req_id(req_id);
+                        p.mutable_poll_sub();
+                        sthis->write_packet(std::move(p));
+                    }
+                );
             };
             auto cancel = [wp, id](io::yield_ctx& yield, 
                                         float timeout) -> bool {
-                // do the subscribe
+                // do the unsubscribe
                 auto sthis = wp.lock();
                 if (!sthis) return false;
+                // keep the adapter alive for the duration of this
+                // operations
+                auto a = sthis->adapters_.at(id);
+                sthis->adapters_.erase(id);
 
                 io::deadline_timer timer(sthis->ioc_, 
                     boost::posix_time::milliseconds(1000));
@@ -175,12 +213,28 @@ namespace telegraph {
                                 ioc_, v->get_type(), poll, change, cancel);
             adapters_.emplace(id, a);
         }
-        return nullptr;
+        return adapters_.at(id)->subscribe(yield, 
+                    min_interval, max_interval, timeout);
     }
 
     value
     device::call(io::yield_ctx& yield, action* a, value arg, float timeout) {
-        return value();
+        io::deadline_timer timer(ioc_, 
+            boost::posix_time::milliseconds(1000));
+        uint32_t req_id = req_id_++;
+        stream::Packet res;
+        reqs_.emplace(req_id, req(&timer, &res));
+
+        boost::system::error_code ec;
+        timer.async_wait(yield.ctx[ec]);
+        reqs_.erase(req_id);
+        if (ec != io::error::operation_aborted) {
+            return value::invalid();
+        }
+        if (res.event_case() != stream::Packet::kCallCompleted) {
+            return value::invalid();
+        }
+        return value::unpack(res.call_completed());
     }
 
     void
@@ -342,7 +396,10 @@ namespace telegraph {
     device::on_read(stream::Packet&& p) {
         if (p.has_update()) {
             // updates have var_id in the req_id
-            std::cout << "got updated!" << std::endl;
+            node::id var_id = (node::id) p.req_id();
+            auto it = adapters_.find(var_id);
+            if (it == adapters_.end()) return;
+            else it->second->update(value::unpack(p.update()));
         } else {
             // look at the req_id
             uint32_t req_id = p.req_id();
@@ -361,7 +418,7 @@ namespace telegraph {
         int baud = (int) p.at("baud").get<float>();
         const std::string& port = p.at("port").get<std::string>();
         auto s = std::make_shared<device>(ioc, std::string{name}, port, baud);
-        s->init(yield);
+        s->init(yield, 500);
         return s;
     }
 

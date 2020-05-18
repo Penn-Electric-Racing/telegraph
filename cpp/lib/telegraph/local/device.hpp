@@ -48,7 +48,7 @@ namespace telegraph {
 
         // init should be called right after construction! (this is done by create)
         // or the context will not have a tree (this is done by device_io_task)
-        void init(io::yield_ctx&);
+        void init(io::yield_ctx&, int millisec_timeout);
 
         // no querying
         params_stream_ptr request(io::yield_ctx&, const params& p) { return nullptr; }
@@ -63,7 +63,8 @@ namespace telegraph {
                                 const std::vector<std::string_view>& path,
                                 float min_interval, float max_interval, 
                                 float timeout) override {
-            auto v = dynamic_cast<variable*>(tree_->from_path(path));
+            auto n =  tree_->from_path(path);
+            auto v = dynamic_cast<variable*>(n);
             if (!v) return nullptr;
             return subscribe(ctx, v, min_interval, max_interval, timeout);
         }
@@ -103,6 +104,9 @@ namespace telegraph {
     private:
         std::shared_ptr<device> shared_device_this() {
             return std::static_pointer_cast<device>(shared_from_this());
+        }
+        std::weak_ptr<device> weak_device_this() {
+            return std::weak_ptr<device>{std::static_pointer_cast<device>(shared_from_this())};
         }
 
         // will queue a write out

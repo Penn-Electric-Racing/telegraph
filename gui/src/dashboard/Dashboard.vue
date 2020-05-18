@@ -3,10 +3,10 @@
     <ScrollArea>
       <div class="grid-container">
         <grid-layout
-            :layout.sync="layout"
+            :layout.sync="data.layout"
             :col-num="numCols"
             :row-height="rowHeight">
-          <grid-item v-for="item in layout"
+          <grid-item v-for="item in data.layout"
                     class="tile"
                     :x="item.x"
                     :y="item.y"
@@ -16,9 +16,9 @@
                     dragIgnoreFrom=".noDrag"
                     :key="item.i">
             <component 
-              v-bind:is="tileData[item.i] ? tileData[item.i].type : null"
+              v-bind:is="data.widgets[item.i] ? data.widgets[item.i].type : null"
                     :id="item.i" :nsQuery="nsQuery"
-                    :data="tileData[item.i]" @close="remove(item.i)"/>
+                    :data="data.widgets[item.i]" @close="remove(item.i)"/>
           </grid-item>
         </grid-layout>
       </div>
@@ -50,21 +50,22 @@
     props: {
       name: String,
       id: String,
-      nsQuery: NamespaceQuery
+      nsQuery: NamespaceQuery,
+      data: Object
     },
     data: function() {
       return {
         numCols: 30,
         rowHeight: 30,
         dragOver: false,
-        layout: [], // stores widget id, x, y, width, height
-        tileData: {} // map from widget id => widget data object
       };
     },
     methods: {
       remove(id) {
-        delete this.tileData[id];
-        this.layout.splice(this.layout.findIndex(x => x.i == id), 1);
+        if (this.data.widgets)
+          delete this.data.widgets[id];
+        if (this.data.layout)
+        this.data.layout.splice(this.data.layout.findIndex(x => x.i == id), 1);
       },
       drop(x, y, data) {
         var r = this.$refs['dashboard'].getBoundingClientRect();
@@ -78,10 +79,13 @@
             node: data.path() });
 
         var tileUUID = uuidv4();
-        this.tileData[tileUUID] = tile;
+        if (!this.data.layout)
+          this.data.layout = Vue.observable([]);
+        if (!this.data.widgets)
+          this.data.widgets = Vue.observable({});
 
-        // data should be a node
-        this.layout.push({i: tileUUID, x:col, y:row, w:4, h:4});
+        this.data.widgets[tileUUID] = tile;
+        this.data.layout.push({i: tileUUID, x:col, y:row, w:4, h:4});
       }
     },
     mounted() {
@@ -102,6 +106,8 @@
           var r = this.$refs['dashboard'].getBoundingClientRect();
           this.drop(x - r.left, y - r.top, event.interaction.data);
         });
+    },
+    created() {
     }
   }
 </script>

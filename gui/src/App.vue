@@ -44,13 +44,13 @@
             <TabSwitcher :tabs="sidebarHeaders" :active="activeSidebar" 
                         @selected="selectSidebar"/>
           </div>
-          <TabArea id="sidebar-area" @newtab="newTab" @popup="newPopup">
+          <TabArea id="sidebar-area" @newtab="newTab" @closetab="closeTab"
+                                     @popup="newPopup">
             <div v-show="activeSidebar=='settings'">
               Settings
             </div>
-            <div v-show="activeSidebar=='dashboards'">
-              Saved Dashboards
-            </div>
+            <DashboardsPage v-show="activeSidebar=='dashboards'" 
+                :nsQuery="nsQuery" :dashboards="dashboards"/>
             <div v-show="activeSidebar=='logs'">
               Logs
             </div>
@@ -89,17 +89,27 @@ import FlatButton from './components/FlatButton.vue'
 import LivePage from './pages/LivePage.vue'
 import ComponentsPage from './pages/ComponentsPage.vue'
 import ContextsPage from './pages/ContextsPage.vue'
+import DashboardsPage from './pages/DashboardsPage.vue'
 
 // interface components
 import Burger from './Burger.vue'
 import Dashboard from './dashboard/Dashboard.vue'
 
 import uuidv4 from 'uuid/v4';
+import Vue from 'vue';
 
 import { Client, NamespaceQuery } from 'telegraph'
 
 export default {
   name: 'App',
+  components: {
+    TabSwitcher, TabArea,
+    LivePage, ComponentsPage,
+    ContextsPage, DashboardsPage,
+    FlatButton, Popup,
+
+    Burger, Dashboard
+  },
   data () {
     var namespace = new Client();
     return {
@@ -125,6 +135,8 @@ export default {
       tabs: [],
       activeTab: null, // the active tab ID
 
+      dashboards: {}, // uuid -> data map
+
       namespace: namespace,
       nsQuery: new NamespaceQuery(),
       relay: null
@@ -146,14 +158,6 @@ export default {
     }
   },
 
-  components: {
-    TabSwitcher, TabArea,
-    LivePage, ComponentsPage,
-    ContextsPage,
-    FlatButton, Popup,
-
-    Burger, Dashboard
-  },
 
   methods: {
     selectSidebar(id) {
@@ -166,15 +170,25 @@ export default {
     },
 
     newDashboard() {
+      var dashData = Vue.observable({
+        widgets:{}, layout:[],
+        info: {name: 'Untitled'}
+      });
       var id = uuidv4();
-      this.tabs.push({type: 'Dashboard',
+      this.tabs.push(Vue.observable({type: 'Dashboard',
                       name: 'Untitled', 
-                      props: {},
-                      id: id });
+                      props: {data:dashData},
+                      id: id }));
       if (this.activeTab == null) this.activeTab = id;
     },
 
-    newTab() {
+    newTab(obj) {
+      if (!obj || !obj.id) return;
+      for (let t of this.tabs) {
+        if (t.id == obj.id) return;
+      }
+      this.tabs.push(Vue.observable(obj));
+      if (this.activeTab == null) this.activeTab = obj.id;
     },
 
     selectTab(id) {
@@ -190,13 +204,22 @@ export default {
     renameTab(id, name) {
       for (let t of this.tabs) {
         if (t.id == id) {
+          // TODO: right now we assume all tabs are dashboards
           t.name = name;
+          t.props.data.info.name = name;
+          if (!this.dashboards[t.id]) {
+            this.$set(this.dashboards, t.id, t.props.data);
+          }
           break;
         }
       }
     },
 
     newPopup(popup) {
+      if (!popup || !popup.id) return;
+      for (let p of this.popups) {
+        if (p.id == popup.id) return;
+      }
       this.popups.push(popup);
     },
 
@@ -242,16 +265,39 @@ export default {
         // try and reconnect every 5 seconds after losing connection
         await new Promise((res, rej) => setTimeout(res, 5000));
       }
+    },
+
+    saveDashboards(event) {
+      event.preventDefault();
+      delete event['returnValue']
+
+      try {
+        var j = JSON.stringify(this.dashboards);
+        console.log('saving', j);
+        if (window) {
+          window.localStorage.setItem('dashboards', j);
+        }
+      } catch (e) {}
     }
   },
 
   created() {
     this.run(); // will launch connection...
-
+    if (window) {
+      var stored = window.localStorage.getItem('dashboards');
+      if (stored) {
+        var j = JSON.parse(stored);
+        this.dashboards = Vue.observable(JSON.parse(stored));
+        console.log('loaded:', j);
+      }
+      window.addEventListener('beforeunload', this.saveDashboards);
+    }
     // create a new dashboard
     this.newTab();
   },
-
+  destroyed() {
+    window.removeEventListener('beforeunload', this.saveDashboards);
+  },
   mounted() {
     //setInterval(() => { this.createDashboard('Untitled') }, 20000)
     new ResizeObserver(() => {

@@ -244,13 +244,13 @@ namespace telegraph {
                     conn_.write_back(req_id, std::move(r));
                     return;
                 }
-                sub->data.add([this, req_id](value v) {
+                sub->data.add(this, [this, req_id](value v) {
                     // write the data back
                     api::Packet p;
                     v.pack(p.mutable_sub_update());
                     conn_.write_back(req_id, std::move(p));
                 });
-                sub->cancelled.add([this, req_id]() {
+                sub->cancelled.add(this, [this, req_id]() {
                     subs_.erase(req_id);
                     api::Packet p;
                     p.set_cancel(0);
