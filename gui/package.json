@@ -1,5 +1,7 @@
 {
   "name": "telegraph-gui",
+  "author": "Daniel Pfrommer <dan.pfrommer@gmail.com>",
+  "description": "Penn Electric Racing's User Interface",
   "version": "0.1.0",
   "private": true,
   "scripts": {
