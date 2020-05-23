@@ -39,7 +39,6 @@
       controllableNodes() {
         if (!this.node) return [];
         var c = [];
-        console.log(this.node);
         for (let n of this.node.nodes()) {
           if (n instanceof Action || n instanceof Variable) c.push(n);
         }

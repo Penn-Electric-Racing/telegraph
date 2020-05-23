@@ -1,6 +1,9 @@
 <template>
   <div class="live-page">
-    <TreeView class="live-tree" :treeQuery="liveNodesQuery" placeholder="No Connection"/>
+    <TreeView class="live-tree" 
+      :treeQuery="liveNodesQuery" 
+      :showRecord="true"
+       placeholder="No Connection"/>
     <div class="connection-selectors">
       <div class="connection-combobox">
         <ComboBox :options="ports" 

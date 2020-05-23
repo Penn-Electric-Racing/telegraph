@@ -28,12 +28,22 @@ namespace telegraph {
         params(int num) : value_((float) num) {}
         params(bool b) : value_(b) {}
         params(const std::string& str) : value_(str) {}
+        params(const std::string_view& str) : value_(std::string{str}) {}
         params(const std::vector<params>& a) : value_(a) {}
         params(const std::map<std::string, params, std::less<>>& o) : value_(o) {}
 
         params(std::string&& str) : value_(std::move(str)) {}
         params(std::vector<params>&& a) : value_(std::move(a)) {}
         params(std::map<std::string, params, std::less<>>&& o) : value_(std::move(o)) {}
+
+        params(const std::vector<std::string>& s) : value_(std::vector<params>{}) {
+            auto& v = std::get<std::vector<params>>(value_);
+            for (const auto& st : s) v.push_back(st);
+        }
+        params(const std::vector<std::string_view>& s) : value_(std::vector<params>{}) {
+            auto& v = std::get<std::vector<params>>(value_);
+            for (const auto& st : s) v.push_back(st);
+        }
 
         params(params&& i) : value_(std::move(i.value_)) {}
         params(const params& i) : value_(i.value_) {}
@@ -46,6 +56,14 @@ namespace telegraph {
         void operator=(params&& i) {
             value_ = std::move(i.value_);
         }
+
+        static params array() { return params(std::vector<params>{}); }
+        static params object() { return params(std::map<std::string, params, std::less<>>{}); }
+
+        template<typename T>
+            bool has() const {
+                return std::holds_alternative<T>(value_);
+            }
 
         template<typename T>
             T& get() {
@@ -70,6 +88,32 @@ namespace telegraph {
             return it->second;
         }
 
+        params& operator[](const std::string_view& s) {
+            auto& v = std::get<std::map<std::string, params, std::less<>>>(value_);
+            auto it = v.find(s);
+            if (it == v.end()) {
+                v.emplace(s, params{});
+                return v.find(s)->second;
+            }
+            return it->second;
+        }
+
+        void push(params&& p) {
+            auto& v = std::get<std::vector<params>>(value_);
+            v.push_back(std::move(p));
+        }
+        void push(const params& p) {
+            auto& v = std::get<std::vector<params>>(value_);
+            v.push_back(p);
+        }
+        void push(const std::string_view& s) {
+            auto& v = std::get<std::vector<params>>(value_);
+            v.push_back(params{s});
+        }
+
+        bool is_object() const { return value_.index() == 4; }
+        bool is_array() const { return value_.index() == 5; }
+
         void pack(api::Params*) const;
         void move(api::Params*);
     };
@@ -79,15 +123,15 @@ namespace telegraph {
         bool closed_;
         std::function<void(params&& p)> handler_;
         std::function<void()> on_close_;
-        std::function<void()> on_destroy_;
         std::vector<params> queued_; // back-queue if handler not set
     public:
+        signal<> destroyed;
         params_stream() : 
             closed_(false), handler_(), 
             on_close_(), queued_() {}
         ~params_stream() { 
             close(); 
-            on_destroy_();
+            destroyed();
         }
 
         constexpr bool is_closed() const { return closed_; }
@@ -103,10 +147,6 @@ namespace telegraph {
             if (closed_) return;
             if (handler_) handler_(std::move(p));
             else queued_.emplace_back(std::move(p));
-        }
-
-        void set_on_destroy(const std::function<void()>& h) {
-            on_destroy_ = h;
         }
 
         void reset_pipe() {

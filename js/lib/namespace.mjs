@@ -41,3 +41,23 @@ export class Request {
         }
     }
 }
+
+export class DataQuery {
+    constructor(valid=true) {
+        this.closed = new Signal();
+        this.isClosed = false;
+        this.data = [];
+        this.received = new Signal();
+        this.valid = valid;
+    }
+    process(data) {
+        this.received.dispatch(data);
+        this.data.push(...data);
+    }
+    close() {
+        if (!this.isClosed) {
+            this.isClosed = true;
+            this.closed.dispatch();
+        }
+    }
+}

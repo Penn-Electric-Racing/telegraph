@@ -99,6 +99,7 @@ export default {
     .plus {
         font-size: 1.2rem;
         text-align: center;
+        flex: 1;
     }
     .plus-bubble {
         transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;

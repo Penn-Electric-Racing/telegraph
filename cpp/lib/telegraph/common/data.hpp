@@ -54,16 +54,19 @@ namespace telegraph {
     /**
      */
     class data_point {
-    public:
-        data_point(uint64_t time, value val) : time_(time), val_(val) {}
-        constexpr uint64_t get_time() const { return time_; }
-        constexpr const value& get_value() const { return val_; }
     private:
-        uint16_t time_;
+        time_point time_;
         value val_;
+    public:
+        data_point(time_point time, value val) : time_(time), val_(val) {}
+        constexpr time_point get_time() const { return time_; }
+        constexpr value get_value() const { return val_; }
     };
 
     class data_query {
+    public:
+        virtual const std::vector<data_point>& get_current() const = 0;
+        signal<const std::vector<data_point>&> data;
     };
     using data_query_ptr = std::shared_ptr<data_query>;
 }

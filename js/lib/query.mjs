@@ -25,6 +25,13 @@ export class Query {
     this.current = newValue;
     this.updated.dispatch(newValue, old);
   }
+  register(func) {
+    func(this.current, null);
+    this.updated.add(func)
+  }
+  unregister(func) {
+    this.updated.remove(func);
+  }
 }
 
 // common class for queries operating

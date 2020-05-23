@@ -29,6 +29,7 @@ namespace telegraph {
         if (open_streams_.find(p.req_id()) != open_streams_.end()) {
             // call the stream handler
             open_streams_.at(p.req_id())(yield, p);
+            return;
         }
         if (handlers_.find(p.payload_case()) != handlers_.end()) {
             handlers_.at(p.payload_case())(yield, p);

@@ -77,6 +77,7 @@ export class Stream {
     this.conn.writeBack(this.reqId, msg);
   }
   request(msg) {
+    return this.conn.requestResponse(msg, this.reqId);
   }
 }
 
@@ -168,9 +169,10 @@ export class Connection {
     }
   }
 
-  async requestResponse(req) {
+  async requestResponse(req, customId=null) {
     var send = new Promise((res, rej) => {
-      var reqId = this._countUp ? this._counter++ : this._counter--;
+      var reqId = customId ? customId : 
+          this._countUp ? this._counter++ : this._counter--;
       this._openRequests.set(reqId, (packet) => packet == null ? rej('Connection closed') : res(packet));
       req.reqId = reqId;
       this.send(req);

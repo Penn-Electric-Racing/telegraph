@@ -5,6 +5,12 @@ namespace telegraph {
                             std::unique_ptr<node>&& tree) : 
                     local_context(ioc, name, "container", params{}, 
                         std::shared_ptr<node>{std::move(tree)}) {}
+    container::~container() {
+        for (auto s: subs_) {
+            auto sp = s.second.lock();
+            if (sp) sp->cancelled.remove(this);
+        }
+    }
 
     params_stream_ptr
     container::request(io::yield_ctx& ctx, const params& p) {
@@ -22,7 +28,12 @@ namespace telegraph {
         for (const context_ptr& p : mounts_) {
             auto s = p->subscribe(ctx, var, 
                         min_interval, max_interval, timeout);
-            if (s) return s;
+            if (s) {
+                auto raw = s.get();
+                s->cancelled.add(this, [this, raw]() { subs_.erase(raw); });
+                subs_.emplace(s.get(), s);
+                return s;
+            }
         }
         return nullptr;
     }
@@ -33,15 +44,7 @@ namespace telegraph {
         std::vector<std::string> var = v->path();
         std::vector<std::string_view> varv;
         for (auto& s : var) varv.push_back(s);
-        for (const context_ptr& p : mounts_) {
-            auto s = p->subscribe(ctx, varv, min_interval, max_interval, timeout);
-            if (s) {
-                auto it = subs_.emplace(p, std::unordered_set<subscription_ptr>{}).first;
-                it->second.insert(s);
-                return s;
-            }
-        }
-        return nullptr;
+        return subscribe(ctx, varv, min_interval, max_interval, timeout);
     }
 
     local_context_ptr

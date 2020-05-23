@@ -29,8 +29,7 @@ namespace telegraph {
                 float min_interval, float max_interval, 
                 float timeout) override;
 
-        value call(io::yield_ctx& yield, action* a, 
-                            value v, float timeout) override;
+        value call(io::yield_ctx& yield, action* a, value v, float timeout) override;
 
 
         subscription_ptr subscribe(io::yield_ctx& yield,

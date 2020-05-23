@@ -58,6 +58,8 @@ namespace telegraph {
                                 float timeout) override;
         value call(io::yield_ctx& ctx, action* a, value v, float timeout);
 
+        void destroy(io::yield_ctx& ctx) override;
+
         // path-based overloads
         subscription_ptr subscribe(io::yield_ctx& ctx, 
                                 const std::vector<std::string_view>& path,

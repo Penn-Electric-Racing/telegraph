@@ -3,7 +3,8 @@
     <TextField class="tree-search" v-model="filter" placeholder="Enter Filter..."/>
     <ScrollArea v-if="tree != undefined">
       <div>
-        <NodeView class="tree" :node="tree" :filter="filter"/>
+        <NodeView class="tree" :node="tree" 
+          :filter="filter" :showRecord="showRecord"/>
       </div>
     </ScrollArea>
     <Placeholder v-else :text="placeholder"/>
@@ -30,6 +31,7 @@ export default {
   props: {
     treeQuery: NodeQuery,
     treeRoot: Object,
+    showRecord: {type: Boolean, default: false },
     placeholder: { type: String, default: "Not Found" }
   },
   created() {

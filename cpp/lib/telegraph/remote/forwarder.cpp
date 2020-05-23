@@ -4,8 +4,12 @@
 #include "../common/namespace.hpp"
 #include "../common/nodes.hpp"
 
+#include "api.pb.h"
+
+#include "api.pb.h"
 #include <boost/uuid/uuid_io.hpp>
 #include <boost/lexical_cast.hpp>
+#include <string_view>
 
 namespace telegraph {
 
@@ -75,10 +79,13 @@ namespace telegraph {
         for (auto& s : streams_) {
             s.second->reset_pipe(); // stop forwarding info
         }
+        for (auto& s : queries_) {
+            s.second->data.remove(this);
+        }
     }
 
     void
-    forwarder::reply_error(const api::Packet& p, const error& e) {
+    forwarder::reply_error(const api::Packet& p, const std::exception& e) {
         api::Packet res;
         res.set_error(e.what());
         conn_.write_back(p.req_id(), std::move(res));
@@ -211,7 +218,7 @@ namespace telegraph {
                 n->pack(proto);
             }
             conn_.write_back(p.req_id(), std::move(res));
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -289,7 +296,7 @@ namespace telegraph {
                 const auto& sub = it->second;
                 sub->change(c, min_int, max_int, timeout);
             }
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -314,7 +321,7 @@ namespace telegraph {
             api::Packet res;
             ret.pack(res.mutable_call_return());
             conn_.write_back(req_id, std::move(res));
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -328,7 +335,11 @@ namespace telegraph {
             uuid u = boost::lexical_cast<uuid>(req.uuid());
             std::vector<data_point> data;
             for (const Datapoint& v : req.data()) {
-                data.push_back(data_point{v.timestamp(), value{v.value()}});
+                uint64_t millisecs = v.timestamp();
+                std::chrono::milliseconds m{millisecs};
+                time_point tp{m};
+                data.push_back(data_point{tp,
+                               value{v.value()}});
             }
             std::vector<std::string_view> path;
             for (const auto& s : req.path()) {
@@ -341,7 +352,7 @@ namespace telegraph {
             api::Packet res;
             res.set_success(status);
             conn_.write_back(req_id, std::move(res));
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -349,8 +360,36 @@ namespace telegraph {
     void
     forwarder::handle_data_query(io::yield_ctx& c, const api::Packet& p) {
         try {
-            throw io_error("not yet implemented on server side!");
-        } catch (const error& e) {
+            int32_t req_id = p.req_id();
+            const auto& req = p.data_query();
+            uuid u = boost::lexical_cast<uuid>(req.uuid());
+            std::vector<std::string_view> path;
+            for (const auto& s : req.path()) {
+                path.push_back(s);
+            }
+            auto ctx = ns_->contexts->get(u);
+            if (!ctx) throw missing_error("no such context");
+            auto q = ctx->query_data(c, path);
+            q->data.add(this, [this, req_id](const std::vector<data_point>& data) {
+                api::Packet p;
+                api::DataPacket* pack = p.mutable_archive_update();
+                for (const data_point& dp : data) {
+                    Datapoint* d = pack->add_data();
+                    auto dur = dp.get_time().time_since_epoch();
+                    uint64_t ts = (uint64_t) std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+                    d->set_timestamp(ts);
+                    dp.get_value().pack(d->mutable_value());
+                }
+                conn_.write_back(req_id, std::move(p));
+            });
+            conn_.set_stream_cb(req_id,
+                [this](io::yield_ctx& yield, const api::Packet& p) {
+                    if (p.payload_case() == api::Packet::kCancel) {
+                        queries_.erase(p.req_id());
+                    }
+                });
+            queries_.emplace(req_id, q);
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -403,7 +442,7 @@ namespace telegraph {
                 res.set_success(false);
                 conn_.write_back(req_id, std::move(res));
             }
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -456,7 +495,7 @@ namespace telegraph {
                 res.set_success(false);
                 conn_.write_back(req_id, std::move(res));
             }
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -478,7 +517,7 @@ namespace telegraph {
             api::Packet res;
             res.set_success(true);
             conn_.write_back(req_id, std::move(res));
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -499,7 +538,7 @@ namespace telegraph {
             api::Packet res;
             res.set_success(true);
             conn_.write_back(req_id, std::move(res));
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -532,7 +571,7 @@ namespace telegraph {
                 res.set_context_created(std::move(u));
             }
             conn_.write_back(req_id, std::move(res));
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -565,7 +604,7 @@ namespace telegraph {
                 res.set_component_created(std::move(u));
             }
             conn_.write_back(req_id, std::move(res));
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -579,7 +618,7 @@ namespace telegraph {
             api::Packet res;
             res.set_success(true);
             conn_.write_back(p.req_id(), std::move(res));
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }
@@ -593,7 +632,7 @@ namespace telegraph {
             api::Packet res;
             res.set_success(true);
             conn_.write_back(p.req_id(), std::move(res));
-        } catch (const error& e) {
+        } catch (const std::exception& e) {
             reply_error(p, e);
         }
     }

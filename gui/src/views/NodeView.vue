@@ -2,23 +2,31 @@
   <Bubble v-if="isGroup" class="node-bubble" 
                 draggable hasContent :dragData="node">
     <template v-slot:header>
-        {{ node.getName() }}
+        <span class="node-name">{{ node.getName() }}</span>
     </template>
     <template v-slot:content>
-      <NodeView v-for="n in children" :node="n" :filter="filter" :key="n.getName()"/>
+      <NodeView v-for="n in children" :node="n" 
+          :filter="filter" :showRecord="showRecord" :recording="recording"
+          :key="n.getName()"/>
     </template>
   </Bubble>
 
   <Bubble v-else-if="isAction" class="node-bubble" 
                     :draggable="true" :dragData="node">
     <template v-slot:header>
-        {{ node.getName() }}
+        <span class="node-name">{{ node.getName() }}</span>
     </template>
   </Bubble>
   <Bubble v-else-if="isVariable" class="node-bubble" 
                     :draggable="true" :dragData="node">
     <template v-slot:header>
-        {{ node.getName() }}
+      <span class="node-name">{{ node.getName() }}</span>
+      <div class="header-icons">
+        <font-awesome-icon icon="circle" class="icon record-icon noBubbleDrag" 
+                @click="record" v-if="!isRecording && showRecord"/>
+        <font-awesome-icon icon="square" class="icon stop-record-icon noBubbleDrag" 
+                @click="stopRecord" v-if="isRecording && showRecord"/>
+      </div>
     </template>
   </Bubble>
 </template>
@@ -34,6 +42,7 @@ export default {
     isGroup() { return this.node instanceof Group },
     isAction() { return this.node instanceof Action },
     isVariable() { return this.node instanceof Variable },
+    isRecording() { return this.node ? this.recording.indexOf('/' + this.node.path().join('/')) >= 0 : false},
     children() {
       let children = this.node.getChildren ? this.node.getChildren() : [];
       let f = [];
@@ -68,17 +77,51 @@ export default {
   },
   props: {
     node: Node,
-    filter: {type: String, default: null}
+    filter: {type: String, default: null},
+    recording: {type:Array, default: () => []},
+    showRecord: {type: Boolean, default: false}
   },
+  methods: {
+    record() {
+
+    },
+    stopRecord() {
+
+    }
+  }
 }
 </script>
 
-<style>
+<style scoped>
 
 ul.tree-wiew > li{
   list-style-type: none;
   padding-bottom: 1rem;
   color: #FFFFFF;
+}
+
+.header-icons {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.node-name {
+  user-select: none;
+}
+
+.icon {
+  padding: 3px;
+  padding-right: 0.4rem;
+  font-size: 0.7rem;
+  transition: color 0.3s ease-in-out;
+}
+
+.record-icon {
+  color: #3b4044;
+}
+.record-icon:hover {
+  color: #ed4949;
 }
 
 </style>

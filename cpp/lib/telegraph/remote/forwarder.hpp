@@ -28,13 +28,14 @@ namespace telegraph {
         std::unordered_map<int32_t, subscription_ptr> subs_;
         // active component query streams
         std::unordered_map<int32_t, params_stream_ptr> streams_;
+        std::unordered_map<int32_t, data_query_ptr> queries_;
     public:
         // will register handlers
         forwarder(connection& conn, 
                 const std::shared_ptr<namespace_>& ns);
         ~forwarder();
     private:
-        void reply_error(const api::Packet& p, const error& e);
+        void reply_error(const api::Packet& p, const std::exception& e);
 
         void handle_query_ns(io::yield_ctx&, const api::Packet& p);
 

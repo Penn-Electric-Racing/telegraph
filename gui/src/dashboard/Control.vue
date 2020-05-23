@@ -34,7 +34,7 @@
       async subscribe() {
         if (this.sub) await this.sub.cancel();
         if (this.node instanceof Variable) {
-          this.sub = await this.node.subscribe(0.2, 1);
+          this.sub = await this.node.subscribe(0.1, 1);
           if (this.sub) {
             this.sub.data.add(v => this.state = v);
             this.sub.poll();

@@ -46,14 +46,10 @@
           </div>
           <TabArea id="sidebar-area" @newtab="newTab" @closetab="closeTab"
                                      @popup="newPopup">
-            <div v-show="activeSidebar=='settings'">
-              Settings
-            </div>
+            <SettingsPage v-show="activeSidebar=='settings'" :nsQuery="nsQuery"/>
             <DashboardsPage v-show="activeSidebar=='dashboards'" 
                 :nsQuery="nsQuery" :dashboards="dashboards"/>
-            <div v-show="activeSidebar=='logs'">
-              Logs
-            </div>
+            <LogsPage v-show="activeSidebar=='logs'" :nsQuery="nsQuery"/>
             <ContextsPage v-show="activeSidebar=='contexts'" :nsQuery="nsQuery"/>
             <ComponentsPage v-show="activeSidebar=='components'" :nsQuery="nsQuery"/>
             <LivePage v-show="activeSidebar=='live'" :nsQuery="nsQuery"/>
@@ -90,6 +86,8 @@ import LivePage from './pages/LivePage.vue'
 import ComponentsPage from './pages/ComponentsPage.vue'
 import ContextsPage from './pages/ContextsPage.vue'
 import DashboardsPage from './pages/DashboardsPage.vue'
+import LogsPage from './pages/LogsPage.vue'
+import SettingsPage from './pages/SettingsPage.vue'
 
 // interface components
 import Burger from './Burger.vue'
@@ -106,6 +104,7 @@ export default {
     TabSwitcher, TabArea,
     LivePage, ComponentsPage,
     ContextsPage, DashboardsPage,
+    LogsPage, SettingsPage,
     FlatButton, Popup,
 
     Burger, Dashboard
@@ -254,7 +253,7 @@ export default {
       while (true) {
         // connect with the client
         try {
-          await this.namespace.connect('ws://localhost:8081');
+          await this.namespace.connect('ws://192.168.7.50:8081');
           this.nsQuery.update(this.namespace);
           await this.namespace.wait(); // wait until done
           this.nsQuery.update(null); // set namespace to null

@@ -6,6 +6,7 @@ import { Connection, Params } from './connection.mjs'
 import WebSocket from 'isomorphic-ws'
 import { NamespaceQuery } from './query.mjs'
 import { Component, Context, Namespace, Request } from './namespace.mjs'
+import { DataQuery } from './namespace.mjs'
 
 function checkError(packet) {
   if (packet.error) throw new Error(packet.error);
@@ -239,7 +240,7 @@ class RemoteContext extends Context {
     return await this.subscribePath(variable.path(), minInterval, maxInterval, timeout);
   }
 
-  async subscribePath(path, minInterval, maxInterval, timeout) {
+  async subscribePath(path, minInterval, maxInterval, timeout, placeholder=false) {
     var key = path.join('/');
     var adapter = this._adapters.get(key);
     if (!adapter) {
@@ -265,14 +266,20 @@ class RemoteContext extends Context {
                   variable: path,
                   minInterval: minInterval,
                   maxInterval: maxInterval,
-                  timeout: timeout
+                  timeout: timeout,
+                  placeholderOnFail: true
                 }
               };
               let [response, s] = await this.ns._conn.requestStream(req);
               checkError(response);
-              if (response.payload != 'subType') {
-                s.close();
+              if (response.payload == 'success' && response.success) {
                 adapter_stream = null;
+                return [null, null];
+              } else if (response.payload != 'subType') {
+                s.close();
+                adapter_response = null;
+                adapter_stream = null;
+                adapter_type = null;
                 return [null, null];
               }
               // add listener to the stream
@@ -297,12 +304,13 @@ class RemoteContext extends Context {
               subChange: {
                 minInterval: minInterval,
                 maxInterval: maxInterval,
-                timeout: timeout
+                timeout: timeout,
+                placeholderOnFail: false
               }
             };
             if (!adapter_stream) throw new Error("Bad stream!");
             var res = await adapter_stream.request(req);
-            if (!res.success) throw new Error("Subscription change failed!");
+            if (res.payload == 'success' && !res.success) throw new Error("Subscription change failed!");
           }
           // get the type
           let [s, type] = await adapter_response;
@@ -320,15 +328,49 @@ class RemoteContext extends Context {
       });
       this._adapters.set(key, adapter);
     }
-    return await adapter.subscribe(minInterval, maxInterval, timeout);
+    var s = await adapter.subscribe(minInterval, maxInterval, timeout);
+    // if the adapter subscribe fails...return a placeholder
+    if (!s) return null;
+    return s;
   }
 
-  async request(params) {
+  async query(variable) {
+    if (!this.ns || !this.ns._conn) throw new Error("Not connected!");
+    var msg = {
+      dataQuery: {
+        uuid: this.uuid,
+        path: variable.path(),
+      }
+    }
+    var [res, stream] = await this.ns._conn.requestStream(msg);
+    checkError(res);
+    if (res.payload == 'success' && !res.success) {
+      return null;
+    }
+    var valid = res.payload == 'archiveData';
+    var query = new DataQuery(valid);
+    if (valid) {
+      console.log(res.archiveData);
+    }
+    stream.received.add((packet) => {
+      if (packet.payload == 'archiveUpdate') {
+        console.log(packet.archiveUpdate);
+        query.process([]);
+      } else if (packet.payload == 'cancel') {
+        stream.close();
+        query.close();
+      }
+    });
+    return query;
+  }
+
+  async request(params, placeholder=false) {
     if (!this.ns || !this.ns._conn) throw new Error("Not connected!");
     var msg = {
       streamContext: {
         uuid: this.uuid,
-        params: Params.pack(params)
+        params: Params.pack(params),
+        placeholderOnFail: placeholder
       }
     }
     var req = new Request();
@@ -394,12 +436,13 @@ class RemoteComponent extends Component {
     this.params = params;
   }
 
-  async request(params) {
+  async request(params, placeholder=false) {
     if (!this.ns || !this.ns._conn) throw new Error("Not connected!");
     var msg = {
       streamComponent: {
         uuid: this.uuid,
-        params: Params.pack(params)
+        params: Params.pack(params),
+        placeholderOnFail: placeholder
       }
     }
     var req = new Request();

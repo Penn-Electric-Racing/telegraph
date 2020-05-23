@@ -13,17 +13,20 @@
 #include <memory>
 #include <vector>
 #include <map>
-#include <unordered_set>
+#include <unordered_map>
 
 namespace telegraph {
     class container : public local_context {
     private:
         std::vector<context_ptr> mounts_;
         // subscriptions active on each mounted context
-        std::map<context_ptr, std::unordered_set<subscription_ptr>> subs_;
+        std::unordered_map<void*, std::weak_ptr<subscription>> subs_;
+        std::unordered_map<void*, std::weak_ptr<params_stream>> streams_;
+        std::unordered_map<void*, std::weak_ptr<data_query>> queries_;
     public:
         container(io::io_context& ioc, const std::string_view& name, 
                     std::unique_ptr<node>&& tree);
+        ~container();
 
         params_stream_ptr request(io::yield_ctx&, const params& p) override;
 
@@ -70,18 +73,27 @@ namespace telegraph {
                 throw tree_error("cannot mount mismatching tree!");
             local_context::mount(y, src);
             mounts_.push_back(src); 
+            for (auto s : subs_) {
+                auto sp = s.second.lock();
+                if (sp) {
+                    sp->cancelled.remove(this);
+                    sp->cancel();
+                }
+            }
+            subs_.clear();
         }
         void unmount(io::yield_ctx& y, const context_ptr& src) override {
             local_context::unmount(y, src);
             mounts_.erase(std::remove(mounts_.begin(), 
                         mounts_.end(), src), mounts_.end());
-            auto it = subs_.find(src);
-            if (it != subs_.end()) {
-                for (auto s : it->second) {
-                    s->cancel();
+            for (auto s : subs_) {
+                auto sp = s.second.lock();
+                if (sp) {
+                    sp->cancelled.remove(this);
+                    sp->cancel();
                 }
-                subs_.erase(src);
             }
+            subs_.clear();
         }
 
         static local_context_ptr create(io::yield_ctx&, io::io_context& ioc, 

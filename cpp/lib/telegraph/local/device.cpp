@@ -108,6 +108,13 @@ namespace telegraph {
         }
     }
 
+    void
+    device::destroy(io::yield_ctx& ctx) {
+        local_context::destroy(ctx);
+        port_.close();
+        adapters_.clear();
+    }
+
     subscription_ptr 
     device::subscribe(io::yield_ctx& yield, const variable* v,
                         float min_interval, float max_interval, float timeout) {
@@ -159,6 +166,7 @@ namespace telegraph {
             auto poll = [wp]() {
                 auto sthis = wp.lock();
                 if (!sthis) return;
+                if (!sthis->port_.is_open()) return;
                 uint32_t req_id = sthis->req_id_++;
                 io::dispatch(sthis->port_.get_executor(),
                     [sthis, req_id] () {
@@ -174,6 +182,7 @@ namespace telegraph {
                 // do the unsubscribe
                 auto sthis = wp.lock();
                 if (!sthis) return false;
+                if (!sthis->port_.is_open()) return true;
                 // keep the adapter alive for the duration of this
                 // operations
                 auto a = sthis->adapters_.at(id);
@@ -511,7 +520,7 @@ namespace telegraph {
 
         // on stream destruction remove stream from
         // our requests if the scanner still exists
-        stream->set_on_destroy([raw, wp] () {
+        stream->destroyed.add(this, [raw, wp] () {
             auto sp = wp.lock();
             if (!sp) return;
             sp->requests_.erase(raw);

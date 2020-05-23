@@ -193,6 +193,7 @@ export default {
     display: flex;
     flex-direction: row;
     padding-right: 12px;
+    flex: 1;
 }
 .content-items {
     justify-content: flex-start;
