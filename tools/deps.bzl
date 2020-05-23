@@ -25,7 +25,7 @@ def telegraph_deps():
     
     http_archive(
         name = "com_github_nelhage_rules_boost",
-	sha256 = "c7a99d9d5f77a10c6dac8359d7209704b9e8815e493b387f332f5d1ea3153e4a",
+	sha256 = "",
         strip_prefix = "rules_boost-master",
 	urls=["https://github.com/Penn-Electric-Racing/rules_boost/archive/master.zip"]
     )

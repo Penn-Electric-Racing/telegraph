@@ -99,6 +99,7 @@ import * as fs from'fs';
 const resourcesPath = app.isPackaged ?
   path.dirname(app.getAppPath()) :
   path.resolve('resources');
+console.log('resources: ', resourcesPath);
 
 var serverProcess = null;
 if (!isDevelopment) {

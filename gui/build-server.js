@@ -3,26 +3,35 @@ const { copyFileSync, mkdirSync, existsSync, chmodSync } = require("fs");
 
 const args = process.argv.slice(2);
 
-let build = args.length > 0 && args[0] == "--rebuild";
+let build = args.length > 0 && args[0] == "--build-server";
 
 if (!existsSync("resources")) {
   mkdirSync("resources");
-  build = true;
 }
 
-build = false;
 if (build) {
   execSync("bazel build server", {
     cwd: "../cpp/",
     stdio: ["pipe", process.stdout, process.stderr]
   });
 
-  copyFileSync("../bazel-bin/cpp/server", "resources/server");
-
+  if (existsSync("../bazel-bin/cpp/server.exe")) {
+    copyFileSync("../bazel-bin/cpp/server.exe", "resources/server");
+  } else if (existsSync("../bazel-bin/cpp/server")) {
+    copyFileSync("../bazel-bin/cpp/server", "resources/server");
+  }
   // Fix the permissions on the binary
-  chmodSync("resources/server", 0o777);
+  if (existsSync("resources/server")) {
+    chmodSync("resources/server", 0o777);
+  }
 } else {
-  copyFileSync("../bazel-bin/cpp/server", "resources/server");
+  if (existsSync("../bazel-bin/cpp/server.exe")) {
+    copyFileSync("../bazel-bin/cpp/server.exe", "resources/server");
+  } else if (existsSync("../bazel-bin/cpp/server")) {
+    copyFileSync("../bazel-bin/cpp/server", "resources/server");
+  }
   // Fix the permissions on the binary
-  chmodSync("resources/server", 0o777);
+  if (existsSync("resources/server")) {
+    chmodSync("resources/server", 0o777);
+  }
 }
