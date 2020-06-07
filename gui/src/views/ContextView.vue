@@ -109,7 +109,7 @@ export default {
                 .extract(x => x.type == 'container' && x.name == 'live');
             if (live == null) {
                 // create a new context
-                live = await ns.createContext('live', 'container', {}, {src: this.context});
+                live = await ns.createContext('live', 'container',{src: this.context});
             }
             if (!live) return;
             if (!this.isLive) {
@@ -121,7 +121,7 @@ export default {
                     // and remount
                     await live.destroy();
                     live = await ns.createContext('live', 'container', 
-                                                {}, {src: this.context});
+                                                {src: this.context});
                     await live.mount(this.context);
                 }
             } else {

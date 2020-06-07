@@ -43,13 +43,6 @@ namespace telegraph {
         std::weak_ptr<context> tgt;
     };
 
-    using sources_map = std::unordered_map<std::string,
-              std::variant<context_ptr, std::unique_ptr<node>>>;
-
-    // like sources_map, but has uuids instead of context_ptrs
-    using sources_uuid_map = std::unordered_map<std::string,
-              std::variant<uuid, std::unique_ptr<node>>>;
-
     // underscore is to not conflict with builtin
     // namespace token
     class namespace_ {
@@ -68,13 +61,13 @@ namespace telegraph {
 
         virtual context_ptr create_context(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
-                    const params& p, sources_uuid_map&& srcs) = 0;
+                    const params& p) = 0;
 
         virtual void destroy_context(io::yield_ctx&, const uuid& u) = 0;
 
         virtual component_ptr create_component(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
-                    const params& p, sources_uuid_map&& srcs) = 0;
+                    const params& p) = 0;
 
         virtual void destroy_component(io::yield_ctx&, const uuid& u) = 0;
     };

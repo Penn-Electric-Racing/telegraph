@@ -13,22 +13,11 @@ namespace telegraph {
     context_ptr 
     local_namespace::create_context(io::yield_ctx& yield, 
                     const std::string_view& name, const std::string_view& type, 
-                    const params& p, sources_uuid_map&& srcs) {
-        sources_map s;
-        for (auto& i : srcs) {
-            auto& v = i.second;
-            if (v.index() == 0) {
-                uuid u = std::get<uuid>(v);
-                s.emplace(std::make_pair(i.first, contexts->get(u)));
-            } else {
-                std::unique_ptr<node>& n = std::get<std::unique_ptr<node>>(v);
-                s.emplace(std::make_pair(i.first, std::move(n)));
-            }
-        }
+                    const params& p) {
         auto it = context_factories_.find(type);
         if (it == context_factories_.end()) return nullptr;
         else {
-            auto c = (it->second)(yield, ioc_, name, type, p, std::move(s));
+            auto c = (it->second)(yield, ioc_, name, type, p);
             if (c) c->reg(yield, shared_from_this());
             return c;
         }
@@ -44,23 +33,11 @@ namespace telegraph {
     component_ptr 
     local_namespace::create_component(io::yield_ctx& yield, 
                 const std::string_view& name, const std::string_view& type, 
-                const params& p, sources_uuid_map&& srcs) {
-        sources_map s;
-        for (auto& i : srcs) {
-            auto& v = i.second;
-            if (v.index() == 0) {
-                uuid u = std::get<uuid>(v);
-                s.emplace(std::make_pair(i.first, contexts->get(u)));
-            } else {
-                std::unique_ptr<node>& n = std::get<std::unique_ptr<node>>(v);
-                s.emplace(std::make_pair(i.first, std::move(n)));
-            }
-        }
-
+                const params& p) {
         auto it = component_factories_.find(type);
         if (it == component_factories_.end()) return nullptr;
         else {
-            auto c = (it->second)(yield, ioc_, name, type, p, std::move(s));
+            auto c = (it->second)(yield, ioc_, name, type, p);
             if (c) c->reg(yield, shared_from_this());
             return c;
         }

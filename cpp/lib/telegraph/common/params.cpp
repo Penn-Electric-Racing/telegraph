@@ -1,34 +1,58 @@
 #include "params.hpp"
 
 #include "api.pb.h"
+#include "namespace.hpp"
+#include "nodes.hpp"
+
+#include <boost/uuid/uuid_io.hpp>
+#include <boost/lexical_cast.hpp>
 
 namespace telegraph {
 
-    params::params(const api::Params& i) : value_() {
+    params
+    params::unpack(const api::Params& i, namespace_* n) {
         switch (i.content_case()) {
         case api::Params::CONTENT_NOT_SET:
-        case api::Params::kNone: break; // nothing to do, already null!
-        case api::Params::kNumber: value_ = i.number(); break;
-        case api::Params::kB: value_ = i.b(); break;
-        case api::Params::kStr: value_ = i.str(); break;
+        case api::Params::kNone: return params();
+        case api::Params::kNumber: return params(i.number());
+        case api::Params::kB: return params(i.b());
+        case api::Params::kStr: return params(i.str());
         case api::Params::kObject: {
             std::map<std::string, params, std::less<>> map;
             const auto& obj = i.object();
             for (int i = 0; i < obj.entries_size(); i++) {
                 const api::ParamsEntry& entry = obj.entries(i);
-                map.emplace(std::make_pair(entry.key(), params{entry.value()}));
+                map.emplace(std::make_pair(entry.key(), params::unpack(entry.value(), n)));
             }
-            value_ = std::move(map);
-        } break;
+            return params(std::move(map));
+        }
         case api::Params::kArray: {
             std::vector<params> vec;
             const auto& arr = i.array();
             for (int i = 0; i < arr.elements_size(); i++) {
-                vec.push_back(arr.elements(i));
+                vec.push_back(params::unpack(arr.elements(i), n));
             }
-            value_ = std::move(vec);
-        } break;
+            return params(std::move(vec));
         }
+        case api::Params::kCtxUuid: {
+            if (!n) return params();
+            uuid u = boost::lexical_cast<uuid>(i.ctx_uuid());
+            auto ctx = n->contexts->get(u);
+            if (!ctx) return params();
+            return params(ctx);
+        }
+        case api::Params::kCompUuid: {
+            if (!n) return params();
+            uuid u = boost::lexical_cast<uuid>(i.ctx_uuid());
+            auto comp = n->components->get(u);
+            if (!comp) return params();
+            return params(comp);
+        }
+        case api::Params::kTree: {
+            return params(std::shared_ptr<node>{node::unpack(i.tree())});
+        }
+        }
+        return params();
     }
 
     void
@@ -56,6 +80,24 @@ namespace telegraph {
             for (const params& in : v) {
                 api::Params* e = l->add_elements();
                 in.pack(e);
+            }
+        } break;
+        case 6: {
+            const context_ptr& c = std::get<context_ptr>(value_);
+            if (!c) i->mutable_none();
+            else i->set_ctx_uuid(boost::lexical_cast<std::string>(c->get_uuid()));
+        } break;
+        case 7: {
+            const component_ptr& c = std::get<component_ptr>(value_);
+            if (!c) i->mutable_none();
+            else i->set_comp_uuid(boost::lexical_cast<std::string>(c->get_uuid()));
+        } break;
+        case 8: {
+            const std::shared_ptr<node>& n = std::get<std::shared_ptr<node>>(value_);
+            if (!n) {
+                i->mutable_none();
+            } else {
+                n->pack(i->mutable_tree());
             }
         } break;
         }

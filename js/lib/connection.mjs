@@ -1,6 +1,8 @@
 import { Signal } from './signal.mjs'
 import WebSocket from 'isomorphic-ws'
 
+import { Component, Context } from './namespace.mjs'
+
 
 import api from '../api.js'
 let { Packet } = api.telegraph.api;
@@ -9,7 +11,11 @@ export class Params {
   static pack(json) {
     if (json == null || json == undefined) return {none: {}};
     var type = typeof json;
-    if (Array.isArray(json)) {
+    if (json instanceof Context) {
+      return { ctxUuid: json.uuid }
+    } else if (json instanceof Component) {
+      return { compUuid: json.uuid }
+    } else if (Array.isArray(json)) {
       return { array : { elements : json.map(x => Params.pack(x)) } };
     } else if (type == "object") {
       return { object : { 
@@ -24,7 +30,7 @@ export class Params {
       return { b : json };
     }
   }
-  static unpack(proto) {
+  static unpack(proto, ns=null) {
     if (proto == null) return null;
     if (proto.array) {
       return proto.array.elements.map(Params.unpack);
@@ -39,6 +45,8 @@ export class Params {
     if (proto.number) return proto.number;
     if (proto.str) return proto.str;
     if (proto.b) return proto.b;
+    if (proto.ctxUuid && ns) return ns.contexts.get(proto.ctx_uuid);
+    if (proto.compUuid && ns) return ns.contexts.get(proto.comp_uuid);
     return null;
   }
 }

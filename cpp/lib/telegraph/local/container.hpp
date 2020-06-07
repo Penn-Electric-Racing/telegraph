@@ -98,7 +98,7 @@ namespace telegraph {
 
         static local_context_ptr create(io::yield_ctx&, io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type,
-                const params& p, sources_map&& srcs);
+                const params& p);
     };
 }
 

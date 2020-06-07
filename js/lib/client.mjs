@@ -122,23 +122,13 @@ export class Client extends Namespace {
     }
   }
 
-  async createContext(name, type, params={}, srcs={}) {
+  async createContext(name, type, params={}) {
     var convertedSrcs = []
-    for (let [k, v] of Object.entries(srcs)) {
-      if (v instanceof RemoteContext) {
-        convertedSrcs.push({key: k, context: v.uuid});
-      } else if (v instanceof Node) {
-        convertedSrcs.push({key: k, root: v.pack()})
-      } else {
-        throw new Error("Invalid source!");
-      }
-    }
     var msg = {
       createContext : {
         name: name,
         type: type,
-        params: Params.pack(params),
-        sources: convertedSrcs
+        params: Params.pack(params)
       }
     }
     var res = await this._conn.requestResponse(msg);
@@ -148,23 +138,12 @@ export class Client extends Namespace {
     return this.contexts.get(res.contextCreated);
   }
 
-  async createComponent(name, type, params={}, srcs={}) {
-    var convertedSrcs = []
-    for (let [k, v] of Object.entries(srcs)) {
-      if (v instanceof RemoteContext) {
-        convertedSrcs.push({key: k, context: v.uuid});
-      } else if (v instanceof Node) {
-        convertedSrcs.push({key: k, root: v.pack()})
-      } else {
-        throw new Error("Invalid source!");
-      }
-    }
+  async createComponent(name, type, params={}) {
     var msg = {
       createComponent: {
         name: name,
         type: type,
-        params: Params.pack(params),
-        sources: convertedSrcs
+        params: Params.pack(params)
       }
     }
     var res = await this._conn.requestResponse(msg);
@@ -236,11 +215,11 @@ class RemoteContext extends Context {
     }
   }
 
-  async subscribe(variable, minInterval, maxInterval, timeout) {
-    return await this.subscribePath(variable.path(), minInterval, maxInterval, timeout);
+  async subscribe(variable, debounce, refresh, timeout) {
+    return await this.subscribePath(variable.path(), debounce, refresh, timeout);
   }
 
-  async subscribePath(path, minInterval, maxInterval, timeout, placeholder=false) {
+  async subscribePath(path, debounce, refresh, timeout, placeholder=false) {
     var key = path.join('/');
     var adapter = this._adapters.get(key);
     if (!adapter) {
@@ -256,7 +235,7 @@ class RemoteContext extends Context {
           adapter_stream.send({subPoll: {}});
         },
         // sub_change();
-        async (minInterval, maxInterval, timeout) => {
+        async (debounce, refresh, timeout) => {
           // if we need a new stream, get one
           if (adapter_response == null) {
             adapter_response = (async () => {
@@ -264,8 +243,8 @@ class RemoteContext extends Context {
                 subChange: {
                   uuid: this.uuid,
                   variable: path,
-                  minInterval: minInterval,
-                  maxInterval: maxInterval,
+                  debounce: debounce,
+                  refresh: refresh,
                   timeout: timeout,
                   placeholderOnFail: true
                 }
@@ -302,8 +281,8 @@ class RemoteContext extends Context {
             await adapter_response;
             let req = {
               subChange: {
-                minInterval: minInterval,
-                maxInterval: maxInterval,
+                debounce: debounce,
+                refresh: refresh,
                 timeout: timeout,
                 placeholderOnFail: false
               }
@@ -328,7 +307,7 @@ class RemoteContext extends Context {
       });
       this._adapters.set(key, adapter);
     }
-    var s = await adapter.subscribe(minInterval, maxInterval, timeout);
+    var s = await adapter.subscribe(debounce, refresh, timeout);
     // if the adapter subscribe fails...return a placeholder
     if (!s) return null;
     return s;

@@ -29,7 +29,10 @@ message Params {
         string str = 3;
         ParamsMap object = 4;
         ParamsList array = 5;
-        Empty none = 6;
+        Node tree = 6;
+        string ctx_uuid = 7;
+        string comp_uuid = 8;
+        Empty none = 9;
     }
 }
 
@@ -65,7 +68,6 @@ message Create {
     string name = 1;
     string type = 2;
     Params params = 3;
-    repeated SourceEntry sources = 4;
 }
 
 message Stream {
@@ -84,8 +86,8 @@ message Namespace {
 message Subscription {
     string uuid = 1; // context uuid
     repeated string variable = 2;
-    float min_interval = 3;
-    float max_interval = 4;
+    float debounce = 3;
+    float refresh = 4;
     float timeout = 5;
 }
 
@@ -154,17 +156,18 @@ message Packet {
 
         Subscription sub_change = 28;
         Empty sub_poll = 29;
-        Type sub_type = 30;
-        Value sub_update = 31; // keep receiving until the original request id is cancelled
+        Empty sub_reset = 30;
+        Type sub_type = 31;
+        Value sub_update = 32; // keep receiving until the original request id is cancelled
 
-        Call call_action = 32;
-        Value call_return = 33;
+        Call call_action = 33;
+        Value call_return = 34;
 
         // archive operations:
-        DataWrite data_write = 34;
+        DataWrite data_write = 35;
 
-        DataQuery data_query = 35;
-        DataPacket archive_data = 36; // initial response to a query
-        DataPacket archive_update = 37; // any archive updates
+        DataQuery data_query = 36;
+        DataPacket archive_data = 37; // initial response to a query
+        DataPacket archive_update = 38; // any archive updates
     }
 }

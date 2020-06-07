@@ -45,7 +45,7 @@ namespace telegraph {
    local_context_ptr 
     dummy_device::create(io::yield_ctx&, io::io_context& ioc,
             const std::string_view& name, const std::string_view& type,
-            const params& p, sources_map&& srcs) {
+            const params& p) {
         auto childA = new variable(2, "a", "A", "", value_type::Float);
         auto childB = new variable(3, "b", "B", "", value_type::Uint8);
 

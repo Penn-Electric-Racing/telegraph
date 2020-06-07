@@ -31,7 +31,6 @@ namespace telegraph {
 
         value call(io::yield_ctx& yield, action* a, value v, float timeout) override;
 
-
         subscription_ptr subscribe(io::yield_ctx& yield,
                 const std::vector<std::string_view>& path,
                 float min_interval, float max_interval, 
@@ -71,7 +70,7 @@ namespace telegraph {
 
         static local_context_ptr create(io::yield_ctx&, io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type,
-                const params& p, sources_map&& srcs);
+                const params& p);
     };
 }
 

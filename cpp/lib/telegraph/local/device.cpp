@@ -99,7 +99,7 @@ namespace telegraph {
                             [sp, req_id]() {
                                 stream::Packet p;
                                 p.set_req_id(req_id);
-                                p.mutable_ping();
+                                p.set_ping(0);
                                 sp->write_packet(std::move(p));
                             });
                     }
@@ -123,8 +123,8 @@ namespace telegraph {
         auto it = adapters_.find(id);
         if (it == adapters_.end()) {
             auto wp = std::weak_ptr<device>(shared_device_this());
-            auto change = [wp, id](io::yield_ctx& yield, float new_min, 
-                            float new_max, float timeout) -> bool {
+            auto change = [wp, id](io::yield_ctx& yield, float debounce, 
+                            float refresh, float timeout) -> bool {
                 // get a shared pointer to the device
                 // will be invalid if the device 
                 // has been destroyed
@@ -140,14 +140,14 @@ namespace telegraph {
 
                 // put in the request
                 io::dispatch(sthis->port_.get_executor(),
-                        [sthis, req_id, id, new_min, new_max, timeout] () {
+                        [sthis, req_id, id, debounce, refresh, timeout] () {
                             stream::Packet p;
                             p.set_req_id(req_id);
                             stream::Subscribe* s = p.mutable_change_sub();
                             s->set_var_id(id);
-                            s->set_timeout((uint32_t) (1000*timeout));
-                            s->set_min_interval((uint32_t) (1000*new_min));
-                            s->set_max_interval((uint32_t) (1000*new_max));
+                            s->set_sub_timeout((uint32_t) (1000*timeout));
+                            s->set_debounce((uint32_t) (1000*debounce));
+                            s->set_refresh((uint32_t) (1000*refresh));
                             sthis->write_packet(std::move(p));
                         });
                 // wait for response
@@ -202,7 +202,7 @@ namespace telegraph {
                             p.set_req_id(req_id);
                             stream::Cancel * c = p.mutable_cancel_sub();
                             c->set_var_id(id);
-                            c->set_timeout((uint32_t) (1000*timeout));
+                            c->set_cancel_timeout((uint32_t) (1000*timeout));
                             sthis->write_packet(std::move(p));
                         });
                 // wait for response
@@ -423,7 +423,7 @@ namespace telegraph {
     local_context_ptr
     device::create(io::yield_ctx& yield, io::io_context& ioc,
             const std::string_view& name, const std::string_view& type,
-            const params& p, const sources_map& srcs) {
+            const params& p) {
         int baud = (int) p.at("baud").get<float>();
         const std::string& port = p.at("port").get<std::string>();
         auto s = std::make_shared<device>(ioc, std::string{name}, port, baud);
@@ -534,7 +534,7 @@ namespace telegraph {
     local_component_ptr
     device_scanner::create(io::yield_ctx&, io::io_context& ioc,
             const std::string_view& name, const std::string_view& type,
-            const params& p, const sources_map& srcs) {
+            const params& p) {
         auto sp = std::make_shared<device_scanner>(ioc, name);
         sp->init();
         return sp;

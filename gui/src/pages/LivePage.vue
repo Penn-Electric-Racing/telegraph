@@ -112,7 +112,7 @@ export default {
             // create a new context if one does not exist
             console.log('creating first!', device);
             live = await ns.createContext('live', 
-                    'container', {}, {src: device});
+                    'container', {src: device});
         }
         if (!live) return;
         try {
@@ -124,7 +124,7 @@ export default {
           await live.destroy();
           console.log('creating!');
           live = await ns.createContext('live', 'container', 
-                                      {}, {src: device});
+                                        {src: device});
           await live.mount(device);
         }
       }
@@ -147,17 +147,15 @@ export default {
   watch: {
     liveContextQuery(n, o) {
       if (o) {
-        o.updated.remove(this.liveContextUpdated);
+        o.unregister(this.liveContextUpdated);
       }
-      this.liveContextUpdated(this.liveContextQuery.current);
-      this.liveContextQuery.updated.add(this.liveContextUpdated);
+      this.liveContextQuery.register(this.liveContextUpdated);
     },
     scannerQuery(n, o) {
       if (o) {
-        o.updated.remove(this.scannerUpdated);
+        o.unregister(this.scannerUpdated)
       }
-      this.scannerUpdated(this.scannerQuery.current);
-      this.scannerQuery.updated.add(this.scannerUpdated);
+      this.scannerQuery.register(this.scannerUpdated)
     },
     nsQuery() {
       this.nsQueryUpdated();
@@ -167,9 +165,6 @@ export default {
       this.nsQueryUpdated();
       this.liveContextUpdated(this.liveContextQuery.current);
       this.liveContextQuery.updated.add(this.liveContextUpdated);
-
-      this.scannerUpdated(this.scannerQuery.current);
-      this.scannerQuery.updated.add(this.scannerUpdated);
   }
 }
 </script>

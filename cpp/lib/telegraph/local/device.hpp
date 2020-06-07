@@ -102,7 +102,7 @@ namespace telegraph {
 
         static local_context_ptr create(io::yield_ctx&, io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type,
-                const params& p, const sources_map& srcs);
+                const params& p);
     private:
         std::shared_ptr<device> shared_device_this() {
             return std::static_pointer_cast<device>(shared_from_this());
@@ -136,7 +136,7 @@ namespace telegraph {
 
         static local_component_ptr create(io::yield_ctx&, io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type,
-                const params& p, const sources_map& srcs);
+                const params& p);
     };
 }
 #endif

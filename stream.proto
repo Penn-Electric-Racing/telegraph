@@ -6,20 +6,20 @@ package telegraph.stream;
 
 message Subscribe {
     uint32 var_id = 1; // actually 16 bits
-    uint32 min_interval = 2; // actually 16 bits
-    uint32 max_interval = 3; // actually 16 bits
-    uint32 timeout = 4; // actually 16 bits
+    uint32 debounce = 2; // in ms
+    uint32 refresh = 3; // in ms
+    uint32 sub_timeout = 4; // actually 16 bits
 }
 
 message Call {
     uint32 action_id = 1; // actually 16 bits
-    uint32 timeout = 2; // actually 16 bits
+    uint32 call_timeout = 2; // actually 16 bits
     Value arg = 3;
 }
 
 message Cancel {
     uint32 var_id = 1; // actually 16 bits
-    uint32 timeout = 2; // actually 16 bits
+    uint32 cancel_timeout = 2; // actually 16 bits
 }
 
 message Packet {
@@ -28,20 +28,22 @@ message Packet {
         Empty fetch_tree = 2;
         Node tree = 3;
 
-        // SPECIAL: uses req_id for var_id for update
-        Value update = 4;
+        Value update = 4; // SPECIAL: uses req_id for the variable id to save space
         Call call_action = 5;
         Value call_completed = 6;
         Empty call_failed = 7;
 
         Subscribe change_sub = 8;
         Cancel cancel_sub = 9;
-        Empty poll_sub = 10;
+        Empty poll_sub = 10; // triggers a re-publish over the latest value on the end node
+                             // and will reset the timers associated with this subscription
+                             // along the whole path, ensuring a subsequent update 
+                             // (i.e due to a poll or otherwise) will arrive
         bool success = 11;
 
         uint32 cancelled = 12;
 
-        Empty ping = 13;
+        int32 ping = 13; // contains number of subscriptions active (ping!)
         int32 pong = 14; // contains number of subscriptions active
     }
 }

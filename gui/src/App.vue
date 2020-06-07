@@ -253,7 +253,9 @@ export default {
       while (true) {
         // connect with the client
         try {
-          await this.namespace.connect('ws://192.168.7.50:8081');
+          var host = window.location ? window.location.hostname : null;
+          if (!host) host = 'localhost'
+          await this.namespace.connect('ws://' + host + ':8081')
           this.nsQuery.update(this.namespace);
           await this.namespace.wait(); // wait until done
           this.nsQuery.update(null); // set namespace to null

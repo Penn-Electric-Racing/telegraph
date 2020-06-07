@@ -30,11 +30,10 @@ namespace telegraph {
     private:
         using component_factory = std::function<local_component_ptr(io::yield_ctx&,io::io_context&, 
                                     const std::string_view&, const std::string_view&,
-                                    const params&, sources_map&&)>;
-
+                                    const params&)>;
         using context_factory = std::function<local_context_ptr(io::yield_ctx&,io::io_context&, 
                                     const std::string_view&, const std::string_view&, 
-                                    const params&, sources_map&&)>;
+                                    const params&)>;
 
         io::io_context& ioc_;
         std::map<std::string, component_factory, std::less<>> component_factories_;
@@ -55,11 +54,11 @@ namespace telegraph {
 
         context_ptr create_context(io::yield_ctx& yield, 
                     const std::string_view& name, const std::string_view& type, 
-                    const params& p, sources_uuid_map&& srcs) override;
+                    const params& p) override;
 
         component_ptr create_component(io::yield_ctx& yield, 
                     const std::string_view& name, const std::string_view& type, 
-                    const params& p, sources_uuid_map&& srcs) override;
+                    const params& p) override;
 
         void destroy_context(io::yield_ctx& y, const uuid& u) override;
         void destroy_component(io::yield_ctx& y, const uuid& u) override;

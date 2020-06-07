@@ -19,7 +19,7 @@ namespace telegraph {
         virtual ~adapter_base() {}
         // return null on failure
         virtual subscription_ptr subscribe(io::yield_ctx& yield, 
-                float min_interval, float max_interval, float timeout) = 0;
+                float debounce, float refresh, float timeout) = 0;
         virtual void update(value v) = 0;
     };
 
@@ -36,8 +36,8 @@ namespace telegraph {
                 time_point last_update_;
             public:
                 sub(const wadapter_ptr& a, 
-                   value_type t, float min_interval, float max_interval) 
-                    : subscription(t, min_interval, max_interval),
+                   value_type t, float debounce, float refresh) 
+                    : subscription(t, debounce, refresh),
                       adapter_(a), last_update_() {}
 
                 // on destruct do immediate cancel
@@ -51,14 +51,17 @@ namespace telegraph {
                         cancel();
                         return;
                     }
+                    // reset the last update time
+                    // so everything goes through
+                    last_update_ = time_point();
                     a->poll();
                 }
 
                 void change(io::yield_ctx& yield, 
-                        float min_interval, float max_interval, 
+                        float debounce, float refresh, 
                         float timeout) override {
-                    min_interval_ = min_interval;
-                    max_interval_ = max_interval;
+                    debounce_ = debounce;
+                    refresh_ = refresh;
                     auto a = adapter_.lock();
                     if (!a) {
                         cancel();
@@ -93,9 +96,10 @@ namespace telegraph {
             private:
                 void update(time_point tp, value v) {
                     // check if enough time has expired to send another update
-                    // for this sub
+                    // for this sub or if last_update_ is at epoch (for poll())
                     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(tp - last_update_);
-                    if (duration.count() > min_interval_*1000) {
+                    if (duration.count() > refresh_*1000 ||
+                            last_update_.time_since_epoch().count() == 0) {
                         last_update_ = tp;
                         data(v);
                     }
@@ -108,8 +112,8 @@ namespace telegraph {
 
             // current values
             bool subscribed_;
-            float min_interval_;
-            float max_interval_;
+            float debounce_;
+            float refresh_;
 
             // if an op is running
             bool running_op_;
@@ -123,7 +127,7 @@ namespace telegraph {
             adapter(io::io_context& ioc, value_type t, 
                     PollFunc poll, ChangeFunc change, CancelFunc cancel) :
                     ioc_(ioc), type_(t), subscribed_(false),
-                    min_interval_(0), max_interval_(0), 
+                    debounce_(0), refresh_(0), 
                     running_op_(false), waiting_ops_(), subs_(),
                     poll_(poll), change_(change), cancel_(cancel) {}
 
@@ -158,19 +162,16 @@ namespace telegraph {
                 poll_();
             }
             bool change(io::yield_ctx& yield, float timeout) {
-                float new_min = std::numeric_limits<float>::max();
-                float new_max = 0;
+                float new_db = std::numeric_limits<float>::infinity();
+                float new_rf = std::numeric_limits<float>::infinity();
                 // compute new min_intervals
                 for (sub* s : subs_) {
-                    float ma = s->get_max_interval();
-                    float mi = s->get_min_interval();
-                    if (mi < new_min) new_min = mi;
-                    if ((ma > 0 && ma < new_max) || new_max == 0) 
-                        new_max = ma;
+                    new_db = std::min(new_db, s->get_debounce());
+                    new_rf = std::min(new_rf, s->get_refresh());
                 }
                 // if we don't need a new subscription
-                if (subscribed_ && new_min == min_interval_ && 
-                    new_max == max_interval_) {
+                if (subscribed_ && new_db == debounce_ && 
+                        new_rf == refresh_) {
                     return true;
                 }
                 // queue a request
@@ -193,7 +194,7 @@ namespace telegraph {
                 }
                 running_op_ = true;
 
-                bool s = change_(yield, new_min, new_max, timeout);
+                bool s = change_(yield, new_db, new_rf, timeout);
 
                 running_op_ = false;
                 // notify next person
@@ -227,20 +228,17 @@ namespace telegraph {
                 subs_.erase(s);
                 bool success = true;
                 if (subs_.size() > 0) {
-                    float new_min = std::numeric_limits<float>::max();
-                    float new_max = 0;
+                    float new_db = std::numeric_limits<float>::infinity();
+                    float new_rf = std::numeric_limits<float>::infinity();
                     // compute new min_intervals
                     for (sub* s : subs_) {
-                        float ma = s->get_max_interval();
-                        float mi = s->get_min_interval();
-                        if (mi < new_min) new_min = mi;
-                        if ((ma > 0 && ma < new_max) || new_max == 0) 
-                            new_max = ma;
+                        new_db = std::min(new_db, s->get_debounce());
+                        new_rf = std::min(new_rf, s->get_refresh());
                     }
                     // if we don't need a new subscription
-                    if (!subscribed_ || new_min != min_interval_ ||
-                            new_max != max_interval_) {
-                        success = change_(yield, new_min, new_max, timeout);
+                    if (!subscribed_ || new_db != debounce_ ||
+                            new_rf != refresh_) {
+                        success = change_(yield, new_db, new_rf, timeout);
                     }
                 } else {
                     success = cancel_(yield, timeout);

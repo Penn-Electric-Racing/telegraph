@@ -3,47 +3,39 @@ var HighResTimeout = hrt.default;
 import Signal from 'signals';
 
 class AdapterSubscriber {
-  constructor(adapter, type, minInterval, maxInterval) {
+  constructor(adapter, type, debounce, refresh) {
     this.type = type;
-    this.minInterval = minInterval;
-    this.maxInterval = maxInterval;
+    this.debounce = debounce;
+    this.refresh = refresh;
     this.data = new Signal();
 
     this._adapter = adapter;
-
-    this._minTimer = new HighResTimeout(minInterval);
-    this._minTimer.on('complete', () => { 
-      if (this._buffered != undefined) this._notify(this._buffered);
-    });
-    this._buffered = undefined;
+    this._last_update = null;
   }
 
-  _notify(val) {
-    if (!this._minTimer.running) {
+  _notify(ts, val) {
+    if (!this._last_update || 
+         ts - this._last_update > 1000*this.debounce) {
+      this._last_update = ts;
       this.data.dispatch(val);
-      this._buffered = undefined;
-      if (this.minInterval > 0) this._minTimer.reset().start();
-    } else {
-      this._buffered = val;
     }
   }
 
-  async change(minInterval, maxInterval, timeout) {
-    this.minInterval = minInterval;
-    this.maxInterval = maxInterval;
-
-    this._minTimer.duration = minInterval;
-    await this._adapter._recalculate();
+  async change(debounce, refresh, timeout) {
+    this.debounce = debounce;
+    this.refresh = refresh;
+    await this._adapter._recalculate(timeout);
   }
 
   async cancel(timeout=1) {
-    this._minTimer.stop();
+    if (!this._adapter) return;
     this._adapter._subs.delete(this);
     await this._adapter._recalculate(timeout);
     this._adapter = null;
   }
 
   poll() {
+    this._last_update = null;
     this._adapter.poll();
   }
 }
@@ -60,26 +52,29 @@ export class Adapter {
     this._stopSubscription = stopSubscription;
     this._subs = new Set();
 
-    this._minInterval = null;
-    this._maxInterval = null;
+    this._debounce = null;
+    this._refresh = null;
   }
 
   async _recalculate(timeout) {
-    var min = null;
-    var max = null;
+    var debounce = Number.POSITIVE_INFINITY;
+    var refresh = Number.POSITIVE_INFINITY;
     for (let s of this._subs) {
-      min = min == null ? s.minInterval : Math.min(s.minInterval, min);
-      max = max == null || max == 0 ? 
-          s.maxInterval : Math.min(s.maxInterval, max);
+      debounce = Math.min(s.debounce, debounce);
+      refresh = Math.min(s.refresh, refresh)
     }
-    if (min != this._minInterval || 
-       max != this._maxInterval) {
-      this._minInterval = min;
-      this._maxInterval = max;
+    if (this._subs.size == 0) {
+      debounce = null;
+      refresh = null;
+    }
+    if (debounce != this._debounce || 
+       refresh != this._refresh) {
+      this._debounce = debounce;
+      this._refresh = refresh;
       if (this._subs.size == 0) {
         await this._stopSubscription(timeout);
       } else {
-        this._type = await this._changeSubscription(min, max, timeout);
+        this._type = await this._changeSubscription(debounce, refresh, timeout);
       }
     }
   }
@@ -89,7 +84,9 @@ export class Adapter {
   }
 
   update(val) {
-    for (let s of this._subs) s._notify(val);
+    var d = new Date();
+    var t = d.getTime();
+    for (let s of this._subs) s._notify(t, val);
   }
 
   async subscribe(minInterval, maxInterval, timeout) {

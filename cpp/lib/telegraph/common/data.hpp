@@ -13,10 +13,11 @@
 namespace telegraph {
     class subscription {
     public:
-        constexpr static float NO_RESEND = 0;
-        subscription(value_type t, float min_interval, float max_interval) 
+        static constexpr float DISABLED = std::numeric_limits<float>::infinity();
+
+        subscription(value_type t, float debounce, float refresh) 
             : cancelled_(false), type_(t),
-            min_interval_(min_interval), max_interval_(max_interval) {}
+            debounce_(debounce), refresh_(refresh) {}
 
         /**
          * On destruction cancel() should be triggered
@@ -24,19 +25,20 @@ namespace telegraph {
         virtual ~subscription() {}
 
         constexpr const value_type& get_type() const { return type_; }
-        constexpr float get_min_interval() const { return min_interval_; }
-        constexpr float get_max_interval() const { return max_interval_; }
+        constexpr float get_debounce() const { return debounce_; }
+        constexpr float get_refresh() const { return refresh_; }
 
         /**
          * Whether this subscription is getting data
          */
         constexpr bool is_cancelled() const { return cancelled_; }
 
-        // request a re-transmission of the latest value
+        // request a reset of the timers along the subscription path
+        // and a re-transmission of the latest value
         virtual void poll() = 0;
 
-        virtual void change(io::yield_ctx&, float min_interval, 
-                            float max_interval, float timeout) = 0;
+        virtual void change(io::yield_ctx&, float debounce, 
+                            float refresh, float timeout) = 0;
         virtual void cancel(io::yield_ctx& yield, float timeout) = 0;
         virtual void cancel() = 0; // cancel immediately
 
@@ -45,8 +47,8 @@ namespace telegraph {
     protected:
         bool cancelled_;
         value_type type_;
-        float min_interval_;
-        float max_interval_;
+        float debounce_;
+        float refresh_;
     };
     using subscription_ptr = std::shared_ptr<subscription>;
 

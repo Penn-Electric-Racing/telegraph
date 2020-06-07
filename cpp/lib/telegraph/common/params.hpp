@@ -16,12 +16,17 @@ namespace telegraph {
     namespace api {
         class Params;
     }
+    class node;
+    class namespace_;
+    class context;
+    class component;
 
     class params {
     private:
         std::variant<std::monostate, float, bool,
             std::string, std::map<std::string, params, std::less<>>,
-                std::vector<params>> value_;
+                std::vector<params>,  std::shared_ptr<node>, 
+                std::shared_ptr<context>, std::shared_ptr<component>> value_;
     public:
         params() : value_() {}
         params(float num) : value_(num) {}
@@ -31,6 +36,9 @@ namespace telegraph {
         params(const std::string_view& str) : value_(std::string{str}) {}
         params(const std::vector<params>& a) : value_(a) {}
         params(const std::map<std::string, params, std::less<>>& o) : value_(o) {}
+        params(const std::shared_ptr<node>& n) : value_(n) {}
+        params(const std::shared_ptr<context>& ctx) : value_(ctx) {}
+        params(const std::shared_ptr<component>& comp) : value_(comp) {}
 
         params(std::string&& str) : value_(std::move(str)) {}
         params(std::vector<params>&& a) : value_(std::move(a)) {}
@@ -48,7 +56,6 @@ namespace telegraph {
         params(params&& i) : value_(std::move(i.value_)) {}
         params(const params& i) : value_(i.value_) {}
 
-        params(const api::Params& i);
 
         void operator=(const params& i) {
             value_ = i.value_;
@@ -111,11 +118,37 @@ namespace telegraph {
             v.push_back(params{s});
         }
 
+        bool is_none() const { return value_.index() == 0; }
+        bool is_num() const { return value_.index() == 1; }
+        bool is_bool() const { return value_.index() == 2; }
+        bool is_str() const { return value_.index() == 3; }
         bool is_object() const { return value_.index() == 4; }
         bool is_array() const { return value_.index() == 5; }
+        bool is_tree() const { return value_.index() == 6; }
+        bool is_ctx() const { return value_.index() == 7; }
+        bool is_comp() const { return value_.index() == 8; }
+
+        const std::map<std::string, params, std::less<>>& to_map() const {
+            return std::get<std::map<std::string, 
+                        params, std::less<>>>(value_);
+        }
+        const std::vector<params>& to_vector() const {
+            return std::get<std::vector<params>>(value_);
+        }
+
+        const std::shared_ptr<node>& to_tree() const {
+            return std::get<std::shared_ptr<node>>(value_);
+        }
+        const std::shared_ptr<context>& to_ctx() const {
+            return std::get<std::shared_ptr<context>>(value_);
+        }
+        const std::shared_ptr<component>& to_comp() const {
+            return std::get<std::shared_ptr<component>>(value_);
+        }
 
         void pack(api::Params*) const;
         void move(api::Params*);
+        static params unpack(const api::Params& i, namespace_* n=nullptr);
     };
 
     class params_stream {

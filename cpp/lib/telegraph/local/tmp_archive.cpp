@@ -127,21 +127,22 @@ namespace telegraph {
     local_context_ptr
     tmp_archive::create(io::yield_ctx& yield, io::io_context& ioc,
         const std::string_view& name, const std::string_view& type,
-        const params& p, sources_map&& srcs) {
-
+        const params& p) {
+        auto srcs = p.to_map();
         auto sit = srcs.find("src");
         if (sit == srcs.end()) return nullptr;
         auto& v = sit->second;
         std::unique_ptr<node> n;
-        if (v.index() == 0) {
-            auto ctx = std::get<context_ptr>(v);
+        if (v.is_ctx()) {
+            auto ctx = v.to_ctx();
             auto s = ctx->fetch(yield);
             if (!s) return nullptr;
             n = s->clone();
-        } else {
-            std::unique_ptr<node>& mn = std::get<std::unique_ptr<node>>(v);
-            n = std::move(mn);
+        } else if (v.is_tree()) {
+            const std::shared_ptr<node>& mn = v.to_tree();
+            n = mn->clone();
         }
+        if (!n) return nullptr;
         return std::make_shared<tmp_archive>(ioc, name, std::move(n));
     }
 }

@@ -230,8 +230,8 @@ namespace telegraph {
             const auto& cs = p.sub_change();
 
             uuid ctx_uuid = boost::lexical_cast<uuid>(cs.uuid());
-            float min_int = cs.min_interval();
-            float max_int = cs.max_interval();
+            float db = cs.debounce();
+            float rf = cs.refresh();
             float timeout = cs.timeout();
 
             auto it = subs_.find(req_id);
@@ -244,7 +244,7 @@ namespace telegraph {
                 }
                 auto ctx = ns_->contexts->get(ctx_uuid);
                 if (!ctx) throw missing_error("no such context");
-                auto sub = ctx->subscribe(c, path, min_int, max_int, timeout);
+                auto sub = ctx->subscribe(c, path, db, rf, timeout);
                 if (!sub) {
                     api::Packet r;
                     r.set_success(false);
@@ -272,7 +272,7 @@ namespace telegraph {
                             bool success = false;
                             try {
                                 subs_.at(p.req_id())->change(yield,
-                                        s.min_interval(), s.max_interval(),
+                                        s.debounce(), s.refresh(),
                                         s.timeout());
                                 success = true;
                             } catch (...) {}
@@ -294,7 +294,7 @@ namespace telegraph {
                 subs_.emplace(std::make_pair(req_id, std::move(sub)));
             } else {
                 const auto& sub = it->second;
-                sub->change(c, min_int, max_int, timeout);
+                sub->change(c, db, rf, timeout);
             }
         } catch (const std::exception& e) {
             reply_error(p, e);
@@ -400,7 +400,7 @@ namespace telegraph {
             int32_t req_id = p.req_id();
             const auto& req = p.stream_context();
             uuid u = boost::lexical_cast<uuid>(req.uuid());
-            params par{req.params()};
+            params par = params::unpack(req.params(), ns_.get());
 
             auto ctx = ns_->contexts->get(u);
             if (!ctx) throw missing_error("no such context");
@@ -453,7 +453,7 @@ namespace telegraph {
             int32_t req_id = p.req_id();
             const auto& req = p.stream_component();
             uuid u = boost::lexical_cast<uuid>(req.uuid());
-            params par{req.params()};
+            params par = params::unpack(req.params(), ns_.get());
 
             auto component = ns_->components->get(u);
             if (!component) throw missing_error("no such component");
@@ -550,19 +550,8 @@ namespace telegraph {
             const auto& c = p.create_context();
             const std::string& name = c.name();
             const std::string& type = c.type();
-            params par{c.params()};
-            sources_uuid_map m;
-            for (const auto& se : c.sources()) {
-                if (se.tree_case() == api::SourceEntry::kContext) {
-                    // do a query to get the context
-                    uuid u = boost::lexical_cast<uuid>(se.context());
-                    m.emplace(std::make_pair(se.key(), u));
-                } else {
-                    std::unique_ptr<node> n{node::unpack(se.root())};
-                    m.emplace(std::make_pair(se.key(), std::move(n)));
-                }
-            }
-            context_ptr n = ns_->create_context(yield, name, type, par, std::move(m));
+            params par = params::unpack(c.params(), ns_.get());
+            context_ptr n = ns_->create_context(yield, name, type, par);
             api::Packet res;
             if (!n) {
                 res.set_success(false);
@@ -583,19 +572,8 @@ namespace telegraph {
             const auto& c = p.create_component();
             const std::string& name = c.name();
             const std::string& type = c.type();
-            params par{c.params()};
-            sources_uuid_map m;
-            for (const auto& se : c.sources()) {
-                if (se.tree_case() == api::SourceEntry::kContext) {
-                    // do a query to get the context
-                    uuid u = boost::lexical_cast<uuid>(se.context());
-                    m.emplace(std::make_pair(se.key(), u));
-                } else {
-                    std::unique_ptr<node> n{node::unpack(se.root())};
-                    m.emplace(std::make_pair(se.key(), std::move(n)));
-                }
-            }
-            component_ptr n = ns_->create_component(yield, name, type, par, std::move(m));
+            params par = params::unpack(c.params(), ns_.get());
+            component_ptr n = ns_->create_component(yield, name, type, par);
             api::Packet res;
             if (!n) {
                 res.set_success(false);

@@ -15,45 +15,50 @@ namespace telegraph {
             friend class publisher;
         private:
             std::weak_ptr<publisher> publisher_;
-            io::deadline_timer max_timer_;
+            io::deadline_timer refresh_timer_;
             time_point last_update_;
-            value current_;
+            value last_value_;
+
+            void reset_refresh_timer() {
+                refresh_timer_.cancel();
+                if (refresh_ != subscription::DISABLED) {
+                    refresh_timer_.expires_from_now(
+                        boost::posix_time::milliseconds(
+                            std::max(1, (int) (1000*refresh_))));
+                    refresh_timer_.async_wait([this](const boost::system::error_code& ec) {
+                        resend(ec);
+                    });
+                }
+            }
         public:
             sub(io::io_context& ioc, const std::weak_ptr<publisher> pub,
-                value_type t, float min_interval, float max_inteval)
-                    : subscription(t, min_interval, max_inteval),
+                value_type t, float debounce, float refresh)
+                    : subscription(t, debounce, refresh),
                         publisher_(pub),
-                        max_timer_(ioc), last_update_(),
-                        current_(value::invalid()) {}
+                        refresh_timer_(ioc), last_update_(),
+                        last_value_(value::none()) {}
             ~sub() {
                 cancel();
             }
             void poll() {
                 auto p = publisher_.lock();
                 if (!p) return;
-                update(std::chrono::system_clock::now(), p->last_value_);
+                last_value_ = value::invalid();
+                update(std::chrono::system_clock::now(), p->value_);
             }
             void change(io::yield_ctx& yield,
-                        float min_interval, float max_interval,
+                        float debounce, float refresh,
                         float timeout) override {
-                min_interval_ = min_interval_;
-                max_interval_ = max_interval_;
-                max_timer_.cancel();
-                if (max_interval_ != subscription::NO_RESEND) {
-                    max_timer_.expires_from_now(
-                        boost::posix_time::milliseconds(
-                            std::max(1, (int) (1000*max_interval_))));
-                    max_timer_.async_wait([this](const boost::system::error_code& ec) {
-                        resend(ec);
-                    });
-                }
+                debounce_ = debounce;
+                refresh_ = refresh;
+                reset_refresh_timer();
             }
             void cancel(io::yield_ctx& yield, 
                         float timeout) override {
                 cancel();
             }
             void cancel() override {
-                max_timer_.cancel();
+                refresh_timer_.cancel();
                 if (!cancelled_) {
                     cancelled_ = true;
                     // remove from publisher
@@ -61,55 +66,60 @@ namespace telegraph {
                     if(p) {
                         p->subs_.erase(this);
                     }
-                    max_timer_.cancel();
+                    refresh_timer_.cancel();
                 }
             }
         private:
             void resend(const boost::system::error_code& ec) {
                 if (ec != boost::asio::error::operation_aborted &&
-                        current_.is_valid()) {
-                    data(current_);
+                        last_value_.is_valid()) {
+                    auto p = publisher_.lock();
+                    if (p) {
+                        data(p->value_);
+                    }
                 }
             }
 
             void update(time_point tp, value v) {
-                current_ = v;
-                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(tp - last_update_);
-                if (!current_.is_valid() || duration.count() > min_interval_*1000) {
+                auto d = std::chrono::duration_cast<
+                    std::chrono::milliseconds>(tp - last_update_);
+                if (d.count() > 1000*debounce_ || !last_value_.is_valid()) {
                     last_update_ = tp;
-                    if (max_interval_ != subscription::NO_RESEND) {
-                        max_timer_.cancel();
-                        max_timer_.expires_from_now(
-                            boost::posix_time::milliseconds(
-                                std::max(1, (int) (1000*max_interval_))));
-                        max_timer_.async_wait([this](const boost::system::error_code& ec) {
-                            resend(ec);
-                        });
-                    }
+                    last_value_ = v;
+                    reset_refresh_timer();
                     data(v);
                 }
             }
         };
 
-        std::unordered_set<sub*> subs_;
+        std::unordered_map<sub*, std::weak_ptr<sub>> subs_;
         io::io_context& ioc_;
         value_type type_;
-        value last_value_;
+        value value_;
     public:
         publisher(io::io_context& ioc, value_type t) : subs_(), ioc_(ioc), type_(t) {}
+        ~publisher() {
+            // copy since cancel() will remove from subs_
+            std::unordered_map<sub*, std::weak_ptr<sub>> subs = subs_;
+            for (auto w : subs) {
+                auto s = w.second.lock();
+                if (s) s->cancel();
+            }
+        }
 
         subscription_ptr subscribe(float min_interval, float max_interval) {
-            sub* s = new sub(ioc_, weak_from_this(), 
+            auto s = std::make_shared<sub>(ioc_, weak_from_this(), 
                             type_, min_interval, max_interval);
-            subs_.insert(s);
-            return std::unique_ptr<sub>(s);
+            subs_.emplace(s.get(), s);
+            return s;
         }
 
         void update(value v) {
-            last_value_ = v;
+            value_ = v;
             auto tp = std::chrono::system_clock::now();
-            for (sub* s : subs_) {
-                s->update(tp, v);
+            for (auto ws : subs_) {
+                auto s = ws.second.lock();
+                if (s) s->update(tp, v);
             }
         }
         publisher& operator<<(value v) {

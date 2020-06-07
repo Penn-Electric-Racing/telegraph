@@ -32,13 +32,13 @@ namespace telegraph {
 
         context_ptr create_context(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
-                    const params& p, sources_uuid_map&& srcs) override;
+                    const params& p) override;
 
         void destroy_context(io::yield_ctx&, const uuid& u) override;
 
         component_ptr create_component(io::yield_ctx&, 
                     const std::string_view& name, const std::string_view& type, 
-                    const params& p, sources_uuid_map&& srcs) override;
+                    const params& p) override;
 
         void destroy_component(io::yield_ctx&, const uuid& u) override;
     };

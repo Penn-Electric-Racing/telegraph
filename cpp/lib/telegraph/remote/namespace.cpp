@@ -42,7 +42,7 @@ namespace telegraph {
     context_ptr
     remote_namespace::create_context(io::yield_ctx& yield,
             const std::string_view& name, const std::string_view& type,
-            const params& p, sources_uuid_map&& srcs) {
+            const params& p) {
         api::Packet cp;
 
         api::Packet res = conn_.request_response(yield, std::move(cp));
@@ -59,7 +59,7 @@ namespace telegraph {
     component_ptr
     remote_namespace::create_component(io::yield_ctx& yield,
             const std::string_view& name, const std::string_view& type,
-            const params& p, sources_uuid_map&& srcs) {
+            const params& p) {
         return nullptr;
     }
 
