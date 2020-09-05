@@ -53,6 +53,8 @@ export default {
         for (let c of children) {
           var allow = false;
           for (let d of c.nodes()) {
+            console.log(d.path());
+            console.log(d.path().join('.'));
             var path = '/' + d.path().join('.');
             for (let p of anyOf) {
               var parts = p.split('/');

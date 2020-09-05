@@ -55,7 +55,7 @@ namespace telegen {
 
             // nobody can subscribe through here
             promise<subscription_ptr> subscribe(variable_base* v, 
-                    interval min_interval, interval max_interval, interval timeout) override {
+                    interval debounce, interval referesh, interval timeout) override {
                 return promise<subscription_ptr>(promise_status::Rejected);
             }
 
@@ -110,16 +110,16 @@ namespace telegen {
                     if (!v) return;
 
                     // check for overflows in the intervals
-                    if (packet.event.change_sub.min_interval > 
+                    if (packet.event.change_sub.debounce > 
                             std::numeric_limits<interval>::max()) return;
-                    if (packet.event.change_sub.max_interval > 
+                    if (packet.event.change_sub.refresh > 
                             std::numeric_limits<interval>::max()) return;
-                    if (packet.event.change_sub.timeout > 
+                    if (packet.event.change_sub.sub_timeout > 
                             std::numeric_limits<interval>::max()) return;
 
-                    interval min_int = (interval) packet.event.change_sub.min_interval;
-                    interval max_int = (interval) packet.event.change_sub.max_interval;
-                    interval timeout = (interval) packet.event.change_sub.timeout;
+                    interval min_int = (interval) packet.event.change_sub.debounce;
+                    interval max_int = (interval) packet.event.change_sub.refresh;
+                    interval timeout = (interval) packet.event.change_sub.sub_timeout;
 
                     // the callback for when the operation is complete
                     // NOTE: since we are capturing two variables, requires malloc?
@@ -157,10 +157,10 @@ namespace telegen {
                 case telegraph_stream_Packet_cancel_sub_tag: {
                     if (packet.event.cancel_sub.var_id > 
                             std::numeric_limits<node::id>::max()) return;
-                    if (packet.event.cancel_sub.timeout > 
+                    if (packet.event.cancel_sub.cancel_timeout > 
                             std::numeric_limits<interval>::max()) return;
                     node::id var_id = packet.event.cancel_sub.var_id;
-                    interval timeout = packet.event.cancel_sub.timeout;
+                    interval timeout = packet.event.cancel_sub.cancel_timeout;
                     if (subs_.find(var_id) != subs_.end()) {
                         // erase the variable from the subscriptions
                         // the cancel handler should invoke on
