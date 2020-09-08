@@ -22,11 +22,6 @@ cc_binary(name="server",
           copts=cpp17_opts,
           deps=[":telegraph"])
 
-cc_binary(name="client",
-          srcs=glob(["main/client.cpp"]),
-          copts=cpp17_opts,
-          deps=[":telegraph"])
-
 cc_binary(name="generate",
           srcs=glob(["main/generate.cpp"]),
           copts=cpp17_opts,
