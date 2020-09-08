@@ -26,7 +26,7 @@ namespace telegraph {
         std::variant<std::monostate, float, bool,
             std::string, std::map<std::string, params, std::less<>>,
                 std::vector<params>,  std::shared_ptr<node>, 
-                std::shared_ptr<context>, std::shared_ptr<component>> value_;
+                std::shared_ptr<context>> value_;
     public:
         params() : value_() {}
         params(float num) : value_(num) {}
@@ -38,7 +38,6 @@ namespace telegraph {
         params(const std::map<std::string, params, std::less<>>& o) : value_(o) {}
         params(const std::shared_ptr<node>& n) : value_(n) {}
         params(const std::shared_ptr<context>& ctx) : value_(ctx) {}
-        params(const std::shared_ptr<component>& comp) : value_(comp) {}
 
         params(std::string&& str) : value_(std::move(str)) {}
         params(std::vector<params>&& a) : value_(std::move(a)) {}
@@ -126,7 +125,6 @@ namespace telegraph {
         bool is_array() const { return value_.index() == 5; }
         bool is_tree() const { return value_.index() == 6; }
         bool is_ctx() const { return value_.index() == 7; }
-        bool is_comp() const { return value_.index() == 8; }
 
         const std::map<std::string, params, std::less<>>& to_map() const {
             return std::get<std::map<std::string, 
@@ -141,9 +139,6 @@ namespace telegraph {
         }
         const std::shared_ptr<context>& to_ctx() const {
             return std::get<std::shared_ptr<context>>(value_);
-        }
-        const std::shared_ptr<component>& to_comp() const {
-            return std::get<std::shared_ptr<component>>(value_);
         }
 
         void pack(api::Params*) const;

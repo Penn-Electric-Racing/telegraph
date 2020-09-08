@@ -6,8 +6,8 @@
 #include "api.pb.h"
 
 #include "connection.hpp"
-#include "namespace.hpp"
 #include "forwarder.hpp"
+#include "../common/namespace.hpp"
 
 #include <unordered_map>
 #include <memory>
@@ -30,7 +30,6 @@ namespace telegraph {
             public connection {
         private:
             forwarder local_fwd_;
-            remote_namespace remote_ns_;
             boost::beast::websocket::stream<
                 boost::beast::tcp_stream> ws_;
 

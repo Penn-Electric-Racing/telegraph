@@ -34,17 +34,13 @@ export class Query {
   }
 }
 
-// common class for queries operating
-// on collections
-// (i.e component queries, context queries, etc.)
-class CollectionsQuery extends Query {
-  constructor(queryType, selfType, parent=null) {
+export class ContextsQuery extends Query {
+  constructor(parent=null) {
     super(parent);
-    this.queryType = queryType;
-    this.selfType = selfType;
   }
+
   unwrap(strict=true) {
-    var tq = new this.queryType(this);
+    var tq = new ContextQuery(this);
     var self = this;
 
     function trigger(query) {
@@ -104,21 +100,23 @@ class CollectionsQuery extends Query {
   }
 
   filter(f) {
-    var sq = new this.selfType(this);
+    var sq = new ContextsQuery(this);
     function onUpdate(query, n) { query.update(n ? n.filter(f) : null); }
     onUpdate(sq, this.current, null);
     this.updated.addWeak(sq, onUpdate);
     return sq;
   }
 
+  headless() {
+    return this.filter(x => x.headless)
+  }
+
+  with_trees() {
+    return this.filter(x => !x.headless)
+  }
+
   extract(f) {
     return this.filter(f).unwrap(false);
-  }
-}
-
-export class ComponentQuery extends Query {
-  constructor(parent = null) {
-    super(parent);
   }
 }
 
@@ -164,49 +162,14 @@ export class MountQuery extends Query {
 
 }
 
-export class ComponentsQuery extends CollectionsQuery {
-  constructor(parent = null) {
-    super(ComponentQuery, ComponentsQuery, parent);
-  }
-}
-export class MountsQuery extends CollectionsQuery {
-  constructor(parent = null) {
-    super(MountQuery, MountsQuery, parent);
-  }
-}
-export class ContextsQuery extends CollectionsQuery {
-  constructor(parent=null) {
-    super(ContextQuery, ContextsQuery, parent);
-  }
-}
-
 //
 export class NamespaceQuery extends Query {
   constructor(parent=null) {
     super(parent);
   }
-
-  get components() {
-    var q = new ComponentsQuery(this);
-    function update(query, n, o) { query.update(n ? n.components : null); }
-
-    update(q, this.current, null);
-    this.updated.addWeak(q, update);
-    return q;
-  }
-
   get contexts() {
     var q = new ContextsQuery(this);
     function update(query, n, o) { query.update(n ? n.contexts : null); }
-
-    update(q, this.current, null);
-    this.updated.addWeak(q, update);
-    return q;
-  }
-
-  get mounts() {
-    var q = new MountsQuery(this);
-    function update(query, n, o) { query.update(n ? n.mounts : null); }
 
     update(q, this.current, null);
     this.updated.addWeak(q, update);

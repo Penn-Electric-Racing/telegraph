@@ -29,8 +29,8 @@ export default {
     }
   },
   props: {
-    treeQuery: NodeQuery,
-    treeRoot: Object,
+    treeQuery: {NodeQuery, default: null},
+    treeRoot: {Object, default: null},
     showRecord: {type: Boolean, default: false },
     placeholder: { type: String, default: "Not Found" }
   },

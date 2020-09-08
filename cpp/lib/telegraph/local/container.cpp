@@ -2,9 +2,12 @@
 
 namespace telegraph {
     container::container(io::io_context& ioc, const std::string_view& name,
-                            std::unique_ptr<node>&& tree) : 
+                            std::unique_ptr<node>&& tree, std::vector<context_ptr>&& mounts) : 
                     local_context(ioc, name, "container", params{}, 
-                        std::shared_ptr<node>{std::move(tree)}) {}
+                        std::shared_ptr<node>{std::move(tree)}), 
+                        mounts_(std::move(mounts)) {
+    }
+
     container::~container() {
         for (auto s: subs_) {
             auto sp = s.second.lock();
@@ -51,21 +54,24 @@ namespace telegraph {
     container::create(io::yield_ctx& yield, io::io_context& ioc,
                 const std::string_view& name, const std::string_view& type,
                 const params& p) {
-        auto srcs = p.to_map();
-        auto sit = srcs.find("src");
-        if (sit == srcs.end()) return nullptr;
-        auto& v = sit->second;
+        auto pm = p.to_map();
+        auto sit = pm.find("src");
+        if (sit == pm.end()) return nullptr;
+        auto& srcs = sit->second.to_vector();
         std::unique_ptr<node> n;
-        if (v.is_ctx()) {
-            auto ctx = v.to_ctx();
-            auto s = ctx->fetch(yield);
-            if (!s) return nullptr;
-            n = s->clone();
-        } else if (v.is_tree()) {
-            const std::shared_ptr<node>& mn = v.to_tree();
-            n = mn->clone();
+        std::vector<context_ptr> ctxs;
+        for (auto& v : srcs) {
+            if (v.is_ctx()) {
+                auto ctx = v.to_ctx();
+                ctxs.push_back(ctx);
+                auto s = ctx->fetch(yield);
+                if (!s) return nullptr;
+                n = s->clone();
+            } else {
+                return nullptr;
+            }
         }
         if (!n) return nullptr;
-        return std::make_shared<container>(ioc, name, std::move(n));
+        return std::make_shared<container>(ioc, name, std::move(n), std::move(ctxs));
     }
 }

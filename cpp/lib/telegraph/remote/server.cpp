@@ -52,7 +52,6 @@ namespace telegraph {
             tcp::socket&& socket, 
             const std::shared_ptr<namespace_>& local) 
         : connection(ioc, true), local_fwd_(*this, local),
-          remote_ns_(ioc, *this),
           ws_(std::move(socket)) {}
 
     void

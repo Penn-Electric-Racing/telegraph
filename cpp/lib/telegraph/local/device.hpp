@@ -92,14 +92,6 @@ namespace telegraph {
         data_query_ptr query_data(io::yield_ctx& yield, 
                                 const std::vector<std::string_view>& p) override { return nullptr; }
 
-        // disable mounting
-        void mount(io::yield_ctx&, const context_ptr& src) override {
-            throw bad_type_error("cannot mount on a device");
-        }
-        void unmount(io::yield_ctx&, const context_ptr& src) override {
-            throw bad_type_error("cannot unmount on a device");
-        }
-
         static local_context_ptr create(io::yield_ctx&, io::io_context& ioc, 
                 const std::string_view& name, const std::string_view& type,
                 const params& p);

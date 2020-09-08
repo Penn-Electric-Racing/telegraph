@@ -1,7 +1,7 @@
 import { Signal } from './signal.mjs'
 import WebSocket from 'isomorphic-ws'
 
-import { Component, Context } from './namespace.mjs'
+import { Context } from './namespace.mjs'
 
 
 import api from '../api.js'
@@ -12,9 +12,7 @@ export class Params {
     if (json == null || json == undefined) return {none: {}};
     var type = typeof json;
     if (json instanceof Context) {
-      return { ctxUuid: json.uuid }
-    } else if (json instanceof Component) {
-      return { compUuid: json.uuid }
+      return { uuid: json.uuid }
     } else if (Array.isArray(json)) {
       return { array : { elements : json.map(x => Params.pack(x)) } };
     } else if (type == "object") {

@@ -24,43 +24,23 @@ message ParamsList {
 // if all are unset, equivalent to null
 message Params {
     oneof content {
-        bool b = 1;
-        float number = 2;
-        string str = 3;
-        ParamsMap object = 4;
-        ParamsList array = 5;
-        Node tree = 6;
-        string ctx_uuid = 7;
-        string comp_uuid = 8;
-        Empty none = 9;
+        Node tree = 1;
+        string uuid = 2;
+        bool b = 3;
+        float number = 4;
+        string str = 5;
+        ParamsMap object = 6;
+        ParamsList array = 7;
+        Empty none = 8;
     }
 }
 
 message Context {
     string uuid = 1;
-    string name = 2;
-    string type = 3;
-    Params params = 4;
-}
-
-message Component {
-    string uuid = 1;
-    string name = 2;
-    string type = 3;
-    Params params = 4;
-}
-
-message Mount {
-    string src = 1; 
-    string tgt = 2; 
-}
-
-message SourceEntry {
-    string key = 1;
-    oneof tree {
-        string context = 3; // context uuid
-        Node root = 4;
-    }
+    bool headless = 2;
+    string name = 3;
+    string type = 4;
+    Params params = 5;
 }
 
 // creation options
@@ -70,15 +50,13 @@ message Create {
     Params params = 3;
 }
 
-message Stream {
+message Request {
     string uuid = 1;
     Params params = 2;
 }
 
 message Namespace {
-    repeated Context contexts = 2;
-    repeated Component components = 3;
-    repeated Mount mounts = 4;
+    repeated Context contexts = 1;
 }
 
 // tree operations
@@ -126,48 +104,34 @@ message Packet {
         Empty query_ns = 5;
         Namespace ns = 6;
 
-        Context context_added = 7;
-        string context_removed = 8; // uuid of removed context
+        Context added = 7;
+        string removed = 8;
 
-        Component component_added = 9;
-        string component_removed = 10;
+        Create create = 9;
+        string created = 10; // uuid of created context
+        string destroy = 11;
 
-        Mount mount_added = 11;
-        Mount mount_removed = 12;
-
-        Mount mount = 13;
-        Mount unmount = 14;
-
-        Create create_context = 15;
-        Create create_component = 16;
-        string context_created = 17; // uuid of created context
-        string component_created = 18; // uuid of created component 
-
-        string destroy_context = 19;
-        string destroy_component = 20;
-
-        Stream stream_component = 23;
-        Stream stream_context = 24;
-        Params stream_update = 25;
+        Request request = 12;
+        Params request_update = 13;
 
         // tree operations:
-        string fetch_tree = 26; // context uuid to fetch tree
-        Node fetched_tree = 27; // response to a context fetch
+        string fetch_tree = 14; // context uuid to fetch tree
+        Node fetched_tree = 15; // response to a context fetch
 
-        Subscription sub_change = 28;
-        Empty sub_poll = 29;
-        Empty sub_reset = 30;
-        Type sub_type = 31;
-        Value sub_update = 32; // keep receiving until the original request id is cancelled
+        Subscription sub_change = 16;
+        Empty sub_poll = 17;
+        Empty sub_reset = 18;
+        Type sub_type = 19;
+        Value sub_update = 20; // keep receiving until the original request id is cancelled
 
-        Call call_action = 33;
-        Value call_return = 34;
+        Call call_action = 21;
+        Value call_return = 22;
 
         // archive operations:
-        DataWrite data_write = 35;
+        DataWrite data_write = 23;
 
-        DataQuery data_query = 36;
-        DataPacket archive_data = 37; // initial response to a query
-        DataPacket archive_update = 38; // any archive updates
+        DataQuery data_query = 24;
+        DataPacket archive_data = 25; // initial response to a query
+        DataPacket archive_update = 26; // any archive updates
     }
 }

@@ -27,7 +27,7 @@
     },
     props: {
       options: Array,
-      value: [String, Number],
+      value: {type: [String, Number], default: null},
       placeholder: {type:String, default:'Choose...'}
     },
     methods: {

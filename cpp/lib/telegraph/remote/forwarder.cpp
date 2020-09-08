@@ -19,33 +19,18 @@ namespace telegraph {
         // set the handlers
         conn_.set_handler(api::Packet::kQueryNs, 
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_query_ns(c, p); });
-        conn_.set_handler(api::Packet::kStreamComponent,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_stream_component(c, p); });
-        conn_.set_handler(api::Packet::kStreamContext,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_stream_context(c, p); });
-
+        conn_.set_handler(api::Packet::kRequest,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_request(c, p); });
         conn_.set_handler(api::Packet::kFetchTree, 
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_fetch_tree(c, p); });
-
-        conn_.set_handler(api::Packet::kMount,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_mount(c, p); });
-        conn_.set_handler(api::Packet::kUnmount,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_unmount(c, p); });
-
-        conn_.set_handler(api::Packet::kCreateContext,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_create_context(c, p); });
-        conn_.set_handler(api::Packet::kCreateComponent,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_create_component(c, p); });
-        conn_.set_handler(api::Packet::kDestroyContext,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy_context(c, p); });
-        conn_.set_handler(api::Packet::kDestroyComponent,
-                [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy_component(c, p); });
-
+        conn_.set_handler(api::Packet::kCreate,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_create(c, p); });
+        conn_.set_handler(api::Packet::kDestroy,
+                [this] (io::yield_ctx& c, const api::Packet& p) { handle_destroy(c, p); });
         conn_.set_handler(api::Packet::kSubChange,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_sub_change(c, p); });
         conn_.set_handler(api::Packet::kCallAction,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_call_action(c, p); });
-
         conn_.set_handler(api::Packet::kDataWrite,
                 [this] (io::yield_ctx& c, const api::Packet& p) { handle_data_write(c, p); });
         conn_.set_handler(api::Packet::kDataQuery,
@@ -58,15 +43,9 @@ namespace telegraph {
         if (!ns_) return;
 
         auto c = ns_->contexts;
-        auto t = ns_->components;
-        auto m = ns_->mounts;
 
         c->added.remove(this);
         c->removed.remove(this);
-        t->added.remove(this);
-        t->removed.remove(this);
-        m->added.remove(this);
-        m->removed.remove(this);
 
         // we need to also avoid that during destruction
         // a message is sent out. that will try and elongate
@@ -98,8 +77,6 @@ namespace telegraph {
         api::Namespace* ns = res.mutable_ns();
 
         auto c = ns_->contexts;
-        auto t = ns_->components;
-        auto m = ns_->mounts;
 
         // dump all the contexts/components/mounts
         for (const auto& i : *c) {
@@ -110,41 +87,19 @@ namespace telegraph {
             ct->set_uuid(std::move(uuid));
             ct->set_name(ctx->get_name());
             ct->set_type(ctx->get_type());
+            ct->set_headless(ctx->is_headless());
             api::Params* p = ct->mutable_params();
             ctx->get_params().pack(p);
         }
-        for (const auto& i : *t) {
-            auto& component = i.second;
-            std::string uuid = boost::lexical_cast<std::string>(component->get_uuid());
-
-            api::Component* ta = ns->add_components();
-            ta->set_uuid(std::move(uuid));
-            ta->set_name(component->get_name());
-            ta->set_type(component->get_type());
-            api::Params* p = ta->mutable_params();
-            component->get_params().pack(p);
-        }
-        for (const auto& i : *m) {
-            auto& mount = i.second;
-            auto s = mount.src.lock();
-            auto t = mount.tgt.lock();
-            std::string src = boost::lexical_cast<std::string>(s->get_uuid());
-            std::string tgt = boost::lexical_cast<std::string>(t->get_uuid());
-
-            api::Mount* mt = ns->add_mounts();
-            mt->set_src(std::move(src));
-            mt->set_tgt(std::move(tgt));
-        }
-
         conn_.write_back(p.req_id(), std::move(res));
-
         c->added.add(this, [this, req_id] (const context_ptr& ctx) {
             api::Packet res;
-            api::Context* c = res.mutable_context_added();
+            api::Context* c = res.mutable_added();
             std::string uuid = boost::lexical_cast<std::string>(ctx->get_uuid());
             c->set_uuid(std::move(uuid));
             c->set_name(ctx->get_name());
             c->set_type(ctx->get_type());
+            c->set_headless(ctx->is_headless());
             api::Params* p = c->mutable_params();
             ctx->get_params().pack(p);
 
@@ -153,51 +108,7 @@ namespace telegraph {
         c->removed.add(this, [this, req_id] (const context_ptr& ctx) {
             api::Packet res;
             std::string u = boost::lexical_cast<std::string>(ctx->get_uuid());
-            res.set_context_removed(std::move(u));
-            conn_.write_back(req_id, std::move(res));
-        });
-
-        t->added.add(this, [this, req_id] (const component_ptr& component) {
-            api::Packet res;
-            api::Component* t = res.mutable_component_added();
-            std::string uuid = boost::lexical_cast<std::string>(component->get_uuid());
-            t->set_uuid(std::move(uuid));
-            t->set_name(component->get_name());
-            t->set_type(component->get_type());
-            api::Params* p = t->mutable_params();
-            component->get_params().pack(p);
-            conn_.write_back(req_id, std::move(res));
-        });
-        t->removed.add(this, [this, req_id] (const component_ptr& component) {
-            api::Packet res;
-            std::string u = boost::lexical_cast<std::string>(component->get_uuid());
-            res.set_component_removed(std::move(u));
-            conn_.write_back(req_id, std::move(res));
-        });
-        m->added.add(this, [this, req_id] (const mount_info& m) {
-            api::Packet res;
-            auto s = m.src.lock();
-            auto t = m.tgt.lock();
-            if (!s || !t) return;
-            std::string src = boost::lexical_cast<std::string>(s->get_uuid());
-            std::string tgt = boost::lexical_cast<std::string>(t->get_uuid());
-
-            api::Mount* mt = res.mutable_mount_added();
-            mt->set_src(std::move(src));
-            mt->set_tgt(std::move(tgt));
-            conn_.write_back(req_id, std::move(res));
-        });
-        m->removed.add(this, [this, req_id] (const mount_info& m) {
-            api::Packet res;
-            auto s = m.src.lock();
-            auto t = m.tgt.lock();
-            if (!s || !t) return;
-            std::string src = boost::lexical_cast<std::string>(s->get_uuid());
-            std::string tgt = boost::lexical_cast<std::string>(t->get_uuid());
-
-            api::Mount* mt = res.mutable_mount_removed();
-            mt->set_src(std::move(src));
-            mt->set_tgt(std::move(tgt));
+            res.set_removed(std::move(u));
             conn_.write_back(req_id, std::move(res));
         });
     }
@@ -395,10 +306,10 @@ namespace telegraph {
     }
 
     void
-    forwarder::handle_stream_context(io::yield_ctx& c, const api::Packet& p) {
+    forwarder::handle_request(io::yield_ctx& c, const api::Packet& p) {
         try {
             int32_t req_id = p.req_id();
-            const auto& req = p.stream_context();
+            const auto& req = p.request();
             uuid u = boost::lexical_cast<uuid>(req.uuid());
             params par = params::unpack(req.params(), ns_.get());
 
@@ -414,7 +325,7 @@ namespace telegraph {
                 s->set_pipe([this, req_id] (params&& p) {
                     // write an update packet
                     api::Packet update;
-                    p.move(update.mutable_stream_update());
+                    p.move(update.mutable_request_update());
                     conn_.write_back(req_id, std::move(update));
                 }, [this, req_id]() {
                     conn_.close_stream(req_id);
@@ -447,117 +358,22 @@ namespace telegraph {
         }
     }
 
-    void
-    forwarder::handle_stream_component(io::yield_ctx& c, const api::Packet& p) {
-        try {
-            int32_t req_id = p.req_id();
-            const auto& req = p.stream_component();
-            uuid u = boost::lexical_cast<uuid>(req.uuid());
-            params par = params::unpack(req.params(), ns_.get());
-
-            auto component = ns_->components->get(u);
-            if (!component) throw missing_error("no such component");
-            params_stream_ptr s = component->request(c, par);
-
-            if (s) {
-                api::Packet res;
-                res.set_success(true);
-                conn_.write_back(req_id, std::move(res));
-
-                conn_.set_stream_cb(req_id,
-                    [this] (io::yield_ctx& yield, const api::Packet& p) {
-                        if (p.payload_case() == api::Packet::kCancel) {
-                            auto it = streams_.find(p.req_id());
-                            if (it == streams_.end()) return;
-                            it->second->close();
-                        }
-                    });
-                s->set_pipe([this, req_id] (params&& p) {
-                    // write an update packet
-                    api::Packet update;
-                    p.move(update.mutable_stream_update());
-                    conn_.write_back(req_id, std::move(update));
-                }, [this, req_id]() {
-                    conn_.close_stream(req_id);
-                    // on close send back a cancel message
-                    api::Packet cancel;
-                    cancel.set_cancel(0);
-                    conn_.write_back(req_id, std::move(cancel));
-
-                    // will delete the stream_ptr (and this object)
-                    streams_.erase(req_id);
-                });
-                if (!s->is_closed()) {
-                    streams_.emplace(std::make_pair(req_id, std::move(s)));
-                }
-            } else {
-                api::Packet res;
-                res.set_success(false);
-                conn_.write_back(req_id, std::move(res));
-            }
-        } catch (const std::exception& e) {
-            reply_error(p, e);
-        }
-    }
 
     void
-    forwarder::handle_mount(io::yield_ctx& c, const api::Packet& p) {
+    forwarder::handle_create(io::yield_ctx& yield, const api::Packet& p) {
         try {
             int32_t req_id = p.req_id();
-            const auto& req = p.mount();
-            uuid src = boost::lexical_cast<uuid>(req.src());
-            uuid tgt = boost::lexical_cast<uuid>(req.tgt());
-
-            // get the contexts by uuid
-            auto s = ns_->contexts->get(src);
-            auto t = ns_->contexts->get(tgt);
-            if (!s || !t) throw missing_error("no such contexts");
-            t->mount(c, s);
-
-            api::Packet res;
-            res.set_success(true);
-            conn_.write_back(req_id, std::move(res));
-        } catch (const std::exception& e) {
-            reply_error(p, e);
-        }
-    }
-
-    void
-    forwarder::handle_unmount(io::yield_ctx& c, const api::Packet& p) {
-        try {
-            int32_t req_id = p.req_id();
-            const auto& req = p.unmount();
-            uuid src = boost::lexical_cast<uuid>(req.src());
-            uuid tgt = boost::lexical_cast<uuid>(req.tgt());
-
-            auto s = ns_->contexts->get(src);
-            auto t = ns_->contexts->get(tgt);
-            if (!s || !t) throw missing_error("no such contexts");
-            t->unmount(c, s);
-
-            api::Packet res;
-            res.set_success(true);
-            conn_.write_back(req_id, std::move(res));
-        } catch (const std::exception& e) {
-            reply_error(p, e);
-        }
-    }
-
-    void
-    forwarder::handle_create_context(io::yield_ctx& yield, const api::Packet& p) {
-        try {
-            int32_t req_id = p.req_id();
-            const auto& c = p.create_context();
+            const auto& c = p.create();
             const std::string& name = c.name();
             const std::string& type = c.type();
             params par = params::unpack(c.params(), ns_.get());
-            context_ptr n = ns_->create_context(yield, name, type, par);
+            context_ptr n = ns_->create(yield, name, type, par);
             api::Packet res;
             if (!n) {
                 res.set_success(false);
             } else {
                 std::string u = boost::lexical_cast<std::string>(n->get_uuid());
-                res.set_context_created(std::move(u));
+                res.set_created(std::move(u));
             }
             conn_.write_back(req_id, std::move(res));
         } catch (const std::exception& e) {
@@ -566,46 +382,10 @@ namespace telegraph {
     }
 
     void
-    forwarder::handle_create_component(io::yield_ctx& yield, const api::Packet& p) {
+    forwarder::handle_destroy(io::yield_ctx& yield, const api::Packet& p) {
         try {
-            int32_t req_id = p.req_id();
-            const auto& c = p.create_component();
-            const std::string& name = c.name();
-            const std::string& type = c.type();
-            params par = params::unpack(c.params(), ns_.get());
-            component_ptr n = ns_->create_component(yield, name, type, par);
-            api::Packet res;
-            if (!n) {
-                res.set_success(false);
-            } else {
-                std::string u = boost::lexical_cast<std::string>(n->get_uuid());
-                res.set_component_created(std::move(u));
-            }
-            conn_.write_back(req_id, std::move(res));
-        } catch (const std::exception& e) {
-            reply_error(p, e);
-        }
-    }
-
-    void
-    forwarder::handle_destroy_context(io::yield_ctx& yield, const api::Packet& p) {
-        try {
-            uuid u = boost::lexical_cast<uuid>(p.destroy_context());
-            ns_->destroy_context(yield, u);
-
-            api::Packet res;
-            res.set_success(true);
-            conn_.write_back(p.req_id(), std::move(res));
-        } catch (const std::exception& e) {
-            reply_error(p, e);
-        }
-    }
-
-    void
-    forwarder::handle_destroy_component(io::yield_ctx& yield, const api::Packet& p) {
-        try {
-            uuid u = boost::lexical_cast<uuid>(p.destroy_component());
-            ns_->destroy_component(yield, u);
+            uuid u = boost::lexical_cast<uuid>(p.destroy());
+            ns_->destroy(yield, u);
 
             api::Packet res;
             res.set_success(true);

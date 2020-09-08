@@ -31,7 +31,6 @@ export default {
     components: {Form, FormItem,
                 TextField, Button},
     props: {
-        resourceType: String,
         nsQuery: NamespaceQuery
     },
     data() {
@@ -57,14 +56,7 @@ export default {
                 }
             }
             var ns = this.nsQuery.current;
-            var srcs = {};
-            if (this.resourceType == 'Component') {
-                await ns.createComponent(this.name, this.type, params, srcs)
-            } else if (this.resourceType == 'Context') {
-                await ns.createContext(this.name, this.type, params, srcs)
-            } else {
-                console.log('unknown resource type');
-            }
+            await ns.create(this.name, this.type, params);
             this.$bubble('close');
         }
     }

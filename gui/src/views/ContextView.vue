@@ -62,9 +62,6 @@ export default {
             return !(this.context.type == 'container' && this.context.name == 'live');
         },
         isLive() {
-            for (let x of this.mountedOn) {
-                if (x.type == 'container' && x.name == 'live') return true;
-            }
             return false;
         }
     },
@@ -109,28 +106,7 @@ export default {
                 .extract(x => x.type == 'container' && x.name == 'live');
             if (live == null) {
                 // create a new context
-                live = await ns.createContext('live', 'container',{src: this.context});
-            }
-            if (!live) return;
-            if (!this.isLive) {
-                try {
-                    await live.mount(this.context);
-                } catch (e) {
-                    // if mount fails, destroy
-                    // the live context, recreate
-                    // and remount
-                    await live.destroy();
-                    live = await ns.createContext('live', 'container', 
-                                                {src: this.context});
-                    await live.mount(this.context);
-                }
-            } else {
-                await live.unmount(this.context);
-                // if there is nobody else mounted
-                // on the container, destroy...
-                if (ns.mounts.filter(m => m.tgt == live).empty) {
-                    await live.destroy();
-                }
+                live = await ns.create('live', 'container',{src: [this.context]});
             }
         },
         toggleData() {
@@ -143,48 +119,7 @@ export default {
                 })();
             }
         },
-        onMountAdd(m) {
-            if (m.src == this.context) {
-                this.mountedOn.push(m.tgt);
-            }
-        },
-        onMountRemove(m) {
-            if (m.src == this.context) {
-                this.mountedOn.splice(this.mountedOn.indexOf(m.tgt), 1);
-            }
-        }
     },
-    created() {
-        if (this.context) {
-            this.context.ns.mounts.added.add(this.onMountAdd);
-            this.context.ns.mounts.removed.add(this.onMountRemove);
-            for (let m of this.context.ns.mounts) {
-                this.onMountAdd(m);
-            }
-        }
-    },
-    destroyed() {
-        if (this.context) {
-            this.context.ns.mounts.added.remove(this.onMountAdd);
-            this.context.ns.mounts.removed.remove(this.onMountRemove);
-        }
-    },
-    watch: {
-        context(n, o) {
-            this.mountedOn = [];
-            if (o) {
-                o.ns.mounts.added.remove(this.onMountAdd);
-                o.ns.mounts.removed.remove(this.onMountRemove);
-            }
-            if (n) {
-                n.ns.mounts.added.add(this.onMountAdd);
-                n.ns.mounts.removed.add(this.onMountRemove);
-                for (let m of n.ns.mounts) {
-                    this.onMountAdd(m);
-                }
-            }
-        }
-    }
 }
 </script>
 

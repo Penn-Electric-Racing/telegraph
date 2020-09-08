@@ -25,7 +25,7 @@ namespace telegraph {
         std::unordered_map<void*, std::weak_ptr<data_query>> queries_;
     public:
         container(io::io_context& ioc, const std::string_view& name, 
-                    std::unique_ptr<node>&& tree);
+                    std::unique_ptr<node>&& tree, std::vector<context_ptr>&& mounts);
         ~container();
 
         params_stream_ptr request(io::yield_ctx&, const params& p) override;
@@ -65,35 +65,6 @@ namespace telegraph {
         data_query_ptr query_data(io::yield_ctx& yield, 
                 const std::vector<std::string_view>& v) override {
             return nullptr;
-        }
-
-        void mount(io::yield_ctx& y, const context_ptr& src) override { 
-            auto tree = src->fetch(y);
-            if (!tree || !tree->compatible_with(tree_.get()))
-                throw tree_error("cannot mount mismatching tree!");
-            local_context::mount(y, src);
-            mounts_.push_back(src); 
-            for (auto s : subs_) {
-                auto sp = s.second.lock();
-                if (sp) {
-                    sp->cancelled.remove(this);
-                    sp->cancel();
-                }
-            }
-            subs_.clear();
-        }
-        void unmount(io::yield_ctx& y, const context_ptr& src) override {
-            local_context::unmount(y, src);
-            mounts_.erase(std::remove(mounts_.begin(), 
-                        mounts_.end(), src), mounts_.end());
-            for (auto s : subs_) {
-                auto sp = s.second.lock();
-                if (sp) {
-                    sp->cancelled.remove(this);
-                    sp->cancel();
-                }
-            }
-            subs_.clear();
         }
 
         static local_context_ptr create(io::yield_ctx&, io::io_context& ioc, 

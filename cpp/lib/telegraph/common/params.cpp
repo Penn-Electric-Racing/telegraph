@@ -34,19 +34,12 @@ namespace telegraph {
             }
             return params(std::move(vec));
         }
-        case api::Params::kCtxUuid: {
+        case api::Params::kUuid: {
             if (!n) return params();
-            uuid u = boost::lexical_cast<uuid>(i.ctx_uuid());
+            uuid u = boost::lexical_cast<uuid>(i.uuid());
             auto ctx = n->contexts->get(u);
             if (!ctx) return params();
             return params(ctx);
-        }
-        case api::Params::kCompUuid: {
-            if (!n) return params();
-            uuid u = boost::lexical_cast<uuid>(i.ctx_uuid());
-            auto comp = n->components->get(u);
-            if (!comp) return params();
-            return params(comp);
         }
         case api::Params::kTree: {
             return params(std::shared_ptr<node>{node::unpack(i.tree())});
@@ -83,22 +76,17 @@ namespace telegraph {
             }
         } break;
         case 6: {
-            const context_ptr& c = std::get<context_ptr>(value_);
-            if (!c) i->mutable_none();
-            else i->set_ctx_uuid(boost::lexical_cast<std::string>(c->get_uuid()));
-        } break;
-        case 7: {
-            const component_ptr& c = std::get<component_ptr>(value_);
-            if (!c) i->mutable_none();
-            else i->set_comp_uuid(boost::lexical_cast<std::string>(c->get_uuid()));
-        } break;
-        case 8: {
             const std::shared_ptr<node>& n = std::get<std::shared_ptr<node>>(value_);
             if (!n) {
                 i->mutable_none();
             } else {
                 n->pack(i->mutable_tree());
             }
+        } break;
+        case 7: {
+            const context_ptr& c = std::get<context_ptr>(value_);
+            if (!c) i->mutable_none();
+            else i->set_uuid(boost::lexical_cast<std::string>(c->get_uuid()));
         } break;
         }
     }

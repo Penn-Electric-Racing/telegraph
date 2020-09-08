@@ -1,9 +1,5 @@
 import { Signal } from './signal.mjs'
 
-export class Component {
-
-}
-
 export class Context {
 
 }

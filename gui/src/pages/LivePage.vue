@@ -48,13 +48,13 @@ export default {
   },
   computed: {
     liveContextQuery() {
-      return this.nsQuery.contexts.extract(x => x.name == 'live' && x.type == 'container');
+      return this.nsQuery.contexts.extract(x => x.name == 'live');
     },
     liveNodesQuery() {
       return this.liveContextQuery.fetch();
     },
     scannerQuery() {
-      return this.nsQuery.components.extract(x => x.type == 'device_scanner');
+      return this.nsQuery.contexts.extract(x => x.type == 'device_scanner');
     },
   },
   methods: {
@@ -66,7 +66,7 @@ export default {
       if (!scanner && this.nsQuery.current) {
         // request to create a scanner
         var ns = this.nsQuery.current;
-        ns.createComponent('scanner', 'device_scanner', {}, {});
+        ns.create('scanner', 'device_scanner', {}, {});
       }
       if (scanner) {
         (async() => {
@@ -101,32 +101,20 @@ export default {
       if (this.nsQuery.current) {
         let ns = this.nsQuery.current;
         // create the device
-        let device = await ns.createContext(this.selectedPort, 'device', 
+        let device = await ns.create(this.selectedPort, 'device', 
                   {port: this.selectedPort, baud: this.selectedBaud}, {});
         if (!device) return;
 
         // find if there is a live context
         let live = ns.contexts
-            .extract(x => x.type == 'container' && x.name == 'live');
+            .extract(x => x.name == 'live');
         if (live == null) {
             // create a new context if one does not exist
             console.log('creating first!', device);
-            live = await ns.createContext('live', 
-                    'container', {src: device});
+            live = await ns.create('live', 
+                    'container', {src: [device]});
         }
         if (!live) return;
-        try {
-          await live.mount(device);
-        } catch (e) {
-          // if mount fails, destroy
-          // the live context, recreate
-          // and remount
-          await live.destroy();
-          console.log('creating!');
-          live = await ns.createContext('live', 'container', 
-                                        {src: device});
-          await live.mount(device);
-        }
       }
     },
 

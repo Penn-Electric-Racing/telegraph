@@ -50,7 +50,7 @@ export default {
     },
     created() {
         if (this.nsQuery) {
-            this.componentCollection = this.nsQuery.components.collect();
+            this.componentCollection = this.nsQuery.contexts.headless().collect();
             this.componentCollection.added.add(x => this.components.push(x));
             this.componentCollection.removed.add(x => this.components.splice(this.components.indexOf(x), 1));
         } else {

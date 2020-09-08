@@ -54,7 +54,7 @@ export default {
     methods: {
         nsUpdated() {
             if (this.nsQuery) {
-                this.contextCollection = this.nsQuery.contexts.collect();
+                this.contextCollection = this.nsQuery.contexts.with_trees().collect();
                 this.contexts = [];
                 for (let c of this.contextCollection) this.contexts.push(c);
                 this.contextCollection.added.add(x => this.contexts.push(x));

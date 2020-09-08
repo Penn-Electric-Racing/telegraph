@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { Component } from 'telegraph'
+import { Context } from 'telegraph'
 
 import Bubble  from '../components/Bubble.vue'
 
@@ -43,7 +43,7 @@ export default {
     name: 'ComponentView',
     components : { Bubble },
     props: {
-        component: Component
+        component: Context
     },
     methods: {
         destroy() {
