@@ -7,7 +7,7 @@
         <div class="close-2"/>
       </div>
     </div>
-    <div class="panel-content noDrag">
+    <div class="panel-content noDrag" :class="{'noMargin': noMargin}">
       <slot></slot>
     </div>
   </div>
@@ -16,7 +16,8 @@
   export default {
     name: 'Panel',
     props: {
-      header: { type: String, default: '' }
+      header: { type: String, default: '' },
+      noMargin: { type: Boolean, default: false }
     }
   }
 </script>
@@ -93,5 +94,8 @@
     min-height: 0;
     box-sizing: border-box;
     overflow: hidden;
+  }
+  .noMargin {
+    padding: 0;
   }
 </style>

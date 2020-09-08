@@ -22,7 +22,7 @@
     "core-js": "^3.3.2",
     "flot": "^4.2.1",
     "node-sass": "^4.14.1",
-    "plotly": "^1.0.6",
+    "plotly.js-dist": "^1.55.2",
     "sass-loader": "^8.0.0",
     "signals": "^1.0.0",
     "telegraph": "file:../js",

@@ -1,5 +1,5 @@
 <template>
-  <Panel @close="$emit('close')" :header="header">
+  <Panel @close="$emit('close')" :header="header" :noMargin="true">
     <div ref="chart" class="chart">
     </div>
   </Panel>
@@ -8,7 +8,7 @@
 <script>
   import Panel from '../components/Panel.vue'
   import { NamespaceQuery, Variable } from 'telegraph'
-  import * as Plotly from 'plotly'
+  import Plotly from 'plotly.js-dist'
 
   export default {
     name: 'Graph',
@@ -22,7 +22,6 @@
       return {
         variables: [],
         sub: null,
-        history: []
       }
     },
     computed: {
@@ -51,10 +50,26 @@
     },
     methods: {
       setup() {
-        Plotly.newPlot(this.$refs['chart'])
+        Plotly.newPlot(this.$refs['chart'],
+          [{x: [], y: [], mode: 'lines', line: {color: '#1c8ed7'}}],
+          {
+            margin:{l:35, r:20, b: 35, t:20}, 
+            plot_bgcolor:"#00000000",
+            paper_bgcolor:"#00000000",
+            xaxis: {
+              color: '#ccc',
+            },
+            yaxis: {
+              color: '#ccc',
+            },
+            modebar: {
+              bgcolor: "#11111133",
+            }
+           },
+          {responsive:true})
       },
       relayout() {
-
+        Plotly.relayout(this.$refs['chart'], {width: this.width, height: this.height})
       },
       updateVariable(v) {
         if (!v || !(v instanceof Variable)) this.variable = [];
@@ -63,9 +78,25 @@
           if (this.sub) await this.sub.cancel();
           if (v) {
             this.sub = null;
-            this.sub = await v.subscribe(0.5, 1);
+            this.sub = await v.subscribe(0.05, 1);
             if (this.sub) {
-              this.sub.data.add(v => this.history.push(v));
+              this.sub.data.add(v => {
+                const d = new Date();
+                const year = d.getFullYear();
+                const month = (d.getMonth() + 1);
+                const day = d.getDate();
+                const hours = d.getHours().toString().padStart(2, "0");
+                const mins = d.getMinutes().toString().padStart(2, "0");
+                const sec = d.getSeconds().toString().padStart(2, "0");
+                const milli = d.getMilliseconds().toString().padStart(3, "0");
+
+                const dstr = `${year}-${month}-${day} ${hours}:${mins}:${sec}.${milli}`
+                            
+                Plotly.extendTraces(this.$refs['chart'], {
+                  x: [[dstr]],
+                  y: [[v]]
+                }, [0])
+              });
               this.sub.poll();
             }
           }
