@@ -7,6 +7,19 @@
   resolved "https://registry.yarnpkg.com/7zip-bin/-/7zip-bin-5.0.3.tgz#bc5b5532ecafd923a61f2fb097e3b108c0106a3f"
   integrity sha512-GLyWIFBbGvpKPGo55JyRZAo4lVbnBiD52cKlw/0Vt+wnmKvWJkpZvsjVoaIolyBXDeAQKSicRtqFNPem9w0WYA==
 
+"@arction/eventer@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@arction/eventer/-/eventer-1.0.1.tgz#1b11560cf056db03c82d48643f03f28c98379bb4"
+  integrity sha512-/443gMPcZwt+BSH5cy2/sJlYis2zT0IUbllboi/e0Ye4uk58SUloxjMecWjp2sJ7IBCGGpduaE8I73mMQmJGvw==
+
+"@arction/lcjs@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@arction/lcjs/-/lcjs-2.0.1.tgz#1f606c76d6913c91b229fd09d39c20fd6278d84f"
+  integrity sha512-/1L9zDm+rbA+ix7hoftCYNKE9N9hXvNZdfrEdsy11JZvlQYi9VAdTvGvrHU/JcGMEI0pEfWZgRBfHMOoGzoKTQ==
+  dependencies:
+    "@arction/eventer" "^1.0.1"
+    immutable "^4.0.0-rc.12"
+
 "@babel/code-frame@^7.0.0", "@babel/code-frame@^7.8.3":
   version "7.8.3"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.8.3.tgz#33e25903d7481181534e12ec0a25f16b6fcf419e"
@@ -4056,11 +4069,6 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-flot@^4.2.1:
-  version "4.2.1"
-  resolved "https://registry.yarnpkg.com/flot/-/flot-4.2.1.tgz#a44ea240decee51cbd75d97ca69ec12e59365d27"
-  integrity sha512-tnZ4Pg1upBSfSs52VVRPZqF8FUxeVVI124srTV/XNcwJR5ygjaCZuwnpkAuZAWFLZMg2OCHb53pB6VoVB7YT4g==
-
 flush-write-stream@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/flush-write-stream/-/flush-write-stream-1.1.1.tgz#8dd7d873a1babc207d94ead0c2e0e44276ebf2e8"
@@ -4769,6 +4777,11 @@ immediate@~3.0.5:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
   integrity sha1-nbHb0Pr43m++D13V5Wu2BigN5ps=
+
+immutable@^4.0.0-rc.12:
+  version "4.0.0-rc.12"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.0.0-rc.12.tgz#ca59a7e4c19ae8d9bf74a97bdf0f6e2f2a5d0217"
+  integrity sha512-0M2XxkZLx/mi3t8NVwIm1g8nHoEmM9p9UBl/G9k4+hm0kBgOVdMV/B3CY5dQ8qG8qc80NN4gDV4HQv6FTJ5q7A==
 
 import-cwd@^2.0.0:
   version "2.1.0"
@@ -6763,11 +6776,6 @@ pkg-up@^2.0.0:
   integrity sha1-yBmscoBZpGHKscOImivjxJoATX8=
   dependencies:
     find-up "^2.1.0"
-
-plotly.js-dist@^1.55.2:
-  version "1.55.2"
-  resolved "https://registry.yarnpkg.com/plotly.js-dist/-/plotly.js-dist-1.55.2.tgz#31c4a8b073da04e313928cc794433939f7dca8e6"
-  integrity sha512-1QBBIPnh/G+8w9h/6pr7DQGm3t/XZptskUxJQsqTJJ1uth4xsDj2ltkmzujI5cG4lZadurJnfrJbFof+LHiyHg==
 
 pnp-webpack-plugin@^1.6.4:
   version "1.6.4"
@@ -8998,6 +9006,11 @@ update-notifier@^3.0.1:
     latest-version "^5.0.0"
     semver-diff "^2.0.0"
     xdg-basedir "^3.0.0"
+
+uplot@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/uplot/-/uplot-1.1.2.tgz#ccdbe0987e7615d197e1dba77946a1655a823c31"
+  integrity sha512-CpQmMdafoMRR+zRSpfpMXs5mKvqgYFakcCyt7nOfh+pPeZfbxNMcCq9JFeXJcKEaWjrR6JSIiEZ01A4iFHztTQ==
 
 upper-case@^1.1.1:
   version "1.1.3"

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import {Component} from 'telegraph'
+import {Context} from 'telegraph'
 
 import Table from '../components/Table.vue'
 import TableRow from '../components/TableRow.vue'
@@ -33,7 +33,7 @@ export default {
     name: 'ComponentInfoPage',
     components: {Table, TableRow, TableData, JsonPretty},
     props: {
-        component: Component
+        component: Context
     }
 }
 </script>
