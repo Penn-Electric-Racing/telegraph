@@ -15,23 +15,17 @@ if (build) {
     stdio: ["pipe", process.stdout, process.stderr]
   });
 
-  if (existsSync("../bazel-bin/cpp/server.exe")) {
-    copyFileSync("../bazel-bin/cpp/server.exe", "resources/server");
-  } else if (existsSync("../bazel-bin/cpp/server")) {
-    copyFileSync("../bazel-bin/cpp/server", "resources/server");
-  }
-  // Fix the permissions on the binary
-  if (existsSync("resources/server")) {
-    chmodSync("resources/server", 0o777);
-  }
-} else {
-  if (existsSync("../bazel-bin/cpp/server.exe")) {
-    copyFileSync("../bazel-bin/cpp/server.exe", "resources/server");
-  } else if (existsSync("../bazel-bin/cpp/server")) {
-    copyFileSync("../bazel-bin/cpp/server", "resources/server");
-  }
-  // Fix the permissions on the binary
-  if (existsSync("resources/server")) {
-    chmodSync("resources/server", 0o777);
-  }
+}
+
+if (existsSync("../bazel-bin/cpp/server.exe")) {
+  copyFileSync("../bazel-bin/cpp/server.exe", "resources/server.exe");
+} else if (existsSync("../bazel-bin/cpp/server")) {
+  copyFileSync("../bazel-bin/cpp/server", "resources/server");
+}
+// Fix the permissions on the binary
+if (existsSync("resources/server")) {
+  chmodSync("resources/server", 0o777);
+}
+if (existsSync("resources/server.exe")) {
+  chmodSync("resources/server.exe", 0o777);
 }
