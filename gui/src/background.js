@@ -93,7 +93,7 @@ if (isDevelopment) {
 // Setup the backend server
 
 import path from 'path';
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 import * as fs from'fs';
 
 const resourcesPath = app.isPackaged ?
@@ -103,7 +103,8 @@ console.log('resources: ', resourcesPath);
 
 var serverProcess = null;
 if (!isDevelopment) {
-  serverProcess = exec('./server', {
+  const executable = process.platform == 'win32' ? './server.exe' : './server';
+  serverProcess = execFile(executable, {
     cwd: resourcesPath,
     stdio: ["pipe", process.stdout, process.stderr]
   }, () => { console.log('Server exited') })
