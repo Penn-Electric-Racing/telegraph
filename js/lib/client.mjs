@@ -324,26 +324,6 @@ class RemoteContext extends Context {
     return req;
   }
 
-  async mount(s) {
-    if (!s) throw new Error("Bad source");
-    var msg = {
-      mount : { src: s.uuid, tgt: this.uuid }
-    };
-    var res = await this.ns._conn.requestResponse(msg);
-    checkError(res);
-    if (!res.success) throw new Error("Mount failed!");
-  }
-
-  async unmount(s) {
-    if (!s) throw new Error("Bad source");
-    var msg = {
-      unmount : { src: s.uuid, tgt: this.uuid }
-    };
-    var res = await this.ns._conn.requestResponse(msg);
-    checkError(res);
-    if (!res.success) throw new Error("Unmount failed!");
-  }
-
   async destroy() {
     await this.ns.destroy(this.uuid);
   }
