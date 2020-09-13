@@ -12,11 +12,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    # - name: Setup Bazel
-    #   uses: abhinavsingh/setup-bazel@v3
-    # - name: Bazel Build on Windows
-    #   if: matrix.os == 'windows'
-    #   run: ./bazel.exe build //...
     - name: Bazel Build
-      if: matrix.os != 'windows'
       run: bazel build //...
