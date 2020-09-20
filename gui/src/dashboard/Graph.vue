@@ -40,8 +40,8 @@
         variables: [],
         history: [[],[]],
 
-        timespan: 0,
-        useTimespan: false,
+        timespan: 20,
+        useTimespan: true,
         live: true,
 
         width: 0,
@@ -79,7 +79,7 @@
         const opts = {
           width: this.width,
           height: this.height,
-          scales: { x: { time: false, min: null, max: null, auto: false }, y: { auto: true }},
+          scales: { x: { time: true, min: null, max: null, auto: false }, y: { auto: true }},
           axes: [
             {stroke: "#fff", grid: {stroke: "rgb(80, 80, 80)"}},
             {stroke: "#fff", grid: {stroke: "rgb(80, 80, 80)"}}
@@ -146,8 +146,7 @@
             this.sub = await v.subscribe(0.0001, 1);
             if (this.sub) {
               this.sub.data.add(dp => {
-                // this.history[0].push(dp.t / 1000000)
-                this.history[0].push(this.history[0].length)
+                this.history[0].push(dp.t / 1000000)
                 this.history[1].push(dp.v)
                 if (this.live) {
                   this.updateScale();
