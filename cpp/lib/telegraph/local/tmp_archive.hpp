@@ -10,10 +10,10 @@ namespace telegraph {
 
     class tmp_data : public data_query {
     private:
-        std::vector<data_point> current_;
+        std::vector<datapoint> current_;
     public:
-        const std::vector<data_point>& get_current() const override { return current_; }
-        void write(const std::vector<data_point>& d) {
+        const std::vector<datapoint>& get_current() const override { return current_; }
+        void write(const std::vector<datapoint>& d) {
             current_.insert(current_.end(), d.begin(), d.end());
             data(d);
         }
@@ -36,7 +36,7 @@ namespace telegraph {
         void record_stop(variable* v);
 
         bool write_data(io::yield_ctx& yield, variable* v,
-                        const std::vector<data_point>& data) override {
+                        const std::vector<datapoint>& data) override {
             auto it = data_.find(v);
             if (it == data_.end()) {
                 auto s = std::make_shared<tmp_data>();
@@ -49,7 +49,7 @@ namespace telegraph {
         }
         bool write_data(io::yield_ctx& yield, 
                         const std::vector<std::string_view>& v,
-                        const std::vector<data_point>& data) override {
+                        const std::vector<datapoint>& data) override {
             auto n =  tree_->from_path(v);
             auto var = dynamic_cast<variable*>(n);
             if (!var) return false;

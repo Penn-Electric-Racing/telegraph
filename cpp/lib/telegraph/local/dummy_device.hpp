@@ -50,12 +50,12 @@ namespace telegraph {
 
         bool write_data(io::yield_ctx& yield, 
                 variable* v, 
-                const std::vector<data_point>& data) override {
+                const std::vector<datapoint>& data) override {
             return false;
         }
         bool write_data(io::yield_ctx& yield, 
                 const std::vector<std::string_view>&, 
-                const std::vector<data_point>& data) override {
+                const std::vector<datapoint>& data) override {
             return false;
         }
 

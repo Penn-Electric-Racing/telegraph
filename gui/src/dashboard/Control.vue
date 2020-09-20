@@ -36,7 +36,7 @@
         if (this.node instanceof Variable) {
           this.sub = await this.node.subscribe(1, 1);
           if (this.sub) {
-            this.sub.data.add(v => this.state = v);
+            this.sub.data.add(dp => this.state = dp.v);
             this.sub.poll();
           } else {
             this.state = 'N/A';

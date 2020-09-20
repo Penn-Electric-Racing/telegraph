@@ -81,11 +81,11 @@ namespace telegraph {
 
         // unimplemented context functions
         bool write_data(io::yield_ctx&, variable* v, 
-                const std::vector<data_point>& d) override { return false; }
+                const std::vector<datapoint>& d) override { return false; }
 
         bool write_data(io::yield_ctx&, 
                 const std::vector<std::string_view>& path, 
-                const std::vector<data_point>& d) override { return false; }
+                const std::vector<datapoint>& d) override { return false; }
 
         data_query_ptr query_data(io::yield_ctx& yield, 
                                             const variable * n) override { return nullptr; }

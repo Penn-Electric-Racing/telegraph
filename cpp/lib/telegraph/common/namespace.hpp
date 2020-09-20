@@ -23,7 +23,7 @@ namespace telegraph {
     class subscription;
     using subscription_ptr = std::shared_ptr<subscription>;
 
-    class data_point;
+    class datapoint;
     class data_query;
     using data_query_ptr = std::shared_ptr<data_query>;
 
@@ -71,7 +71,7 @@ namespace telegraph {
 
         virtual params_stream_ptr request(io::yield_ctx&, const params& p) = 0;
 
-                virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
+        virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
 
         // tree manipulation functions
         virtual subscription_ptr  subscribe(io::yield_ctx& ctx, 
@@ -88,9 +88,9 @@ namespace telegraph {
                                     value v, float timeout) = 0;
 
         virtual bool write_data(io::yield_ctx& yield, variable* v, 
-                                    const std::vector<data_point>& data) = 0;
+                                    const std::vector<datapoint>& data) = 0;
         virtual bool write_data(io::yield_ctx& yield, const std::vector<std::string_view>& var,
-                                    const std::vector<data_point>& data) = 0;
+                                    const std::vector<datapoint>& data) = 0;
 
         virtual data_query_ptr query_data(io::yield_ctx& yield, const variable* v) = 0;
         virtual data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& v) = 0;

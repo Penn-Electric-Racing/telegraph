@@ -13,11 +13,11 @@ class AdapterSubscriber {
     this._last_update = null;
   }
 
-  _notify(ts, val) {
+  _notify(dp) {
     if (!this._last_update || 
-         ts - this._last_update > 1000*this.debounce) {
-      this._last_update = ts;
-      this.data.dispatch(val);
+         dp.t - this._last_update > 1000000*this.debounce) {
+      this._last_update = dp.t;
+      this.data.dispatch(dp);
     }
   }
 
@@ -83,10 +83,8 @@ export class Adapter {
     this._poll();
   }
 
-  update(val) {
-    var d = new Date();
-    var t = d.getTime();
-    for (let s of this._subs) s._notify(t, val);
+  update(dp) {
+    for (let s of this._subs) s._notify(dp);
   }
 
   async subscribe(minInterval, maxInterval, timeout) {

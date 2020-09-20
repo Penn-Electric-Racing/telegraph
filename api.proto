@@ -122,10 +122,10 @@ message Packet {
         Empty sub_poll = 17;
         Empty sub_reset = 18;
         Type sub_type = 19;
-        Value sub_update = 20; // keep receiving until the original request id is cancelled
+        Datapoint sub_update = 20; // keep receiving until the original request id is cancelled
 
         Call call_action = 21;
-        Value call_return = 22;
+        Datapoint call_return = 22;
 
         // archive operations:
         DataWrite data_write = 23;

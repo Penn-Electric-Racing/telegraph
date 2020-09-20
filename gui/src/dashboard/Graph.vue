@@ -132,9 +132,9 @@
             this.sub = null;
             this.sub = await v.subscribe(0.0001, 1);
             if (this.sub) {
-              this.sub.data.add(v => {
-                this.history[0].push(new Date().getTime()/ 1000);
-                this.history[1].push(v)
+              this.sub.data.add(dp => {
+                this.history[0].push(dp.t / 1000000)
+                this.history[1].push(dp.v)
                 if (this.live) {
                   this.updateScale();
                 }
