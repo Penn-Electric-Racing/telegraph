@@ -7,6 +7,8 @@ export function wheelZoomPlugin(opts) {
                 let plot = u.root.querySelector(".u-over");
                 // wheel drag pan
                 plot.addEventListener("mousedown", e => {
+                    if (opts.canMove && !opts.canMove()) return;
+
                     if (e.button == 1 || e.button == 2) {
                     //	plot.style.cursor = "move";
                         e.preventDefault();
@@ -47,16 +49,26 @@ export function wheelZoomPlugin(opts) {
                 plot.addEventListener("wheel", e => {
                     e.preventDefault();
 
+                    if (opts.canScroll && !opts.canScroll()) return;
+
                     let {left} = u.cursor;
                     let rect = plot.getBoundingClientRect();
 
                     let leftPct = left/rect.width;
                     let xVal = u.posToVal(left, "x");
-                    let oxRange = u.scales.x.max - u.scales.x.min;
+                    let oxMin = u.scales.x.min;
+                    let oxMax = u.scales.x.max;
+                    let oxRange = oxMax - oxMin;
 
                     let nxRange = e.deltaY < 0 ? oxRange * factor : oxRange / factor;
                     let nxMin = xVal - leftPct * nxRange;
                     let nxMax = nxMin + nxRange;
+
+                    if (opts.scrollCallback) {
+                        let res = opts.scrollCallback(oxMin, oxMax, nxMin, nxMax);
+                        if (res && res.min) nxMin = res.min;
+                        if (res && res.max) nxMax = res.max;
+                    }
 
                     u.batch(() => {
                         u.setScale("x", {

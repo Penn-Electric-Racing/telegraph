@@ -79,7 +79,7 @@
         const opts = {
           width: this.width,
           height: this.height,
-          scales: { x: { time: true, min: null, max: null, auto: false }, y: { auto: true }},
+          scales: { x: { time: false, min: null, max: null, auto: false }, y: { auto: true }},
           axes: [
             {stroke: "#fff", grid: {stroke: "rgb(80, 80, 80)"}},
             {stroke: "#fff", grid: {stroke: "rgb(80, 80, 80)"}}
@@ -89,7 +89,20 @@
             {label: "None", stroke: "#1c8ed7", width: 1}
           ],
           plugins: [
-            wheelZoomPlugin({factor: 0.8})
+            wheelZoomPlugin({
+              factor: 0.8,
+              scrollCallback: (oldMin, oldMax, newMin, newMax) => {
+                if (this.useTimespan && this.live) {
+                  console.log(oldMin);
+                  this.timespan = newMax - newMin;
+                  return {min: oldMax - (newMax - newMin), max: oldMax};
+                }
+              },
+              canScroll: () => {
+                return !this.live || (this.live && this.useTimespan);
+              },
+              canMove: () => { return !this.live }
+            })
           ]
         }
         this.plot = new uPlot(opts, this.history, this.$refs['chart'])
@@ -133,7 +146,8 @@
             this.sub = await v.subscribe(0.0001, 1);
             if (this.sub) {
               this.sub.data.add(dp => {
-                this.history[0].push(dp.t / 1000000)
+                // this.history[0].push(dp.t / 1000000)
+                this.history[0].push(this.history[0].length)
                 this.history[1].push(dp.v)
                 if (this.live) {
                   this.updateScale();
