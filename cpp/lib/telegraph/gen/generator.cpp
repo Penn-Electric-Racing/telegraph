@@ -120,6 +120,12 @@ namespace telegraph {
         return ret;
     }
 
+    static std::string name_to_cpp_ident(const std::string& name) {
+        if (name.length() == 0) return "_";
+        if (isdigit(name[0])) return "_" + name;
+        return name;
+    }
+
     std::string
     generator::generate_types(const node* tree) const {
         // all the type names we need to generate
@@ -173,8 +179,8 @@ namespace telegraph {
             }
             code += "};\n";
 
-            code += "telegen::type_info<" + type_to_cpp_ident(*tp) + "> " + type_to_name(*tp) + "_type " +
-                        "= telegen::type_info<" + type_to_cpp_ident(*tp) + ">(\"" +  
+            code += "wire::type_info<" + type_to_cpp_ident(*tp) + "> " + type_to_name(*tp) + "_type " +
+                        "= wire::type_info<" + type_to_cpp_ident(*tp) + ">(\"" +  
                         tp->get_name() + "\", " + std::to_string(tp->get_labels().size()) + ", " + type_to_name(*tp) + "_labels_);";
 
             code += "\n\n";
@@ -191,11 +197,12 @@ namespace telegraph {
         auto& accessors = *id_accessors;
 
         std::string code;
+        std::string ident = name_to_cpp_ident(n->get_name());
         if (const group* g = dynamic_cast<const group*>(n)) {
             if (root) accessors[g->get_id()] = "root";
-            else accessors[g->get_id()] = accessor_prefix + n->get_name() + ".group";
+            else accessors[g->get_id()] = accessor_prefix + ident + ".group";
 
-            std::string new_prefix = root ? "" : accessor_prefix + n->get_name() + ".";
+            std::string new_prefix = root ? "" : accessor_prefix + ident + ".";
 
             std::string subcode = "";
             for (const node* c : *g) {
@@ -218,12 +225,12 @@ namespace telegraph {
             indent(children_array, 4);
 
             // add the group
-            subcode += "\n\ntelegen::node* const children_[" + std::to_string(g->num_children()) + "] = {\n";
+            subcode += "\n\nwire::node* const children_[" + std::to_string(g->num_children()) + "] = {\n";
             subcode += children_array;
             subcode += "\n};";
             if (root) {
-                subcode += "\ntelegen::group root = telegen::group(" +
-                                std::to_string(g->get_id()) + ", \"" + g->get_name() + 
+                subcode += "\nwire::group root = wire::group(" +
+                                std::to_string(g->get_id()) + ", \"" + ident + 
                                 "\", \"" + g->get_pretty() +
                                 "\", \"" + g->get_desc() + 
                                 "\", \"" + g->get_schema() +
@@ -232,8 +239,8 @@ namespace telegraph {
                 code += subcode;
                 code += "\n";
             } else {
-                subcode += "\ntelegen::group group = telegen::group(" +
-                                std::to_string(g->get_id()) + ", \"" + g->get_name() + 
+                subcode += "\nwire::group group = wire::group(" +
+                                std::to_string(g->get_id()) + ", \"" + ident + 
                                 "\", \"" + g->get_pretty() +
                                 "\", \"" + g->get_desc() + 
                                 "\", \"" + g->get_schema() +
@@ -247,8 +254,8 @@ namespace telegraph {
         } else if (dynamic_cast<const variable*>(n) != nullptr) {
             const variable* v = dynamic_cast<const variable*>(n);
             try {
-            std::string type = "telegen::variable<" + type_to_cpp_ident(v->get_type()) + ">";
-            code += type + " " + v->get_name() + " = " +
+            std::string type = "wire::variable<" + type_to_cpp_ident(v->get_type()) + ">";
+            code += type + " " + ident + " = " +
                            type + "(" + std::to_string(v->get_id()) + ", \"" + v->get_name() +
                            "\", \"" + v->get_pretty() + "\", \"" + v->get_desc() + "\", &" +
                            type_to_name(v->get_type()) + "_type);";
@@ -257,12 +264,12 @@ namespace telegraph {
                 throw telegraph::missing_error("");
             }
 
-            accessors[v->get_id()] = accessor_prefix + v->get_name();
+            accessors[v->get_id()] = accessor_prefix + ident;
         } else if (dynamic_cast<const action*>(n) != nullptr) {
             const action* a = dynamic_cast<const action*>(n);
-            std::string type = "telegen::action<" + type_to_cpp_ident(a->get_arg_type()) +
+            std::string type = "wire::action<" + type_to_cpp_ident(a->get_arg_type()) +
                                     "," + type_to_cpp_ident(a->get_ret_type()) + ">";
-            code += type + " " + a->get_name() +  " = " + type +
+            code += type + " " + ident +  " = " + type +
                             "(" + std::to_string(a->get_id()) + ", \"" +
                                 a->get_name() + "\", \"" +
                                 a->get_pretty() + "\", \"" +
@@ -270,7 +277,7 @@ namespace telegraph {
                                 type_to_name(a->get_arg_type()) + "_type, &" +
                                 type_to_name(a->get_ret_type()) + "_type);";
 
-            accessors[a->get_id()] = accessor_prefix + a->get_name();
+            accessors[a->get_id()] = accessor_prefix + ident;
         }
         return code;
     }
@@ -300,7 +307,7 @@ namespace telegraph {
 
         subcode += "\n";
         subcode += "size_t table_size = " + std::to_string(last_id + 1) + ";\n";
-        subcode += "telegen::node* const node_table[" + std::to_string(last_id + 1) + "] = {";
+        subcode += "wire::node* const node_table[" + std::to_string(last_id + 1) + "] = {";
         subcode += accessors; 
         subcode += "};\n";
 
@@ -319,7 +326,7 @@ namespace telegraph {
             std::unordered_set<uint32_t> id_set;
             for (node* n : set) id_set.insert(n->get_id());
 
-            std::string var = "const telegen::id_array<" + 
+            std::string var = "const wire::id_array<" + 
                 std::to_string(id_set.size()) + "> " + set_name + " = {";
             bool first = true;
             for (int32_t id : id_set) {
@@ -342,8 +349,8 @@ namespace telegraph {
     generator::generate_target(const generator::target& t) const {
         std::string code =
             "#pragma once\n\n"
-            "#include <telegen/types.hpp>\n"
-            "#include <telegen/nodes.hpp>\n";
+            "#include <wire/types.hpp>\n"
+            "#include <wire/nodes.hpp>\n";
 
         // now include the tree file we if want to do that
         if (t.tree_include.length() > 0) {

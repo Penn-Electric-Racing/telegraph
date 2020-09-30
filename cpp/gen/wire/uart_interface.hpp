@@ -12,7 +12,7 @@
 
 #include <unordered_map>
 
-namespace telegen {
+namespace wire {
     /**
      * A stream interface is designed to be used on a bidirectional stream
      * like a uart device
@@ -45,7 +45,7 @@ namespace telegen {
 
             // takes a root node and an id-lookup-table
             uart_interface(Uart* u, Clock* c, node* root, 
-                    node* const *id_lookup_table, size_t table_size, uint32_t timeout) : 
+                    node* const *id_lookup_table, size_t table_size, uint32_t timeout = 1000) : 
                 uart_(u), clock_(c), root_(root), 
                 lookup_table_(id_lookup_table), table_size_(table_size),
                 last_time_(0), timeout_(timeout), subs_(),

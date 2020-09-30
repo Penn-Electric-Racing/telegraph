@@ -9,7 +9,7 @@
 #include <utility>
 #include <functional>
 
-namespace telegen {
+namespace wire {
     namespace util {
         inline bool proto_string_encoder(pb_ostream_t* stream,
                     const pb_field_iter_t* field, void* const* arg) {

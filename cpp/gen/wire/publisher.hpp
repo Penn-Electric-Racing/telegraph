@@ -1,10 +1,10 @@
-#ifndef __TELEGEN_PUBLISHER_HPP__
-#define __TELEGEN_PUBLISHER_HPP__
+#ifndef __WIRE_PUBLISHER_HPP__
+#define __WIRE_PUBLISHER_HPP__
 
 #include "nodes.hpp"
 #include "source.hpp"
 
-namespace telegen {
+namespace wire {
     class publisher_base : public source, public coroutine {
     };
 

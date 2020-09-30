@@ -20,7 +20,7 @@ import struct
 write_lock = threading.Lock()
 refresh_lock = threading.Lock()
 
-ser = serial.Serial('/dev/ttyACM0', 112500)
+ser = serial.Serial('/dev/ttyACM0', 57600)
 
 ui = None
 
@@ -63,6 +63,7 @@ def read_packet():
         expected_checksum = crc32(msg)
         checksum, = struct.unpack('<I', buf[-4:])
         if expected_checksum != checksum:
+            print("Bad checksum for packet of length {}!".format(size))
             return None
         packet = Packet()
         packet.ParseFromString(payload)

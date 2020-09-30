@@ -1,8 +1,7 @@
 #ifndef __TELEGRAPH_GEN_CAN_INTERFACE_HPP__
 #define __TELEGRAPH_GEN_CAN_INTERFACE_HPP__
 
-namespace telegrah::gen {
-
+namespace wire {
     // a can interface can be added to all
     // of these different interface types
     class can_interface : 

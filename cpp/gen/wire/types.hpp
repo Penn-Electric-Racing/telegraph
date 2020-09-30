@@ -1,5 +1,5 @@
-#ifndef __TELEGEN_TYPES_HPP__
-#define __TELEGEN_TYPES_HPP__
+#ifndef __WIRE_TYPES_HPP__
+#define __WIRE_TYPES_HPP__
 
 #include "util.hpp"
 
@@ -10,7 +10,7 @@
 // declared outside namespace
 struct none {};
 
-namespace telegen { 
+namespace wire { 
     // this is overloaded to return 
     // the protobuffer type class in a constexpr manner
     // given the c++ type
@@ -106,27 +106,27 @@ namespace telegen {
 }
 
 // PRIMITIVE DATA TYPES (note: not in a namespace)
-constexpr telegen::type_info<none> none_type = telegen::type_info<none>("none", 0, {});
-constexpr telegen::type_info<bool> bool_type = telegen::type_info<bool>("bool", 0, {});
+constexpr wire::type_info<none> none_type = wire::type_info<none>("none", 0, {});
+constexpr wire::type_info<bool> bool_type = wire::type_info<bool>("bool", 0, {});
 
-constexpr telegen::type_info<uint8_t> uint8_type =
-            telegen::type_info<uint8_t>("uint8", 0, {});
-constexpr telegen::type_info<uint16_t> uint16_type =
-            telegen::type_info<uint16_t>("uint16", 0, {});
-constexpr telegen::type_info<uint32_t> uint32_type =
-            telegen::type_info<uint32_t>("uint32", 0, {});
-constexpr telegen::type_info<uint64_t> uint64_type =
-            telegen::type_info<uint64_t>("uint64", 0, {});
+constexpr wire::type_info<uint8_t> uint8_type =
+            wire::type_info<uint8_t>("uint8", 0, {});
+constexpr wire::type_info<uint16_t> uint16_type =
+            wire::type_info<uint16_t>("uint16", 0, {});
+constexpr wire::type_info<uint32_t> uint32_type =
+            wire::type_info<uint32_t>("uint32", 0, {});
+constexpr wire::type_info<uint64_t> uint64_type =
+            wire::type_info<uint64_t>("uint64", 0, {});
 
-constexpr telegen::type_info<int8_t> int8_type =
-            telegen::type_info<int8_t>("int8", 0, {});
-constexpr telegen::type_info<int16_t> int16_type =
-            telegen::type_info<int16_t>("int16", 0, {});
-constexpr telegen::type_info<int32_t> int32_type =
-            telegen::type_info<int32_t>("int32", 0, {});
-constexpr telegen::type_info<int64_t> int64_type =
-            telegen::type_info<int64_t>("int64", 0, {});
+constexpr wire::type_info<int8_t> int8_type =
+            wire::type_info<int8_t>("int8", 0, {});
+constexpr wire::type_info<int16_t> int16_type =
+            wire::type_info<int16_t>("int16", 0, {});
+constexpr wire::type_info<int32_t> int32_type =
+            wire::type_info<int32_t>("int32", 0, {});
+constexpr wire::type_info<int64_t> int64_type =
+            wire::type_info<int64_t>("int64", 0, {});
 
-constexpr telegen::type_info<float> float_type = telegen::type_info<float>("float", 0, {});
-constexpr telegen::type_info<double> double_type = telegen::type_info<double>("double", 0, {});
+constexpr wire::type_info<float> float_type = wire::type_info<float>("float", 0, {});
+constexpr wire::type_info<double> double_type = wire::type_info<double>("double", 0, {});
 #endif

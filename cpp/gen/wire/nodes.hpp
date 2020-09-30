@@ -1,5 +1,5 @@
-#ifndef __TELEGEN_NODES_HPP__
-#define __TELEGEN_NODES_HPP__
+#ifndef __WIRE_NODES_HPP__
+#define __WIRE_NODES_HPP__
 
 #include "util.hpp"
 #include "source.hpp"
@@ -15,7 +15,7 @@
 #include <array>
 
 
-namespace telegen {
+namespace wire {
     template<size_t N>
         using id_array = std::array<int32_t, N>;
 
@@ -65,7 +65,7 @@ namespace telegen {
 
         constexpr size_t num_children() const { return num_children_; }
 
-        inline void pack(telegraph_Group* g) const {
+        void pack(telegraph_Group* g) const {
             g->id = get_id();
 
             g->name.arg = (void*) get_name();
@@ -98,9 +98,17 @@ namespace telegen {
                 };
         }
 
-        inline void pack(telegraph_Node* n) const override {
+        void pack(telegraph_Node* n) const override {
             n->which_node = telegraph_Node_group_tag;
             pack(&n->node.group);
+        }
+
+        node* operator[](size_t i) {
+            return i < num_children_ ? children_[i] : nullptr;
+        }
+
+        const node* operator[](size_t i) const {
+            return i < num_children_ ? children_[i] : nullptr;
         }
     private:
         const char* const schema_;
@@ -132,7 +140,7 @@ namespace telegen {
                         arg_type_(arg_type),
                         ret_type_(ret_type) {}
 
-            cpromise<Ret> call(const Arg& a) {
+            spromise<Ret> call(const Arg& a) {
                 value v{get_type_class<Arg>()};
                 v.set<Arg>(v);
                 auto p = call(v);
@@ -241,7 +249,7 @@ namespace telegen {
                 :  variable_base(id, name, pretty, desc),
                    type_(type) {}
 
-            cpromise<sub<T>> subs(interval min_interval, interval max_interval, interval timeout) {
+            spromise<sub<T>> subs(interval min_interval, interval max_interval, interval timeout) {
                 auto p = subscribe(min_interval, max_interval, timeout);
                 return p.template chain<sub<T>>([] (promise_status p, subscription_ptr&& s) -> sub<T> { 
                         return sub<T>(std::move(s)); 
