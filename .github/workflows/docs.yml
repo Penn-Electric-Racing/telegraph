@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - run: sudo apt install doxygen
+
       - run: bazel build //cpp:docs
 
       - run: mkdir docs && tar -xf bazel-bin/cpp/docs.tar.gz -C docs
