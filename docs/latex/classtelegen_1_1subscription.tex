@@ -1,0 +1,148 @@
+\hypertarget{classtelegen_1_1subscription}{}\section{telegen\+:\+:subscription Class Reference}
+\label{classtelegen_1_1subscription}\index{telegen\+::subscription@{telegen\+::subscription}}
+
+
+{\ttfamily \#include $<$nodes.\+hpp$>$}
+
+Inheritance diagram for telegen\+:\+:subscription\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classtelegen_1_1subscription}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegen_1_1subscription_a506c90eb0e3ba380473a742011ef3f3b}{subscription} (\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} min\+\_\+time, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} max\+\_\+time)
+\item 
+virtual \hyperlink{classtelegen_1_1subscription_a2dcbdaadf0071d4f4485f018bceb7eb6}{$\sim$subscription} ()
+\item 
+virtual bool \hyperlink{classtelegen_1_1subscription_a4bbe4edbb2ecba3ccff4d6de562e2e7d}{is\+\_\+cancelled} ()=0
+\item 
+virtual \hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise} \hyperlink{classtelegen_1_1subscription_a7d645e1bf76477316d9f868a69467e42}{cancel} (\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} timeout)=0
+\item 
+virtual \hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise} \hyperlink{classtelegen_1_1subscription_aca992d1891107380ec81a517ea0bde58}{change} (\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} min\+\_\+interval, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} max\+\_\+interval, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} timeout)=0
+\item 
+constexpr \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} \hyperlink{classtelegen_1_1subscription_a81200099d915e3e69c0c1dbd940dfc40}{get\+\_\+min\+\_\+interval} () const
+\item 
+constexpr \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} \hyperlink{classtelegen_1_1subscription_a7901d4f487f0a8348a0593cd0787f7f9}{get\+\_\+max\+\_\+interval} () const
+\item 
+void \hyperlink{classtelegen_1_1subscription_acde1f5ed4c26f44c2b9f1929cf1af725}{handler} (const \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ void(const \hyperlink{classtelegen_1_1value}{value} \&), 16 $>$ \&cb)
+\item 
+void \hyperlink{classtelegen_1_1subscription_a84147a4afc90285df4c12d9243ffdece}{cancel\+\_\+handler} (const \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ void(), 16 $>$ \&cb)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} \hyperlink{classtelegen_1_1subscription_a6aee0684ec18cb68e68c7110742dc625}{min\+\_\+interval\+\_\+}
+\item 
+\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} \hyperlink{classtelegen_1_1subscription_afbf8aaf4fdfd91ef0f210ade501c04b1}{max\+\_\+interval\+\_\+}
+\item 
+\hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ void(const \hyperlink{classtelegen_1_1value}{value} \&val), 16 $>$ \hyperlink{classtelegen_1_1subscription_a63b2db928cfeebed477b61b58b9a6446}{cb\+\_\+}
+\item 
+\hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ void(), 16 $>$ \hyperlink{classtelegen_1_1subscription_aea82d071d3075d6b3ae8b36bf05f2d0e}{cancel\+\_\+cb\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtelegen_1_1subscription_a506c90eb0e3ba380473a742011ef3f3b}\label{classtelegen_1_1subscription_a506c90eb0e3ba380473a742011ef3f3b}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!subscription@{subscription}}
+\index{subscription@{subscription}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{subscription()}{subscription()}}
+{\footnotesize\ttfamily telegen\+::subscription\+::subscription (\begin{DoxyParamCaption}\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{min\+\_\+time,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{max\+\_\+time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1subscription_a2dcbdaadf0071d4f4485f018bceb7eb6}\label{classtelegen_1_1subscription_a2dcbdaadf0071d4f4485f018bceb7eb6}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!````~subscription@{$\sim$subscription}}
+\index{````~subscription@{$\sim$subscription}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{$\sim$subscription()}{~subscription()}}
+{\footnotesize\ttfamily virtual telegen\+::subscription\+::$\sim$subscription (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtelegen_1_1subscription_a7d645e1bf76477316d9f868a69467e42}\label{classtelegen_1_1subscription_a7d645e1bf76477316d9f868a69467e42}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!cancel@{cancel}}
+\index{cancel@{cancel}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{cancel()}{cancel()}}
+{\footnotesize\ttfamily virtual \hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise} telegen\+::subscription\+::cancel (\begin{DoxyParamCaption}\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegen_1_1publisher_1_1sub__impl_ae0a84e8e0a45d21c688ee557c603c43d}{telegen\+::publisher$<$ T, Clock $>$\+::sub\+\_\+impl}.
+
+\mbox{\Hypertarget{classtelegen_1_1subscription_a84147a4afc90285df4c12d9243ffdece}\label{classtelegen_1_1subscription_a84147a4afc90285df4c12d9243ffdece}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!cancel\+\_\+handler@{cancel\+\_\+handler}}
+\index{cancel\+\_\+handler@{cancel\+\_\+handler}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{cancel\+\_\+handler()}{cancel\_handler()}}
+{\footnotesize\ttfamily void telegen\+::subscription\+::cancel\+\_\+handler (\begin{DoxyParamCaption}\item[{const \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ void(), 16 $>$ \&}]{cb }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1subscription_aca992d1891107380ec81a517ea0bde58}\label{classtelegen_1_1subscription_aca992d1891107380ec81a517ea0bde58}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!change@{change}}
+\index{change@{change}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{change()}{change()}}
+{\footnotesize\ttfamily virtual \hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise} telegen\+::subscription\+::change (\begin{DoxyParamCaption}\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{min\+\_\+interval,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{max\+\_\+interval,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegen_1_1publisher_1_1sub__impl_a2144a27beee3ef15a21fb7fd323b3770}{telegen\+::publisher$<$ T, Clock $>$\+::sub\+\_\+impl}.
+
+\mbox{\Hypertarget{classtelegen_1_1subscription_a7901d4f487f0a8348a0593cd0787f7f9}\label{classtelegen_1_1subscription_a7901d4f487f0a8348a0593cd0787f7f9}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!get\+\_\+max\+\_\+interval@{get\+\_\+max\+\_\+interval}}
+\index{get\+\_\+max\+\_\+interval@{get\+\_\+max\+\_\+interval}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{get\+\_\+max\+\_\+interval()}{get\_max\_interval()}}
+{\footnotesize\ttfamily constexpr \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} telegen\+::subscription\+::get\+\_\+max\+\_\+interval (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1subscription_a81200099d915e3e69c0c1dbd940dfc40}\label{classtelegen_1_1subscription_a81200099d915e3e69c0c1dbd940dfc40}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!get\+\_\+min\+\_\+interval@{get\+\_\+min\+\_\+interval}}
+\index{get\+\_\+min\+\_\+interval@{get\+\_\+min\+\_\+interval}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{get\+\_\+min\+\_\+interval()}{get\_min\_interval()}}
+{\footnotesize\ttfamily constexpr \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} telegen\+::subscription\+::get\+\_\+min\+\_\+interval (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1subscription_acde1f5ed4c26f44c2b9f1929cf1af725}\label{classtelegen_1_1subscription_acde1f5ed4c26f44c2b9f1929cf1af725}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!handler@{handler}}
+\index{handler@{handler}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{handler()}{handler()}}
+{\footnotesize\ttfamily void telegen\+::subscription\+::handler (\begin{DoxyParamCaption}\item[{const \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ void(const \hyperlink{classtelegen_1_1value}{value} \&), 16 $>$ \&}]{cb }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1subscription_a4bbe4edbb2ecba3ccff4d6de562e2e7d}\label{classtelegen_1_1subscription_a4bbe4edbb2ecba3ccff4d6de562e2e7d}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!is\+\_\+cancelled@{is\+\_\+cancelled}}
+\index{is\+\_\+cancelled@{is\+\_\+cancelled}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{is\+\_\+cancelled()}{is\_cancelled()}}
+{\footnotesize\ttfamily virtual bool telegen\+::subscription\+::is\+\_\+cancelled (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegen_1_1publisher_1_1sub__impl_a9880e80ac0b1887b5aec423abbc0a6f3}{telegen\+::publisher$<$ T, Clock $>$\+::sub\+\_\+impl}.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classtelegen_1_1subscription_aea82d071d3075d6b3ae8b36bf05f2d0e}\label{classtelegen_1_1subscription_aea82d071d3075d6b3ae8b36bf05f2d0e}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!cancel\+\_\+cb\+\_\+@{cancel\+\_\+cb\+\_\+}}
+\index{cancel\+\_\+cb\+\_\+@{cancel\+\_\+cb\+\_\+}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{cancel\+\_\+cb\+\_\+}{cancel\_cb\_}}
+{\footnotesize\ttfamily \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$void(), 16$>$ telegen\+::subscription\+::cancel\+\_\+cb\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classtelegen_1_1subscription_a63b2db928cfeebed477b61b58b9a6446}\label{classtelegen_1_1subscription_a63b2db928cfeebed477b61b58b9a6446}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!cb\+\_\+@{cb\+\_\+}}
+\index{cb\+\_\+@{cb\+\_\+}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{cb\+\_\+}{cb\_}}
+{\footnotesize\ttfamily \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$void(const \hyperlink{classtelegen_1_1value}{value}\& val), 16$>$ telegen\+::subscription\+::cb\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classtelegen_1_1subscription_afbf8aaf4fdfd91ef0f210ade501c04b1}\label{classtelegen_1_1subscription_afbf8aaf4fdfd91ef0f210ade501c04b1}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!max\+\_\+interval\+\_\+@{max\+\_\+interval\+\_\+}}
+\index{max\+\_\+interval\+\_\+@{max\+\_\+interval\+\_\+}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{max\+\_\+interval\+\_\+}{max\_interval\_}}
+{\footnotesize\ttfamily \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} telegen\+::subscription\+::max\+\_\+interval\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classtelegen_1_1subscription_a6aee0684ec18cb68e68c7110742dc625}\label{classtelegen_1_1subscription_a6aee0684ec18cb68e68c7110742dc625}} 
+\index{telegen\+::subscription@{telegen\+::subscription}!min\+\_\+interval\+\_\+@{min\+\_\+interval\+\_\+}}
+\index{min\+\_\+interval\+\_\+@{min\+\_\+interval\+\_\+}!telegen\+::subscription@{telegen\+::subscription}}
+\subsubsection{\texorpdfstring{min\+\_\+interval\+\_\+}{min\_interval\_}}
+{\footnotesize\ttfamily \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} telegen\+::subscription\+::min\+\_\+interval\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{gen_2telegen_2nodes_8hpp}{gen/telegen/nodes.\+hpp}\end{DoxyCompactItemize}

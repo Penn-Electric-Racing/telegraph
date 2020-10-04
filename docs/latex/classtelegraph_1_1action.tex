@@ -1,0 +1,115 @@
+\hypertarget{classtelegraph_1_1action}{}\section{telegraph\+:\+:action Class Reference}
+\label{classtelegraph_1_1action}\index{telegraph\+::action@{telegraph\+::action}}
+
+
+{\ttfamily \#include $<$nodes.\+hpp$>$}
+
+Inheritance diagram for telegraph\+:\+:action\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classtelegraph_1_1action}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegraph_1_1action_a431cab501aaa724fc99b174804bc0024}{action} (\hyperlink{classtelegraph_1_1node_a90bc576d668ed141d5354a06aa9c8d9a}{id} i, const std\+::string\+\_\+view \&name, const std\+::string\+\_\+view \&pretty, const std\+::string\+\_\+view \&desc, const \hyperlink{classtelegraph_1_1value__type}{value\+\_\+type} \&arg\+\_\+type, const \hyperlink{classtelegraph_1_1value__type}{value\+\_\+type} \&ret\+\_\+type)
+\item 
+\hyperlink{classtelegraph_1_1action_a691a43a3b20d6a210dffc0f2228b8114}{action} (const \hyperlink{classtelegraph_1_1action}{action} \&a)
+\item 
+const \hyperlink{classtelegraph_1_1value__type}{value\+\_\+type} \& \hyperlink{classtelegraph_1_1action_a5d2e7bef5432f1246912f07296dfb4f1}{get\+\_\+arg\+\_\+type} () const
+\item 
+const \hyperlink{classtelegraph_1_1value__type}{value\+\_\+type} \& \hyperlink{classtelegraph_1_1action_a3d587001f7779581717b26b91564a5d8}{get\+\_\+ret\+\_\+type} () const
+\item 
+bool \hyperlink{classtelegraph_1_1action_a372bd4f9c1b7b4698e151448d5c28af9}{compatible\+\_\+with} (\hyperlink{classtelegraph_1_1node}{node} $\ast$other) const override
+\item 
+void \hyperlink{classtelegraph_1_1action_ab8b73ef00465e76e016c7f44923d4036}{pack} (Action $\ast$proto) const
+\item 
+virtual void \hyperlink{classtelegraph_1_1action_a849370efc692c6c4e7047e3b9c50983c}{pack} (Node $\ast$proto) const override
+\item 
+std\+::unique\+\_\+ptr$<$ \hyperlink{classtelegraph_1_1node}{node} $>$ \hyperlink{classtelegraph_1_1action_aa72bffae4f241be8a4366e3c7344a17b}{clone} () const override
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classtelegraph_1_1action}{action} $\ast$ \hyperlink{classtelegraph_1_1action_a3eeafc85f20bfe616d7d9ea903d24267}{unpack} (const Action \&proto)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1action_a431cab501aaa724fc99b174804bc0024}\label{classtelegraph_1_1action_a431cab501aaa724fc99b174804bc0024}} 
+\index{telegraph\+::action@{telegraph\+::action}!action@{action}}
+\index{action@{action}!telegraph\+::action@{telegraph\+::action}}
+\subsubsection{\texorpdfstring{action()}{action()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily telegraph\+::action\+::action (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegraph_1_1node_a90bc576d668ed141d5354a06aa9c8d9a}{id}}]{i,  }\item[{const std\+::string\+\_\+view \&}]{name,  }\item[{const std\+::string\+\_\+view \&}]{pretty,  }\item[{const std\+::string\+\_\+view \&}]{desc,  }\item[{const \hyperlink{classtelegraph_1_1value__type}{value\+\_\+type} \&}]{arg\+\_\+type,  }\item[{const \hyperlink{classtelegraph_1_1value__type}{value\+\_\+type} \&}]{ret\+\_\+type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1action_a691a43a3b20d6a210dffc0f2228b8114}\label{classtelegraph_1_1action_a691a43a3b20d6a210dffc0f2228b8114}} 
+\index{telegraph\+::action@{telegraph\+::action}!action@{action}}
+\index{action@{action}!telegraph\+::action@{telegraph\+::action}}
+\subsubsection{\texorpdfstring{action()}{action()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily telegraph\+::action\+::action (\begin{DoxyParamCaption}\item[{const \hyperlink{classtelegraph_1_1action}{action} \&}]{a }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1action_aa72bffae4f241be8a4366e3c7344a17b}\label{classtelegraph_1_1action_aa72bffae4f241be8a4366e3c7344a17b}} 
+\index{telegraph\+::action@{telegraph\+::action}!clone@{clone}}
+\index{clone@{clone}!telegraph\+::action@{telegraph\+::action}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\hyperlink{classtelegraph_1_1node}{node}$>$ telegraph\+::action\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1node_ae90515f4573cfa43c168cba9d542df6b}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1action_a372bd4f9c1b7b4698e151448d5c28af9}\label{classtelegraph_1_1action_a372bd4f9c1b7b4698e151448d5c28af9}} 
+\index{telegraph\+::action@{telegraph\+::action}!compatible\+\_\+with@{compatible\+\_\+with}}
+\index{compatible\+\_\+with@{compatible\+\_\+with}!telegraph\+::action@{telegraph\+::action}}
+\subsubsection{\texorpdfstring{compatible\+\_\+with()}{compatible\_with()}}
+{\footnotesize\ttfamily bool telegraph\+::action\+::compatible\+\_\+with (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegraph_1_1node}{node} $\ast$}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1node_a68c4aed1434da1f0ece9089ff99ffcdb}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1action_a5d2e7bef5432f1246912f07296dfb4f1}\label{classtelegraph_1_1action_a5d2e7bef5432f1246912f07296dfb4f1}} 
+\index{telegraph\+::action@{telegraph\+::action}!get\+\_\+arg\+\_\+type@{get\+\_\+arg\+\_\+type}}
+\index{get\+\_\+arg\+\_\+type@{get\+\_\+arg\+\_\+type}!telegraph\+::action@{telegraph\+::action}}
+\subsubsection{\texorpdfstring{get\+\_\+arg\+\_\+type()}{get\_arg\_type()}}
+{\footnotesize\ttfamily const \hyperlink{classtelegraph_1_1value__type}{value\+\_\+type}\& telegraph\+::action\+::get\+\_\+arg\+\_\+type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1action_a3d587001f7779581717b26b91564a5d8}\label{classtelegraph_1_1action_a3d587001f7779581717b26b91564a5d8}} 
+\index{telegraph\+::action@{telegraph\+::action}!get\+\_\+ret\+\_\+type@{get\+\_\+ret\+\_\+type}}
+\index{get\+\_\+ret\+\_\+type@{get\+\_\+ret\+\_\+type}!telegraph\+::action@{telegraph\+::action}}
+\subsubsection{\texorpdfstring{get\+\_\+ret\+\_\+type()}{get\_ret\_type()}}
+{\footnotesize\ttfamily const \hyperlink{classtelegraph_1_1value__type}{value\+\_\+type}\& telegraph\+::action\+::get\+\_\+ret\+\_\+type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1action_ab8b73ef00465e76e016c7f44923d4036}\label{classtelegraph_1_1action_ab8b73ef00465e76e016c7f44923d4036}} 
+\index{telegraph\+::action@{telegraph\+::action}!pack@{pack}}
+\index{pack@{pack}!telegraph\+::action@{telegraph\+::action}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void telegraph\+::action\+::pack (\begin{DoxyParamCaption}\item[{Action $\ast$}]{proto }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classtelegraph_1_1action_a849370efc692c6c4e7047e3b9c50983c}\label{classtelegraph_1_1action_a849370efc692c6c4e7047e3b9c50983c}} 
+\index{telegraph\+::action@{telegraph\+::action}!pack@{pack}}
+\index{pack@{pack}!telegraph\+::action@{telegraph\+::action}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void telegraph\+::action\+::pack (\begin{DoxyParamCaption}\item[{Node $\ast$}]{proto }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1node_a5006b21e9b83ecd52f3f953a1b828773}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1action_a3eeafc85f20bfe616d7d9ea903d24267}\label{classtelegraph_1_1action_a3eeafc85f20bfe616d7d9ea903d24267}} 
+\index{telegraph\+::action@{telegraph\+::action}!unpack@{unpack}}
+\index{unpack@{unpack}!telegraph\+::action@{telegraph\+::action}}
+\subsubsection{\texorpdfstring{unpack()}{unpack()}}
+{\footnotesize\ttfamily \hyperlink{classtelegraph_1_1action}{action} $\ast$ telegraph\+::action\+::unpack (\begin{DoxyParamCaption}\item[{const Action \&}]{proto }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{lib_2telegraph_2common_2nodes_8hpp}{lib/telegraph/common/nodes.\+hpp}\item 
+\hyperlink{nodes_8cpp}{nodes.\+cpp}\end{DoxyCompactItemize}

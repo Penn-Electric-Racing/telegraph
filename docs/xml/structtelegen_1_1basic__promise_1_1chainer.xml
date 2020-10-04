@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structtelegen_1_1basic__promise_1_1chainer" kind="struct" language="C++" prot="private">
+    <compoundname>telegen::basic_promise::chainer</compoundname>
+    <templateparamlist>
+      <param>
+        <type>typename A</type>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structtelegen_1_1basic__promise_1_1chainer_1a50cc294bc596b7f725dcde8ddc51f496" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacetelegen_1a2317bde5362d45695c42b49fcf2ee54f" kindref="member">cpromise_completer</ref>&lt; A &gt;</type>
+        <definition>cpromise_completer&lt;A&gt; telegen::basic_promise&lt; Cap, T &gt;::chainer&lt; A &gt;::completer</definition>
+        <argsstring></argsstring>
+        <name>completer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/promise.hpp" line="69" column="1" bodyfile="gen/telegen/promise.hpp" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtelegen_1_1basic__promise_1_1chainer_1ac5abfdfd1455229c1f6ae08e1db030ca" prot="public" static="no" mutable="no">
+        <type><ref refid="classstdext_1_1inplace__function" kindref="compound">chain_func</ref>&lt; A &gt;</type>
+        <definition>chain_func&lt;A&gt; telegen::basic_promise&lt; Cap, T &gt;::chainer&lt; A &gt;::transform</definition>
+        <argsstring></argsstring>
+        <name>transform</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/promise.hpp" line="70" column="1" bodyfile="gen/telegen/promise.hpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structtelegen_1_1basic__promise_1_1chainer_1aa540c23f8402391fab5615a3c99c7faf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegen::basic_promise&lt; Cap, T &gt;::chainer&lt; A &gt;::chainer</definition>
+        <argsstring>(const chainer &amp;c)</argsstring>
+        <name>chainer</name>
+        <param>
+          <type>const chainer &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/promise.hpp" line="72" column="1" bodyfile="gen/telegen/promise.hpp" bodystart="72" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="structtelegen_1_1basic__promise_1_1chainer_1a95931f66fc78a4e43925041bab9b99a4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegen::basic_promise&lt; Cap, T &gt;::chainer&lt; A &gt;::chainer</definition>
+        <argsstring>(const chain_func&lt; A &gt; &amp;f)</argsstring>
+        <name>chainer</name>
+        <param>
+          <type>const <ref refid="classstdext_1_1inplace__function" kindref="compound">chain_func</ref>&lt; A &gt; &amp;</type>
+          <declname>f</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/promise.hpp" line="74" column="1" bodyfile="gen/telegen/promise.hpp" bodystart="74" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="structtelegen_1_1basic__promise_1_1chainer_1a12f6a122798b7c9ab7d2a3f3f0b5c8ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegen::basic_promise&lt; Cap, T &gt;::chainer&lt; A &gt;::operator()</definition>
+        <argsstring>(promise_status s, T &amp;&amp;... v)</argsstring>
+        <name>operator()</name>
+        <param>
+          <type><ref refid="namespacetelegen_1a51e8b7480c7247182e2c6ca35e2c7504" kindref="member">promise_status</ref></type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>T &amp;&amp;...</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/promise.hpp" line="77" column="1" bodyfile="gen/telegen/promise.hpp" bodystart="77" bodyend="79"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="58">
+        <label>telegen::basic_promise&lt; Cap, T &gt;::chainer&lt; A &gt;</label>
+        <childnode refid="59" relation="usage">
+          <edgelabel>completer</edgelabel>
+        </childnode>
+        <childnode refid="60" relation="usage">
+          <edgelabel>transform</edgelabel>
+        </childnode>
+      </node>
+      <node id="60">
+        <label>stdext::inplace_function&lt; A &gt;</label>
+        <link refid="classstdext_1_1inplace__function"/>
+      </node>
+      <node id="59">
+        <label>telegen::basic_promise_completer&lt; A &gt;</label>
+        <link refid="classtelegen_1_1basic__promise__completer"/>
+      </node>
+    </collaborationgraph>
+    <location file="gen/telegen/promise.hpp" line="68" column="1" bodyfile="gen/telegen/promise.hpp" bodystart="68" bodyend="80"/>
+    <listofallmembers>
+      <member refid="structtelegen_1_1basic__promise_1_1chainer_1aa540c23f8402391fab5615a3c99c7faf" prot="public" virt="non-virtual"><scope>telegen::basic_promise::chainer</scope><name>chainer</name></member>
+      <member refid="structtelegen_1_1basic__promise_1_1chainer_1a95931f66fc78a4e43925041bab9b99a4" prot="public" virt="non-virtual"><scope>telegen::basic_promise::chainer</scope><name>chainer</name></member>
+      <member refid="structtelegen_1_1basic__promise_1_1chainer_1a50cc294bc596b7f725dcde8ddc51f496" prot="public" virt="non-virtual"><scope>telegen::basic_promise::chainer</scope><name>completer</name></member>
+      <member refid="structtelegen_1_1basic__promise_1_1chainer_1a12f6a122798b7c9ab7d2a3f3f0b5c8ae" prot="public" virt="non-virtual"><scope>telegen::basic_promise::chainer</scope><name>operator()</name></member>
+      <member refid="structtelegen_1_1basic__promise_1_1chainer_1ac5abfdfd1455229c1f6ae08e1db030ca" prot="public" virt="non-virtual"><scope>telegen::basic_promise::chainer</scope><name>transform</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

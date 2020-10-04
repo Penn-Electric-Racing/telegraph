@@ -1,0 +1,258 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1device__scanner" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::device_scanner</compoundname>
+    <basecompoundref refid="classtelegraph_1_1local__component" prot="public" virt="non-virtual">telegraph::local_component</basecompoundref>
+    <includes refid="device_8hpp" local="no">device.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1device__scanner_1a98d4126605b370de4a75ce40a4d3ed11" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="classtelegraph_1_1params__stream" kindref="compound">params_stream</ref> *, std::weak_ptr&lt; <ref refid="classtelegraph_1_1params__stream" kindref="compound">params_stream</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;params_stream*, std::weak_ptr&lt;params_stream&gt; &gt; telegraph::device_scanner::requests_</definition>
+        <argsstring></argsstring>
+        <name>requests_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/device.hpp" line="119" column="1" bodyfile="lib/telegraph/local/device.hpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1device__scanner_1aa9c7ac28a01d39fad2b653c4bf1a1779" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; telegraph::device_scanner::last_devices_</definition>
+        <argsstring></argsstring>
+        <name>last_devices_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/device.hpp" line="120" column="1" bodyfile="lib/telegraph/local/device.hpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1device__scanner_1a6e8057b68307b61500ed615248dcd730" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::device_scanner::device_scanner</definition>
+        <argsstring>(io::io_context &amp;ioc, const std::string_view &amp;name)</argsstring>
+        <name>device_scanner</name>
+        <param>
+          <type>io::io_context &amp;</type>
+          <declname>ioc</declname>
+        </param>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/device.hpp" line="122" column="1" bodyfile="lib/telegraph/local/device.cpp" bodystart="463" bodyend="466"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1device__scanner_1a3d900bd95a620d086954562c669f91d9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::device_scanner::~device_scanner</definition>
+        <argsstring>()</argsstring>
+        <name>~device_scanner</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/device.hpp" line="123" column="1" bodyfile="lib/telegraph/local/device.cpp" bodystart="505" bodyend="510"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1device__scanner_1a71be73d87ccb72b5311ad19aab16c1c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::device_scanner::init</definition>
+        <argsstring>()</argsstring>
+        <name>init</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/device.hpp" line="125" column="1" bodyfile="lib/telegraph/local/device.cpp" bodystart="469" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1device__scanner_1a5873278cb04e50896c3f125639df4c73" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacetelegraph_1ad071241508ea0f86c7de0686016f9ca9" kindref="member">params_stream_ptr</ref></type>
+        <definition>params_stream_ptr telegraph::device_scanner::request</definition>
+        <argsstring>(io::yield_ctx &amp;, const params &amp;p) override</argsstring>
+        <name>request</name>
+        <reimplements refid="classtelegraph_1_1context_1a6765d7fa22fe99b9a6723c511396b781">request</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <defname>yield</defname>
+        </param>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/device.hpp" line="127" column="1" bodyfile="lib/telegraph/local/device.cpp" bodystart="513" bodyend="532"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classtelegraph_1_1device__scanner_1a53b359ed0ed7088cdaf4d78658936a8d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacetelegraph_1a69cfb42be07c9189123cfa3ff3ec4487" kindref="member">local_component_ptr</ref></type>
+        <definition>local_component_ptr telegraph::device_scanner::create</definition>
+        <argsstring>(io::yield_ctx &amp;, io::io_context &amp;ioc, const std::string_view &amp;name, const std::string_view &amp;type, const params &amp;p)</argsstring>
+        <name>create</name>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+        </param>
+        <param>
+          <type>io::io_context &amp;</type>
+          <declname>ioc</declname>
+        </param>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/device.hpp" line="129" column="1" bodyfile="lib/telegraph/local/device.cpp" bodystart="535" bodyend="541"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="122">
+        <label>telegraph::local_component</label>
+        <link refid="classtelegraph_1_1local__component"/>
+        <childnode refid="123" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="124">
+        <label>telegraph::context</label>
+        <link refid="classtelegraph_1_1context"/>
+        <childnode refid="125" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="123">
+        <label>telegraph::local_context</label>
+        <link refid="classtelegraph_1_1local__context"/>
+        <childnode refid="124" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="125">
+        <label>std::enable_shared_from_this&lt; context &gt;</label>
+      </node>
+      <node id="121">
+        <label>telegraph::device_scanner</label>
+        <link refid="classtelegraph_1_1device__scanner"/>
+        <childnode refid="122" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="127">
+        <label>telegraph::local_component</label>
+        <link refid="classtelegraph_1_1local__component"/>
+        <childnode refid="128" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="132">
+        <label>telegraph::params</label>
+        <link refid="classtelegraph_1_1params"/>
+      </node>
+      <node id="129">
+        <label>telegraph::context</label>
+        <link refid="classtelegraph_1_1context"/>
+        <childnode refid="130" relation="public-inheritance">
+        </childnode>
+        <childnode refid="131" relation="usage">
+          <edgelabel>destroyed</edgelabel>
+        </childnode>
+        <childnode refid="132" relation="usage">
+          <edgelabel>params_</edgelabel>
+        </childnode>
+      </node>
+      <node id="128">
+        <label>telegraph::local_context</label>
+        <link refid="classtelegraph_1_1local__context"/>
+        <childnode refid="129" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="130">
+        <label>std::enable_shared_from_this&lt; context &gt;</label>
+      </node>
+      <node id="126">
+        <label>telegraph::device_scanner</label>
+        <link refid="classtelegraph_1_1device__scanner"/>
+        <childnode refid="127" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="131">
+        <label>telegraph::signal&lt; T &gt;</label>
+        <link refid="classtelegraph_1_1signal"/>
+      </node>
+    </collaborationgraph>
+    <location file="lib/telegraph/local/device.hpp" line="116" column="1" bodyfile="lib/telegraph/local/device.hpp" bodystart="116" bodyend="132"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1local__component_1af4d74d161754055d3f811bfe95a59f26" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>call</name></member>
+      <member refid="classtelegraph_1_1local__component_1a6fa6fbf49a0d77a8da54b4a77b578edd" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>call</name></member>
+      <member refid="classtelegraph_1_1context_1ad57ca6ff5da9ad653c688e7be3c0bbdc" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>context</name></member>
+      <member refid="classtelegraph_1_1device__scanner_1a53b359ed0ed7088cdaf4d78658936a8d" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>create</name></member>
+      <member refid="classtelegraph_1_1local__context_1a301da16810636030a5098e4838587a99" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>destroy</name></member>
+      <member refid="classtelegraph_1_1context_1aeae90cedad8326dcd9d6180d1058a10f" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>destroyed</name></member>
+      <member refid="classtelegraph_1_1device__scanner_1a6e8057b68307b61500ed615248dcd730" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>device_scanner</name></member>
+      <member refid="classtelegraph_1_1local__component_1abbeb3b12dc95e19e1a2972e9a374fd33" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>fetch</name></member>
+      <member refid="classtelegraph_1_1context_1a5df9df51fb9fc54d69e4a7d43e66345a" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>get_executor</name></member>
+      <member refid="classtelegraph_1_1context_1a56bd2af5bbfcdc234f6dd8df052585d7" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>get_name</name></member>
+      <member refid="classtelegraph_1_1local__context_1a71a19090a93c3193615e61940fba918a" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>get_namespace</name></member>
+      <member refid="classtelegraph_1_1local__context_1aba1ff115df4b54bae75ea41580ba32b5" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>get_namespace</name></member>
+      <member refid="classtelegraph_1_1context_1ab8f2cf6a295d840f8011ff1b5533a1f8" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>get_params</name></member>
+      <member refid="classtelegraph_1_1context_1a07d07a63d22454c2dc900c5cf749ce18" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>get_type</name></member>
+      <member refid="classtelegraph_1_1context_1adfc55d7a2ba9d68c1f52abcbac7d74fd" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>get_uuid</name></member>
+      <member refid="classtelegraph_1_1context_1a5053f72fe2b58e264a0ce00de2727953" prot="protected" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>headless_</name></member>
+      <member refid="classtelegraph_1_1device__scanner_1a71be73d87ccb72b5311ad19aab16c1c7" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>init</name></member>
+      <member refid="classtelegraph_1_1context_1a51949d83373c67e0c9e1050127df30c1" prot="protected" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>ioc_</name></member>
+      <member refid="classtelegraph_1_1context_1a4cfaa125584e2f5ee5121c074bc024f1" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>is_headless</name></member>
+      <member refid="classtelegraph_1_1device__scanner_1aa9c7ac28a01d39fad2b653c4bf1a1779" prot="private" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>last_devices_</name></member>
+      <member refid="classtelegraph_1_1local__component_1a4cd9cd1728ba53391553b81dbb4e3494" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>local_component</name></member>
+      <member refid="classtelegraph_1_1local__context_1a2f6fe87993dd07754131c5248c98c11d" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>local_context</name></member>
+      <member refid="classtelegraph_1_1context_1a19b7cc6a4c3cf53d79e07fc78573fc31" prot="protected" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>name_</name></member>
+      <member refid="classtelegraph_1_1local__context_1a4ad057dd5bede6236b3af44a18577831" prot="protected" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>ns_</name></member>
+      <member refid="classtelegraph_1_1context_1aa80ae462af488940258d71ccb6435b33" prot="protected" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>params_</name></member>
+      <member refid="classtelegraph_1_1local__component_1a4410ca44a41de1c139273efd31f281c4" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>query_data</name></member>
+      <member refid="classtelegraph_1_1local__component_1ad8c3abb4f9e6ab31b0590beac901eec5" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>query_data</name></member>
+      <member refid="classtelegraph_1_1local__context_1ab64632b088982a5f994708db99690f4f" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>reg</name></member>
+      <member refid="classtelegraph_1_1device__scanner_1a5873278cb04e50896c3f125639df4c73" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>request</name></member>
+      <member refid="classtelegraph_1_1device__scanner_1a98d4126605b370de4a75ce40a4d3ed11" prot="private" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>requests_</name></member>
+      <member refid="classtelegraph_1_1local__component_1a53aa0199bd938578a6400cfd3a19c86f" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>subscribe</name></member>
+      <member refid="classtelegraph_1_1local__component_1a5a2282f1cf80dce32ed26e37c956d5c4" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>subscribe</name></member>
+      <member refid="classtelegraph_1_1local__context_1a16ab8680bd633b8b8554960bb8c48498" prot="protected" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>tree_</name></member>
+      <member refid="classtelegraph_1_1context_1af1cab34ed3278340157e25d828bb6c77" prot="protected" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>type_</name></member>
+      <member refid="classtelegraph_1_1context_1a0bf1873b5a611776d48b3e854e9e3589" prot="protected" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>uuid_</name></member>
+      <member refid="classtelegraph_1_1local__component_1ac546cfea4802ef3ca125c5dc183adf6c" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>write_data</name></member>
+      <member refid="classtelegraph_1_1local__component_1a572a4116130a4b7ad270701eba2af0e7" prot="public" virt="virtual"><scope>telegraph::device_scanner</scope><name>write_data</name></member>
+      <member refid="classtelegraph_1_1device__scanner_1a3d900bd95a620d086954562c669f91d9" prot="public" virt="non-virtual"><scope>telegraph::device_scanner</scope><name>~device_scanner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,200 @@
+\hypertarget{classtelegraph_1_1collection}{}\section{telegraph\+:\+:collection$<$ T $>$ Class Template Reference}
+\label{classtelegraph_1_1collection}\index{telegraph\+::collection$<$ T $>$@{telegraph\+::collection$<$ T $>$}}
+
+
+{\ttfamily \#include $<$collection.\+hpp$>$}
+
+Inheritance diagram for telegraph\+:\+:collection$<$ T $>$\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classtelegraph_1_1collection}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key} = typename \hyperlink{structtelegraph_1_1collection__key}{collection\+\_\+key}$<$ T $>$\+::type
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegraph_1_1collection_a226e589bb9d07937a82843f5da0610a0}{collection} ()
+\item 
+\hyperlink{classtelegraph_1_1collection_a4ce0e224a982a6025015a1ef7008ca56}{collection} (const std\+::shared\+\_\+ptr$<$ \hyperlink{classtelegraph_1_1collection}{collection} $>$ \&src, const std\+::function$<$ bool(const T \&)$>$ \&\hyperlink{classtelegraph_1_1collection_afa7564c9896fde9d965f422f8ee6a4ce}{filter})
+\item 
+std\+::shared\+\_\+ptr$<$ \hyperlink{classtelegraph_1_1collection}{collection} $>$ \hyperlink{classtelegraph_1_1collection_afa7564c9896fde9d965f422f8ee6a4ce}{filter} (const std\+::function$<$ bool(const T \&)$>$ \&f)
+\item 
+bool \hyperlink{classtelegraph_1_1collection_af9b482ee7d179bd7c4dfa47fba1df507}{has} (const \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key} \&k) const
+\item 
+constexpr size\+\_\+t \hyperlink{classtelegraph_1_1collection_ae51a6f64a8c24e2c602e6c3c4865249a}{size} () const
+\item 
+const T \& \hyperlink{classtelegraph_1_1collection_ac3c0fd37e9000e9de5ba9c3aeee330c1}{result} () const
+\item 
+T \hyperlink{classtelegraph_1_1collection_a3065b252176bd28f4280ad0384276e3e}{get} (const \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key} \&k) const
+\item 
+void \hyperlink{classtelegraph_1_1collection_af8383989a761fdd14631dd6c0e574298}{add\+\_\+} (const T \&v)
+\item 
+void \hyperlink{classtelegraph_1_1collection_ab736aff469340ac47c12c6b84ac9fd4d}{remove\+\_\+} (const T \&v)
+\item 
+void \hyperlink{classtelegraph_1_1collection_a0e9199b87fb87d2602fc6e4cc33835c7}{remove\+\_\+by\+\_\+key\+\_\+} (const \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key} \&k)
+\item 
+std\+::unordered\+\_\+map$<$ \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key}, T $>$\+::iterator \hyperlink{classtelegraph_1_1collection_a0bebe64fbda6ce9af9922531879099c3}{begin} ()
+\item 
+std\+::unordered\+\_\+map$<$ \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key}, T $>$\+::iterator \hyperlink{classtelegraph_1_1collection_a262da7d56b726b69ddee3de30f086066}{begin} () const
+\item 
+std\+::unordered\+\_\+map$<$ \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key}, T $>$\+::iterator \hyperlink{classtelegraph_1_1collection_a14b2edf6043f717d568342a1a7575132}{end} ()
+\item 
+std\+::unordered\+\_\+map$<$ \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key}, T $>$\+::iterator \hyperlink{classtelegraph_1_1collection_ae8833bbd79ee1d4bc8c4d4c949fc4532}{end} () const
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegraph_1_1signal}{signal}$<$ const T \& $>$ \hyperlink{classtelegraph_1_1collection_a7ac59f0f85680539f80d085dd35b3c47}{added}
+\item 
+\hyperlink{classtelegraph_1_1signal}{signal}$<$ const T \& $>$ \hyperlink{classtelegraph_1_1collection_a6fdb7502f6cef02065c6bbde435756f0}{removed}
+\item 
+std\+::unordered\+\_\+map$<$ \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key}, T $>$ \hyperlink{classtelegraph_1_1collection_a5a6329136af41edba2e17fddaaa5384c}{current}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}\label{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!key@{key}}
+\index{key@{key}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{key}{key}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+using \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::\hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key} =  typename \hyperlink{structtelegraph_1_1collection__key}{collection\+\_\+key}$<$T$>$\+::type}
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1collection_a226e589bb9d07937a82843f5da0610a0}\label{classtelegraph_1_1collection_a226e589bb9d07937a82843f5da0610a0}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!collection@{collection}}
+\index{collection@{collection}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{collection()}{collection()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::\hyperlink{classtelegraph_1_1collection}{collection} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_a4ce0e224a982a6025015a1ef7008ca56}\label{classtelegraph_1_1collection_a4ce0e224a982a6025015a1ef7008ca56}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!collection@{collection}}
+\index{collection@{collection}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{collection()}{collection()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::\hyperlink{classtelegraph_1_1collection}{collection} (\begin{DoxyParamCaption}\item[{const std\+::shared\+\_\+ptr$<$ \hyperlink{classtelegraph_1_1collection}{collection}$<$ T $>$ $>$ \&}]{src,  }\item[{const std\+::function$<$ bool(const T \&)$>$ \&}]{filter }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1collection_af8383989a761fdd14631dd6c0e574298}\label{classtelegraph_1_1collection_af8383989a761fdd14631dd6c0e574298}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!add\+\_\+@{add\+\_\+}}
+\index{add\+\_\+@{add\+\_\+}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{add\+\_\+()}{add\_()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::add\+\_\+ (\begin{DoxyParamCaption}\item[{const T \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_a0bebe64fbda6ce9af9922531879099c3}\label{classtelegraph_1_1collection_a0bebe64fbda6ce9af9922531879099c3}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!begin@{begin}}
+\index{begin@{begin}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::unordered\+\_\+map$<$\hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key}, T$>$\+::iterator \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_a262da7d56b726b69ddee3de30f086066}\label{classtelegraph_1_1collection_a262da7d56b726b69ddee3de30f086066}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!begin@{begin}}
+\index{begin@{begin}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::unordered\+\_\+map$<$\hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key}, T$>$\+::iterator \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_a14b2edf6043f717d568342a1a7575132}\label{classtelegraph_1_1collection_a14b2edf6043f717d568342a1a7575132}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!end@{end}}
+\index{end@{end}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::unordered\+\_\+map$<$\hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key}, T$>$\+::iterator \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_ae8833bbd79ee1d4bc8c4d4c949fc4532}\label{classtelegraph_1_1collection_ae8833bbd79ee1d4bc8c4d4c949fc4532}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!end@{end}}
+\index{end@{end}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::unordered\+\_\+map$<$\hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key}, T$>$\+::iterator \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_afa7564c9896fde9d965f422f8ee6a4ce}\label{classtelegraph_1_1collection_afa7564c9896fde9d965f422f8ee6a4ce}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!filter@{filter}}
+\index{filter@{filter}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{filter()}{filter()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::shared\+\_\+ptr$<$\hyperlink{classtelegraph_1_1collection}{collection}$>$ \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::filter (\begin{DoxyParamCaption}\item[{const std\+::function$<$ bool(const T \&)$>$ \&}]{f }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_a3065b252176bd28f4280ad0384276e3e}\label{classtelegraph_1_1collection_a3065b252176bd28f4280ad0384276e3e}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!get@{get}}
+\index{get@{get}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::get (\begin{DoxyParamCaption}\item[{const \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key} \&}]{k }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_af9b482ee7d179bd7c4dfa47fba1df507}\label{classtelegraph_1_1collection_af9b482ee7d179bd7c4dfa47fba1df507}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!has@{has}}
+\index{has@{has}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{has()}{has()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+bool \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::has (\begin{DoxyParamCaption}\item[{const \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key} \&}]{k }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_ab736aff469340ac47c12c6b84ac9fd4d}\label{classtelegraph_1_1collection_ab736aff469340ac47c12c6b84ac9fd4d}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!remove\+\_\+@{remove\+\_\+}}
+\index{remove\+\_\+@{remove\+\_\+}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{remove\+\_\+()}{remove\_()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::remove\+\_\+ (\begin{DoxyParamCaption}\item[{const T \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_a0e9199b87fb87d2602fc6e4cc33835c7}\label{classtelegraph_1_1collection_a0e9199b87fb87d2602fc6e4cc33835c7}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!remove\+\_\+by\+\_\+key\+\_\+@{remove\+\_\+by\+\_\+key\+\_\+}}
+\index{remove\+\_\+by\+\_\+key\+\_\+@{remove\+\_\+by\+\_\+key\+\_\+}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{remove\+\_\+by\+\_\+key\+\_\+()}{remove\_by\_key\_()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::remove\+\_\+by\+\_\+key\+\_\+ (\begin{DoxyParamCaption}\item[{const \hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key} \&}]{k }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_ac3c0fd37e9000e9de5ba9c3aeee330c1}\label{classtelegraph_1_1collection_ac3c0fd37e9000e9de5ba9c3aeee330c1}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!result@{result}}
+\index{result@{result}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{result()}{result()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+const T\& \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::result (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_ae51a6f64a8c24e2c602e6c3c4865249a}\label{classtelegraph_1_1collection_ae51a6f64a8c24e2c602e6c3c4865249a}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!size@{size}}
+\index{size@{size}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{size()}{size()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+constexpr size\+\_\+t \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1collection_a7ac59f0f85680539f80d085dd35b3c47}\label{classtelegraph_1_1collection_a7ac59f0f85680539f80d085dd35b3c47}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!added@{added}}
+\index{added@{added}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{added}{added}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classtelegraph_1_1signal}{signal}$<$const T\&$>$ \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::added}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_a5a6329136af41edba2e17fddaaa5384c}\label{classtelegraph_1_1collection_a5a6329136af41edba2e17fddaaa5384c}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!current@{current}}
+\index{current@{current}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{current}{current}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+std\+::unordered\+\_\+map$<$\hyperlink{classtelegraph_1_1collection_a7d1c05b1bdcbe95a3127122969e14173}{key}, T$>$ \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::current}
+
+\mbox{\Hypertarget{classtelegraph_1_1collection_a6fdb7502f6cef02065c6bbde435756f0}\label{classtelegraph_1_1collection_a6fdb7502f6cef02065c6bbde435756f0}} 
+\index{telegraph\+::collection@{telegraph\+::collection}!removed@{removed}}
+\index{removed@{removed}!telegraph\+::collection@{telegraph\+::collection}}
+\subsubsection{\texorpdfstring{removed}{removed}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+\hyperlink{classtelegraph_1_1signal}{signal}$<$const T\&$>$ \hyperlink{classtelegraph_1_1collection}{telegraph\+::collection}$<$ T $>$\+::removed}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{collection_8hpp}{collection.\+hpp}\end{DoxyCompactItemize}

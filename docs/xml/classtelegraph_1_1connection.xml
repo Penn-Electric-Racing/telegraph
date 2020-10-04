@@ -1,0 +1,341 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1connection" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>telegraph::connection</compoundname>
+    <derivedcompoundref refid="classtelegraph_1_1server_1_1remote" prot="public" virt="non-virtual">telegraph::server::remote</derivedcompoundref>
+    <includes refid="connection_8hpp" local="no">connection.hpp</includes>
+    <innerclass refid="structtelegraph_1_1connection_1_1response" prot="private">telegraph::connection::response</innerclass>
+      <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classtelegraph_1_1connection_1a7be311b7608928a4e6145907bbe97e5b" prot="private" static="no">
+        <type>std::function&lt; void(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;, const api::Packet &amp;p)&gt;</type>
+        <definition>using telegraph::connection::handler =  std::function&lt;void(io::yield_ctx&amp;, const api::Packet&amp; p)&gt;</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="20" column="1" bodyfile="lib/telegraph/remote/connection.hpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1connection_1a926958912a9ddfc1dd6a0cbde6614e2c" prot="private" static="no" mutable="no">
+        <type>io::io_context &amp;</type>
+        <definition>io::io_context&amp; telegraph::connection::ioc_</definition>
+        <argsstring></argsstring>
+        <name>ioc_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="22" column="1" bodyfile="lib/telegraph/remote/connection.hpp" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1connection_1a55f8541257915f94a27734c2e5e647c4" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool telegraph::connection::count_down_</definition>
+        <argsstring></argsstring>
+        <name>count_down_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="23" column="1" bodyfile="lib/telegraph/remote/connection.hpp" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1connection_1afee9876a1853458bdab1ad582fdd6d34" prot="private" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t telegraph::connection::counter_</definition>
+        <argsstring></argsstring>
+        <name>counter_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="24" column="1" bodyfile="lib/telegraph/remote/connection.hpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1connection_1a0302155a1f8d6bbf258c0556fa7c0f95" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int32_t, response &gt;</type>
+        <definition>std::unordered_map&lt;int32_t, response&gt; telegraph::connection::open_requests_</definition>
+        <argsstring></argsstring>
+        <name>open_requests_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="34" column="1" bodyfile="lib/telegraph/remote/connection.hpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1connection_1ab0203d24e5292937047abb8f67ae12db" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int32_t, handler &gt;</type>
+        <definition>std::unordered_map&lt;int32_t, handler&gt; telegraph::connection::open_streams_</definition>
+        <argsstring></argsstring>
+        <name>open_streams_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="35" column="1" bodyfile="lib/telegraph/remote/connection.hpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1connection_1a38872ff6a403e4f6c2217f34f236d361" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; api::Packet::PayloadCase, handler &gt;</type>
+        <definition>std::unordered_map&lt;api::Packet::PayloadCase, handler&gt; telegraph::connection::handlers_</definition>
+        <argsstring></argsstring>
+        <name>handlers_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="36" column="1" bodyfile="lib/telegraph/remote/connection.hpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1connection_1a6952fb62edd1c7e78fe8744d4eac7aaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::connection::connection</definition>
+        <argsstring>(io::io_context &amp;ioc, bool count_down)</argsstring>
+        <name>connection</name>
+        <param>
+          <type>io::io_context &amp;</type>
+          <declname>ioc</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>count_down</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="38" column="1" bodyfile="lib/telegraph/remote/connection.cpp" bodystart="9" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1connection_1a469b53662900132cfc89a595b1dab28c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::connection::~connection</definition>
+        <argsstring>()</argsstring>
+        <name>~connection</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="39" column="1" bodyfile="lib/telegraph/remote/connection.cpp" bodystart="14" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1connection_1a6dd7c859165db61ecdd14a8e5bcc7fcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::connection::received</definition>
+        <argsstring>(io::yield_ctx &amp;yield, const api::Packet &amp;p)</argsstring>
+        <name>received</name>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>const api::Packet &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="45" column="1" bodyfile="lib/telegraph/remote/connection.cpp" bodystart="18" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1connection_1ad5fd2c23680ecda6e07c2f02f3735809" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void telegraph::connection::send</definition>
+        <argsstring>(api::Packet &amp;&amp;p)=0</argsstring>
+        <name>send</name>
+        <reimplementedby refid="classtelegraph_1_1server_1_1remote_1aa6a2f2d4045ea8bb51938ca3da4e1b5e">send</reimplementedby>
+        <param>
+          <type>api::Packet &amp;&amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="47" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1connection_1a5edeb1d722fad636d63f125d896e41c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>api::Packet</type>
+        <definition>api::Packet telegraph::connection::request_response</definition>
+        <argsstring>(io::yield_ctx &amp;yield, api::Packet &amp;&amp;req)</argsstring>
+        <name>request_response</name>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>api::Packet &amp;&amp;</type>
+          <declname>req</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="50" column="1" bodyfile="lib/telegraph/remote/connection.cpp" bodystart="40" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1connection_1a769414199f9cf151ff115f223f07fb5c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>api::Packet</type>
+        <definition>api::Packet telegraph::connection::request_stream</definition>
+        <argsstring>(io::yield_ctx &amp;yield, api::Packet &amp;&amp;req, const handler &amp;cb)</argsstring>
+        <name>request_stream</name>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>api::Packet &amp;&amp;</type>
+          <declname>req</declname>
+        </param>
+        <param>
+          <type>const handler &amp;</type>
+          <declname>cb</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="51" column="1" bodyfile="lib/telegraph/remote/connection.cpp" bodystart="62" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1connection_1a07cd6d890aad0f708ca32d136e063937" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::connection::set_handler</definition>
+        <argsstring>(api::Packet::PayloadCase c, const handler &amp;h)</argsstring>
+        <name>set_handler</name>
+        <param>
+          <type>api::Packet::PayloadCase</type>
+          <declname>c</declname>
+        </param>
+        <param>
+          <type>const handler &amp;</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="53" column="1" bodyfile="lib/telegraph/remote/connection.cpp" bodystart="85" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1connection_1ad3ec8072dd935d37eaac8cbc2390177d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::connection::set_stream_cb</definition>
+        <argsstring>(int32_t req_id, const handler &amp;h)</argsstring>
+        <name>set_stream_cb</name>
+        <param>
+          <type>int32_t</type>
+          <declname>req_id</declname>
+        </param>
+        <param>
+          <type>const handler &amp;</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="54" column="1" bodyfile="lib/telegraph/remote/connection.cpp" bodystart="90" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1connection_1a5bf70bff51c2cd812f4f27b3e37e9060" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::connection::write_back</definition>
+        <argsstring>(int32_t req_id, api::Packet &amp;&amp;p)</argsstring>
+        <name>write_back</name>
+        <param>
+          <type>int32_t</type>
+          <declname>req_id</declname>
+        </param>
+        <param>
+          <type>api::Packet &amp;&amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="56" column="1" bodyfile="lib/telegraph/remote/connection.cpp" bodystart="95" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1connection_1a8c977ff1083d9457444cee0cc4fc1add" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::connection::close_stream</definition>
+        <argsstring>(int32_t req_id)</argsstring>
+        <name>close_stream</name>
+        <param>
+          <type>int32_t</type>
+          <declname>req_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/connection.hpp" line="58" column="1" bodyfile="lib/telegraph/remote/connection.cpp" bodystart="101" bodyend="103"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="72">
+        <label>telegraph::connection</label>
+        <link refid="classtelegraph_1_1connection"/>
+      </node>
+      <node id="73">
+        <label>telegraph::server::remote</label>
+        <link refid="classtelegraph_1_1server_1_1remote"/>
+        <childnode refid="72" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="lib/telegraph/remote/connection.hpp" line="18" column="1" bodyfile="lib/telegraph/remote/connection.hpp" bodystart="18" bodyend="59"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1connection_1a8c977ff1083d9457444cee0cc4fc1add" prot="public" virt="non-virtual"><scope>telegraph::connection</scope><name>close_stream</name></member>
+      <member refid="classtelegraph_1_1connection_1a6952fb62edd1c7e78fe8744d4eac7aaa" prot="public" virt="non-virtual"><scope>telegraph::connection</scope><name>connection</name></member>
+      <member refid="classtelegraph_1_1connection_1a55f8541257915f94a27734c2e5e647c4" prot="private" virt="non-virtual"><scope>telegraph::connection</scope><name>count_down_</name></member>
+      <member refid="classtelegraph_1_1connection_1afee9876a1853458bdab1ad582fdd6d34" prot="private" virt="non-virtual"><scope>telegraph::connection</scope><name>counter_</name></member>
+      <member refid="classtelegraph_1_1connection_1a7be311b7608928a4e6145907bbe97e5b" prot="private" virt="non-virtual"><scope>telegraph::connection</scope><name>handler</name></member>
+      <member refid="classtelegraph_1_1connection_1a38872ff6a403e4f6c2217f34f236d361" prot="private" virt="non-virtual"><scope>telegraph::connection</scope><name>handlers_</name></member>
+      <member refid="classtelegraph_1_1connection_1a926958912a9ddfc1dd6a0cbde6614e2c" prot="private" virt="non-virtual"><scope>telegraph::connection</scope><name>ioc_</name></member>
+      <member refid="classtelegraph_1_1connection_1a0302155a1f8d6bbf258c0556fa7c0f95" prot="private" virt="non-virtual"><scope>telegraph::connection</scope><name>open_requests_</name></member>
+      <member refid="classtelegraph_1_1connection_1ab0203d24e5292937047abb8f67ae12db" prot="private" virt="non-virtual"><scope>telegraph::connection</scope><name>open_streams_</name></member>
+      <member refid="classtelegraph_1_1connection_1a6dd7c859165db61ecdd14a8e5bcc7fcf" prot="public" virt="non-virtual"><scope>telegraph::connection</scope><name>received</name></member>
+      <member refid="classtelegraph_1_1connection_1a5edeb1d722fad636d63f125d896e41c4" prot="public" virt="non-virtual"><scope>telegraph::connection</scope><name>request_response</name></member>
+      <member refid="classtelegraph_1_1connection_1a769414199f9cf151ff115f223f07fb5c" prot="public" virt="non-virtual"><scope>telegraph::connection</scope><name>request_stream</name></member>
+      <member refid="classtelegraph_1_1connection_1ad5fd2c23680ecda6e07c2f02f3735809" prot="public" virt="pure-virtual"><scope>telegraph::connection</scope><name>send</name></member>
+      <member refid="classtelegraph_1_1connection_1a07cd6d890aad0f708ca32d136e063937" prot="public" virt="non-virtual"><scope>telegraph::connection</scope><name>set_handler</name></member>
+      <member refid="classtelegraph_1_1connection_1ad3ec8072dd935d37eaac8cbc2390177d" prot="public" virt="non-virtual"><scope>telegraph::connection</scope><name>set_stream_cb</name></member>
+      <member refid="classtelegraph_1_1connection_1a5bf70bff51c2cd812f4f27b3e37e9060" prot="public" virt="non-virtual"><scope>telegraph::connection</scope><name>write_back</name></member>
+      <member refid="classtelegraph_1_1connection_1a469b53662900132cfc89a595b1dab28c" prot="public" virt="non-virtual"><scope>telegraph::connection</scope><name>~connection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

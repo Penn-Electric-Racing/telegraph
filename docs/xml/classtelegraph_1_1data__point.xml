@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1data__point" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::data_point</compoundname>
+    <includes refid="data_8hpp" local="no">data.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1data__point_1a46fc8d3e55920e2a3858a2f43b0afa49" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacetelegraph_1a0f1714084e0d249aa06f757c9159c0ca" kindref="member">time_point</ref></type>
+        <definition>time_point telegraph::data_point::time_</definition>
+        <argsstring></argsstring>
+        <name>time_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/data.hpp" line="60" column="1" bodyfile="lib/telegraph/common/data.hpp" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1data__point_1ac015ce32b8e00c88ce336b8d0bb33a5c" prot="private" static="no" mutable="no">
+        <type><ref refid="classtelegraph_1_1value" kindref="compound">value</ref></type>
+        <definition>value telegraph::data_point::val_</definition>
+        <argsstring></argsstring>
+        <name>val_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/data.hpp" line="61" column="1" bodyfile="lib/telegraph/common/data.hpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1data__point_1a58c28678c77cd8b140913d53add6fef9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::data_point::data_point</definition>
+        <argsstring>(time_point time, value val)</argsstring>
+        <name>data_point</name>
+        <param>
+          <type><ref refid="namespacetelegraph_1a0f1714084e0d249aa06f757c9159c0ca" kindref="member">time_point</ref></type>
+          <declname>time</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegraph_1_1value" kindref="compound">value</ref></type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/data.hpp" line="63" column="1" bodyfile="lib/telegraph/common/data.hpp" bodystart="63" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1data__point_1a03075d4e2943d51fe6c411897df8d443" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="namespacetelegraph_1a0f1714084e0d249aa06f757c9159c0ca" kindref="member">time_point</ref></type>
+        <definition>constexpr time_point telegraph::data_point::get_time</definition>
+        <argsstring>() const</argsstring>
+        <name>get_time</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/data.hpp" line="64" column="1" bodyfile="lib/telegraph/common/data.hpp" bodystart="64" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1data__point_1a93a646507e5a1bccbffa96ced8770992" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr <ref refid="classtelegraph_1_1value" kindref="compound">value</ref></type>
+        <definition>constexpr value telegraph::data_point::get_value</definition>
+        <argsstring>() const</argsstring>
+        <name>get_value</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/data.hpp" line="65" column="1" bodyfile="lib/telegraph/common/data.hpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/telegraph/common/data.hpp" line="58" column="1" bodyfile="lib/telegraph/common/data.hpp" bodystart="58" bodyend="66"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1data__point_1a58c28678c77cd8b140913d53add6fef9" prot="public" virt="non-virtual"><scope>telegraph::data_point</scope><name>data_point</name></member>
+      <member refid="classtelegraph_1_1data__point_1a03075d4e2943d51fe6c411897df8d443" prot="public" virt="non-virtual"><scope>telegraph::data_point</scope><name>get_time</name></member>
+      <member refid="classtelegraph_1_1data__point_1a93a646507e5a1bccbffa96ced8770992" prot="public" virt="non-virtual"><scope>telegraph::data_point</scope><name>get_value</name></member>
+      <member refid="classtelegraph_1_1data__point_1a46fc8d3e55920e2a3858a2f43b0afa49" prot="private" virt="non-virtual"><scope>telegraph::data_point</scope><name>time_</name></member>
+      <member refid="classtelegraph_1_1data__point_1ac015ce32b8e00c88ce336b8d0bb33a5c" prot="private" virt="non-virtual"><scope>telegraph::data_point</scope><name>val_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

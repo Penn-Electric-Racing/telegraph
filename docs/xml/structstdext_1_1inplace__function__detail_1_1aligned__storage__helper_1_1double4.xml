@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double4" kind="struct" language="C++" prot="public">
+    <compoundname>stdext::inplace_function_detail::aligned_storage_helper::double4</compoundname>
+    <includes refid="gen_2telegen_2inplace__function_8hpp" local="no">inplace_function.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double4_1a02373c793fa67c6b57d24d2f34b58504" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double stdext::inplace_function_detail::aligned_storage_helper&lt; Cap &gt;::double4::a</definition>
+        <argsstring>[4]</argsstring>
+        <name>a</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/inplace_function.hpp" line="51" column="1" bodyfile="gen/telegen/inplace_function.hpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="gen/telegen/inplace_function.hpp" line="51" column="1" bodyfile="gen/telegen/inplace_function.hpp" bodystart="51" bodyend="51"/>
+    <listofallmembers>
+      <member refid="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double4_1a02373c793fa67c6b57d24d2f34b58504" prot="public" virt="non-virtual"><scope>stdext::inplace_function_detail::aligned_storage_helper::double4</scope><name>a</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

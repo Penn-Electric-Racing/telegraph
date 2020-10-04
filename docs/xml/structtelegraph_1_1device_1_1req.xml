@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structtelegraph_1_1device_1_1req" kind="struct" language="C++" prot="private">
+    <compoundname>telegraph::device::req</compoundname>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structtelegraph_1_1device_1_1req_1a4a883f3f71db79d453f6366200540b76" prot="public" static="no" mutable="no">
+        <type>io::deadline_timer *</type>
+        <definition>io::deadline_timer* telegraph::device::req::timer</definition>
+        <argsstring></argsstring>
+        <name>timer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/device.hpp" line="33" column="1" bodyfile="lib/telegraph/local/device.hpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtelegraph_1_1device_1_1req_1af2797db9a176943f402817a72acf813c" prot="public" static="no" mutable="no">
+        <type>stream::Packet *</type>
+        <definition>stream::Packet* telegraph::device::req::packet</definition>
+        <argsstring></argsstring>
+        <name>packet</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/device.hpp" line="34" column="1" bodyfile="lib/telegraph/local/device.hpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structtelegraph_1_1device_1_1req_1a00e9a08271f712a5b88679dad6b56d48" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr telegraph::device::req::req</definition>
+        <argsstring>(io::deadline_timer *t, stream::Packet *p)</argsstring>
+        <name>req</name>
+        <param>
+          <type>io::deadline_timer *</type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>stream::Packet *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/device.hpp" line="35" column="1" bodyfile="lib/telegraph/local/device.hpp" bodystart="35" bodyend="36"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/telegraph/local/device.hpp" line="32" column="1" bodyfile="lib/telegraph/local/device.hpp" bodystart="32" bodyend="37"/>
+    <listofallmembers>
+      <member refid="structtelegraph_1_1device_1_1req_1af2797db9a176943f402817a72acf813c" prot="public" virt="non-virtual"><scope>telegraph::device::req</scope><name>packet</name></member>
+      <member refid="structtelegraph_1_1device_1_1req_1a00e9a08271f712a5b88679dad6b56d48" prot="public" virt="non-virtual"><scope>telegraph::device::req</scope><name>req</name></member>
+      <member refid="structtelegraph_1_1device_1_1req_1a4a883f3f71db79d453f6366200540b76" prot="public" virt="non-virtual"><scope>telegraph::device::req</scope><name>timer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1config" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::config</compoundname>
+    <includes refid="config_8hpp" local="no">config.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1config_1ac0e6d05b6df82e06e16f14b7cc85a8ff" prot="private" static="no" mutable="no">
+        <type><ref refid="classtelegraph_1_1node" kindref="compound">node</ref> *</type>
+        <definition>node* telegraph::config::tree_</definition>
+        <argsstring></argsstring>
+        <name>tree_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/config.hpp" line="53" column="1" bodyfile="lib/telegraph/gen/config.hpp" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1config_1aa16b64392ab0e14be2080a70e2d312aa" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="classtelegraph_1_1profile" kindref="compound">profile</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, profile&gt; telegraph::config::profiles_</definition>
+        <argsstring></argsstring>
+        <name>profiles_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/config.hpp" line="54" column="1" bodyfile="lib/telegraph/gen/config.hpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1config_1a5f3f45e1e31d82f52c0242f7cb14083c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::config::config</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>config</name>
+        <param>
+          <type>const <ref refid="namespacetelegraph_1ab87b47a6b955c365ddd74c343ecc16f4" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/config.hpp" line="45" column="1" bodyfile="lib/telegraph/gen/config.cpp" bodystart="174" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1config_1a58461425cd48e9ce43eeaf5cffdf68ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::config::~config</definition>
+        <argsstring>()</argsstring>
+        <name>~config</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/config.hpp" line="46" column="1" bodyfile="lib/telegraph/gen/config.cpp" bodystart="190" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1config_1a037e49fa107a7d738747caa7212388ad" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classtelegraph_1_1node" kindref="compound">node</ref> *</type>
+        <definition>const node* telegraph::config::get_tree</definition>
+        <argsstring>() const</argsstring>
+        <name>get_tree</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/config.hpp" line="48" column="1" bodyfile="lib/telegraph/gen/config.hpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1config_1a9002a994691d15a3252c3fd23eaca014" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtelegraph_1_1profile" kindref="compound">profile</ref> &amp;</type>
+        <definition>profile&amp; telegraph::config::get_profile</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>get_profile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/config.hpp" line="50" column="1" bodyfile="lib/telegraph/gen/config.hpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1config_1a7a8ab41521fa4af8d17d009c3872fb87" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classtelegraph_1_1profile" kindref="compound">profile</ref> &amp;</type>
+        <definition>const profile&amp; telegraph::config::get_profile</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>get_profile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/config.hpp" line="51" column="1" bodyfile="lib/telegraph/gen/config.hpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/telegraph/gen/config.hpp" line="43" column="1" bodyfile="lib/telegraph/gen/config.hpp" bodystart="43" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1config_1a5f3f45e1e31d82f52c0242f7cb14083c" prot="public" virt="non-virtual"><scope>telegraph::config</scope><name>config</name></member>
+      <member refid="classtelegraph_1_1config_1a9002a994691d15a3252c3fd23eaca014" prot="public" virt="non-virtual"><scope>telegraph::config</scope><name>get_profile</name></member>
+      <member refid="classtelegraph_1_1config_1a7a8ab41521fa4af8d17d009c3872fb87" prot="public" virt="non-virtual"><scope>telegraph::config</scope><name>get_profile</name></member>
+      <member refid="classtelegraph_1_1config_1a037e49fa107a7d738747caa7212388ad" prot="public" virt="non-virtual"><scope>telegraph::config</scope><name>get_tree</name></member>
+      <member refid="classtelegraph_1_1config_1aa16b64392ab0e14be2080a70e2d312aa" prot="private" virt="non-virtual"><scope>telegraph::config</scope><name>profiles_</name></member>
+      <member refid="classtelegraph_1_1config_1ac0e6d05b6df82e06e16f14b7cc85a8ff" prot="private" virt="non-virtual"><scope>telegraph::config</scope><name>tree_</name></member>
+      <member refid="classtelegraph_1_1config_1a58461425cd48e9ce43eeaf5cffdf68ba" prot="public" virt="non-virtual"><scope>telegraph::config</scope><name>~config</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

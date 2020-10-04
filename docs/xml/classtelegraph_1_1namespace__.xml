@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1namespace__" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>telegraph::namespace_</compoundname>
+    <derivedcompoundref refid="classtelegraph_1_1local__namespace" prot="public" virt="non-virtual">telegraph::local_namespace</derivedcompoundref>
+    <includes refid="common_2namespace_8hpp" local="no">namespace.hpp</includes>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1namespace___1a04ffdef6fc2b8c0ed4b02ba3f039b27a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacetelegraph_1a4fa3678b3fd260dc79a98bea50d582fd" kindref="member">collection_ptr</ref>&lt; <ref refid="namespacetelegraph_1a332e681f0d44a1308cf3a013a9dd140f" kindref="member">context_ptr</ref> &gt;</type>
+        <definition>collection_ptr&lt;context_ptr&gt; telegraph::namespace_::contexts</definition>
+        <argsstring></argsstring>
+        <name>contexts</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/namespace.hpp" line="39" column="1" bodyfile="lib/telegraph/common/namespace.hpp" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1namespace___1a0ea0a99c1d31a5e867ccd0bd8f3d0917" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::namespace_::namespace_</definition>
+        <argsstring>()</argsstring>
+        <name>namespace_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/namespace.hpp" line="41" column="1" bodyfile="lib/telegraph/common/namespace.hpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1namespace___1ab7a20d98f18494d8e11aada783221dd5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespacetelegraph_1a332e681f0d44a1308cf3a013a9dd140f" kindref="member">context_ptr</ref></type>
+        <definition>virtual context_ptr telegraph::namespace_::create</definition>
+        <argsstring>(io::yield_ctx &amp;, const std::string_view &amp;name, const std::string_view &amp;type, const params &amp;p)=0</argsstring>
+        <name>create</name>
+        <reimplementedby refid="classtelegraph_1_1local__namespace_1a5ebe002275408c950d8fd44b829434e4">create</reimplementedby>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/namespace.hpp" line="45" column="1"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1namespace___1ad077446ed8ad4b099ddc050067e14f9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void telegraph::namespace_::destroy</definition>
+        <argsstring>(io::yield_ctx &amp;, const uuid &amp;u)=0</argsstring>
+        <name>destroy</name>
+        <reimplementedby refid="classtelegraph_1_1local__namespace_1aae3c0b770ea3bd29b1e4dfac7cfd805f">destroy</reimplementedby>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="namespacetelegraph_1a51ee91d7eaeef067f7ccac2b170e5d59" kindref="member">uuid</ref> &amp;</type>
+          <declname>u</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/namespace.hpp" line="49" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="275">
+        <label>telegraph::local_namespace</label>
+        <link refid="classtelegraph_1_1local__namespace"/>
+        <childnode refid="274" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="274">
+        <label>telegraph::namespace_</label>
+        <link refid="classtelegraph_1_1namespace__"/>
+      </node>
+    </inheritancegraph>
+    <location file="lib/telegraph/common/namespace.hpp" line="35" column="1" bodyfile="lib/telegraph/common/namespace.hpp" bodystart="35" bodyend="50"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1namespace___1a04ffdef6fc2b8c0ed4b02ba3f039b27a" prot="public" virt="non-virtual"><scope>telegraph::namespace_</scope><name>contexts</name></member>
+      <member refid="classtelegraph_1_1namespace___1ab7a20d98f18494d8e11aada783221dd5" prot="public" virt="pure-virtual"><scope>telegraph::namespace_</scope><name>create</name></member>
+      <member refid="classtelegraph_1_1namespace___1ad077446ed8ad4b099ddc050067e14f9d" prot="public" virt="pure-virtual"><scope>telegraph::namespace_</scope><name>destroy</name></member>
+      <member refid="classtelegraph_1_1namespace___1a0ea0a99c1d31a5e867ccd0bd8f3d0917" prot="public" virt="non-virtual"><scope>telegraph::namespace_</scope><name>namespace_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1generator" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::generator</compoundname>
+    <includes refid="generator_8hpp" local="no">generator.hpp</includes>
+    <innerclass refid="structtelegraph_1_1generator_1_1result" prot="public">telegraph::generator::result</innerclass>
+    <innerclass refid="structtelegraph_1_1generator_1_1target" prot="public">telegraph::generator::target</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1generator_1a129dad444d4fbd8ff9a2e089c7a7eafc" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string telegraph::generator::namespace_</definition>
+        <argsstring></argsstring>
+        <name>namespace_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="61" column="1" bodyfile="lib/telegraph/gen/generator.hpp" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1generator_1ac02fb02d57b970d90b8bd80582f2da6a" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structtelegraph_1_1generator_1_1target" kindref="compound">target</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, target&gt; telegraph::generator::targets_</definition>
+        <argsstring></argsstring>
+        <name>targets_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="62" column="1" bodyfile="lib/telegraph/gen/generator.hpp" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1generator_1add831bd47c4792a2b4a2726fc13bada4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::generator::generator</definition>
+        <argsstring>()</argsstring>
+        <name>generator</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="40" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="12" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1generator_1ab9540639f075db70b2763fbe7c462a94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::generator::set_tree</definition>
+        <argsstring>(const std::string &amp;filename, const node *t)</argsstring>
+        <name>set_tree</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1node" kindref="compound">node</ref> *</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="43" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="15" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1generator_1ac2e6da6fff01552c4084d27310dba3da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::generator::set_tree_include</definition>
+        <argsstring>(const std::string &amp;filename, const std::string &amp;tree_include)</argsstring>
+        <name>set_tree_include</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tree_include</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="44" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="22" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1generator_1a51756531241b5bc309736fc9fc5eba39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::generator::set_namespace</definition>
+        <argsstring>(const std::string &amp;filename, const std::string &amp;ns)</argsstring>
+        <name>set_namespace</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ns</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="45" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1generator_1a7cb9bbac059ab2fca31937d2982506a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::generator::add_profile</definition>
+        <argsstring>(const std::string &amp;filename, const profile *conf)</argsstring>
+        <name>add_profile</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filename</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1profile" kindref="compound">profile</ref> *</type>
+          <declname>conf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="46" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="36" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1generator_1a5964a5dba70c651c616e9d5fbbcf6ca2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structtelegraph_1_1generator_1_1result" kindref="compound">result</ref> &gt;</type>
+        <definition>std::vector&lt; generator::result &gt; telegraph::generator::generate</definition>
+        <argsstring>() const</argsstring>
+        <name>generate</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="49" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="399" bodyend="405"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classtelegraph_1_1generator_1a939ee7f0147639df64ea4394332f1151" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string telegraph::generator::generate_types</definition>
+        <argsstring>(const node *root) const</argsstring>
+        <name>generate_types</name>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1node" kindref="compound">node</ref> *</type>
+          <declname>root</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="51" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="124" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1generator_1a6716b6e0f9a0271859ab7f144b65a6a5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string telegraph::generator::generate_node</definition>
+        <argsstring>(const node *n, const std::string &amp;accessor_prefix, std::map&lt; int32_t, std::string &gt; *id_accessors, bool root) const</argsstring>
+        <name>generate_node</name>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1node" kindref="compound">node</ref> *</type>
+          <declname>n</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>accessor_prefix</declname>
+        </param>
+        <param>
+          <type>std::map&lt; int32_t, std::string &gt; *</type>
+          <declname>id_accessors</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>root</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="52" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="187" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1generator_1ad89c193509c8f9e5ec7827d7793df1f4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string telegraph::generator::generate_tree</definition>
+        <argsstring>(const node *t) const</argsstring>
+        <name>generate_tree</name>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1node" kindref="compound">node</ref> *</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="56" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="279" bodyend="312"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1generator_1a117b4855d9aee9ecb7438c6ea0d80df8" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string telegraph::generator::generate_profile</definition>
+        <argsstring>(const profile *p) const</argsstring>
+        <name>generate_profile</name>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1profile" kindref="compound">profile</ref> *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="57" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="315" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1generator_1a0278e8b0e246b58f85e4ce9ecb1aa988" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structtelegraph_1_1generator_1_1result" kindref="compound">result</ref></type>
+        <definition>generator::result telegraph::generator::generate_target</definition>
+        <argsstring>(const target &amp;t) const</argsstring>
+        <name>generate_target</name>
+        <param>
+          <type>const <ref refid="structtelegraph_1_1generator_1_1target" kindref="compound">target</ref> &amp;</type>
+          <declname>t</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/gen/generator.hpp" line="58" column="1" bodyfile="lib/telegraph/gen/generator.cpp" bodystart="342" bodyend="396"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/telegraph/gen/generator.hpp" line="18" column="1" bodyfile="lib/telegraph/gen/generator.hpp" bodystart="18" bodyend="63"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1generator_1a7cb9bbac059ab2fca31937d2982506a8" prot="public" virt="non-virtual"><scope>telegraph::generator</scope><name>add_profile</name></member>
+      <member refid="classtelegraph_1_1generator_1a5964a5dba70c651c616e9d5fbbcf6ca2" prot="public" virt="non-virtual"><scope>telegraph::generator</scope><name>generate</name></member>
+      <member refid="classtelegraph_1_1generator_1a6716b6e0f9a0271859ab7f144b65a6a5" prot="private" virt="non-virtual"><scope>telegraph::generator</scope><name>generate_node</name></member>
+      <member refid="classtelegraph_1_1generator_1a117b4855d9aee9ecb7438c6ea0d80df8" prot="private" virt="non-virtual"><scope>telegraph::generator</scope><name>generate_profile</name></member>
+      <member refid="classtelegraph_1_1generator_1a0278e8b0e246b58f85e4ce9ecb1aa988" prot="private" virt="non-virtual"><scope>telegraph::generator</scope><name>generate_target</name></member>
+      <member refid="classtelegraph_1_1generator_1ad89c193509c8f9e5ec7827d7793df1f4" prot="private" virt="non-virtual"><scope>telegraph::generator</scope><name>generate_tree</name></member>
+      <member refid="classtelegraph_1_1generator_1a939ee7f0147639df64ea4394332f1151" prot="private" virt="non-virtual"><scope>telegraph::generator</scope><name>generate_types</name></member>
+      <member refid="classtelegraph_1_1generator_1add831bd47c4792a2b4a2726fc13bada4" prot="public" virt="non-virtual"><scope>telegraph::generator</scope><name>generator</name></member>
+      <member refid="classtelegraph_1_1generator_1a129dad444d4fbd8ff9a2e089c7a7eafc" prot="private" virt="non-virtual"><scope>telegraph::generator</scope><name>namespace_</name></member>
+      <member refid="classtelegraph_1_1generator_1a51756531241b5bc309736fc9fc5eba39" prot="public" virt="non-virtual"><scope>telegraph::generator</scope><name>set_namespace</name></member>
+      <member refid="classtelegraph_1_1generator_1ab9540639f075db70b2763fbe7c462a94" prot="public" virt="non-virtual"><scope>telegraph::generator</scope><name>set_tree</name></member>
+      <member refid="classtelegraph_1_1generator_1ac2e6da6fff01552c4084d27310dba3da" prot="public" virt="non-virtual"><scope>telegraph::generator</scope><name>set_tree_include</name></member>
+      <member refid="classtelegraph_1_1generator_1ac02fb02d57b970d90b8bd80582f2da6a" prot="private" virt="non-virtual"><scope>telegraph::generator</scope><name>targets_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

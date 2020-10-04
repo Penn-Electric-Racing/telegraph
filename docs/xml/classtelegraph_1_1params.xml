@@ -1,0 +1,792 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1params" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::params</compoundname>
+    <includes refid="params_8hpp" local="no">params.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1params_1a374d248ac0f6e22538ace0b04cfdc0b5" prot="private" static="no" mutable="no">
+        <type>std::variant&lt; std::monostate, float, bool, std::string, std::map&lt; std::string, <ref refid="classtelegraph_1_1params" kindref="compound">params</ref>, std::less&lt;&gt; &gt;, std::vector&lt; <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &gt;, std::shared_ptr&lt; <ref refid="classtelegraph_1_1node" kindref="compound">node</ref> &gt;, std::shared_ptr&lt; <ref refid="classtelegraph_1_1context" kindref="compound">context</ref> &gt; &gt;</type>
+        <definition>std::variant&lt;std::monostate, float, bool, std::string, std::map&lt;std::string, params, std::less&lt;&gt; &gt;, std::vector&lt;params&gt;, std::shared_ptr&lt;node&gt;, std::shared_ptr&lt;context&gt; &gt; telegraph::params::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="29" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1params_1af67ec32e2151fd4dd8ec293df29b48d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>()</argsstring>
+        <name>params</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="31" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1ae2725f3f72d6a482bfea6260765ce399" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(float num)</argsstring>
+        <name>params</name>
+        <param>
+          <type>float</type>
+          <declname>num</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="32" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a2b78a3815af2c3676711e254723b80bc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(int num)</argsstring>
+        <name>params</name>
+        <param>
+          <type>int</type>
+          <declname>num</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="33" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1aef16e2c000f108545f647eb692da423b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(bool b)</argsstring>
+        <name>params</name>
+        <param>
+          <type>bool</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="34" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a1558d332229445b7082ed2507cbd7a99" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(const std::string &amp;str)</argsstring>
+        <name>params</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="35" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a062cab338a066baa48cbadaaa73cf463" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(const std::string_view &amp;str)</argsstring>
+        <name>params</name>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="36" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a6636bd21082c7c08d825d83d6b480a68" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(const std::vector&lt; params &gt; &amp;a)</argsstring>
+        <name>params</name>
+        <param>
+          <type>const std::vector&lt; <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &gt; &amp;</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="37" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1ad32b25b3cbc41b7ae38edcd86ed47c37" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(const std::map&lt; std::string, params, std::less&lt;&gt;&gt; &amp;o)</argsstring>
+        <name>params</name>
+        <param>
+          <type>const std::map&lt; std::string, <ref refid="classtelegraph_1_1params" kindref="compound">params</ref>, std::less&lt;&gt;&gt; &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="38" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a78343b225800e61b1a9f5a0db2417c49" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(const std::shared_ptr&lt; node &gt; &amp;n)</argsstring>
+        <name>params</name>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classtelegraph_1_1node" kindref="compound">node</ref> &gt; &amp;</type>
+          <declname>n</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="39" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a18abea3f64064af7363efb4e0f7e28bb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(const std::shared_ptr&lt; context &gt; &amp;ctx)</argsstring>
+        <name>params</name>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classtelegraph_1_1context" kindref="compound">context</ref> &gt; &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="40" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1acd021c368b92787dee7a852d6b7434b9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(std::string &amp;&amp;str)</argsstring>
+        <name>params</name>
+        <param>
+          <type>std::string &amp;&amp;</type>
+          <declname>str</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="42" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1aae149f5beddeae6ed0b3809f70952b49" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(std::vector&lt; params &gt; &amp;&amp;a)</argsstring>
+        <name>params</name>
+        <param>
+          <type>std::vector&lt; <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &gt; &amp;&amp;</type>
+          <declname>a</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="43" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a2e508304e48171ca494f38371276d9d8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(std::map&lt; std::string, params, std::less&lt;&gt;&gt; &amp;&amp;o)</argsstring>
+        <name>params</name>
+        <param>
+          <type>std::map&lt; std::string, <ref refid="classtelegraph_1_1params" kindref="compound">params</ref>, std::less&lt;&gt;&gt; &amp;&amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="44" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a8760b698892fb0f7f15c12368ede1352" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;s)</argsstring>
+        <name>params</name>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="46" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a3cd32f5a3ad17d344264f8f08dca2028" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(const std::vector&lt; std::string_view &gt; &amp;s)</argsstring>
+        <name>params</name>
+        <param>
+          <type>const std::vector&lt; std::string_view &gt; &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="50" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="50" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a668b95fd7d76e5baf7e08da782be0a8f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(params &amp;&amp;i)</argsstring>
+        <name>params</name>
+        <param>
+          <type><ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;&amp;</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="55" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a376590f3f5bc526023b4f7cc43a88ab5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::params::params</definition>
+        <argsstring>(const params &amp;i)</argsstring>
+        <name>params</name>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="56" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a54a2fde46615aa1594942d81e2fccb4d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::params::operator=</definition>
+        <argsstring>(const params &amp;i)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="59" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a7ad928fc3d3fbabe7d61762e704cc89f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::params::operator=</definition>
+        <argsstring>(params &amp;&amp;i)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type><ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;&amp;</type>
+          <declname>i</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="62" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="62" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1aa9a9a9e8cd24d99b399f9679e394f279" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>bool</type>
+        <definition>bool telegraph::params::has</definition>
+        <argsstring>() const</argsstring>
+        <name>has</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="70" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1ae7407667dc4b073ca73a0329ea23d72a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T &amp;</type>
+        <definition>T&amp; telegraph::params::get</definition>
+        <argsstring>()</argsstring>
+        <name>get</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="75" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a108b23437a36e8e92b024b59c9abf2e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>const T &amp;</type>
+        <definition>const T&amp; telegraph::params::get</definition>
+        <argsstring>() const</argsstring>
+        <name>get</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="79" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a86e283121acc4db6118b63e6df0fafcc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+        <definition>params&amp; telegraph::params::at</definition>
+        <argsstring>(const std::string_view &amp;s)</argsstring>
+        <name>at</name>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="83" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="83" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a85a5101497671f6b85ceeeca666cae81" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+        <definition>const params&amp; telegraph::params::at</definition>
+        <argsstring>(const std::string_view &amp;s) const</argsstring>
+        <name>at</name>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="90" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="90" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1ae33b9535de4e28e9b4d6631cccbce970" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+        <definition>params&amp; telegraph::params::operator[]</definition>
+        <argsstring>(const std::string_view &amp;s)</argsstring>
+        <name>operator[]</name>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="97" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="97" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a738dbb2008fe561a64b6880bd1c5f0fc" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::params::push</definition>
+        <argsstring>(params &amp;&amp;p)</argsstring>
+        <name>push</name>
+        <param>
+          <type><ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;&amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="107" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="107" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a8d7b23780508e6ccb37fabc3fc24ed88" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::params::push</definition>
+        <argsstring>(const params &amp;p)</argsstring>
+        <name>push</name>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="111" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="111" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a4dbcc0f56b0a8cc959e0ff806da8bbf9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::params::push</definition>
+        <argsstring>(const std::string_view &amp;s)</argsstring>
+        <name>push</name>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="115" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="115" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a8b00e3b9bf353b8f697e4fd46389474a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegraph::params::is_none</definition>
+        <argsstring>() const</argsstring>
+        <name>is_none</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="120" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="120" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a17bb9025c603d54dd50ad95bf75fa0df" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegraph::params::is_num</definition>
+        <argsstring>() const</argsstring>
+        <name>is_num</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="121" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="121" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1ad3a1f92014ae1a68b12e1a46c41e91a7" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegraph::params::is_bool</definition>
+        <argsstring>() const</argsstring>
+        <name>is_bool</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="122" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="122" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1afb481d6d12c2dcc84aef802daeef225b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegraph::params::is_str</definition>
+        <argsstring>() const</argsstring>
+        <name>is_str</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="123" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="123" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a726f9a09f6469bbf7c533c0c8e485c72" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegraph::params::is_object</definition>
+        <argsstring>() const</argsstring>
+        <name>is_object</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="124" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a6b24e2e5d56f0a05f3d27f4ed73361ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegraph::params::is_array</definition>
+        <argsstring>() const</argsstring>
+        <name>is_array</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="125" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a37fde85a48b80674c71e35239c3b17ce" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegraph::params::is_tree</definition>
+        <argsstring>() const</argsstring>
+        <name>is_tree</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="126" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="126" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a144dfba3d2244d6af683054e70d756ca" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegraph::params::is_ctx</definition>
+        <argsstring>() const</argsstring>
+        <name>is_ctx</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="127" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a28ac587e330dc76ecb08fd3fbc19dd3a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::map&lt; std::string, <ref refid="classtelegraph_1_1params" kindref="compound">params</ref>, std::less&lt;&gt; &gt; &amp;</type>
+        <definition>const std::map&lt;std::string, params, std::less&lt;&gt; &gt;&amp; telegraph::params::to_map</definition>
+        <argsstring>() const</argsstring>
+        <name>to_map</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="129" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="129" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a7974e92445024059fa346347f479fc9c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt;params&gt;&amp; telegraph::params::to_vector</definition>
+        <argsstring>() const</argsstring>
+        <name>to_vector</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="133" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="133" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a175321ac3b799e5ea941edcd48fd4b64" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::shared_ptr&lt; <ref refid="classtelegraph_1_1node" kindref="compound">node</ref> &gt; &amp;</type>
+        <definition>const std::shared_ptr&lt;node&gt;&amp; telegraph::params::to_tree</definition>
+        <argsstring>() const</argsstring>
+        <name>to_tree</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="137" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="137" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a9c2e5ddc7236063fc7b0066fecb5b52a" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::shared_ptr&lt; <ref refid="classtelegraph_1_1context" kindref="compound">context</ref> &gt; &amp;</type>
+        <definition>const std::shared_ptr&lt;context&gt;&amp; telegraph::params::to_ctx</definition>
+        <argsstring>() const</argsstring>
+        <name>to_ctx</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="140" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1ad07afe221473ae0ffb0ddcf29232d553" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::params::pack</definition>
+        <argsstring>(api::Params *) const</argsstring>
+        <name>pack</name>
+        <param>
+          <type>api::Params *</type>
+          <defname>i</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="144" column="1" bodyfile="lib/telegraph/common/params.cpp" bodystart="52" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a4d4df793ec88d5774a8f9a0fdb23405c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::params::move</definition>
+        <argsstring>(api::Params *)</argsstring>
+        <name>move</name>
+        <param>
+          <type>api::Params *</type>
+          <defname>i</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="145" column="1" bodyfile="lib/telegraph/common/params.cpp" bodystart="95" bodyend="122"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classtelegraph_1_1params_1a349fa6f58000ece5ee504bd0d59b5f6e" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtelegraph_1_1params" kindref="compound">params</ref></type>
+        <definition>static params telegraph::params::array</definition>
+        <argsstring>()</argsstring>
+        <name>array</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="66" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1a392011bc2e0723dbce6d3f7011576785" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="classtelegraph_1_1params" kindref="compound">params</ref></type>
+        <definition>static params telegraph::params::object</definition>
+        <argsstring>()</argsstring>
+        <name>object</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="67" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="67" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1params_1aef07126189dafa3aafd67fdee35caab8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classtelegraph_1_1params" kindref="compound">params</ref></type>
+        <definition>params telegraph::params::unpack</definition>
+        <argsstring>(const api::Params &amp;i, namespace_ *n=nullptr)</argsstring>
+        <name>unpack</name>
+        <param>
+          <type>const api::Params &amp;</type>
+          <declname>i</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegraph_1_1namespace__" kindref="compound">namespace_</ref> *</type>
+          <declname>n</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/params.hpp" line="146" column="1" bodyfile="lib/telegraph/common/params.cpp" bodystart="13" bodyend="49"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/telegraph/common/params.hpp" line="24" column="1" bodyfile="lib/telegraph/common/params.hpp" bodystart="24" bodyend="147"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1params_1a349fa6f58000ece5ee504bd0d59b5f6e" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>array</name></member>
+      <member refid="classtelegraph_1_1params_1a86e283121acc4db6118b63e6df0fafcc" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>at</name></member>
+      <member refid="classtelegraph_1_1params_1a85a5101497671f6b85ceeeca666cae81" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>at</name></member>
+      <member refid="classtelegraph_1_1params_1ae7407667dc4b073ca73a0329ea23d72a" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>get</name></member>
+      <member refid="classtelegraph_1_1params_1a108b23437a36e8e92b024b59c9abf2e2" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>get</name></member>
+      <member refid="classtelegraph_1_1params_1aa9a9a9e8cd24d99b399f9679e394f279" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>has</name></member>
+      <member refid="classtelegraph_1_1params_1a6b24e2e5d56f0a05f3d27f4ed73361ca" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>is_array</name></member>
+      <member refid="classtelegraph_1_1params_1ad3a1f92014ae1a68b12e1a46c41e91a7" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>is_bool</name></member>
+      <member refid="classtelegraph_1_1params_1a144dfba3d2244d6af683054e70d756ca" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>is_ctx</name></member>
+      <member refid="classtelegraph_1_1params_1a8b00e3b9bf353b8f697e4fd46389474a" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>is_none</name></member>
+      <member refid="classtelegraph_1_1params_1a17bb9025c603d54dd50ad95bf75fa0df" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>is_num</name></member>
+      <member refid="classtelegraph_1_1params_1a726f9a09f6469bbf7c533c0c8e485c72" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>is_object</name></member>
+      <member refid="classtelegraph_1_1params_1afb481d6d12c2dcc84aef802daeef225b" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>is_str</name></member>
+      <member refid="classtelegraph_1_1params_1a37fde85a48b80674c71e35239c3b17ce" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>is_tree</name></member>
+      <member refid="classtelegraph_1_1params_1a4d4df793ec88d5774a8f9a0fdb23405c" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>move</name></member>
+      <member refid="classtelegraph_1_1params_1a392011bc2e0723dbce6d3f7011576785" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>object</name></member>
+      <member refid="classtelegraph_1_1params_1a54a2fde46615aa1594942d81e2fccb4d" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>operator=</name></member>
+      <member refid="classtelegraph_1_1params_1a7ad928fc3d3fbabe7d61762e704cc89f" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>operator=</name></member>
+      <member refid="classtelegraph_1_1params_1ae33b9535de4e28e9b4d6631cccbce970" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>operator[]</name></member>
+      <member refid="classtelegraph_1_1params_1ad07afe221473ae0ffb0ddcf29232d553" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>pack</name></member>
+      <member refid="classtelegraph_1_1params_1af67ec32e2151fd4dd8ec293df29b48d5" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1ae2725f3f72d6a482bfea6260765ce399" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a2b78a3815af2c3676711e254723b80bc" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1aef16e2c000f108545f647eb692da423b" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a1558d332229445b7082ed2507cbd7a99" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a062cab338a066baa48cbadaaa73cf463" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a6636bd21082c7c08d825d83d6b480a68" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1ad32b25b3cbc41b7ae38edcd86ed47c37" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a78343b225800e61b1a9f5a0db2417c49" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a18abea3f64064af7363efb4e0f7e28bb" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1acd021c368b92787dee7a852d6b7434b9" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1aae149f5beddeae6ed0b3809f70952b49" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a2e508304e48171ca494f38371276d9d8" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a8760b698892fb0f7f15c12368ede1352" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a3cd32f5a3ad17d344264f8f08dca2028" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a668b95fd7d76e5baf7e08da782be0a8f" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a376590f3f5bc526023b4f7cc43a88ab5" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>params</name></member>
+      <member refid="classtelegraph_1_1params_1a738dbb2008fe561a64b6880bd1c5f0fc" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>push</name></member>
+      <member refid="classtelegraph_1_1params_1a8d7b23780508e6ccb37fabc3fc24ed88" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>push</name></member>
+      <member refid="classtelegraph_1_1params_1a4dbcc0f56b0a8cc959e0ff806da8bbf9" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>push</name></member>
+      <member refid="classtelegraph_1_1params_1a9c2e5ddc7236063fc7b0066fecb5b52a" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>to_ctx</name></member>
+      <member refid="classtelegraph_1_1params_1a28ac587e330dc76ecb08fd3fbc19dd3a" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>to_map</name></member>
+      <member refid="classtelegraph_1_1params_1a175321ac3b799e5ea941edcd48fd4b64" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>to_tree</name></member>
+      <member refid="classtelegraph_1_1params_1a7974e92445024059fa346347f479fc9c" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>to_vector</name></member>
+      <member refid="classtelegraph_1_1params_1aef07126189dafa3aafd67fdee35caab8" prot="public" virt="non-virtual"><scope>telegraph::params</scope><name>unpack</name></member>
+      <member refid="classtelegraph_1_1params_1a374d248ac0f6e22538ace0b04cfdc0b5" prot="private" virt="non-virtual"><scope>telegraph::params</scope><name>value_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

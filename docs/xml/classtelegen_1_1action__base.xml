@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegen_1_1action__base" kind="class" language="C++" prot="public">
+    <compoundname>telegen::action_base</compoundname>
+    <basecompoundref refid="classtelegen_1_1node" prot="public" virt="non-virtual">telegen::node</basecompoundref>
+    <derivedcompoundref refid="classtelegen_1_1action" prot="public" virt="non-virtual">telegen::action&lt; Arg, Ret &gt;</derivedcompoundref>
+    <includes refid="gen_2telegen_2nodes_8hpp" local="no">nodes.hpp</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegen_1_1action__base_1a50c033aec11f3533b47fe7ad799ecb1d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr telegen::action_base::action_base</definition>
+        <argsstring>(int32_t id, const char *name, const char *pretty, const char *desc)</argsstring>
+        <name>action_base</name>
+        <param>
+          <type>int32_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>pretty</declname>
+        </param>
+        <param>
+          <type>const char *</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/nodes.hpp" line="114" column="1" bodyfile="gen/telegen/nodes.hpp" bodystart="114" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegen_1_1action__base_1aa05f686e2a085c773bcbc8ac07da6f04" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacetelegen_1a9dd802bb5d30cf96b0c616750d43ae86" kindref="member">promise</ref>&lt; <ref refid="classtelegen_1_1value" kindref="compound">value</ref> &gt;</type>
+        <definition>promise&lt;value&gt; telegen::action_base::call</definition>
+        <argsstring>(action_base *a, value arg, interval timeout)</argsstring>
+        <name>call</name>
+        <param>
+          <type><ref refid="classtelegen_1_1action__base" kindref="compound">action_base</ref> *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegen_1_1value" kindref="compound">value</ref></type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacetelegen_1ad925de2d0a99bc43918533abf0457344" kindref="member">interval</ref></type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/nodes.hpp" line="118" column="1" bodyfile="gen/telegen/nodes.hpp" bodystart="118" bodyend="121"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="16">
+        <label>telegen::action&lt; Arg, Ret &gt;</label>
+        <link refid="classtelegen_1_1action"/>
+        <childnode refid="14" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>telegen::action_base</label>
+        <link refid="classtelegen_1_1action__base"/>
+        <childnode refid="15" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>telegen::node</label>
+        <link refid="classtelegen_1_1node"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="17">
+        <label>telegen::action_base</label>
+        <link refid="classtelegen_1_1action__base"/>
+        <childnode refid="18" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>telegen::node</label>
+        <link refid="classtelegen_1_1node"/>
+        <childnode refid="19" relation="usage">
+          <edgelabel>owner_</edgelabel>
+        </childnode>
+      </node>
+      <node id="19">
+        <label>telegen::source</label>
+        <link refid="classtelegen_1_1source"/>
+      </node>
+    </collaborationgraph>
+    <location file="gen/telegen/nodes.hpp" line="112" column="1" bodyfile="gen/telegen/nodes.hpp" bodystart="112" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classtelegen_1_1action__base_1a50c033aec11f3533b47fe7ad799ecb1d" prot="public" virt="non-virtual"><scope>telegen::action_base</scope><name>action_base</name></member>
+      <member refid="classtelegen_1_1action__base_1aa05f686e2a085c773bcbc8ac07da6f04" prot="public" virt="non-virtual"><scope>telegen::action_base</scope><name>call</name></member>
+      <member refid="classtelegen_1_1node_1ab9842f580e8e37753a42565793a455fc" prot="protected" virt="non-virtual"><scope>telegen::action_base</scope><name>desc_</name></member>
+      <member refid="classtelegen_1_1node_1a9393b332196fe1a8458d85308f8551d5" prot="public" virt="non-virtual"><scope>telegen::action_base</scope><name>get_desc</name></member>
+      <member refid="classtelegen_1_1node_1a9e94c3554697bb443e67316170815eed" prot="public" virt="non-virtual"><scope>telegen::action_base</scope><name>get_id</name></member>
+      <member refid="classtelegen_1_1node_1afc6c76d81436f9040668324ed2d65ce4" prot="public" virt="non-virtual"><scope>telegen::action_base</scope><name>get_name</name></member>
+      <member refid="classtelegen_1_1node_1aa92b0c42b744508c2b39bc047051a3ec" prot="public" virt="non-virtual"><scope>telegen::action_base</scope><name>get_pretty</name></member>
+      <member refid="classtelegen_1_1node_1aae3ff0d12932c55fdc88a1743e27ea56" prot="public" virt="non-virtual"><scope>telegen::action_base</scope><name>id</name></member>
+      <member refid="classtelegen_1_1node_1a0f485aa38b6a5a1e0ca55fd1f493e141" prot="protected" virt="non-virtual"><scope>telegen::action_base</scope><name>id_</name></member>
+      <member refid="classtelegen_1_1node_1abb59d672031a10b796e44d628bb835be" prot="protected" virt="non-virtual"><scope>telegen::action_base</scope><name>name_</name></member>
+      <member refid="classtelegen_1_1node_1ae046ceb8c032f5655160173c0777dba8" prot="public" virt="non-virtual"><scope>telegen::action_base</scope><name>node</name></member>
+      <member refid="classtelegen_1_1node_1ab97909f583b8777e9b95f11edfc869a8" prot="protected" virt="non-virtual"><scope>telegen::action_base</scope><name>owner_</name></member>
+      <member refid="classtelegen_1_1node_1a8b6169d62f6e7c2e301435e52442fed3" prot="public" virt="pure-virtual"><scope>telegen::action_base</scope><name>pack</name></member>
+      <member refid="classtelegen_1_1node_1abfa84da09528702afb75b46771ab9dcd" prot="protected" virt="non-virtual"><scope>telegen::action_base</scope><name>pretty_</name></member>
+      <member refid="classtelegen_1_1node_1a33a4f88e44337dcf2885e3e787970db7" prot="public" virt="non-virtual"><scope>telegen::action_base</scope><name>set_owner</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

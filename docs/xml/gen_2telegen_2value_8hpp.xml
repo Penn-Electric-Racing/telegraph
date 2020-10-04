@@ -1,0 +1,232 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="gen_2telegen_2value_8hpp" kind="file" language="C++">
+    <compoundname>gen/telegen/value.hpp</compoundname>
+    <includes refid="types_8hpp" local="yes">types.hpp</includes>
+    <includes local="yes">common.nanopb.h</includes>
+    <includedby refid="source_8hpp" local="yes">source.hpp</includedby>
+    <includedby refid="uart__interface_8hpp" local="yes">uart_interface.hpp</includedby>
+    <incdepgraph>
+      <node id="1497">
+        <label>functional</label>
+      </node>
+      <node id="1499">
+        <label>cstdint</label>
+      </node>
+      <node id="1498">
+        <label>pb_encode.h</label>
+      </node>
+      <node id="1491">
+        <label>value.hpp</label>
+        <link refid="gen_2telegen_2value_8hpp"/>
+        <childnode refid="1492" relation="include">
+        </childnode>
+        <childnode refid="1501" relation="include">
+        </childnode>
+      </node>
+      <node id="1492">
+        <label>types.hpp</label>
+        <link refid="types_8hpp"/>
+        <childnode refid="1493" relation="include">
+        </childnode>
+        <childnode refid="1501" relation="include">
+        </childnode>
+        <childnode refid="1495" relation="include">
+        </childnode>
+      </node>
+      <node id="1500">
+        <label>tuple</label>
+      </node>
+      <node id="1496">
+        <label>utility</label>
+      </node>
+      <node id="1501">
+        <label>common.nanopb.h</label>
+      </node>
+      <node id="1495">
+        <label>type_traits</label>
+      </node>
+      <node id="1494">
+        <label>inplace_function.hpp</label>
+        <link refid="gen_2telegen_2inplace__function_8hpp"/>
+        <childnode refid="1495" relation="include">
+        </childnode>
+        <childnode refid="1496" relation="include">
+        </childnode>
+        <childnode refid="1497" relation="include">
+        </childnode>
+      </node>
+      <node id="1493">
+        <label>util.hpp</label>
+        <link refid="util_8hpp"/>
+        <childnode refid="1494" relation="include">
+        </childnode>
+        <childnode refid="1498" relation="include">
+        </childnode>
+        <childnode refid="1499" relation="include">
+        </childnode>
+        <childnode refid="1500" relation="include">
+        </childnode>
+        <childnode refid="1496" relation="include">
+        </childnode>
+        <childnode refid="1497" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1504">
+        <label>nodes.hpp</label>
+        <link refid="gen_2telegen_2nodes_8hpp"/>
+        <childnode refid="1505" relation="include">
+        </childnode>
+        <childnode refid="1506" relation="include">
+        </childnode>
+      </node>
+      <node id="1502">
+        <label>value.hpp</label>
+        <link refid="gen_2telegen_2value_8hpp"/>
+        <childnode refid="1503" relation="include">
+        </childnode>
+        <childnode refid="1506" relation="include">
+        </childnode>
+      </node>
+      <node id="1503">
+        <label>source.hpp</label>
+        <link refid="source_8hpp"/>
+        <childnode refid="1504" relation="include">
+        </childnode>
+        <childnode refid="1505" relation="include">
+        </childnode>
+        <childnode refid="1506" relation="include">
+        </childnode>
+      </node>
+      <node id="1506">
+        <label>uart_interface.hpp</label>
+        <link refid="uart__interface_8hpp"/>
+      </node>
+      <node id="1505">
+        <label>publisher.hpp</label>
+        <link refid="gen_2telegen_2publisher_8hpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classtelegen_1_1value" prot="public">telegen::value</innerclass>
+    <innerclass refid="uniontelegen_1_1value_1_1box" prot="public">telegen::value::box</innerclass>
+    <innernamespace refid="namespacetelegen">telegen</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>__TELEGEN_VALUE_HPP__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__TELEGEN_VALUE_HPP__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="types_8hpp" kindref="compound">types.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;common.nanopb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacetelegen" kindref="compound">telegen</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">value;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10" refid="classtelegen_1_1value" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classtelegen_1_1value" kindref="compound">value</ref><sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="12" refid="uniontelegen_1_1value_1_1box" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal"><ref refid="uniontelegen_1_1value_1_1box" kindref="compound">box</ref><sp/>{</highlight></codeline>
+<codeline lineno="13" refid="uniontelegen_1_1value_1_1box_1aca1e8ed6a879c47f23ea0d0d562cff56" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="uniontelegen_1_1value_1_1box_1aca1e8ed6a879c47f23ea0d0d562cff56" kindref="member">b</ref>;</highlight></codeline>
+<codeline lineno="14" refid="uniontelegen_1_1value_1_1box_1af93ba02e91378fcc5dfd7dd44797d9f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint8_t<sp/><ref refid="uniontelegen_1_1value_1_1box_1af93ba02e91378fcc5dfd7dd44797d9f1" kindref="member">uint8</ref>;</highlight></codeline>
+<codeline lineno="15" refid="uniontelegen_1_1value_1_1box_1ac35300dde1553e491b47b7beb6da05fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint16_t<sp/><ref refid="uniontelegen_1_1value_1_1box_1ac35300dde1553e491b47b7beb6da05fd" kindref="member">uint16</ref>;</highlight></codeline>
+<codeline lineno="16" refid="uniontelegen_1_1value_1_1box_1a4d9a4908f9344f86f83b562b1dfd5b41" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="uniontelegen_1_1value_1_1box_1a4d9a4908f9344f86f83b562b1dfd5b41" kindref="member">uint32</ref>;</highlight></codeline>
+<codeline lineno="17" refid="uniontelegen_1_1value_1_1box_1af779cb73fc8206ea9e492ca721693519" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="uniontelegen_1_1value_1_1box_1af779cb73fc8206ea9e492ca721693519" kindref="member">uint64</ref>;</highlight></codeline>
+<codeline lineno="18" refid="uniontelegen_1_1value_1_1box_1ad0228111650848fbc6aa00ab703d4da8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int8_t<sp/><ref refid="uniontelegen_1_1value_1_1box_1ad0228111650848fbc6aa00ab703d4da8" kindref="member">int8</ref>;<sp/></highlight><highlight class="comment">//<sp/>also<sp/>used<sp/>for<sp/>the<sp/>enum<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="uniontelegen_1_1value_1_1box_1ab5661f0b60552b18a622da1c5795eb8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int16_t<sp/><ref refid="uniontelegen_1_1value_1_1box_1ab5661f0b60552b18a622da1c5795eb8a" kindref="member">int16</ref>;</highlight></codeline>
+<codeline lineno="20" refid="uniontelegen_1_1value_1_1box_1ab3d192d88f9510150d8d7588d69cf61c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int32_t<sp/><ref refid="uniontelegen_1_1value_1_1box_1ab3d192d88f9510150d8d7588d69cf61c" kindref="member">int32</ref>;</highlight></codeline>
+<codeline lineno="21" refid="uniontelegen_1_1value_1_1box_1a669882c6b6ab692eab0006bf61f079cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="uniontelegen_1_1value_1_1box_1a669882c6b6ab692eab0006bf61f079cd" kindref="member">int64</ref>;</highlight></codeline>
+<codeline lineno="22" refid="uniontelegen_1_1value_1_1box_1a0a8f0e2d0407419ebf63df5bb8a02f79" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="uniontelegen_1_1value_1_1box_1a0a8f0e2d0407419ebf63df5bb8a02f79" kindref="member">f</ref>;</highlight></codeline>
+<codeline lineno="23" refid="uniontelegen_1_1value_1_1box_1a8b25f5894690f65567b83d63e0584b39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="uniontelegen_1_1value_1_1box_1a8b25f5894690f65567b83d63e0584b39" kindref="member">d</ref>;</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};<sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26" refid="classtelegen_1_1value_1aa2c76dda3f9812dd9a031a0b463a6f5c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/><ref refid="classtelegen_1_1value_1aa2c76dda3f9812dd9a031a0b463a6f5c" kindref="member">value</ref>()<sp/>:<sp/>type_(<ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8" kindref="member">type_class</ref>::<ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8a4bbb8f967da6d1a610596d7257179c2b" kindref="member">Invalid</ref>),<sp/>value_()<sp/>{}</highlight></codeline>
+<codeline lineno="27" refid="classtelegen_1_1value_1a7e501fb7a6f3b724255b88572a76d073" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/><ref refid="classtelegen_1_1value_1a7e501fb7a6f3b724255b88572a76d073" kindref="member">value</ref>(<ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8" kindref="member">type_class</ref><sp/>t)<sp/>:<sp/>type_(t),<sp/>value_()<sp/>{}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="classtelegen_1_1value_1a792839f18c1e787e369d3362f022362c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8" kindref="member">type_class</ref><sp/><ref refid="classtelegen_1_1value_1a792839f18c1e787e369d3362f022362c" kindref="member">get_type_class</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>type_;<sp/>}</highlight></codeline>
+<codeline lineno="30" refid="classtelegen_1_1value_1a28195c2d95fc3d7c61bcc32cb4f64d66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="uniontelegen_1_1value_1_1box" kindref="compound">box</ref>&amp;<sp/><ref refid="classtelegen_1_1value_1a28195c2d95fc3d7c61bcc32cb4f64d66" kindref="member">get_box</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value_;<sp/>}</highlight></codeline>
+<codeline lineno="31" refid="classtelegen_1_1value_1a81c1fb26319a11335d1745fc2d01e36b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/><ref refid="uniontelegen_1_1value_1_1box" kindref="compound">box</ref>&amp;<sp/><ref refid="classtelegen_1_1value_1a81c1fb26319a11335d1745fc2d01e36b" kindref="member">get_box</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>value_;<sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="34" refid="classtelegen_1_1value_1a4bcd8e8317c0395b523596e4c0fa180d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>T<sp/>&amp;</highlight><highlight class="keyword">get</highlight><highlight class="normal">()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>T&amp;)<sp/>value_;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="38" refid="classtelegen_1_1value_1af3cd1843daaccaadcdf2a526147c485e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/>T<sp/>&amp;</highlight><highlight class="keyword">get</highlight><highlight class="normal">()<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(T&amp;)<sp/>value_;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="42" refid="classtelegen_1_1value_1a801da4870cd04e737db817d10fe6780c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">set</highlight><highlight class="normal">(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>T&amp;<sp/>v)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>get&lt;T&gt;()<sp/>=<sp/>v;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="classtelegen_1_1value_1a9bba0ce74da6b87a86dac99d0e5efa0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classtelegen_1_1value_1a9bba0ce74da6b87a86dac99d0e5efa0c" kindref="member">pack</ref>(telegraph_Value*<sp/>val)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(type_)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8a6adf97f83acf6453d4a6a4b1070f3754" kindref="member">type_class::None</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_none_tag;<sp/></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.none<sp/>=<sp/>telegraph_Empty_init_default;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8acf20423ed48998082c20099488a0917c" kindref="member">type_class::Enum</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_en_tag;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.en<sp/>=<sp/>value_.uint8;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8ac26f15e86e3de4c398a8273272aba034" kindref="member">type_class::Bool</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_b_tag;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.b<sp/>=<sp/>value_.b;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8a3a33b05b1fe0bad48ad87ffbacdddd15" kindref="member">type_class::Uint8</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_u8_tag;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.u8<sp/>=<sp/>value_.uint8;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8a3167337450665ae9b3b34004d33cafe8" kindref="member">type_class::Uint16</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_u16_tag;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.u16<sp/>=<sp/>value_.uint16;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8a2f3a46e0add3a07937412cbeb8f95727" kindref="member">type_class::Uint32</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_u32_tag;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.u32<sp/>=<sp/>value_.uint32;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8ac970503874fb72afdf908cb54a4c10ee" kindref="member">type_class::Uint64</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_u64_tag;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.u64<sp/>=<sp/>value_.uint64;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8a7d839b2c12bfd40ac121b4cc9e81c539" kindref="member">type_class::Int8</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_i8_tag;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.i8<sp/>=<sp/>value_.int8;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8a39bc2ae44b184207f560ff8619823208" kindref="member">type_class::Int16</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_i16_tag;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.i16<sp/>=<sp/>value_.int16;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8ac06129f6e6e15c09328365e553f1dc31" kindref="member">type_class::Int32</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_i32_tag;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.i32<sp/>=<sp/>value_.int32;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8afbde23b11d7e59af7828e81144c8b487" kindref="member">type_class::Int64</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_i64_tag;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.i64<sp/>=<sp/>value_.int64;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8a22ae0e2b89e5e3d477f988cc36d3272b" kindref="member">type_class::Float</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_f_tag;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.f<sp/>=<sp/>value_.f;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8ad909d38d705ce75386dd86e611a82f5b" kindref="member">type_class::Double</ref>:<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;which_type<sp/>=<sp/>telegraph_Value_d_tag;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>val-&gt;type.d<sp/>=<sp/>value_.d;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8" kindref="member">type_class</ref><sp/>type_;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="uniontelegen_1_1value_1_1box" kindref="compound">box</ref><sp/>value_;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="gen/telegen/value.hpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacestdext" kind="namespace" language="C++">
+    <compoundname>stdext</compoundname>
+    <innerclass refid="classstdext_1_1inplace__function" prot="public">stdext::inplace_function</innerclass>
+    <innerclass refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4" prot="public">stdext::inplace_function&lt; R(Args...), Capacity, Alignment &gt;</innerclass>
+    <innernamespace refid="namespacestdext_1_1inplace__function__detail">stdext::inplace_function_detail</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="gen/telegen/inplace_function.hpp" line="38" column="1"/>
+  </compounddef>
+</doxygen>

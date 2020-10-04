@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacestdext_1_1inplace__function__detail" kind="namespace" language="C++">
+    <compoundname>stdext::inplace_function_detail</compoundname>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1aligned__storage" prot="public">stdext::inplace_function_detail::aligned_storage</innerclass>
+    <innerclass refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper" prot="public">stdext::inplace_function_detail::aligned_storage_helper</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function" prot="public">stdext::inplace_function_detail::is_inplace_function</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function_3_01inplace__function_3_01Sig_00_01Cap_00_01Align_01_4_01_4" prot="public">stdext::inplace_function_detail::is_inplace_function&lt; inplace_function&lt; Sig, Cap, Align &gt; &gt;</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" prot="public">stdext::inplace_function_detail::is_invocable_r_impl</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07accept_3_01R_32d81c51f4037807d0fe4b47c34d0755" prot="public">stdext::inplace_function_detail::is_invocable_r_impl&lt; decltype(accept&lt; R &gt;(std::declval&lt; F &gt;()(std::declval&lt; Args &gt;()...))), R, F, Args... &gt;</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07std_1_1declva0b72e3b51b5a25ed55b63381e8d17b0a" prot="public">stdext::inplace_function_detail::is_invocable_r_impl&lt; decltype(std::declval&lt; F &gt;()(std::declval&lt; Args &gt;()...), void()), const void, F, Args... &gt;</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07std_1_1declva53be7366370c87c5d74810a4225ea3b9" prot="public">stdext::inplace_function_detail::is_invocable_r_impl&lt; decltype(std::declval&lt; F &gt;()(std::declval&lt; Args &gt;()...), void()), void, F, Args... &gt;</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__valid__inplace__dst" prot="public">stdext::inplace_function_detail::is_valid_inplace_dst</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1vtable" prot="public">stdext::inplace_function_detail::vtable</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1wrapper" prot="public">stdext::inplace_function_detail::wrapper</innerclass>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacestdext_1_1inplace__function__detail_1a84aa129d717eea675489c4b491812944" prot="public" static="no">
+        <type>typename <ref refid="structstdext_1_1inplace__function__detail_1_1aligned__storage" kindref="compound">aligned_storage</ref>&lt; Cap, Align &gt;::type</type>
+        <definition>using stdext::inplace_function_detail::aligned_storage_t = typedef typename aligned_storage&lt;Cap, Align&gt;::type</definition>
+        <argsstring></argsstring>
+        <name>aligned_storage_t</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/inplace_function.hpp" line="70" column="1" bodyfile="gen/telegen/inplace_function.hpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacestdext_1_1inplace__function__detail_1a8d53be19103030d83354d280975ae690" prot="public" static="no">
+        <type><ref refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" kindref="compound">is_invocable_r_impl</ref>&lt; void, R, F, Args... &gt;</type>
+        <definition>using stdext::inplace_function_detail::is_invocable_r = typedef is_invocable_r_impl&lt; void, R, F, Args... &gt;</definition>
+        <argsstring></argsstring>
+        <name>is_invocable_r</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/inplace_function.hpp" line="181" column="1" bodyfile="gen/telegen/inplace_function.hpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacestdext_1_1inplace__function__detail_1adb551f2b9cc5137d6329cdd1fd420ba2" prot="public" static="yes" mutable="no">
+        <type>constexpr size_t</type>
+        <definition>constexpr size_t stdext::inplace_function_detail::InplaceFunctionDefaultCapacity</definition>
+        <argsstring></argsstring>
+        <name>InplaceFunctionDefaultCapacity</name>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/inplace_function.hpp" line="42" column="1" bodyfile="gen/telegen/inplace_function.hpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacestdext_1_1inplace__function__detail_1a31403f05f455c45323900ed791032eda" prot="public" static="no" mutable="no">
+        <templateparamlist>
+          <param>
+            <type>class R</type>
+          </param>
+          <param>
+            <type>class...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>&lt; R, Args... &gt;</type>
+        <definition>vtable&lt; R, Args... &gt; stdext::inplace_function_detail::empty_vtable</definition>
+        <argsstring></argsstring>
+        <name>empty_vtable</name>
+        <initializer>{}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/inplace_function.hpp" line="140" column="1" bodyfile="gen/telegen/inplace_function.hpp" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacestdext_1_1inplace__function__detail_1adb551f2b9cc5137d6329cdd1fd420ba2" prot="public" static="yes" mutable="no">
+        <type>constexpr size_t</type>
+        <definition>constexpr size_t stdext::inplace_function_detail::InplaceFunctionDefaultCapacity</definition>
+        <argsstring></argsstring>
+        <name>InplaceFunctionDefaultCapacity</name>
+        <initializer>= 32</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/utils/inplace_function.hpp" line="42" column="1" bodyfile="lib/telegraph/utils/inplace_function.hpp" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacestdext_1_1inplace__function__detail_1a6ea79bf8d7a67334837baa7bafb73bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>class R</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void stdext::inplace_function_detail::accept</definition>
+        <argsstring>(R)</argsstring>
+        <name>accept</name>
+        <param>
+          <type>R</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/inplace_function.hpp" line="156" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="gen/telegen/inplace_function.hpp" line="40" column="1"/>
+  </compounddef>
+</doxygen>

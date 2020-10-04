@@ -1,0 +1,264 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="util_8hpp" kind="file" language="C++">
+    <compoundname>util.hpp</compoundname>
+    <includes refid="gen_2telegen_2inplace__function_8hpp" local="yes">inplace_function.hpp</includes>
+    <includes local="yes">pb_encode.h</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">tuple</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="gen_2telegen_2nodes_8hpp" local="yes">nodes.hpp</includedby>
+    <includedby refid="promise_8hpp" local="yes">promise.hpp</includedby>
+    <includedby refid="types_8hpp" local="yes">types.hpp</includedby>
+    <includedby refid="uart__interface_8hpp" local="yes">uart_interface.hpp</includedby>
+    <incdepgraph>
+      <node id="1456">
+        <label>functional</label>
+      </node>
+      <node id="1458">
+        <label>cstdint</label>
+      </node>
+      <node id="1457">
+        <label>pb_encode.h</label>
+      </node>
+      <node id="1459">
+        <label>tuple</label>
+      </node>
+      <node id="1455">
+        <label>utility</label>
+      </node>
+      <node id="1454">
+        <label>type_traits</label>
+      </node>
+      <node id="1453">
+        <label>inplace_function.hpp</label>
+        <link refid="gen_2telegen_2inplace__function_8hpp"/>
+        <childnode refid="1454" relation="include">
+        </childnode>
+        <childnode refid="1455" relation="include">
+        </childnode>
+        <childnode refid="1456" relation="include">
+        </childnode>
+      </node>
+      <node id="1452">
+        <label>util.hpp</label>
+        <link refid="util_8hpp"/>
+        <childnode refid="1453" relation="include">
+        </childnode>
+        <childnode refid="1457" relation="include">
+        </childnode>
+        <childnode refid="1458" relation="include">
+        </childnode>
+        <childnode refid="1459" relation="include">
+        </childnode>
+        <childnode refid="1455" relation="include">
+        </childnode>
+        <childnode refid="1456" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1461">
+        <label>nodes.hpp</label>
+        <link refid="gen_2telegen_2nodes_8hpp"/>
+        <childnode refid="1462" relation="include">
+        </childnode>
+        <childnode refid="1463" relation="include">
+        </childnode>
+      </node>
+      <node id="1467">
+        <label>value.hpp</label>
+        <link refid="gen_2telegen_2value_8hpp"/>
+        <childnode refid="1465" relation="include">
+        </childnode>
+        <childnode refid="1463" relation="include">
+        </childnode>
+      </node>
+      <node id="1466">
+        <label>types.hpp</label>
+        <link refid="types_8hpp"/>
+        <childnode refid="1467" relation="include">
+        </childnode>
+        <childnode refid="1461" relation="include">
+        </childnode>
+      </node>
+      <node id="1464">
+        <label>promise.hpp</label>
+        <link refid="promise_8hpp"/>
+        <childnode refid="1465" relation="include">
+        </childnode>
+        <childnode refid="1463" relation="include">
+        </childnode>
+      </node>
+      <node id="1465">
+        <label>source.hpp</label>
+        <link refid="source_8hpp"/>
+        <childnode refid="1461" relation="include">
+        </childnode>
+        <childnode refid="1462" relation="include">
+        </childnode>
+        <childnode refid="1463" relation="include">
+        </childnode>
+      </node>
+      <node id="1463">
+        <label>uart_interface.hpp</label>
+        <link refid="uart__interface_8hpp"/>
+      </node>
+      <node id="1462">
+        <label>publisher.hpp</label>
+        <link refid="gen_2telegen_2publisher_8hpp"/>
+      </node>
+      <node id="1460">
+        <label>util.hpp</label>
+        <link refid="util_8hpp"/>
+        <childnode refid="1461" relation="include">
+        </childnode>
+        <childnode refid="1464" relation="include">
+        </childnode>
+        <childnode refid="1466" relation="include">
+        </childnode>
+        <childnode refid="1463" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structtelegen_1_1util_1_1index__tuple" prot="public">telegen::util::index_tuple</innerclass>
+    <innerclass refid="structtelegen_1_1util_1_1make__indexes__impl" prot="public">telegen::util::make_indexes_impl</innerclass>
+    <innerclass refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_00_01T_00_01Types_8_8_8_01_4" prot="public">telegen::util::make_indexes_impl&lt; I, index_tuple&lt; Indexes... &gt;, T, Types... &gt;</innerclass>
+    <innerclass refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_01_4" prot="public">telegen::util::make_indexes_impl&lt; I, index_tuple&lt; Indexes... &gt; &gt;</innerclass>
+    <innerclass refid="structtelegen_1_1util_1_1make__indexes" prot="public">telegen::util::make_indexes</innerclass>
+    <innernamespace refid="namespacetelegen">telegen</innernamespace>
+    <innernamespace refid="namespacetelegen_1_1util">telegen::util</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>__TELEGRAPH_UTIL_HPP__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__TELEGRAPH_UTIL_HPP__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gen_2telegen_2inplace__function_8hpp" kindref="compound">inplace_function.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;pb_encode.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tuple&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacetelegen" kindref="compound">telegen</ref><sp/>{</highlight></codeline>
+<codeline lineno="13" refid="namespacetelegen_1_1util" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">util<sp/>{</highlight></codeline>
+<codeline lineno="14" refid="namespacetelegen_1_1util_1ad9294f759196bd321f5566036af85bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1_1util_1ad9294f759196bd321f5566036af85bf2" kindref="member">proto_string_encoder</ref>(pb_ostream_t*<sp/>stream,</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>pb_field_iter_t*<sp/>field,<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">*<sp/>arg)<sp/>{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>str<sp/>=<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*)<sp/>*arg;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!pb_encode_tag_for_field(stream,<sp/>field))<sp/></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>pb_encode_string(stream,<sp/>(uint8_t*)<sp/>str,<sp/>strlen(str));</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21" refid="namespacetelegen_1_1util_1acf354c2c0ec545191120b1f8628cb7d2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint32_t<sp/><ref refid="namespacetelegen_1_1util_1acf354c2c0ec545191120b1f8628cb7d2" kindref="member">crc_table</ref>[256]<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x00000000,<sp/>0x77073096,<sp/>0xee0e612c,<sp/>0x990951ba,<sp/>0x076dc419,<sp/>0x706af48f,</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xe963a535,<sp/>0x9e6495a3,<sp/>0x0edb8832,<sp/>0x79dcb8a4,<sp/>0xe0d5e91e,<sp/>0x97d2d988,</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x09b64c2b,<sp/>0x7eb17cbd,<sp/>0xe7b82d07,<sp/>0x90bf1d91,<sp/>0x1db71064,<sp/>0x6ab020f2,</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xf3b97148,<sp/>0x84be41de,<sp/>0x1adad47d,<sp/>0x6ddde4eb,<sp/>0xf4d4b551,<sp/>0x83d385c7,</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x136c9856,<sp/>0x646ba8c0,<sp/>0xfd62f97a,<sp/>0x8a65c9ec,<sp/>0x14015c4f,<sp/>0x63066cd9,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xfa0f3d63,<sp/>0x8d080df5,<sp/>0x3b6e20c8,<sp/>0x4c69105e,<sp/>0xd56041e4,<sp/>0xa2677172,</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x3c03e4d1,<sp/>0x4b04d447,<sp/>0xd20d85fd,<sp/>0xa50ab56b,<sp/>0x35b5a8fa,<sp/>0x42b2986c,</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xdbbbc9d6,<sp/>0xacbcf940,<sp/>0x32d86ce3,<sp/>0x45df5c75,<sp/>0xdcd60dcf,<sp/>0xabd13d59,</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x26d930ac,<sp/>0x51de003a,<sp/>0xc8d75180,<sp/>0xbfd06116,<sp/>0x21b4f4b5,<sp/>0x56b3c423,</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xcfba9599,<sp/>0xb8bda50f,<sp/>0x2802b89e,<sp/>0x5f058808,<sp/>0xc60cd9b2,<sp/>0xb10be924,</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x2f6f7c87,<sp/>0x58684c11,<sp/>0xc1611dab,<sp/>0xb6662d3d,<sp/>0x76dc4190,<sp/>0x01db7106,</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x98d220bc,<sp/>0xefd5102a,<sp/>0x71b18589,<sp/>0x06b6b51f,<sp/>0x9fbfe4a5,<sp/>0xe8b8d433,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x7807c9a2,<sp/>0x0f00f934,<sp/>0x9609a88e,<sp/>0xe10e9818,<sp/>0x7f6a0dbb,<sp/>0x086d3d2d,</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x91646c97,<sp/>0xe6635c01,<sp/>0x6b6b51f4,<sp/>0x1c6c6162,<sp/>0x856530d8,<sp/>0xf262004e,</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x6c0695ed,<sp/>0x1b01a57b,<sp/>0x8208f4c1,<sp/>0xf50fc457,<sp/>0x65b0d9c6,<sp/>0x12b7e950,</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x8bbeb8ea,<sp/>0xfcb9887c,<sp/>0x62dd1ddf,<sp/>0x15da2d49,<sp/>0x8cd37cf3,<sp/>0xfbd44c65,</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x4db26158,<sp/>0x3ab551ce,<sp/>0xa3bc0074,<sp/>0xd4bb30e2,<sp/>0x4adfa541,<sp/>0x3dd895d7,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xa4d1c46d,<sp/>0xd3d6f4fb,<sp/>0x4369e96a,<sp/>0x346ed9fc,<sp/>0xad678846,<sp/>0xda60b8d0,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x44042d73,<sp/>0x33031de5,<sp/>0xaa0a4c5f,<sp/>0xdd0d7cc9,<sp/>0x5005713c,<sp/>0x270241aa,</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xbe0b1010,<sp/>0xc90c2086,<sp/>0x5768b525,<sp/>0x206f85b3,<sp/>0xb966d409,<sp/>0xce61e49f,</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x5edef90e,<sp/>0x29d9c998,<sp/>0xb0d09822,<sp/>0xc7d7a8b4,<sp/>0x59b33d17,<sp/>0x2eb40d81,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xb7bd5c3b,<sp/>0xc0ba6cad,<sp/>0xedb88320,<sp/>0x9abfb3b6,<sp/>0x03b6e20c,<sp/>0x74b1d29a,</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xead54739,<sp/>0x9dd277af,<sp/>0x04db2615,<sp/>0x73dc1683,<sp/>0xe3630b12,<sp/>0x94643b84,</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x0d6d6a3e,<sp/>0x7a6a5aa8,<sp/>0xe40ecf0b,<sp/>0x9309ff9d,<sp/>0x0a00ae27,<sp/>0x7d079eb1,</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xf00f9344,<sp/>0x8708a3d2,<sp/>0x1e01f268,<sp/>0x6906c2fe,<sp/>0xf762575d,<sp/>0x806567cb,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x196c3671,<sp/>0x6e6b06e7,<sp/>0xfed41b76,<sp/>0x89d32be0,<sp/>0x10da7a5a,<sp/>0x67dd4acc,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xf9b9df6f,<sp/>0x8ebeeff9,<sp/>0x17b7be43,<sp/>0x60b08ed5,<sp/>0xd6d6a3e8,<sp/>0xa1d1937e,</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x38d8c2c4,<sp/>0x4fdff252,<sp/>0xd1bb67f1,<sp/>0xa6bc5767,<sp/>0x3fb506dd,<sp/>0x48b2364b,</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xd80d2bda,<sp/>0xaf0a1b4c,<sp/>0x36034af6,<sp/>0x41047a60,<sp/>0xdf60efc3,<sp/>0xa867df55,</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x316e8eef,<sp/>0x4669be79,<sp/>0xcb61b38c,<sp/>0xbc66831a,<sp/>0x256fd2a0,<sp/>0x5268e236,</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xcc0c7795,<sp/>0xbb0b4703,<sp/>0x220216b9,<sp/>0x5505262f,<sp/>0xc5ba3bbe,<sp/>0xb2bd0b28,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x2bb45a92,<sp/>0x5cb36a04,<sp/>0xc2d7ffa7,<sp/>0xb5d0cf31,<sp/>0x2cd99e8b,<sp/>0x5bdeae1d,</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x9b64c2b0,<sp/>0xec63f226,<sp/>0x756aa39c,<sp/>0x026d930a,<sp/>0x9c0906a9,<sp/>0xeb0e363f,</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x72076785,<sp/>0x05005713,<sp/>0x95bf4a82,<sp/>0xe2b87a14,<sp/>0x7bb12bae,<sp/>0x0cb61b38,</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x92d28e9b,<sp/>0xe5d5be0d,<sp/>0x7cdcefb7,<sp/>0x0bdbdf21,<sp/>0x86d3d2d4,<sp/>0xf1d4e242,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x68ddb3f8,<sp/>0x1fda836e,<sp/>0x81be16cd,<sp/>0xf6b9265b,<sp/>0x6fb077e1,<sp/>0x18b74777,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x88085ae6,<sp/>0xff0f6a70,<sp/>0x66063bca,<sp/>0x11010b5c,<sp/>0x8f659eff,<sp/>0xf862ae69,</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x616bffd3,<sp/>0x166ccf45,<sp/>0xa00ae278,<sp/>0xd70dd2ee,<sp/>0x4e048354,<sp/>0x3903b3c2,</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xa7672661,<sp/>0xd06016f7,<sp/>0x4969474d,<sp/>0x3e6e77db,<sp/>0xaed16a4a,<sp/>0xd9d65adc,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x40df0b66,<sp/>0x37d83bf0,<sp/>0xa9bcae53,<sp/>0xdebb9ec5,<sp/>0x47b2cf7f,<sp/>0x30b5ffe9,</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xbdbdf21c,<sp/>0xcabac28a,<sp/>0x53b39330,<sp/>0x24b4a3a6,<sp/>0xbad03605,<sp/>0xcdd70693,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0x54de5729,<sp/>0x23d967bf,<sp/>0xb3667a2e,<sp/>0xc4614ab8,<sp/>0x5d681b02,<sp/>0x2a6f2b94,</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>0xb40bbe37,<sp/>0xc30c8ea1,<sp/>0x5a05df1b,<sp/>0x2d02ef8d</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespacetelegen_1_1util_1ae8b96d2bcf704fd8de4366ea725b54f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1_1util_1ae8b96d2bcf704fd8de4366ea725b54f7" kindref="member">crc32_start</ref>(uint32_t&amp;<sp/>crc)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>crc<sp/>=<sp/>~0U;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="70" refid="namespacetelegen_1_1util_1a6724e747bbf9b75d4c08cf9a910b5d0f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1_1util_1a6724e747bbf9b75d4c08cf9a910b5d0f" kindref="member">crc32_next</ref>(uint32_t&amp;<sp/>crc,<sp/>uint8_t<sp/>val)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>crc<sp/>=<sp/>crc_table[(crc<sp/>^<sp/>val)<sp/>&amp;<sp/>0xFF]<sp/>^<sp/>(crc<sp/>&gt;&gt;<sp/>8);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="73" refid="namespacetelegen_1_1util_1a8955104562232d81e72279ab7a4787fe" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1_1util_1a8955104562232d81e72279ab7a4787fe" kindref="member">crc32_finalize</ref>(uint32_t&amp;<sp/>crc)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>crc<sp/>=<sp/>crc<sp/>^<sp/>~0U;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76" refid="namespacetelegen_1_1util_1a8a5ff5e52e1ddc9e7872d27ecf1f12f7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>constexpr<sp/>uint32_t<sp/><ref refid="namespacetelegen_1_1util_1a8a5ff5e52e1ddc9e7872d27ecf1f12f7" kindref="member">crc32_block</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>uint8_t*<sp/>p,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/>crc<sp/>=<sp/>~0U;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(size--)<sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>crc<sp/>=<sp/>crc_table[(crc<sp/>^<sp/>*p++)<sp/>&amp;<sp/>0xFF]<sp/>^<sp/>(crc<sp/>&gt;&gt;<sp/>8);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>crc<sp/>^<sp/>~0U;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>for<sp/>packing<sp/>and<sp/>unpacking<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>from<sp/>tuples/variadic<sp/>template<sp/>arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>https://stackoverflow.com/questions/687490/how-do-i-</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>expand-a-tuple-into-variadic-template-functions-arguments</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">...&gt;<sp/></highlight></codeline>
+<codeline lineno="90" refid="structtelegen_1_1util_1_1index__tuple" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtelegen_1_1util_1_1index__tuple" kindref="compound">index_tuple</ref>{};<sp/></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>I,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>IndexTuple,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal">...<sp/>Types&gt;<sp/></highlight></codeline>
+<codeline lineno="93" refid="structtelegen_1_1util_1_1make__indexes__impl" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtelegen_1_1util_1_1make__indexes__impl" kindref="compound">make_indexes_impl</ref>;<sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>I,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">...<sp/>Indexes,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>...<sp/>Types&gt;<sp/></highlight></codeline>
+<codeline lineno="96" refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_00_01T_00_01Types_8_8_8_01_4" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtelegen_1_1util_1_1make__indexes__impl" kindref="compound">make_indexes_impl</ref>&lt;I,<sp/><ref refid="structtelegen_1_1util_1_1index__tuple" kindref="compound">index_tuple</ref>&lt;Indexes...&gt;,<sp/>T,<sp/>Types...&gt;<sp/><sp/>{<sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="structtelegen_1_1util_1_1make__indexes__impl" kindref="compound">make_indexes_impl</ref>&lt;I<sp/>+<sp/>1,<sp/></highlight></codeline>
+<codeline lineno="98" refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_00_01T_00_01Types_8_8_8_01_4_1a5046a04e998e0bd21d60e07ed6ad6b0e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structtelegen_1_1util_1_1index__tuple" kindref="compound">index_tuple</ref>&lt;Indexes...,<sp/>I&gt;,<sp/>Types...&gt;<ref refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_00_01T_00_01Types_8_8_8_01_4_1a5046a04e998e0bd21d60e07ed6ad6b0e" kindref="member">::type</ref><sp/><ref refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_00_01T_00_01Types_8_8_8_01_4_1a5046a04e998e0bd21d60e07ed6ad6b0e" kindref="member">type</ref>;<sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};<sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>I,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">...<sp/>Indexes&gt;<sp/></highlight></codeline>
+<codeline lineno="102" refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_01_4" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtelegen_1_1util_1_1make__indexes__impl" kindref="compound">make_indexes_impl</ref>&lt;I,<sp/><ref refid="structtelegen_1_1util_1_1index__tuple" kindref="compound">index_tuple</ref>&lt;Indexes...&gt;&gt;<sp/><sp/>{<sp/></highlight></codeline>
+<codeline lineno="103" refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_01_4_1a9c2357b6a8e5f7418688518e21a5ac30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typedef</highlight><highlight class="normal"><sp/><ref refid="structtelegen_1_1util_1_1index__tuple" kindref="compound">index_tuple</ref>&lt;Indexes...&gt;<sp/><ref refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_01_4_1a9c2357b6a8e5f7418688518e21a5ac30" kindref="member">type</ref>;<sp/></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};<sp/></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>...<sp/>Types&gt;<sp/></highlight></codeline>
+<codeline lineno="107" refid="structtelegen_1_1util_1_1make__indexes" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structtelegen_1_1util_1_1make__indexes" kindref="compound">make_indexes</ref><sp/>:<sp/><ref refid="structtelegen_1_1util_1_1make__indexes__impl" kindref="compound">make_indexes_impl</ref>&lt;0,<sp/>index_tuple&lt;&gt;,<sp/>Types...&gt;<sp/>{};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Cap,<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Ret,<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">A,<sp/></highlight><highlight class="keyword">class</highlight><highlight class="normal">...<sp/>Args,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal">...<sp/>Indexes&gt;<sp/></highlight></codeline>
+<codeline lineno="110" refid="namespacetelegen_1_1util_1ab05aef37c616f107c1b070178cabb28e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Ret<sp/><ref refid="namespacetelegen_1_1util_1ab05aef37c616f107c1b070178cabb28e" kindref="member">apply_helper</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">stdext::inplace_function</ref>&lt;Ret(A,<sp/>Args&amp;&amp;...),<sp/>Cap&gt;&amp;<sp/>f,<sp/>A<sp/>a,</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structtelegen_1_1util_1_1index__tuple" kindref="compound">index_tuple&lt; Indexes... &gt;</ref>,<sp/>std::tuple&lt;Args...&gt;&amp;&amp;<sp/>tup)<sp/>{<sp/></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>f(a,<sp/>std::forward&lt;Args&gt;(std::get&lt;Indexes&gt;(tup))...<sp/>);<sp/></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Cap,<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Ret,<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">A,<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">...<sp/>Args&gt;<sp/></highlight></codeline>
+<codeline lineno="116" refid="namespacetelegen_1_1util_1a427fe35f9153460a301fe1e84598bfc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Ret<sp/><ref refid="namespacetelegen_1_1util_1a427fe35f9153460a301fe1e84598bfc7" kindref="member">apply</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">stdext::inplace_function</ref>&lt;Ret(A,<sp/>Args&amp;&amp;...),<sp/>Cap&gt;&amp;<sp/>f,<sp/></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>A<sp/>a,<sp/>std::tuple&lt;Args...&gt;&amp;&amp;<sp/><sp/>tup)<sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacetelegen_1_1util_1ab05aef37c616f107c1b070178cabb28e" kindref="member">apply_helper</ref>(f,<sp/>a,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="structtelegen_1_1util_1_1make__indexes" kindref="compound">make_indexes&lt;Args...&gt;::type</ref>(),<sp/></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::forward&lt;std::tuple&lt;Args...&gt;&gt;(tup));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="122"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="gen/telegen/util.hpp"/>
+  </compounddef>
+</doxygen>

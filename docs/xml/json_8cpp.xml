@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="json_8cpp" kind="file" language="C++">
+    <compoundname>json.cpp</compoundname>
+    <includes refid="json_8hpp" local="yes">json.hpp</includes>
+    <includes local="no">fstream</includes>
+    <incdepgraph>
+      <node id="733">
+        <label>json.hpp</label>
+        <link refid="json_8hpp"/>
+        <childnode refid="734" relation="include">
+        </childnode>
+      </node>
+      <node id="735">
+        <label>fstream</label>
+      </node>
+      <node id="732">
+        <label>json.cpp</label>
+        <link refid="json_8cpp"/>
+        <childnode refid="733" relation="include">
+        </childnode>
+        <childnode refid="735" relation="include">
+        </childnode>
+      </node>
+      <node id="734">
+        <label>nlohmann/json.hpp</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacetelegraph">telegraph</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="json_8hpp" kindref="compound">json.hpp</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacetelegraph" kindref="compound">telegraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacetelegraph_1ab87b47a6b955c365ddd74c343ecc16f4" kindref="member">json</ref></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classtelegraph_1_1json__parser_1ad3f209cfb4e81aa7c1d5fb577b09de30" kindref="member">json_parser::parse_file</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>file)<sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::ifstream<sp/>s(file);</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacetelegraph_1ab87b47a6b955c365ddd74c343ecc16f4" kindref="member">json</ref><sp/>j;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s<sp/>&gt;&gt;<sp/>j;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>j;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="lib/telegraph/utils/json.cpp"/>
+  </compounddef>
+</doxygen>

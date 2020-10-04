@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegen_1_1publisher__base" kind="class" language="C++" prot="public">
+    <compoundname>telegen::publisher_base</compoundname>
+    <basecompoundref refid="classtelegen_1_1source" prot="public" virt="non-virtual">telegen::source</basecompoundref>
+    <basecompoundref refid="structtelegen_1_1coroutine" prot="public" virt="non-virtual">telegen::coroutine</basecompoundref>
+    <derivedcompoundref refid="classtelegen_1_1publisher" prot="public" virt="non-virtual">telegen::publisher&lt; T, Clock &gt;</derivedcompoundref>
+    <includes refid="gen_2telegen_2publisher_8hpp" local="no">publisher.hpp</includes>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="321">
+        <label>telegen::publisher&lt; T, Clock &gt;</label>
+        <link refid="classtelegen_1_1publisher"/>
+        <childnode refid="318" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="320">
+        <label>telegen::coroutine</label>
+        <link refid="structtelegen_1_1coroutine"/>
+      </node>
+      <node id="318">
+        <label>telegen::publisher_base</label>
+        <link refid="classtelegen_1_1publisher__base"/>
+        <childnode refid="319" relation="public-inheritance">
+        </childnode>
+        <childnode refid="320" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="319">
+        <label>telegen::source</label>
+        <link refid="classtelegen_1_1source"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="324">
+        <label>telegen::coroutine</label>
+        <link refid="structtelegen_1_1coroutine"/>
+      </node>
+      <node id="322">
+        <label>telegen::publisher_base</label>
+        <link refid="classtelegen_1_1publisher__base"/>
+        <childnode refid="323" relation="public-inheritance">
+        </childnode>
+        <childnode refid="324" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="323">
+        <label>telegen::source</label>
+        <link refid="classtelegen_1_1source"/>
+      </node>
+    </collaborationgraph>
+    <location file="gen/telegen/publisher.hpp" line="8" column="1" bodyfile="gen/telegen/publisher.hpp" bodystart="8" bodyend="9"/>
+    <listofallmembers>
+      <member refid="classtelegen_1_1source_1ae14191b0e6aa10521bb3d8fa5e1747e9" prot="public" virt="pure-virtual"><scope>telegen::publisher_base</scope><name>call</name></member>
+      <member refid="structtelegen_1_1coroutine_1ac13b85fb7d6b08c684c69f1109c2f947" prot="public" virt="non-virtual"><scope>telegen::publisher_base</scope><name>coroutine</name></member>
+      <member refid="structtelegen_1_1coroutine_1a335f75302785f4ee9d8073caf8cfc60b" prot="public" virt="non-virtual"><scope>telegen::publisher_base</scope><name>finish</name></member>
+      <member refid="structtelegen_1_1coroutine_1a4e807c9f48ccfd7fd64a0b6ef2024da0" prot="public" virt="non-virtual"><scope>telegen::publisher_base</scope><name>is_finished</name></member>
+      <member refid="structtelegen_1_1coroutine_1a345d1cc0fd5bd8d126022958d4f17d3b" prot="public" virt="virtual"><scope>telegen::publisher_base</scope><name>reset</name></member>
+      <member refid="structtelegen_1_1coroutine_1a2a7408a5b9474af3e59128934e3a5c00" prot="public" virt="pure-virtual"><scope>telegen::publisher_base</scope><name>resume</name></member>
+      <member refid="structtelegen_1_1coroutine_1a48b19e2ca54c0a7b63fe5c5f19620bcb" prot="public" virt="non-virtual"><scope>telegen::publisher_base</scope><name>run</name></member>
+      <member refid="classtelegen_1_1source_1a224b4eb02ea346aca099615a5ae00ea9" prot="public" virt="pure-virtual"><scope>telegen::publisher_base</scope><name>subscribe</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

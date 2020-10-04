@@ -1,0 +1,166 @@
+\hypertarget{classtelegen_1_1publisher}{}\section{telegen\+:\+:publisher$<$ T, Clock $>$ Class Template Reference}
+\label{classtelegen_1_1publisher}\index{telegen\+::publisher$<$ T, Clock $>$@{telegen\+::publisher$<$ T, Clock $>$}}
+
+
+{\ttfamily \#include $<$publisher.\+hpp$>$}
+
+Inheritance diagram for telegen\+:\+:publisher$<$ T, Clock $>$\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classtelegen_1_1publisher}
+\end{center}
+\end{figure}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classtelegen_1_1publisher_1_1sub__impl}{sub\+\_\+impl}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegen_1_1publisher_a6fc6fb74fe2e1db1de31a9ef434a851f}{publisher} (Clock $\ast$c)
+\item 
+\hyperlink{classtelegen_1_1publisher_adc45d3b53b7532c8b0d76673ed32f4f3}{publisher} (Clock $\ast$c, \hyperlink{classtelegen_1_1variable}{variable}$<$ T $>$ $\ast$var)
+\item 
+\hyperlink{classtelegen_1_1publisher_a075945686aca7ef00a37783cc5079caf}{$\sim$publisher} ()
+\item 
+\hyperlink{classtelegen_1_1publisher_a8b7695fbea0b0ebb4e850eb1cc1a9fd5}{publisher} (const \hyperlink{classtelegen_1_1publisher}{publisher}$<$ T, Clock $>$ \&p)=delete
+\item 
+void \hyperlink{classtelegen_1_1publisher_ad2111d40973f4bfd5d4bde64d736eb84}{operator=} (const \hyperlink{classtelegen_1_1publisher}{publisher}$<$ T, Clock $>$ \&p)=delete
+\item 
+void \hyperlink{classtelegen_1_1publisher_a3388c9262a15195d55f224bdd0606e96}{use\+\_\+for} (\hyperlink{classtelegen_1_1variable}{variable}$<$ T $>$ $\ast$var)
+\item 
+void \hyperlink{classtelegen_1_1publisher_a093ed11e3e992e0980dada475b154e86}{operator$<$$<$} (const T \&v)
+\item 
+void \hyperlink{classtelegen_1_1publisher_a551b3f77b7ac7be7157cd7cf78cc2983}{set\+\_\+alarm} (uint32\+\_\+t alarm)
+\item 
+void \hyperlink{classtelegen_1_1publisher_af83e62cfa8e9bbd0b43716ce7d802547}{recalculate\+\_\+next} ()
+\item 
+void \hyperlink{classtelegen_1_1publisher_a143382f6ff9560be4839c50b3f1dc86c}{resume} () override
+\item 
+\hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise}$<$ \hyperlink{namespacetelegen_a27c822534a5231fe1c523c81e8768afb}{subscription\+\_\+ptr} $>$ \hyperlink{classtelegen_1_1publisher_abb9ec30f9b0859e34111dc02fe8b52bd}{subscribe} (\hyperlink{classtelegen_1_1variable__base}{variable\+\_\+base} $\ast$v, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} min\+\_\+interval, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} max\+\_\+interval, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} timeout) override
+\item 
+\hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise}$<$ \hyperlink{classtelegen_1_1value}{value} $>$ \hyperlink{classtelegen_1_1publisher_a3b5f514d064a6bca0209753dd724a2a7}{call} (\hyperlink{classtelegen_1_1action__base}{action\+\_\+base} $\ast$a, \hyperlink{classtelegen_1_1value}{value} arg, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} timeout) override
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{classtelegen_1_1publisher_a378ff3f48e0298988ffbb9d03c4f5ac9}{sub\+\_\+impl}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtelegen_1_1publisher_a6fc6fb74fe2e1db1de31a9ef434a851f}\label{classtelegen_1_1publisher_a6fc6fb74fe2e1db1de31a9ef434a851f}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!publisher@{publisher}}
+\index{publisher@{publisher}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{publisher()}{publisher()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+\hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::\hyperlink{classtelegen_1_1publisher}{publisher} (\begin{DoxyParamCaption}\item[{Clock $\ast$}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1publisher_adc45d3b53b7532c8b0d76673ed32f4f3}\label{classtelegen_1_1publisher_adc45d3b53b7532c8b0d76673ed32f4f3}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!publisher@{publisher}}
+\index{publisher@{publisher}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{publisher()}{publisher()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+\hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::\hyperlink{classtelegen_1_1publisher}{publisher} (\begin{DoxyParamCaption}\item[{Clock $\ast$}]{c,  }\item[{\hyperlink{classtelegen_1_1variable}{variable}$<$ T $>$ $\ast$}]{var }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1publisher_a075945686aca7ef00a37783cc5079caf}\label{classtelegen_1_1publisher_a075945686aca7ef00a37783cc5079caf}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!````~publisher@{$\sim$publisher}}
+\index{````~publisher@{$\sim$publisher}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{$\sim$publisher()}{~publisher()}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+\hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::$\sim$\hyperlink{classtelegen_1_1publisher}{publisher} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1publisher_a8b7695fbea0b0ebb4e850eb1cc1a9fd5}\label{classtelegen_1_1publisher_a8b7695fbea0b0ebb4e850eb1cc1a9fd5}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!publisher@{publisher}}
+\index{publisher@{publisher}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{publisher()}{publisher()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+\hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::\hyperlink{classtelegen_1_1publisher}{publisher} (\begin{DoxyParamCaption}\item[{const \hyperlink{classtelegen_1_1publisher}{publisher}$<$ T, Clock $>$ \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtelegen_1_1publisher_a3b5f514d064a6bca0209753dd724a2a7}\label{classtelegen_1_1publisher_a3b5f514d064a6bca0209753dd724a2a7}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!call@{call}}
+\index{call@{call}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{call()}{call()}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+\hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise}$<$\hyperlink{classtelegen_1_1value}{value}$>$ \hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::call (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegen_1_1action__base}{action\+\_\+base} $\ast$}]{a,  }\item[{\hyperlink{classtelegen_1_1value}{value}}]{arg,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegen_1_1source_ae14191b0e6aa10521bb3d8fa5e1747e9}{telegen\+::source}.
+
+\mbox{\Hypertarget{classtelegen_1_1publisher_a093ed11e3e992e0980dada475b154e86}\label{classtelegen_1_1publisher_a093ed11e3e992e0980dada475b154e86}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!operator$<$$<$@{operator$<$$<$}}
+\index{operator$<$$<$@{operator$<$$<$}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{operator$<$$<$()}{operator<<()}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+void \hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::operator$<$$<$ (\begin{DoxyParamCaption}\item[{const T \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1publisher_ad2111d40973f4bfd5d4bde64d736eb84}\label{classtelegen_1_1publisher_ad2111d40973f4bfd5d4bde64d736eb84}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!operator=@{operator=}}
+\index{operator=@{operator=}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+void \hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classtelegen_1_1publisher}{publisher}$<$ T, Clock $>$ \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classtelegen_1_1publisher_af83e62cfa8e9bbd0b43716ce7d802547}\label{classtelegen_1_1publisher_af83e62cfa8e9bbd0b43716ce7d802547}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!recalculate\+\_\+next@{recalculate\+\_\+next}}
+\index{recalculate\+\_\+next@{recalculate\+\_\+next}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{recalculate\+\_\+next()}{recalculate\_next()}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+void \hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::recalculate\+\_\+next (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1publisher_a143382f6ff9560be4839c50b3f1dc86c}\label{classtelegen_1_1publisher_a143382f6ff9560be4839c50b3f1dc86c}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!resume@{resume}}
+\index{resume@{resume}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{resume()}{resume()}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+void \hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::resume (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{structtelegen_1_1coroutine_a2a7408a5b9474af3e59128934e3a5c00}{telegen\+::coroutine}.
+
+\mbox{\Hypertarget{classtelegen_1_1publisher_a551b3f77b7ac7be7157cd7cf78cc2983}\label{classtelegen_1_1publisher_a551b3f77b7ac7be7157cd7cf78cc2983}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!set\+\_\+alarm@{set\+\_\+alarm}}
+\index{set\+\_\+alarm@{set\+\_\+alarm}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{set\+\_\+alarm()}{set\_alarm()}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+void \hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::set\+\_\+alarm (\begin{DoxyParamCaption}\item[{uint32\+\_\+t}]{alarm }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1publisher_abb9ec30f9b0859e34111dc02fe8b52bd}\label{classtelegen_1_1publisher_abb9ec30f9b0859e34111dc02fe8b52bd}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!subscribe@{subscribe}}
+\index{subscribe@{subscribe}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{subscribe()}{subscribe()}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+\hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise}$<$\hyperlink{namespacetelegen_a27c822534a5231fe1c523c81e8768afb}{subscription\+\_\+ptr}$>$ \hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::subscribe (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegen_1_1variable__base}{variable\+\_\+base} $\ast$}]{v,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{min\+\_\+interval,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{max\+\_\+interval,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegen_1_1source_a224b4eb02ea346aca099615a5ae00ea9}{telegen\+::source}.
+
+\mbox{\Hypertarget{classtelegen_1_1publisher_a3388c9262a15195d55f224bdd0606e96}\label{classtelegen_1_1publisher_a3388c9262a15195d55f224bdd0606e96}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!use\+\_\+for@{use\+\_\+for}}
+\index{use\+\_\+for@{use\+\_\+for}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{use\+\_\+for()}{use\_for()}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+void \hyperlink{classtelegen_1_1publisher}{telegen\+::publisher}$<$ T, Clock $>$\+::use\+\_\+for (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegen_1_1variable}{variable}$<$ T $>$ $\ast$}]{var }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{classtelegen_1_1publisher_a378ff3f48e0298988ffbb9d03c4f5ac9}\label{classtelegen_1_1publisher_a378ff3f48e0298988ffbb9d03c4f5ac9}} 
+\index{telegen\+::publisher@{telegen\+::publisher}!sub\+\_\+impl@{sub\+\_\+impl}}
+\index{sub\+\_\+impl@{sub\+\_\+impl}!telegen\+::publisher@{telegen\+::publisher}}
+\subsubsection{\texorpdfstring{sub\+\_\+impl}{sub\_impl}}
+{\footnotesize\ttfamily template$<$typename T, typename Clock$>$ \\
+friend class \hyperlink{classtelegen_1_1publisher_1_1sub__impl}{sub\+\_\+impl}\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{gen_2telegen_2publisher_8hpp}{gen/telegen/publisher.\+hpp}\end{DoxyCompactItemize}

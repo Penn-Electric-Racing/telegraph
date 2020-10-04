@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structstd_1_1hash_3_01boost_1_1uuids_1_1uuid_01_4" kind="struct" language="C++" prot="public">
+    <compoundname>std::hash&lt; boost::uuids::uuid &gt;</compoundname>
+    <includes refid="uuid_8hpp" local="no">uuid.hpp</includes>
+    <templateparamlist>
+    </templateparamlist>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structstd_1_1hash_3_01boost_1_1uuids_1_1uuid_01_4_1a4cfbd1973b3692bf1837a42320f62b57" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t std::hash&lt; boost::uuids::uuid &gt;::operator()</definition>
+        <argsstring>(const boost::uuids::uuid &amp;uid) const</argsstring>
+        <name>operator()</name>
+        <param>
+          <type>const boost::uuids::uuid &amp;</type>
+          <declname>uid</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/utils/uuid.hpp" line="23" column="1" bodyfile="lib/telegraph/utils/uuid.hpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/telegraph/utils/uuid.hpp" line="22" column="1" bodyfile="lib/telegraph/utils/uuid.hpp" bodystart="22" bodyend="26"/>
+    <listofallmembers>
+      <member refid="structstd_1_1hash_3_01boost_1_1uuids_1_1uuid_01_4_1a4cfbd1973b3692bf1837a42320f62b57" prot="public" virt="non-virtual"><scope>std::hash&lt; boost::uuids::uuid &gt;</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

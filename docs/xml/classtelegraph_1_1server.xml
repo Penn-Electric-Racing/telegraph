@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1server" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::server</compoundname>
+    <includes refid="server_8hpp" local="no">server.hpp</includes>
+    <innerclass refid="classtelegraph_1_1server_1_1remote" prot="public">telegraph::server::remote</innerclass>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1server_1a31f93b7012e7ccd72f063cb0949bb19e" prot="private" static="no" mutable="no">
+        <type>io::io_context &amp;</type>
+        <definition>io::io_context&amp; telegraph::server::ioc_</definition>
+        <argsstring></argsstring>
+        <name>ioc_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/server.hpp" line="24" column="1" bodyfile="lib/telegraph/remote/server.hpp" bodystart="24" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1server_1ad25d782b9dcf52e5ec47cd379e594157" prot="private" static="no" mutable="no">
+        <type>boost::asio::ip::tcp::endpoint</type>
+        <definition>boost::asio::ip::tcp::endpoint telegraph::server::ep_</definition>
+        <argsstring></argsstring>
+        <name>ep_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/server.hpp" line="25" column="1" bodyfile="lib/telegraph/remote/server.hpp" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1server_1a0adee6029e35c39aa981faf183aec550" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classtelegraph_1_1namespace__" kindref="compound">namespace_</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;namespace_&gt; telegraph::server::local_</definition>
+        <argsstring></argsstring>
+        <name>local_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/server.hpp" line="26" column="1" bodyfile="lib/telegraph/remote/server.hpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1server_1ab1016347c0288b33aa5cf38a70928351" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::server::server</definition>
+        <argsstring>(io::io_context &amp;ioc, boost::asio::ip::tcp::endpoint ep, const std::shared_ptr&lt; namespace_ &gt; &amp;local)</argsstring>
+        <name>server</name>
+        <param>
+          <type>io::io_context &amp;</type>
+          <declname>ioc</declname>
+        </param>
+        <param>
+          <type>boost::asio::ip::tcp::endpoint</type>
+          <declname>ep</declname>
+        </param>
+        <param>
+          <type>const std::shared_ptr&lt; <ref refid="classtelegraph_1_1namespace__" kindref="compound">namespace_</ref> &gt; &amp;</type>
+          <declname>local</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/server.hpp" line="53" column="1" bodyfile="lib/telegraph/remote/server.cpp" bodystart="15" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1server_1ad7bf15056564c266ea630e35157758bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::server::run</definition>
+        <argsstring>(io::yield_ctx &amp;yield)</argsstring>
+        <name>run</name>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/remote/server.hpp" line="58" column="1" bodyfile="lib/telegraph/remote/server.cpp" bodystart="21" bodyend="49"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/telegraph/remote/server.hpp" line="22" column="1" bodyfile="lib/telegraph/remote/server.hpp" bodystart="22" bodyend="59"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1server_1ad25d782b9dcf52e5ec47cd379e594157" prot="private" virt="non-virtual"><scope>telegraph::server</scope><name>ep_</name></member>
+      <member refid="classtelegraph_1_1server_1a31f93b7012e7ccd72f063cb0949bb19e" prot="private" virt="non-virtual"><scope>telegraph::server</scope><name>ioc_</name></member>
+      <member refid="classtelegraph_1_1server_1a0adee6029e35c39aa981faf183aec550" prot="private" virt="non-virtual"><scope>telegraph::server</scope><name>local_</name></member>
+      <member refid="classtelegraph_1_1server_1ad7bf15056564c266ea630e35157758bc" prot="public" virt="non-virtual"><scope>telegraph::server</scope><name>run</name></member>
+      <member refid="classtelegraph_1_1server_1ab1016347c0288b33aa5cf38a70928351" prot="public" virt="non-virtual"><scope>telegraph::server</scope><name>server</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

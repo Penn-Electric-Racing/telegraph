@@ -1,0 +1,47 @@
+\hypertarget{classtelegen_1_1source}{}\section{telegen\+:\+:source Class Reference}
+\label{classtelegen_1_1source}\index{telegen\+::source@{telegen\+::source}}
+
+
+{\ttfamily \#include $<$source.\+hpp$>$}
+
+Inheritance diagram for telegen\+:\+:source\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classtelegen_1_1source}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual \hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise}$<$ \hyperlink{namespacetelegen_a27c822534a5231fe1c523c81e8768afb}{subscription\+\_\+ptr} $>$ \hyperlink{classtelegen_1_1source_a224b4eb02ea346aca099615a5ae00ea9}{subscribe} (\hyperlink{classtelegen_1_1variable__base}{variable\+\_\+base} $\ast$v, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} min\+\_\+interval, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} max\+\_\+interval, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} timeout)=0
+\item 
+virtual \hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise}$<$ \hyperlink{classtelegen_1_1value}{value} $>$ \hyperlink{classtelegen_1_1source_ae14191b0e6aa10521bb3d8fa5e1747e9}{call} (\hyperlink{classtelegen_1_1action__base}{action\+\_\+base} $\ast$a, \hyperlink{classtelegen_1_1value}{value} arg, \hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval} timeout)=0
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtelegen_1_1source_ae14191b0e6aa10521bb3d8fa5e1747e9}\label{classtelegen_1_1source_ae14191b0e6aa10521bb3d8fa5e1747e9}} 
+\index{telegen\+::source@{telegen\+::source}!call@{call}}
+\index{call@{call}!telegen\+::source@{telegen\+::source}}
+\subsubsection{\texorpdfstring{call()}{call()}}
+{\footnotesize\ttfamily virtual \hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise}$<$\hyperlink{classtelegen_1_1value}{value}$>$ telegen\+::source\+::call (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegen_1_1action__base}{action\+\_\+base} $\ast$}]{a,  }\item[{\hyperlink{classtelegen_1_1value}{value}}]{arg,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegen_1_1publisher_a3b5f514d064a6bca0209753dd724a2a7}{telegen\+::publisher$<$ T, Clock $>$}, and \hyperlink{classtelegen_1_1uart__interface_acaf4ff8f9442b3d4d2b9d5bcc252d08e}{telegen\+::uart\+\_\+interface$<$ Uart, Clock $>$}.
+
+\mbox{\Hypertarget{classtelegen_1_1source_a224b4eb02ea346aca099615a5ae00ea9}\label{classtelegen_1_1source_a224b4eb02ea346aca099615a5ae00ea9}} 
+\index{telegen\+::source@{telegen\+::source}!subscribe@{subscribe}}
+\index{subscribe@{subscribe}!telegen\+::source@{telegen\+::source}}
+\subsubsection{\texorpdfstring{subscribe()}{subscribe()}}
+{\footnotesize\ttfamily virtual \hyperlink{namespacetelegen_a9dd802bb5d30cf96b0c616750d43ae86}{promise}$<$\hyperlink{namespacetelegen_a27c822534a5231fe1c523c81e8768afb}{subscription\+\_\+ptr}$>$ telegen\+::source\+::subscribe (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegen_1_1variable__base}{variable\+\_\+base} $\ast$}]{v,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{min\+\_\+interval,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{max\+\_\+interval,  }\item[{\hyperlink{namespacetelegen_ad925de2d0a99bc43918533abf0457344}{interval}}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegen_1_1publisher_abb9ec30f9b0859e34111dc02fe8b52bd}{telegen\+::publisher$<$ T, Clock $>$}, and \hyperlink{classtelegen_1_1uart__interface_a869d06375865913880cf9818150c5b6e}{telegen\+::uart\+\_\+interface$<$ Uart, Clock $>$}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{source_8hpp}{source.\+hpp}\end{DoxyCompactItemize}

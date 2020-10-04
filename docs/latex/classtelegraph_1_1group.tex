@@ -1,0 +1,283 @@
+\hypertarget{classtelegraph_1_1group}{}\section{telegraph\+:\+:group Class Reference}
+\label{classtelegraph_1_1group}\index{telegraph\+::group@{telegraph\+::group}}
+
+
+{\ttfamily \#include $<$nodes.\+hpp$>$}
+
+Inheritance diagram for telegraph\+:\+:group\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classtelegraph_1_1group}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegraph_1_1group_a06ec96e471690fcc8e9cc6efe1632261}{group} (\hyperlink{classtelegraph_1_1node_a90bc576d668ed141d5354a06aa9c8d9a}{id} i, const std\+::string\+\_\+view \&name, const std\+::string\+\_\+view \&pretty, const std\+::string\+\_\+view \&desc, const std\+::string\+\_\+view \&schema, int version, std\+::vector$<$ \hyperlink{classtelegraph_1_1node}{node} $\ast$$>$ \&\&children)
+\item 
+\hyperlink{classtelegraph_1_1group_a88d584b6dc7383e319a00fc266b29be7}{group} (const \hyperlink{classtelegraph_1_1group}{group} \&g)
+\item 
+\hyperlink{classtelegraph_1_1group_a2c613f213d32b7b48b94df99610bbc90}{$\sim$group} ()
+\item 
+const std\+::string \& \hyperlink{classtelegraph_1_1group_a6ab1978bc6c97d3dcd802665c92390b8}{get\+\_\+schema} () const
+\item 
+int \hyperlink{classtelegraph_1_1group_a04e3ffe2ee3b18f0c2d921bdd8b0789f}{get\+\_\+version} () const
+\item 
+void \hyperlink{classtelegraph_1_1group_ae4887f80cadba073aef9feef1295fb20}{set\+\_\+owner} (const std\+::weak\+\_\+ptr$<$ \hyperlink{classtelegraph_1_1context}{context} $>$ \&c) override
+\item 
+void \hyperlink{classtelegraph_1_1group_af56fb03ad97aadd9be32c5e47c6d195b}{set\+\_\+unowned} () override
+\item 
+\hyperlink{classtelegraph_1_1node}{node} $\ast$ \hyperlink{classtelegraph_1_1group_a27e8f2ecfe0b87fef8ca57c43fda8809}{from\+\_\+path} (const std\+::vector$<$ std\+::string\+\_\+view $>$ \&p, size\+\_\+t idx=0) override
+\item 
+const \hyperlink{classtelegraph_1_1node}{node} $\ast$ \hyperlink{classtelegraph_1_1group_ad4ed6177fee328ec3702d01a881a33ee}{from\+\_\+path} (const std\+::vector$<$ std\+::string\+\_\+view $>$ \&p, size\+\_\+t idx=0) const override
+\item 
+std\+::vector$<$ \hyperlink{classtelegraph_1_1node}{node} $\ast$ $>$ \hyperlink{classtelegraph_1_1group_a120c05f05d045fe4b5719b4abe4e83d9}{nodes} () override
+\item 
+std\+::vector$<$ const \hyperlink{classtelegraph_1_1node}{node} $\ast$ $>$ \hyperlink{classtelegraph_1_1group_ad5a82543eef530a7b07ca2cdbe6a82f5}{nodes} () const override
+\item 
+\hyperlink{classtelegraph_1_1node}{node} $\ast$ \hyperlink{classtelegraph_1_1group_aaf32eea781de1f18d37765793589dda5}{operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t idx) override
+\item 
+const \hyperlink{classtelegraph_1_1node}{node} $\ast$ \hyperlink{classtelegraph_1_1group_a1b084997076f624d3814b057b26162cd}{operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t idx) const override
+\item 
+\hyperlink{classtelegraph_1_1node}{node} $\ast$ \hyperlink{classtelegraph_1_1group_a84db0dc9c8d45bdd343a0d4da44a3593}{operator\mbox{[}$\,$\mbox{]}} (const std\+::string \&child) override
+\item 
+const \hyperlink{classtelegraph_1_1node}{node} $\ast$ \hyperlink{classtelegraph_1_1group_abc407505a0b1d0f1c3de0f588f8ea7a0}{operator\mbox{[}$\,$\mbox{]}} (const std\+::string \&child) const override
+\item 
+std\+::vector$<$ \hyperlink{classtelegraph_1_1node}{node} $\ast$ $>$\+::iterator \hyperlink{classtelegraph_1_1group_a71c8576e9cf6035fd371516b1e1fc692}{begin} ()
+\item 
+std\+::vector$<$ \hyperlink{classtelegraph_1_1node}{node} $\ast$ $>$\+::const\+\_\+iterator \hyperlink{classtelegraph_1_1group_a0ec680f2044108436dbecc8f25b2cba6}{begin} () const
+\item 
+std\+::vector$<$ \hyperlink{classtelegraph_1_1node}{node} $\ast$ $>$\+::iterator \hyperlink{classtelegraph_1_1group_afe980e1a055ebba5eb236cf09738bad8}{end} ()
+\item 
+std\+::vector$<$ \hyperlink{classtelegraph_1_1node}{node} $\ast$ $>$\+::const\+\_\+iterator \hyperlink{classtelegraph_1_1group_ab06ca45e8bd109f94d2ea763c92de677}{end} () const
+\item 
+size\+\_\+t \hyperlink{classtelegraph_1_1group_a75e3d657ee7458aeedfcc353bd50e571}{num\+\_\+children} () const
+\item 
+bool \hyperlink{classtelegraph_1_1group_a63cf8362b39b718e9553a519485f7875}{compatible\+\_\+with} (\hyperlink{classtelegraph_1_1node}{node} $\ast$other) const override
+\item 
+void \hyperlink{classtelegraph_1_1group_a2899f0bebaa9696675c7a32fd92d54e9}{pack} (Group $\ast$\hyperlink{classtelegraph_1_1group}{group}) const
+\item 
+virtual void \hyperlink{classtelegraph_1_1group_a070decfe980bb669646af5307f5c93e4}{pack} (Node $\ast$proto) const override
+\item 
+std\+::unique\+\_\+ptr$<$ \hyperlink{classtelegraph_1_1node}{node} $>$ \hyperlink{classtelegraph_1_1group_a0e937eea18e4f650b892ac9061c461fa}{clone} () const override
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classtelegraph_1_1group}{group} $\ast$ \hyperlink{classtelegraph_1_1group_a92934fab7dc94207f4d98a40deef0f55}{unpack} (const Group \&g)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1group_a06ec96e471690fcc8e9cc6efe1632261}\label{classtelegraph_1_1group_a06ec96e471690fcc8e9cc6efe1632261}} 
+\index{telegraph\+::group@{telegraph\+::group}!group@{group}}
+\index{group@{group}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{group()}{group()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily telegraph\+::group\+::group (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegraph_1_1node_a90bc576d668ed141d5354a06aa9c8d9a}{id}}]{i,  }\item[{const std\+::string\+\_\+view \&}]{name,  }\item[{const std\+::string\+\_\+view \&}]{pretty,  }\item[{const std\+::string\+\_\+view \&}]{desc,  }\item[{const std\+::string\+\_\+view \&}]{schema,  }\item[{int}]{version,  }\item[{std\+::vector$<$ \hyperlink{classtelegraph_1_1node}{node} $\ast$$>$ \&\&}]{children }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a88d584b6dc7383e319a00fc266b29be7}\label{classtelegraph_1_1group_a88d584b6dc7383e319a00fc266b29be7}} 
+\index{telegraph\+::group@{telegraph\+::group}!group@{group}}
+\index{group@{group}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{group()}{group()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily telegraph\+::group\+::group (\begin{DoxyParamCaption}\item[{const \hyperlink{classtelegraph_1_1group}{group} \&}]{g }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a2c613f213d32b7b48b94df99610bbc90}\label{classtelegraph_1_1group_a2c613f213d32b7b48b94df99610bbc90}} 
+\index{telegraph\+::group@{telegraph\+::group}!````~group@{$\sim$group}}
+\index{````~group@{$\sim$group}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{$\sim$group()}{~group()}}
+{\footnotesize\ttfamily telegraph\+::group\+::$\sim$group (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1group_a71c8576e9cf6035fd371516b1e1fc692}\label{classtelegraph_1_1group_a71c8576e9cf6035fd371516b1e1fc692}} 
+\index{telegraph\+::group@{telegraph\+::group}!begin@{begin}}
+\index{begin@{begin}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{classtelegraph_1_1node}{node}$\ast$$>$\+::iterator telegraph\+::group\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a0ec680f2044108436dbecc8f25b2cba6}\label{classtelegraph_1_1group_a0ec680f2044108436dbecc8f25b2cba6}} 
+\index{telegraph\+::group@{telegraph\+::group}!begin@{begin}}
+\index{begin@{begin}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{classtelegraph_1_1node}{node}$\ast$$>$\+::const\+\_\+iterator telegraph\+::group\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a0e937eea18e4f650b892ac9061c461fa}\label{classtelegraph_1_1group_a0e937eea18e4f650b892ac9061c461fa}} 
+\index{telegraph\+::group@{telegraph\+::group}!clone@{clone}}
+\index{clone@{clone}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily std\+::unique\+\_\+ptr$<$\hyperlink{classtelegraph_1_1node}{node}$>$ telegraph\+::group\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1node_ae90515f4573cfa43c168cba9d542df6b}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a63cf8362b39b718e9553a519485f7875}\label{classtelegraph_1_1group_a63cf8362b39b718e9553a519485f7875}} 
+\index{telegraph\+::group@{telegraph\+::group}!compatible\+\_\+with@{compatible\+\_\+with}}
+\index{compatible\+\_\+with@{compatible\+\_\+with}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{compatible\+\_\+with()}{compatible\_with()}}
+{\footnotesize\ttfamily bool telegraph\+::group\+::compatible\+\_\+with (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegraph_1_1node}{node} $\ast$}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1node_a68c4aed1434da1f0ece9089ff99ffcdb}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_afe980e1a055ebba5eb236cf09738bad8}\label{classtelegraph_1_1group_afe980e1a055ebba5eb236cf09738bad8}} 
+\index{telegraph\+::group@{telegraph\+::group}!end@{end}}
+\index{end@{end}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{classtelegraph_1_1node}{node}$\ast$$>$\+::iterator telegraph\+::group\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1group_ab06ca45e8bd109f94d2ea763c92de677}\label{classtelegraph_1_1group_ab06ca45e8bd109f94d2ea763c92de677}} 
+\index{telegraph\+::group@{telegraph\+::group}!end@{end}}
+\index{end@{end}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{classtelegraph_1_1node}{node}$\ast$$>$\+::const\+\_\+iterator telegraph\+::group\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a27e8f2ecfe0b87fef8ca57c43fda8809}\label{classtelegraph_1_1group_a27e8f2ecfe0b87fef8ca57c43fda8809}} 
+\index{telegraph\+::group@{telegraph\+::group}!from\+\_\+path@{from\+\_\+path}}
+\index{from\+\_\+path@{from\+\_\+path}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{from\+\_\+path()}{from\_path()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \hyperlink{classtelegraph_1_1node}{node}$\ast$ telegraph\+::group\+::from\+\_\+path (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string\+\_\+view $>$ \&}]{p,  }\item[{size\+\_\+t}]{idx = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1node_a2d5ea5366a04f3b3841de9bc21e70416}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_ad4ed6177fee328ec3702d01a881a33ee}\label{classtelegraph_1_1group_ad4ed6177fee328ec3702d01a881a33ee}} 
+\index{telegraph\+::group@{telegraph\+::group}!from\+\_\+path@{from\+\_\+path}}
+\index{from\+\_\+path@{from\+\_\+path}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{from\+\_\+path()}{from\_path()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily const \hyperlink{classtelegraph_1_1node}{node}$\ast$ telegraph\+::group\+::from\+\_\+path (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string\+\_\+view $>$ \&}]{p,  }\item[{size\+\_\+t}]{idx = {\ttfamily 0} }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1node_aaba33e2aa28a99dcd8f4b1888c3a5706}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a6ab1978bc6c97d3dcd802665c92390b8}\label{classtelegraph_1_1group_a6ab1978bc6c97d3dcd802665c92390b8}} 
+\index{telegraph\+::group@{telegraph\+::group}!get\+\_\+schema@{get\+\_\+schema}}
+\index{get\+\_\+schema@{get\+\_\+schema}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{get\+\_\+schema()}{get\_schema()}}
+{\footnotesize\ttfamily const std\+::string\& telegraph\+::group\+::get\+\_\+schema (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a04e3ffe2ee3b18f0c2d921bdd8b0789f}\label{classtelegraph_1_1group_a04e3ffe2ee3b18f0c2d921bdd8b0789f}} 
+\index{telegraph\+::group@{telegraph\+::group}!get\+\_\+version@{get\+\_\+version}}
+\index{get\+\_\+version@{get\+\_\+version}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{get\+\_\+version()}{get\_version()}}
+{\footnotesize\ttfamily int telegraph\+::group\+::get\+\_\+version (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a120c05f05d045fe4b5719b4abe4e83d9}\label{classtelegraph_1_1group_a120c05f05d045fe4b5719b4abe4e83d9}} 
+\index{telegraph\+::group@{telegraph\+::group}!nodes@{nodes}}
+\index{nodes@{nodes}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{nodes()}{nodes()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily std\+::vector$<$\hyperlink{classtelegraph_1_1node}{node}$\ast$$>$ telegraph\+::group\+::nodes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1node_a14eb2051c1efaf4de6684d3e50aebeb7}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_ad5a82543eef530a7b07ca2cdbe6a82f5}\label{classtelegraph_1_1group_ad5a82543eef530a7b07ca2cdbe6a82f5}} 
+\index{telegraph\+::group@{telegraph\+::group}!nodes@{nodes}}
+\index{nodes@{nodes}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{nodes()}{nodes()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily std\+::vector$<$const \hyperlink{classtelegraph_1_1node}{node}$\ast$$>$ telegraph\+::group\+::nodes (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1node_a9d19888a9a73a4623dcab55be6386395}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a75e3d657ee7458aeedfcc353bd50e571}\label{classtelegraph_1_1group_a75e3d657ee7458aeedfcc353bd50e571}} 
+\index{telegraph\+::group@{telegraph\+::group}!num\+\_\+children@{num\+\_\+children}}
+\index{num\+\_\+children@{num\+\_\+children}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{num\+\_\+children()}{num\_children()}}
+{\footnotesize\ttfamily size\+\_\+t telegraph\+::group\+::num\+\_\+children (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1group_aaf32eea781de1f18d37765793589dda5}\label{classtelegraph_1_1group_aaf32eea781de1f18d37765793589dda5}} 
+\index{telegraph\+::group@{telegraph\+::group}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily \hyperlink{classtelegraph_1_1node}{node}$\ast$ telegraph\+::group\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{idx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1node_ad82c9a9af7b7cf132db1c1e74f09254f}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a1b084997076f624d3814b057b26162cd}\label{classtelegraph_1_1group_a1b084997076f624d3814b057b26162cd}} 
+\index{telegraph\+::group@{telegraph\+::group}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily const \hyperlink{classtelegraph_1_1node}{node}$\ast$ telegraph\+::group\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{size\+\_\+t}]{idx }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1node_a4a2a451694b0a4b2c4ec26eee02e46ad}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a84db0dc9c8d45bdd343a0d4da44a3593}\label{classtelegraph_1_1group_a84db0dc9c8d45bdd343a0d4da44a3593}} 
+\index{telegraph\+::group@{telegraph\+::group}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily \hyperlink{classtelegraph_1_1node}{node}$\ast$ telegraph\+::group\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{child }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1node_a3cf657c57fe639f6288f2acdd9b50e3c}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_abc407505a0b1d0f1c3de0f588f8ea7a0}\label{classtelegraph_1_1group_abc407505a0b1d0f1c3de0f588f8ea7a0}} 
+\index{telegraph\+::group@{telegraph\+::group}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{operator[]()}{operator[]()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily const \hyperlink{classtelegraph_1_1node}{node}$\ast$ telegraph\+::group\+::operator\mbox{[}$\,$\mbox{]} (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{child }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1node_aad6b0bbccc9831f82117a1cc03493f6c}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a2899f0bebaa9696675c7a32fd92d54e9}\label{classtelegraph_1_1group_a2899f0bebaa9696675c7a32fd92d54e9}} 
+\index{telegraph\+::group@{telegraph\+::group}!pack@{pack}}
+\index{pack@{pack}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily void telegraph\+::group\+::pack (\begin{DoxyParamCaption}\item[{Group $\ast$}]{group }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a070decfe980bb669646af5307f5c93e4}\label{classtelegraph_1_1group_a070decfe980bb669646af5307f5c93e4}} 
+\index{telegraph\+::group@{telegraph\+::group}!pack@{pack}}
+\index{pack@{pack}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{pack()}{pack()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily void telegraph\+::group\+::pack (\begin{DoxyParamCaption}\item[{Node $\ast$}]{proto }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1node_a5006b21e9b83ecd52f3f953a1b828773}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_ae4887f80cadba073aef9feef1295fb20}\label{classtelegraph_1_1group_ae4887f80cadba073aef9feef1295fb20}} 
+\index{telegraph\+::group@{telegraph\+::group}!set\+\_\+owner@{set\+\_\+owner}}
+\index{set\+\_\+owner@{set\+\_\+owner}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{set\+\_\+owner()}{set\_owner()}}
+{\footnotesize\ttfamily void telegraph\+::group\+::set\+\_\+owner (\begin{DoxyParamCaption}\item[{const std\+::weak\+\_\+ptr$<$ \hyperlink{classtelegraph_1_1context}{context} $>$ \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1node_a6d864584bfadd3520194066f8b62812b}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_af56fb03ad97aadd9be32c5e47c6d195b}\label{classtelegraph_1_1group_af56fb03ad97aadd9be32c5e47c6d195b}} 
+\index{telegraph\+::group@{telegraph\+::group}!set\+\_\+unowned@{set\+\_\+unowned}}
+\index{set\+\_\+unowned@{set\+\_\+unowned}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{set\+\_\+unowned()}{set\_unowned()}}
+{\footnotesize\ttfamily void telegraph\+::group\+::set\+\_\+unowned (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1node_ac0bbcb9d810a2cca87b120301c0972a0}{telegraph\+::node}.
+
+\mbox{\Hypertarget{classtelegraph_1_1group_a92934fab7dc94207f4d98a40deef0f55}\label{classtelegraph_1_1group_a92934fab7dc94207f4d98a40deef0f55}} 
+\index{telegraph\+::group@{telegraph\+::group}!unpack@{unpack}}
+\index{unpack@{unpack}!telegraph\+::group@{telegraph\+::group}}
+\subsubsection{\texorpdfstring{unpack()}{unpack()}}
+{\footnotesize\ttfamily \hyperlink{classtelegraph_1_1group}{group} $\ast$ telegraph\+::group\+::unpack (\begin{DoxyParamCaption}\item[{const Group \&}]{g }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{lib_2telegraph_2common_2nodes_8hpp}{lib/telegraph/common/nodes.\+hpp}\item 
+\hyperlink{nodes_8cpp}{nodes.\+cpp}\end{DoxyCompactItemize}

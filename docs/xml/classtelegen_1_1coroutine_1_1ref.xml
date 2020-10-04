@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegen_1_1coroutine_1_1ref" kind="class" language="C++" prot="public">
+    <compoundname>telegen::coroutine::ref</compoundname>
+    <includes refid="coroutine_8hpp" local="no">coroutine.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegen_1_1coroutine_1_1ref_1a6d568f2b852d55aa1c515925b80a2f23" prot="private" static="no" mutable="no">
+        <type>int &amp;</type>
+        <definition>int&amp; telegen::coroutine::ref::breakpoint_</definition>
+        <argsstring></argsstring>
+        <name>breakpoint_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="77" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegen_1_1coroutine_1_1ref_1aea94a4f7c89aed23dd517d2412885112" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool telegen::coroutine::ref::modified_</definition>
+        <argsstring></argsstring>
+        <name>modified_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="78" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegen_1_1coroutine_1_1ref_1a04d38625676996ee154a2228496b4ed0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegen::coroutine::ref::ref</definition>
+        <argsstring>(coroutine &amp;c)</argsstring>
+        <name>ref</name>
+        <param>
+          <type><ref refid="structtelegen_1_1coroutine" kindref="compound">coroutine</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="61" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="61" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegen_1_1coroutine_1_1ref_1a40fa879f483f552a0de04d2047d3fb00" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegen::coroutine::ref::ref</definition>
+        <argsstring>(coroutine *c)</argsstring>
+        <name>ref</name>
+        <param>
+          <type><ref refid="structtelegen_1_1coroutine" kindref="compound">coroutine</ref> *</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="62" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="62" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegen_1_1coroutine_1_1ref_1a4e11df44835cad42e04f9eebe7096dbd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegen::coroutine::ref::~ref</definition>
+        <argsstring>()</argsstring>
+        <name>~ref</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="66" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="66" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegen_1_1coroutine_1_1ref_1a40534b7249731bd182032f2175080d2f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegen::coroutine::ref::operator int</definition>
+        <argsstring>() const</argsstring>
+        <name>operator int</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="68" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="68" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegen_1_1coroutine_1_1ref_1a4df06629c2ca9c502184c8e066c64213" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>int &amp;</type>
+        <definition>int&amp; telegen::coroutine::ref::operator=</definition>
+        <argsstring>(int bp)</argsstring>
+        <name>operator=</name>
+        <param>
+          <type>int</type>
+          <declname>bp</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="72" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="72" bodyend="75"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="gen/telegen/coroutine.hpp" line="59" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="59" bodyend="79"/>
+    <listofallmembers>
+      <member refid="classtelegen_1_1coroutine_1_1ref_1a6d568f2b852d55aa1c515925b80a2f23" prot="private" virt="non-virtual"><scope>telegen::coroutine::ref</scope><name>breakpoint_</name></member>
+      <member refid="classtelegen_1_1coroutine_1_1ref_1aea94a4f7c89aed23dd517d2412885112" prot="private" virt="non-virtual"><scope>telegen::coroutine::ref</scope><name>modified_</name></member>
+      <member refid="classtelegen_1_1coroutine_1_1ref_1a40534b7249731bd182032f2175080d2f" prot="public" virt="non-virtual"><scope>telegen::coroutine::ref</scope><name>operator int</name></member>
+      <member refid="classtelegen_1_1coroutine_1_1ref_1a4df06629c2ca9c502184c8e066c64213" prot="public" virt="non-virtual"><scope>telegen::coroutine::ref</scope><name>operator=</name></member>
+      <member refid="classtelegen_1_1coroutine_1_1ref_1a04d38625676996ee154a2228496b4ed0" prot="public" virt="non-virtual"><scope>telegen::coroutine::ref</scope><name>ref</name></member>
+      <member refid="classtelegen_1_1coroutine_1_1ref_1a40fa879f483f552a0de04d2047d3fb00" prot="public" virt="non-virtual"><scope>telegen::coroutine::ref</scope><name>ref</name></member>
+      <member refid="classtelegen_1_1coroutine_1_1ref_1a4e11df44835cad42e04f9eebe7096dbd" prot="public" virt="non-virtual"><scope>telegen::coroutine::ref</scope><name>~ref</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

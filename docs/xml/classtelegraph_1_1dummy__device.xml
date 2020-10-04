@@ -1,0 +1,517 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1dummy__device" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::dummy_device</compoundname>
+    <basecompoundref refid="classtelegraph_1_1local__context" prot="public" virt="non-virtual">telegraph::local_context</basecompoundref>
+    <includes refid="dummy__device_8hpp" local="no">dummy_device.hpp</includes>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classtelegraph_1_1dummy__device_1a608031386eb0abf2fc578211c1270f89" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;, <ref refid="classtelegraph_1_1value" kindref="compound">value</ref>)&gt;</type>
+        <definition>using telegraph::dummy_device::handler =  std::function&lt;void(io::yield_ctx&amp;, value)&gt;</definition>
+        <argsstring></argsstring>
+        <name>handler</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="13" column="1" bodyfile="lib/telegraph/local/dummy_device.hpp" bodystart="13" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1dummy__device_1a42bc11a65e5dedf66f7be9b546bd7b68" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; const <ref refid="classtelegraph_1_1variable" kindref="compound">variable</ref> *, <ref refid="namespacetelegraph_1aff5109352406dd9a8cd38f431f808bc5" kindref="member">publisher_ptr</ref> &gt;</type>
+        <definition>std::unordered_map&lt;const variable*, publisher_ptr&gt; telegraph::dummy_device::publishers_</definition>
+        <argsstring></argsstring>
+        <name>publishers_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="15" column="1" bodyfile="lib/telegraph/local/dummy_device.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1dummy__device_1ae7208b7807ea3f8167064323c74b21b0" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; const <ref refid="classtelegraph_1_1action" kindref="compound">action</ref> *, <ref refid="classtelegraph_1_1dummy__device_1a608031386eb0abf2fc578211c1270f89" kindref="member">handler</ref> &gt;</type>
+        <definition>std::unordered_map&lt;const action*, handler&gt; telegraph::dummy_device::handlers_</definition>
+        <argsstring></argsstring>
+        <name>handlers_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="16" column="1" bodyfile="lib/telegraph/local/dummy_device.hpp" bodystart="16" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1a70f00acd6141dea4c68f3b1f51c06cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::dummy_device::dummy_device</definition>
+        <argsstring>(io::io_context &amp;ioc, const std::string_view &amp;name, std::unique_ptr&lt; node &gt; &amp;&amp;s)</argsstring>
+        <name>dummy_device</name>
+        <param>
+          <type>io::io_context &amp;</type>
+          <declname>ioc</declname>
+        </param>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="classtelegraph_1_1node" kindref="compound">node</ref> &gt; &amp;&amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="18" column="1" bodyfile="lib/telegraph/local/dummy_device.cpp" bodystart="8" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1a7c2ea565d75451d04eaaba128be2550a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::dummy_device::~dummy_device</definition>
+        <argsstring>()</argsstring>
+        <name>~dummy_device</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="20" column="1" bodyfile="lib/telegraph/local/dummy_device.cpp" bodystart="13" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1a577a558745fcfddca641a80390ced80d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::dummy_device::add_publisher</definition>
+        <argsstring>(const variable *v, const publisher_ptr &amp;p)</argsstring>
+        <name>add_publisher</name>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1variable" kindref="compound">variable</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacetelegraph_1aff5109352406dd9a8cd38f431f808bc5" kindref="member">publisher_ptr</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="22" column="1" bodyfile="lib/telegraph/local/dummy_device.cpp" bodystart="15" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1abf7bb4171f3bc0af89101f12a885d614" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::dummy_device::add_handler</definition>
+        <argsstring>(const action *a, const handler &amp;h)</argsstring>
+        <name>add_handler</name>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1action" kindref="compound">action</ref> *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1dummy__device_1a608031386eb0abf2fc578211c1270f89" kindref="member">handler</ref> &amp;</type>
+          <declname>h</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="23" column="1" bodyfile="lib/telegraph/local/dummy_device.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1a46d728506b36e9e8b5b6939eb6aefe12" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacetelegraph_1ad071241508ea0f86c7de0686016f9ca9" kindref="member">params_stream_ptr</ref></type>
+        <definition>params_stream_ptr telegraph::dummy_device::request</definition>
+        <argsstring>(io::yield_ctx &amp;, const params &amp;p) override</argsstring>
+        <name>request</name>
+        <reimplements refid="classtelegraph_1_1context_1a6765d7fa22fe99b9a6723c511396b781">request</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+        </param>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="25" column="1" bodyfile="lib/telegraph/local/dummy_device.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1a06470ed069c481e8199dce9387448c8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacetelegraph_1a58641aa5b1a2cbdb0431916a87069f64" kindref="member">subscription_ptr</ref></type>
+        <definition>subscription_ptr telegraph::dummy_device::subscribe</definition>
+        <argsstring>(io::yield_ctx &amp;ctx, const variable *v, float min_interval, float max_interval, float timeout) override</argsstring>
+        <name>subscribe</name>
+        <reimplements refid="classtelegraph_1_1context_1aec3b3b0d7210a86f2ea2f5067ef8e922">subscribe</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1variable" kindref="compound">variable</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_interval</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>max_interval</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="27" column="1" bodyfile="lib/telegraph/local/dummy_device.cpp" bodystart="30" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1af2e3be5731809d7693cb6a4607e5e3f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="classtelegraph_1_1value" kindref="compound">value</ref></type>
+        <definition>value telegraph::dummy_device::call</definition>
+        <argsstring>(io::yield_ctx &amp;yield, action *a, value v, float timeout) override</argsstring>
+        <name>call</name>
+        <reimplements refid="classtelegraph_1_1context_1a72da471eb635e5505b10d2f1103359ac">call</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegraph_1_1action" kindref="compound">action</ref> *</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegraph_1_1value" kindref="compound">value</ref></type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="32" column="1" bodyfile="lib/telegraph/local/dummy_device.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1a8996ac06dfc98de11c3d156b4a0a2caf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacetelegraph_1a58641aa5b1a2cbdb0431916a87069f64" kindref="member">subscription_ptr</ref></type>
+        <definition>subscription_ptr telegraph::dummy_device::subscribe</definition>
+        <argsstring>(io::yield_ctx &amp;yield, const std::vector&lt; std::string_view &gt; &amp;path, float min_interval, float max_interval, float timeout) override</argsstring>
+        <name>subscribe</name>
+        <reimplements refid="classtelegraph_1_1context_1a8db167973f187f707a4108e112683969">subscribe</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string_view &gt; &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_interval</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>max_interval</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="34" column="1" bodyfile="lib/telegraph/local/dummy_device.hpp" bodystart="34" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1ab037df44b352953369760dd6071d84b5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="classtelegraph_1_1value" kindref="compound">value</ref></type>
+        <definition>value telegraph::dummy_device::call</definition>
+        <argsstring>(io::yield_ctx &amp;yield, const std::vector&lt; std::string_view &gt; &amp;path, value v, float timeout) override</argsstring>
+        <name>call</name>
+        <reimplements refid="classtelegraph_1_1context_1a0798d49ea0874a870d4c980f6f09b6c2">call</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string_view &gt; &amp;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegraph_1_1value" kindref="compound">value</ref></type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="43" column="1" bodyfile="lib/telegraph/local/dummy_device.hpp" bodystart="43" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1a162f8f7a02c2907693ecf86662f6ffe1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool telegraph::dummy_device::write_data</definition>
+        <argsstring>(io::yield_ctx &amp;yield, variable *v, const std::vector&lt; data_point &gt; &amp;data) override</argsstring>
+        <name>write_data</name>
+        <reimplements refid="classtelegraph_1_1context_1a6067b9a6f2590733c81f6a3b2ed9cba7">write_data</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegraph_1_1variable" kindref="compound">variable</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="classtelegraph_1_1data__point" kindref="compound">data_point</ref> &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="51" column="1" bodyfile="lib/telegraph/local/dummy_device.hpp" bodystart="51" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1a2d18fd0ec74a6d4bb76f789135403f19" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool telegraph::dummy_device::write_data</definition>
+        <argsstring>(io::yield_ctx &amp;yield, const std::vector&lt; std::string_view &gt; &amp;, const std::vector&lt; data_point &gt; &amp;data) override</argsstring>
+        <name>write_data</name>
+        <reimplements refid="classtelegraph_1_1context_1a1f600d6159df21dd2750b1c706ca3412">write_data</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string_view &gt; &amp;</type>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="classtelegraph_1_1data__point" kindref="compound">data_point</ref> &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="56" column="1" bodyfile="lib/telegraph/local/dummy_device.hpp" bodystart="56" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1a23b7704d488ca5e9ac732256621e8137" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacetelegraph_1a6ffe775ac48dca2a4013b53d692199c8" kindref="member">data_query_ptr</ref></type>
+        <definition>data_query_ptr telegraph::dummy_device::query_data</definition>
+        <argsstring>(io::yield_ctx &amp;yield, const variable *v) override</argsstring>
+        <name>query_data</name>
+        <reimplements refid="classtelegraph_1_1context_1a301114c9b73194507ae58221566a3e57">query_data</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1variable" kindref="compound">variable</ref> *</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="62" column="1" bodyfile="lib/telegraph/local/dummy_device.hpp" bodystart="62" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1ae7820cd8f1d5683ccc90b7256e88a735" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacetelegraph_1a6ffe775ac48dca2a4013b53d692199c8" kindref="member">data_query_ptr</ref></type>
+        <definition>data_query_ptr telegraph::dummy_device::query_data</definition>
+        <argsstring>(io::yield_ctx &amp;yield, const std::vector&lt; std::string_view &gt; &amp;v) override</argsstring>
+        <name>query_data</name>
+        <reimplements refid="classtelegraph_1_1context_1a34793623d2a2def580ad0b8710c74c6d">query_data</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string_view &gt; &amp;</type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="66" column="1" bodyfile="lib/telegraph/local/dummy_device.hpp" bodystart="66" bodyend="69"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classtelegraph_1_1dummy__device_1a185602ee7a397af9cf23a5bb1bab50d3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacetelegraph_1ab59c7b38d99a98b4acc22433c920b1e6" kindref="member">local_context_ptr</ref></type>
+        <definition>local_context_ptr telegraph::dummy_device::create</definition>
+        <argsstring>(io::yield_ctx &amp;, io::io_context &amp;ioc, const std::string_view &amp;name, const std::string_view &amp;type, const params &amp;p)</argsstring>
+        <name>create</name>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+        </param>
+        <param>
+          <type>io::io_context &amp;</type>
+          <declname>ioc</declname>
+        </param>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classtelegraph_1_1params" kindref="compound">params</ref> &amp;</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/local/dummy_device.hpp" line="71" column="1" bodyfile="lib/telegraph/local/dummy_device.cpp" bodystart="46" bodyend="104"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="139">
+        <label>telegraph::context</label>
+        <link refid="classtelegraph_1_1context"/>
+        <childnode refid="140" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="138">
+        <label>telegraph::local_context</label>
+        <link refid="classtelegraph_1_1local__context"/>
+        <childnode refid="139" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="140">
+        <label>std::enable_shared_from_this&lt; context &gt;</label>
+      </node>
+      <node id="137">
+        <label>telegraph::dummy_device</label>
+        <link refid="classtelegraph_1_1dummy__device"/>
+        <childnode refid="138" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="146">
+        <label>telegraph::params</label>
+        <link refid="classtelegraph_1_1params"/>
+      </node>
+      <node id="143">
+        <label>telegraph::context</label>
+        <link refid="classtelegraph_1_1context"/>
+        <childnode refid="144" relation="public-inheritance">
+        </childnode>
+        <childnode refid="145" relation="usage">
+          <edgelabel>destroyed</edgelabel>
+        </childnode>
+        <childnode refid="146" relation="usage">
+          <edgelabel>params_</edgelabel>
+        </childnode>
+      </node>
+      <node id="142">
+        <label>telegraph::local_context</label>
+        <link refid="classtelegraph_1_1local__context"/>
+        <childnode refid="143" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="144">
+        <label>std::enable_shared_from_this&lt; context &gt;</label>
+      </node>
+      <node id="145">
+        <label>telegraph::signal&lt; T &gt;</label>
+        <link refid="classtelegraph_1_1signal"/>
+      </node>
+      <node id="141">
+        <label>telegraph::dummy_device</label>
+        <link refid="classtelegraph_1_1dummy__device"/>
+        <childnode refid="142" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="lib/telegraph/local/dummy_device.hpp" line="11" column="1" bodyfile="lib/telegraph/local/dummy_device.hpp" bodystart="11" bodyend="74"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1dummy__device_1abf7bb4171f3bc0af89101f12a885d614" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>add_handler</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a577a558745fcfddca641a80390ced80d" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>add_publisher</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1af2e3be5731809d7693cb6a4607e5e3f6" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>call</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1ab037df44b352953369760dd6071d84b5" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>call</name></member>
+      <member refid="classtelegraph_1_1context_1ad57ca6ff5da9ad653c688e7be3c0bbdc" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>context</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a185602ee7a397af9cf23a5bb1bab50d3" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>create</name></member>
+      <member refid="classtelegraph_1_1local__context_1a301da16810636030a5098e4838587a99" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>destroy</name></member>
+      <member refid="classtelegraph_1_1context_1aeae90cedad8326dcd9d6180d1058a10f" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>destroyed</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a70f00acd6141dea4c68f3b1f51c06cf0" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>dummy_device</name></member>
+      <member refid="classtelegraph_1_1local__context_1aefadafdf25e6f6ba23c4b332872836e2" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>fetch</name></member>
+      <member refid="classtelegraph_1_1context_1a5df9df51fb9fc54d69e4a7d43e66345a" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>get_executor</name></member>
+      <member refid="classtelegraph_1_1context_1a56bd2af5bbfcdc234f6dd8df052585d7" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>get_name</name></member>
+      <member refid="classtelegraph_1_1local__context_1a71a19090a93c3193615e61940fba918a" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>get_namespace</name></member>
+      <member refid="classtelegraph_1_1local__context_1aba1ff115df4b54bae75ea41580ba32b5" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>get_namespace</name></member>
+      <member refid="classtelegraph_1_1context_1ab8f2cf6a295d840f8011ff1b5533a1f8" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>get_params</name></member>
+      <member refid="classtelegraph_1_1context_1a07d07a63d22454c2dc900c5cf749ce18" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>get_type</name></member>
+      <member refid="classtelegraph_1_1context_1adfc55d7a2ba9d68c1f52abcbac7d74fd" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>get_uuid</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a608031386eb0abf2fc578211c1270f89" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>handler</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1ae7208b7807ea3f8167064323c74b21b0" prot="private" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>handlers_</name></member>
+      <member refid="classtelegraph_1_1context_1a5053f72fe2b58e264a0ce00de2727953" prot="protected" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>headless_</name></member>
+      <member refid="classtelegraph_1_1context_1a51949d83373c67e0c9e1050127df30c1" prot="protected" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>ioc_</name></member>
+      <member refid="classtelegraph_1_1context_1a4cfaa125584e2f5ee5121c074bc024f1" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>is_headless</name></member>
+      <member refid="classtelegraph_1_1local__context_1a2f6fe87993dd07754131c5248c98c11d" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>local_context</name></member>
+      <member refid="classtelegraph_1_1context_1a19b7cc6a4c3cf53d79e07fc78573fc31" prot="protected" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>name_</name></member>
+      <member refid="classtelegraph_1_1local__context_1a4ad057dd5bede6236b3af44a18577831" prot="protected" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>ns_</name></member>
+      <member refid="classtelegraph_1_1context_1aa80ae462af488940258d71ccb6435b33" prot="protected" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>params_</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a42bc11a65e5dedf66f7be9b546bd7b68" prot="private" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>publishers_</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a23b7704d488ca5e9ac732256621e8137" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>query_data</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1ae7820cd8f1d5683ccc90b7256e88a735" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>query_data</name></member>
+      <member refid="classtelegraph_1_1local__context_1ab64632b088982a5f994708db99690f4f" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>reg</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a46d728506b36e9e8b5b6939eb6aefe12" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>request</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a06470ed069c481e8199dce9387448c8b" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>subscribe</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a8996ac06dfc98de11c3d156b4a0a2caf" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>subscribe</name></member>
+      <member refid="classtelegraph_1_1local__context_1a16ab8680bd633b8b8554960bb8c48498" prot="protected" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>tree_</name></member>
+      <member refid="classtelegraph_1_1context_1af1cab34ed3278340157e25d828bb6c77" prot="protected" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>type_</name></member>
+      <member refid="classtelegraph_1_1context_1a0bf1873b5a611776d48b3e854e9e3589" prot="protected" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>uuid_</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a162f8f7a02c2907693ecf86662f6ffe1" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>write_data</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a2d18fd0ec74a6d4bb76f789135403f19" prot="public" virt="virtual"><scope>telegraph::dummy_device</scope><name>write_data</name></member>
+      <member refid="classtelegraph_1_1dummy__device_1a7c2ea565d75451d04eaaba128be2550a" prot="public" virt="non-virtual"><scope>telegraph::dummy_device</scope><name>~dummy_device</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

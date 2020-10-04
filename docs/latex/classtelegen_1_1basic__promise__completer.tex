@@ -1,0 +1,143 @@
+\hypertarget{classtelegen_1_1basic__promise__completer}{}\section{telegen\+:\+:basic\+\_\+promise\+\_\+completer$<$ Cap, T $>$ Class Template Reference}
+\label{classtelegen_1_1basic__promise__completer}\index{telegen\+::basic\+\_\+promise\+\_\+completer$<$ Cap, T $>$@{telegen\+::basic\+\_\+promise\+\_\+completer$<$ Cap, T $>$}}
+
+
+{\ttfamily \#include $<$promise.\+hpp$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+using \hyperlink{classtelegen_1_1basic__promise__completer_a0f689589e2a64063b01ea7a4268e8cfe}{func} = \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ void(\hyperlink{namespacetelegen_a51e8b7480c7247182e2c6ca35e2c7504}{promise\+\_\+status}, T \&\&...), Cap $>$
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegen_1_1basic__promise__completer_a077149a13f4eef6d4201b972d158e5c8}{basic\+\_\+promise\+\_\+completer} ()
+\item 
+\hyperlink{classtelegen_1_1basic__promise__completer_afd43d4a7da2cd9da6b6ad4e56d6b9cff}{$\sim$basic\+\_\+promise\+\_\+completer} ()
+\item 
+\hyperlink{classtelegen_1_1basic__promise__completer_a86975693f5fb59c5feec43a82fdd0426}{basic\+\_\+promise\+\_\+completer} (const \hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$ Cap, T... $>$ \&c)=delete
+\item 
+\hyperlink{classtelegen_1_1basic__promise__completer_a700737fd96d72348a11da75d61617c60}{basic\+\_\+promise\+\_\+completer} (\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$ Cap, T... $>$ \&\&c)=delete
+\item 
+\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$ Cap, T... $>$ \& \hyperlink{classtelegen_1_1basic__promise__completer_a9a90ae35ae10c0a34f792748d2d6df12}{operator=} (const \hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$ Cap, T... $>$ \&c)=delete
+\item 
+\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$ Cap, T... $>$ \& \hyperlink{classtelegen_1_1basic__promise__completer_adec620b895120563b905186a8612d9cb}{operator=} (\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$ Cap, T... $>$ \&\&c)=delete
+\item 
+void \hyperlink{classtelegen_1_1basic__promise__completer_a4095e7affac30a83e7a82a1b74c76e66}{complete} (\hyperlink{namespacetelegen_a51e8b7480c7247182e2c6ca35e2c7504}{promise\+\_\+status} s, T \&\&... v)
+\item 
+void \hyperlink{classtelegen_1_1basic__promise__completer_ab6a8b85cfc515084a6791cd34c1bf0d9}{reject} (T \&\&... v)
+\item 
+void \hyperlink{classtelegen_1_1basic__promise__completer_a44debb763916840e1070a4141d48fb22}{resolve} (T \&\&... v)
+\item 
+void \hyperlink{classtelegen_1_1basic__promise__completer_a414f56ce6d13002656a789a5ebe86c2b}{set} (const \hyperlink{classtelegen_1_1basic__promise__completer_a0f689589e2a64063b01ea7a4268e8cfe}{func} \&ch)
+\item 
+const \hyperlink{classtelegen_1_1basic__promise__completer_a0f689589e2a64063b01ea7a4268e8cfe}{func} \& \hyperlink{classtelegen_1_1basic__promise__completer_a0346b1b3b620241a3c4ff384533c6b3d}{get} () const
+\item 
+void \hyperlink{classtelegen_1_1basic__promise__completer_a402470cdd51db55aafe9a342e5c807eb}{clear} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_a0f689589e2a64063b01ea7a4268e8cfe}\label{classtelegen_1_1basic__promise__completer_a0f689589e2a64063b01ea7a4268e8cfe}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!func@{func}}
+\index{func@{func}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{func}{func}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+using \hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::\hyperlink{classtelegen_1_1basic__promise__completer_a0f689589e2a64063b01ea7a4268e8cfe}{func} =  \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$void(\hyperlink{namespacetelegen_a51e8b7480c7247182e2c6ca35e2c7504}{promise\+\_\+status}, T\&\&...), Cap$>$}
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_a077149a13f4eef6d4201b972d158e5c8}\label{classtelegen_1_1basic__promise__completer_a077149a13f4eef6d4201b972d158e5c8}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!basic\+\_\+promise\+\_\+completer@{basic\+\_\+promise\+\_\+completer}}
+\index{basic\+\_\+promise\+\_\+completer@{basic\+\_\+promise\+\_\+completer}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{basic\+\_\+promise\+\_\+completer()}{basic\_promise\_completer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+\hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_afd43d4a7da2cd9da6b6ad4e56d6b9cff}\label{classtelegen_1_1basic__promise__completer_afd43d4a7da2cd9da6b6ad4e56d6b9cff}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!````~basic\+\_\+promise\+\_\+completer@{$\sim$basic\+\_\+promise\+\_\+completer}}
+\index{````~basic\+\_\+promise\+\_\+completer@{$\sim$basic\+\_\+promise\+\_\+completer}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{$\sim$basic\+\_\+promise\+\_\+completer()}{~basic\_promise\_completer()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+\hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::$\sim$\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_a86975693f5fb59c5feec43a82fdd0426}\label{classtelegen_1_1basic__promise__completer_a86975693f5fb59c5feec43a82fdd0426}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!basic\+\_\+promise\+\_\+completer@{basic\+\_\+promise\+\_\+completer}}
+\index{basic\+\_\+promise\+\_\+completer@{basic\+\_\+promise\+\_\+completer}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{basic\+\_\+promise\+\_\+completer()}{basic\_promise\_completer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+\hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer} (\begin{DoxyParamCaption}\item[{const \hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$ Cap, T... $>$ \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_a700737fd96d72348a11da75d61617c60}\label{classtelegen_1_1basic__promise__completer_a700737fd96d72348a11da75d61617c60}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!basic\+\_\+promise\+\_\+completer@{basic\+\_\+promise\+\_\+completer}}
+\index{basic\+\_\+promise\+\_\+completer@{basic\+\_\+promise\+\_\+completer}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{basic\+\_\+promise\+\_\+completer()}{basic\_promise\_completer()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+\hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer} (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$ Cap, T... $>$ \&\&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_a402470cdd51db55aafe9a342e5c807eb}\label{classtelegen_1_1basic__promise__completer_a402470cdd51db55aafe9a342e5c807eb}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!clear@{clear}}
+\index{clear@{clear}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+void \hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::clear (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_a4095e7affac30a83e7a82a1b74c76e66}\label{classtelegen_1_1basic__promise__completer_a4095e7affac30a83e7a82a1b74c76e66}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!complete@{complete}}
+\index{complete@{complete}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{complete()}{complete()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+void \hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::complete (\begin{DoxyParamCaption}\item[{\hyperlink{namespacetelegen_a51e8b7480c7247182e2c6ca35e2c7504}{promise\+\_\+status}}]{s,  }\item[{T \&\&...}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_a0346b1b3b620241a3c4ff384533c6b3d}\label{classtelegen_1_1basic__promise__completer_a0346b1b3b620241a3c4ff384533c6b3d}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!get@{get}}
+\index{get@{get}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{get()}{get()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+const \hyperlink{classtelegen_1_1basic__promise__completer_a0f689589e2a64063b01ea7a4268e8cfe}{func}\& \hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::get (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_a9a90ae35ae10c0a34f792748d2d6df12}\label{classtelegen_1_1basic__promise__completer_a9a90ae35ae10c0a34f792748d2d6df12}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!operator=@{operator=}}
+\index{operator=@{operator=}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$Cap, T...$>$\& \hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$ Cap, T... $>$ \&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_adec620b895120563b905186a8612d9cb}\label{classtelegen_1_1basic__promise__completer_adec620b895120563b905186a8612d9cb}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!operator=@{operator=}}
+\index{operator=@{operator=}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{operator=()}{operator=()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$Cap, T...$>$\& \hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::operator= (\begin{DoxyParamCaption}\item[{\hyperlink{classtelegen_1_1basic__promise__completer}{basic\+\_\+promise\+\_\+completer}$<$ Cap, T... $>$ \&\&}]{c }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [delete]}}
+
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_ab6a8b85cfc515084a6791cd34c1bf0d9}\label{classtelegen_1_1basic__promise__completer_ab6a8b85cfc515084a6791cd34c1bf0d9}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!reject@{reject}}
+\index{reject@{reject}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{reject()}{reject()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+void \hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::reject (\begin{DoxyParamCaption}\item[{T \&\&...}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_a44debb763916840e1070a4141d48fb22}\label{classtelegen_1_1basic__promise__completer_a44debb763916840e1070a4141d48fb22}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!resolve@{resolve}}
+\index{resolve@{resolve}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{resolve()}{resolve()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+void \hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::resolve (\begin{DoxyParamCaption}\item[{T \&\&...}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegen_1_1basic__promise__completer_a414f56ce6d13002656a789a5ebe86c2b}\label{classtelegen_1_1basic__promise__completer_a414f56ce6d13002656a789a5ebe86c2b}} 
+\index{telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}!set@{set}}
+\index{set@{set}!telegen\+::basic\+\_\+promise\+\_\+completer@{telegen\+::basic\+\_\+promise\+\_\+completer}}
+\subsubsection{\texorpdfstring{set()}{set()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, typename... T$>$ \\
+void \hyperlink{classtelegen_1_1basic__promise__completer}{telegen\+::basic\+\_\+promise\+\_\+completer}$<$ Cap, T $>$\+::set (\begin{DoxyParamCaption}\item[{const \hyperlink{classtelegen_1_1basic__promise__completer_a0f689589e2a64063b01ea7a4268e8cfe}{func} \&}]{ch }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{promise_8hpp}{promise.\+hpp}\end{DoxyCompactItemize}

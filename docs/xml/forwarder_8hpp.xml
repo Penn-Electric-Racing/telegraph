@@ -1,0 +1,335 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="forwarder_8hpp" kind="file" language="C++">
+    <compoundname>forwarder.hpp</compoundname>
+    <includes local="no">memory</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="yes">api.pb.h</includes>
+    <includes refid="io__fwd_8hpp" local="yes">../utils/io_fwd.hpp</includes>
+    <includes refid="errors_8hpp" local="yes">../utils/errors.hpp</includes>
+    <includes refid="collection_8hpp" local="yes">../common/collection.hpp</includes>
+    <includes refid="data_8hpp" local="yes">../common/data.hpp</includes>
+    <includes refid="common_2namespace_8hpp" local="yes">../common/namespace.hpp</includes>
+    <includes local="no">unordered_map</includes>
+    <includedby refid="forwarder_8cpp" local="yes">forwarder.cpp</includedby>
+    <includedby refid="server_8hpp" local="yes">server.hpp</includedby>
+    <incdepgraph>
+      <node id="554">
+        <label>params.hpp</label>
+        <link refid="params_8hpp"/>
+        <childnode refid="542" relation="include">
+        </childnode>
+        <childnode refid="546" relation="include">
+        </childnode>
+        <childnode refid="547" relation="include">
+        </childnode>
+        <childnode refid="555" relation="include">
+        </childnode>
+        <childnode refid="527" relation="include">
+        </childnode>
+        <childnode refid="531" relation="include">
+        </childnode>
+        <childnode refid="539" relation="include">
+        </childnode>
+        <childnode refid="530" relation="include">
+        </childnode>
+      </node>
+      <node id="540">
+        <label>functional</label>
+      </node>
+      <node id="538">
+        <label>boost/functional/hash.hpp</label>
+      </node>
+      <node id="549">
+        <label>value.hpp</label>
+        <link refid="lib_2telegraph_2common_2value_8hpp"/>
+        <childnode refid="547" relation="include">
+        </childnode>
+        <childnode refid="550" relation="include">
+        </childnode>
+        <childnode refid="551" relation="include">
+        </childnode>
+        <childnode refid="545" relation="include">
+        </childnode>
+        <childnode refid="548" relation="include">
+        </childnode>
+      </node>
+      <node id="545">
+        <label>type.hpp</label>
+        <link refid="type_8hpp"/>
+        <childnode refid="546" relation="include">
+        </childnode>
+        <childnode refid="547" relation="include">
+        </childnode>
+        <childnode refid="533" relation="include">
+        </childnode>
+        <childnode refid="548" relation="include">
+        </childnode>
+      </node>
+      <node id="529">
+        <label>api.pb.h</label>
+      </node>
+      <node id="555">
+        <label>variant</label>
+      </node>
+      <node id="531">
+        <label>../utils/errors.hpp</label>
+        <link refid="errors_8hpp"/>
+        <childnode refid="532" relation="include">
+        </childnode>
+        <childnode refid="533" relation="include">
+        </childnode>
+      </node>
+      <node id="530">
+        <label>../utils/io_fwd.hpp</label>
+        <link refid="io__fwd_8hpp"/>
+      </node>
+      <node id="539">
+        <label>../utils/signal.hpp</label>
+        <link refid="signal_8hpp"/>
+        <childnode refid="540" relation="include">
+        </childnode>
+        <childnode refid="541" relation="include">
+        </childnode>
+        <childnode refid="542" relation="include">
+        </childnode>
+      </node>
+      <node id="547">
+        <label>string</label>
+      </node>
+      <node id="550">
+        <label>cinttypes</label>
+      </node>
+      <node id="542">
+        <label>map</label>
+      </node>
+      <node id="528">
+        <label>unordered_set</label>
+      </node>
+      <node id="532">
+        <label>exception</label>
+      </node>
+      <node id="551">
+        <label>ostream</label>
+      </node>
+      <node id="535">
+        <label>../utils/uuid.hpp</label>
+        <link refid="uuid_8hpp"/>
+        <childnode refid="536" relation="include">
+        </childnode>
+        <childnode refid="537" relation="include">
+        </childnode>
+        <childnode refid="538" relation="include">
+        </childnode>
+      </node>
+      <node id="533">
+        <label>string_view</label>
+      </node>
+      <node id="548">
+        <label>common.pb.h</label>
+      </node>
+      <node id="537">
+        <label>boost/uuid/random_generator.hpp</label>
+      </node>
+      <node id="556">
+        <label>optional</label>
+      </node>
+      <node id="546">
+        <label>vector</label>
+      </node>
+      <node id="553">
+        <label>../common/namespace.hpp</label>
+        <link refid="common_2namespace_8hpp"/>
+        <childnode refid="534" relation="include">
+        </childnode>
+        <childnode refid="549" relation="include">
+        </childnode>
+        <childnode refid="544" relation="include">
+        </childnode>
+        <childnode refid="554" relation="include">
+        </childnode>
+        <childnode refid="535" relation="include">
+        </childnode>
+        <childnode refid="530" relation="include">
+        </childnode>
+        <childnode refid="527" relation="include">
+        </childnode>
+        <childnode refid="556" relation="include">
+        </childnode>
+        <childnode refid="547" relation="include">
+        </childnode>
+        <childnode refid="533" relation="include">
+        </childnode>
+      </node>
+      <node id="534">
+        <label>../common/collection.hpp</label>
+        <link refid="collection_8hpp"/>
+        <childnode refid="535" relation="include">
+        </childnode>
+        <childnode refid="539" relation="include">
+        </childnode>
+        <childnode refid="530" relation="include">
+        </childnode>
+        <childnode refid="531" relation="include">
+        </childnode>
+        <childnode refid="527" relation="include">
+        </childnode>
+        <childnode refid="540" relation="include">
+        </childnode>
+        <childnode refid="543" relation="include">
+        </childnode>
+      </node>
+      <node id="526">
+        <label>forwarder.hpp</label>
+        <link refid="forwarder_8hpp"/>
+        <childnode refid="527" relation="include">
+        </childnode>
+        <childnode refid="528" relation="include">
+        </childnode>
+        <childnode refid="529" relation="include">
+        </childnode>
+        <childnode refid="530" relation="include">
+        </childnode>
+        <childnode refid="531" relation="include">
+        </childnode>
+        <childnode refid="534" relation="include">
+        </childnode>
+        <childnode refid="544" relation="include">
+        </childnode>
+        <childnode refid="553" relation="include">
+        </childnode>
+        <childnode refid="543" relation="include">
+        </childnode>
+      </node>
+      <node id="543">
+        <label>unordered_map</label>
+      </node>
+      <node id="541">
+        <label>mutex</label>
+      </node>
+      <node id="552">
+        <label>chrono</label>
+      </node>
+      <node id="536">
+        <label>boost/uuid/uuid.hpp</label>
+      </node>
+      <node id="544">
+        <label>../common/data.hpp</label>
+        <link refid="data_8hpp"/>
+        <childnode refid="545" relation="include">
+        </childnode>
+        <childnode refid="549" relation="include">
+        </childnode>
+        <childnode refid="539" relation="include">
+        </childnode>
+        <childnode refid="530" relation="include">
+        </childnode>
+        <childnode refid="550" relation="include">
+        </childnode>
+        <childnode refid="527" relation="include">
+        </childnode>
+        <childnode refid="552" relation="include">
+        </childnode>
+      </node>
+      <node id="527">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="560">
+        <label>server.cpp</label>
+        <link refid="lib_2telegraph_2remote_2server_8cpp"/>
+      </node>
+      <node id="559">
+        <label>server.hpp</label>
+        <link refid="server_8hpp"/>
+        <childnode refid="560" relation="include">
+        </childnode>
+        <childnode refid="561" relation="include">
+        </childnode>
+      </node>
+      <node id="557">
+        <label>forwarder.hpp</label>
+        <link refid="forwarder_8hpp"/>
+        <childnode refid="558" relation="include">
+        </childnode>
+        <childnode refid="559" relation="include">
+        </childnode>
+      </node>
+      <node id="561">
+        <label>server.cpp</label>
+        <link refid="main_2server_8cpp"/>
+      </node>
+      <node id="558">
+        <label>forwarder.cpp</label>
+        <link refid="forwarder_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classtelegraph_1_1forwarder" prot="public">telegraph::forwarder</innerclass>
+    <innernamespace refid="namespacetelegraph">telegraph</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>__TELEGRAPH_FORWARDER_HPP__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__TELEGRAPH_FORWARDER_HPP__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;api.pb.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../utils/io_fwd.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../utils/errors.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/collection.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/data.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;../common/namespace.hpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacetelegraph" kindref="compound">telegraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">connection;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">namespace_;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>will<sp/>take<sp/>a<sp/>connection<sp/>and<sp/>a<sp/>local<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>forward<sp/>incoming<sp/>requests<sp/>to<sp/>that<sp/>local<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="classtelegraph_1_1forwarder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classtelegraph_1_1forwarder" kindref="compound">forwarder</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classtelegraph_1_1connection" kindref="compound">connection</ref>&amp;<sp/>conn_;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;namespace_&gt;<sp/>ns_;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>active<sp/>subscriptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;int32_t,<sp/>subscription_ptr&gt;<sp/>subs_;</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>active<sp/>component<sp/>query<sp/>streams</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;int32_t,<sp/>params_stream_ptr&gt;<sp/>streams_;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;int32_t,<sp/>data_query_ptr&gt;<sp/>queries_;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>will<sp/>register<sp/>handlers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classtelegraph_1_1forwarder_1abdd83232ce225a8d3f9ccd014ee5eeb2" kindref="member">forwarder</ref>(<ref refid="classtelegraph_1_1connection" kindref="compound">connection</ref>&amp;<sp/>conn,<sp/></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;namespace_&gt;&amp;<sp/>ns);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classtelegraph_1_1forwarder_1a61d26a7a1b8198e65824c720ab946052" kindref="member">~forwarder</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>reply_error(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>api::Packet&amp;<sp/>p,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e);</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handle_query_ns(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>api::Packet&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handle_request(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>api::Packet&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handle_fetch_tree(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>api::Packet&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handle_sub_change(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>api::Packet&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handle_call_action(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>api::Packet&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handle_data_write(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>api::Packet&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handle_data_query(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>api::Packet&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handle_create(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>api::Packet&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>handle_destroy(<ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref>&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>api::Packet&amp;<sp/>p);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="55"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="lib/telegraph/remote/forwarder.hpp"/>
+  </compounddef>
+</doxygen>

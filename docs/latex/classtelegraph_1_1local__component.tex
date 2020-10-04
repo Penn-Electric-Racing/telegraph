@@ -1,0 +1,144 @@
+\hypertarget{classtelegraph_1_1local__component}{}\section{telegraph\+:\+:local\+\_\+component Class Reference}
+\label{classtelegraph_1_1local__component}\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+
+
+{\ttfamily \#include $<$namespace.\+hpp$>$}
+
+Inheritance diagram for telegraph\+:\+:local\+\_\+component\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=5.000000cm]{classtelegraph_1_1local__component}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegraph_1_1local__component_a4cd9cd1728ba53391553b81dbb4e3494}{local\+\_\+component} (io\+::io\+\_\+context \&ioc, const std\+::string\+\_\+view \&name, const std\+::string\+\_\+view \&type, const \hyperlink{classtelegraph_1_1params}{params} \&i)
+\item 
+std\+::shared\+\_\+ptr$<$ \hyperlink{classtelegraph_1_1node}{node} $>$ \hyperlink{classtelegraph_1_1local__component_abbeb3b12dc95e19e1a2972e9a374fd33}{fetch} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&ctx) override
+\item 
+\hyperlink{namespacetelegraph_a58641aa5b1a2cbdb0431916a87069f64}{subscription\+\_\+ptr} \hyperlink{classtelegraph_1_1local__component_a53aa0199bd938578a6400cfd3a19c86f}{subscribe} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&ctx, const std\+::vector$<$ std\+::string\+\_\+view $>$ \&\hyperlink{classtelegraph_1_1variable}{variable}, float min\+\_\+interval, float max\+\_\+interval, float timeout) override
+\item 
+\hyperlink{namespacetelegraph_a58641aa5b1a2cbdb0431916a87069f64}{subscription\+\_\+ptr} \hyperlink{classtelegraph_1_1local__component_a5a2282f1cf80dce32ed26e37c956d5c4}{subscribe} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&ctx, const \hyperlink{classtelegraph_1_1variable}{variable} $\ast$v, float min\+\_\+interval, float max\+\_\+interval, float timeout) override
+\item 
+\hyperlink{classtelegraph_1_1value}{value} \hyperlink{classtelegraph_1_1local__component_af4d74d161754055d3f811bfe95a59f26}{call} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&ctx, \hyperlink{classtelegraph_1_1action}{action} $\ast$a, \hyperlink{classtelegraph_1_1value}{value} v, float timeout) override
+\item 
+\hyperlink{classtelegraph_1_1value}{value} \hyperlink{classtelegraph_1_1local__component_a6fa6fbf49a0d77a8da54b4a77b578edd}{call} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&ctx, const std\+::vector$<$ std\+::string\+\_\+view $>$ \&a, \hyperlink{classtelegraph_1_1value}{value} v, float timeout) override
+\item 
+bool \hyperlink{classtelegraph_1_1local__component_ac546cfea4802ef3ca125c5dc183adf6c}{write\+\_\+data} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, \hyperlink{classtelegraph_1_1variable}{variable} $\ast$v, const std\+::vector$<$ \hyperlink{classtelegraph_1_1data__point}{data\+\_\+point} $>$ \&data) override
+\item 
+bool \hyperlink{classtelegraph_1_1local__component_a572a4116130a4b7ad270701eba2af0e7}{write\+\_\+data} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, const std\+::vector$<$ std\+::string\+\_\+view $>$ \&var, const std\+::vector$<$ \hyperlink{classtelegraph_1_1data__point}{data\+\_\+point} $>$ \&data) override
+\item 
+\hyperlink{namespacetelegraph_a6ffe775ac48dca2a4013b53d692199c8}{data\+\_\+query\+\_\+ptr} \hyperlink{classtelegraph_1_1local__component_a4410ca44a41de1c139273efd31f281c4}{query\+\_\+data} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, const \hyperlink{classtelegraph_1_1variable}{variable} $\ast$v) override
+\item 
+\hyperlink{namespacetelegraph_a6ffe775ac48dca2a4013b53d692199c8}{data\+\_\+query\+\_\+ptr} \hyperlink{classtelegraph_1_1local__component_ad8c3abb4f9e6ab31b0590beac901eec5}{query\+\_\+data} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, const std\+::vector$<$ std\+::string\+\_\+view $>$ \&v) override
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1local__component_a4cd9cd1728ba53391553b81dbb4e3494}\label{classtelegraph_1_1local__component_a4cd9cd1728ba53391553b81dbb4e3494}} 
+\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}!local\+\_\+component@{local\+\_\+component}}
+\index{local\+\_\+component@{local\+\_\+component}!telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+\subsubsection{\texorpdfstring{local\+\_\+component()}{local\_component()}}
+{\footnotesize\ttfamily telegraph\+::local\+\_\+component\+::local\+\_\+component (\begin{DoxyParamCaption}\item[{io\+::io\+\_\+context \&}]{ioc,  }\item[{const std\+::string\+\_\+view \&}]{name,  }\item[{const std\+::string\+\_\+view \&}]{type,  }\item[{const \hyperlink{classtelegraph_1_1params}{params} \&}]{i }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1local__component_af4d74d161754055d3f811bfe95a59f26}\label{classtelegraph_1_1local__component_af4d74d161754055d3f811bfe95a59f26}} 
+\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}!call@{call}}
+\index{call@{call}!telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+\subsubsection{\texorpdfstring{call()}{call()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \hyperlink{classtelegraph_1_1value}{value} telegraph\+::local\+\_\+component\+::call (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{ctx,  }\item[{\hyperlink{classtelegraph_1_1action}{action} $\ast$}]{a,  }\item[{\hyperlink{classtelegraph_1_1value}{value}}]{v,  }\item[{float}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1context_a72da471eb635e5505b10d2f1103359ac}{telegraph\+::context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1local__component_a6fa6fbf49a0d77a8da54b4a77b578edd}\label{classtelegraph_1_1local__component_a6fa6fbf49a0d77a8da54b4a77b578edd}} 
+\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}!call@{call}}
+\index{call@{call}!telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+\subsubsection{\texorpdfstring{call()}{call()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \hyperlink{classtelegraph_1_1value}{value} telegraph\+::local\+\_\+component\+::call (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{ctx,  }\item[{const std\+::vector$<$ std\+::string\+\_\+view $>$ \&}]{a,  }\item[{\hyperlink{classtelegraph_1_1value}{value}}]{v,  }\item[{float}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1context_a0798d49ea0874a870d4c980f6f09b6c2}{telegraph\+::context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1local__component_abbeb3b12dc95e19e1a2972e9a374fd33}\label{classtelegraph_1_1local__component_abbeb3b12dc95e19e1a2972e9a374fd33}} 
+\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}!fetch@{fetch}}
+\index{fetch@{fetch}!telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+\subsubsection{\texorpdfstring{fetch()}{fetch()}}
+{\footnotesize\ttfamily std\+::shared\+\_\+ptr$<$\hyperlink{classtelegraph_1_1node}{node}$>$ telegraph\+::local\+\_\+component\+::fetch (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{ctx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{classtelegraph_1_1local__context_aefadafdf25e6f6ba23c4b332872836e2}{telegraph\+::local\+\_\+context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1local__component_a4410ca44a41de1c139273efd31f281c4}\label{classtelegraph_1_1local__component_a4410ca44a41de1c139273efd31f281c4}} 
+\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}!query\+\_\+data@{query\+\_\+data}}
+\index{query\+\_\+data@{query\+\_\+data}!telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+\subsubsection{\texorpdfstring{query\+\_\+data()}{query\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \hyperlink{namespacetelegraph_a6ffe775ac48dca2a4013b53d692199c8}{data\+\_\+query\+\_\+ptr} telegraph\+::local\+\_\+component\+::query\+\_\+data (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{const \hyperlink{classtelegraph_1_1variable}{variable} $\ast$}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1context_a301114c9b73194507ae58221566a3e57}{telegraph\+::context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1local__component_ad8c3abb4f9e6ab31b0590beac901eec5}\label{classtelegraph_1_1local__component_ad8c3abb4f9e6ab31b0590beac901eec5}} 
+\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}!query\+\_\+data@{query\+\_\+data}}
+\index{query\+\_\+data@{query\+\_\+data}!telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+\subsubsection{\texorpdfstring{query\+\_\+data()}{query\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \hyperlink{namespacetelegraph_a6ffe775ac48dca2a4013b53d692199c8}{data\+\_\+query\+\_\+ptr} telegraph\+::local\+\_\+component\+::query\+\_\+data (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{const std\+::vector$<$ std\+::string\+\_\+view $>$ \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1context_a34793623d2a2def580ad0b8710c74c6d}{telegraph\+::context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1local__component_a53aa0199bd938578a6400cfd3a19c86f}\label{classtelegraph_1_1local__component_a53aa0199bd938578a6400cfd3a19c86f}} 
+\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}!subscribe@{subscribe}}
+\index{subscribe@{subscribe}!telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+\subsubsection{\texorpdfstring{subscribe()}{subscribe()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily \hyperlink{namespacetelegraph_a58641aa5b1a2cbdb0431916a87069f64}{subscription\+\_\+ptr} telegraph\+::local\+\_\+component\+::subscribe (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{ctx,  }\item[{const std\+::vector$<$ std\+::string\+\_\+view $>$ \&}]{variable,  }\item[{float}]{min\+\_\+interval,  }\item[{float}]{max\+\_\+interval,  }\item[{float}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1context_a8db167973f187f707a4108e112683969}{telegraph\+::context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1local__component_a5a2282f1cf80dce32ed26e37c956d5c4}\label{classtelegraph_1_1local__component_a5a2282f1cf80dce32ed26e37c956d5c4}} 
+\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}!subscribe@{subscribe}}
+\index{subscribe@{subscribe}!telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+\subsubsection{\texorpdfstring{subscribe()}{subscribe()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily \hyperlink{namespacetelegraph_a58641aa5b1a2cbdb0431916a87069f64}{subscription\+\_\+ptr} telegraph\+::local\+\_\+component\+::subscribe (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{ctx,  }\item[{const \hyperlink{classtelegraph_1_1variable}{variable} $\ast$}]{v,  }\item[{float}]{min\+\_\+interval,  }\item[{float}]{max\+\_\+interval,  }\item[{float}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1context_aec3b3b0d7210a86f2ea2f5067ef8e922}{telegraph\+::context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1local__component_ac546cfea4802ef3ca125c5dc183adf6c}\label{classtelegraph_1_1local__component_ac546cfea4802ef3ca125c5dc183adf6c}} 
+\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}!write\+\_\+data@{write\+\_\+data}}
+\index{write\+\_\+data@{write\+\_\+data}!telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+\subsubsection{\texorpdfstring{write\+\_\+data()}{write\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily bool telegraph\+::local\+\_\+component\+::write\+\_\+data (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{\hyperlink{classtelegraph_1_1variable}{variable} $\ast$}]{v,  }\item[{const std\+::vector$<$ \hyperlink{classtelegraph_1_1data__point}{data\+\_\+point} $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1context_a6067b9a6f2590733c81f6a3b2ed9cba7}{telegraph\+::context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1local__component_a572a4116130a4b7ad270701eba2af0e7}\label{classtelegraph_1_1local__component_a572a4116130a4b7ad270701eba2af0e7}} 
+\index{telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}!write\+\_\+data@{write\+\_\+data}}
+\index{write\+\_\+data@{write\+\_\+data}!telegraph\+::local\+\_\+component@{telegraph\+::local\+\_\+component}}
+\subsubsection{\texorpdfstring{write\+\_\+data()}{write\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily bool telegraph\+::local\+\_\+component\+::write\+\_\+data (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{const std\+::vector$<$ std\+::string\+\_\+view $>$ \&}]{var,  }\item[{const std\+::vector$<$ \hyperlink{classtelegraph_1_1data__point}{data\+\_\+point} $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \hyperlink{classtelegraph_1_1context_a1f600d6159df21dd2750b1c706ca3412}{telegraph\+::context}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{local_2namespace_8hpp}{local/namespace.\+hpp}\item 
+\hyperlink{namespace_8cpp}{namespace.\+cpp}\end{DoxyCompactItemize}

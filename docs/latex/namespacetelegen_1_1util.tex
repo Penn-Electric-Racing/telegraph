@@ -1,0 +1,93 @@
+\hypertarget{namespacetelegen_1_1util}{}\section{telegen\+:\+:util Namespace Reference}
+\label{namespacetelegen_1_1util}\index{telegen\+::util@{telegen\+::util}}
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structtelegen_1_1util_1_1index__tuple}{index\+\_\+tuple}
+\item 
+struct \hyperlink{structtelegen_1_1util_1_1make__indexes}{make\+\_\+indexes}
+\item 
+struct \hyperlink{structtelegen_1_1util_1_1make__indexes__impl}{make\+\_\+indexes\+\_\+impl}
+\item 
+struct \hyperlink{structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_01_4}{make\+\_\+indexes\+\_\+impl$<$ I, index\+\_\+tuple$<$ Indexes... $>$ $>$}
+\item 
+struct \hyperlink{structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_00_01T_00_01Types_8_8_8_01_4}{make\+\_\+indexes\+\_\+impl$<$ I, index\+\_\+tuple$<$ Indexes... $>$, T, Types... $>$}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{namespacetelegen_1_1util_ad9294f759196bd321f5566036af85bf2}{proto\+\_\+string\+\_\+encoder} (pb\+\_\+ostream\+\_\+t $\ast$stream, const pb\+\_\+field\+\_\+iter\+\_\+t $\ast$field, void $\ast$const $\ast$arg)
+\item 
+constexpr void \hyperlink{namespacetelegen_1_1util_ae8b96d2bcf704fd8de4366ea725b54f7}{crc32\+\_\+start} (uint32\+\_\+t \&crc)
+\item 
+constexpr void \hyperlink{namespacetelegen_1_1util_a6724e747bbf9b75d4c08cf9a910b5d0f}{crc32\+\_\+next} (uint32\+\_\+t \&crc, uint8\+\_\+t val)
+\item 
+constexpr void \hyperlink{namespacetelegen_1_1util_a8955104562232d81e72279ab7a4787fe}{crc32\+\_\+finalize} (uint32\+\_\+t \&crc)
+\item 
+constexpr uint32\+\_\+t \hyperlink{namespacetelegen_1_1util_a8a5ff5e52e1ddc9e7872d27ecf1f12f7}{crc32\+\_\+block} (const uint8\+\_\+t $\ast$p, size\+\_\+t size)
+\item 
+{\footnotesize template$<$size\+\_\+t Cap, class Ret , class A , class... Args, int... Indexes$>$ }\\Ret \hyperlink{namespacetelegen_1_1util_ab05aef37c616f107c1b070178cabb28e}{apply\+\_\+helper} (const \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ Ret(A, Args \&\&...), Cap $>$ \&f, A a, \hyperlink{structtelegen_1_1util_1_1index__tuple}{index\+\_\+tuple}$<$ Indexes... $>$, std\+::tuple$<$ Args... $>$ \&\&tup)
+\item 
+{\footnotesize template$<$size\+\_\+t Cap, class Ret , class A , class ... Args$>$ }\\Ret \hyperlink{namespacetelegen_1_1util_a427fe35f9153460a301fe1e84598bfc7}{apply} (const \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ Ret(A, Args \&\&...), Cap $>$ \&f, A a, std\+::tuple$<$ Args... $>$ \&\&tup)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+constexpr const uint32\+\_\+t \hyperlink{namespacetelegen_1_1util_acf354c2c0ec545191120b1f8628cb7d2}{crc\+\_\+table} \mbox{[}256\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{namespacetelegen_1_1util_a427fe35f9153460a301fe1e84598bfc7}\label{namespacetelegen_1_1util_a427fe35f9153460a301fe1e84598bfc7}} 
+\index{telegen\+::util@{telegen\+::util}!apply@{apply}}
+\index{apply@{apply}!telegen\+::util@{telegen\+::util}}
+\subsubsection{\texorpdfstring{apply()}{apply()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, class Ret , class A , class ... Args$>$ \\
+Ret telegen\+::util\+::apply (\begin{DoxyParamCaption}\item[{const \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ Ret(A, Args \&\&...), Cap $>$ \&}]{f,  }\item[{A}]{a,  }\item[{std\+::tuple$<$ Args... $>$ \&\&}]{tup }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacetelegen_1_1util_ab05aef37c616f107c1b070178cabb28e}\label{namespacetelegen_1_1util_ab05aef37c616f107c1b070178cabb28e}} 
+\index{telegen\+::util@{telegen\+::util}!apply\+\_\+helper@{apply\+\_\+helper}}
+\index{apply\+\_\+helper@{apply\+\_\+helper}!telegen\+::util@{telegen\+::util}}
+\subsubsection{\texorpdfstring{apply\+\_\+helper()}{apply\_helper()}}
+{\footnotesize\ttfamily template$<$size\+\_\+t Cap, class Ret , class A , class... Args, int... Indexes$>$ \\
+Ret telegen\+::util\+::apply\+\_\+helper (\begin{DoxyParamCaption}\item[{const \hyperlink{classstdext_1_1inplace__function}{stdext\+::inplace\+\_\+function}$<$ Ret(A, Args \&\&...), Cap $>$ \&}]{f,  }\item[{A}]{a,  }\item[{\hyperlink{structtelegen_1_1util_1_1index__tuple}{index\+\_\+tuple}$<$ Indexes... $>$}]{,  }\item[{std\+::tuple$<$ Args... $>$ \&\&}]{tup }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacetelegen_1_1util_a8a5ff5e52e1ddc9e7872d27ecf1f12f7}\label{namespacetelegen_1_1util_a8a5ff5e52e1ddc9e7872d27ecf1f12f7}} 
+\index{telegen\+::util@{telegen\+::util}!crc32\+\_\+block@{crc32\+\_\+block}}
+\index{crc32\+\_\+block@{crc32\+\_\+block}!telegen\+::util@{telegen\+::util}}
+\subsubsection{\texorpdfstring{crc32\+\_\+block()}{crc32\_block()}}
+{\footnotesize\ttfamily constexpr uint32\+\_\+t telegen\+::util\+::crc32\+\_\+block (\begin{DoxyParamCaption}\item[{const uint8\+\_\+t $\ast$}]{p,  }\item[{size\+\_\+t}]{size }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacetelegen_1_1util_a8955104562232d81e72279ab7a4787fe}\label{namespacetelegen_1_1util_a8955104562232d81e72279ab7a4787fe}} 
+\index{telegen\+::util@{telegen\+::util}!crc32\+\_\+finalize@{crc32\+\_\+finalize}}
+\index{crc32\+\_\+finalize@{crc32\+\_\+finalize}!telegen\+::util@{telegen\+::util}}
+\subsubsection{\texorpdfstring{crc32\+\_\+finalize()}{crc32\_finalize()}}
+{\footnotesize\ttfamily constexpr void telegen\+::util\+::crc32\+\_\+finalize (\begin{DoxyParamCaption}\item[{uint32\+\_\+t \&}]{crc }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacetelegen_1_1util_a6724e747bbf9b75d4c08cf9a910b5d0f}\label{namespacetelegen_1_1util_a6724e747bbf9b75d4c08cf9a910b5d0f}} 
+\index{telegen\+::util@{telegen\+::util}!crc32\+\_\+next@{crc32\+\_\+next}}
+\index{crc32\+\_\+next@{crc32\+\_\+next}!telegen\+::util@{telegen\+::util}}
+\subsubsection{\texorpdfstring{crc32\+\_\+next()}{crc32\_next()}}
+{\footnotesize\ttfamily constexpr void telegen\+::util\+::crc32\+\_\+next (\begin{DoxyParamCaption}\item[{uint32\+\_\+t \&}]{crc,  }\item[{uint8\+\_\+t}]{val }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacetelegen_1_1util_ae8b96d2bcf704fd8de4366ea725b54f7}\label{namespacetelegen_1_1util_ae8b96d2bcf704fd8de4366ea725b54f7}} 
+\index{telegen\+::util@{telegen\+::util}!crc32\+\_\+start@{crc32\+\_\+start}}
+\index{crc32\+\_\+start@{crc32\+\_\+start}!telegen\+::util@{telegen\+::util}}
+\subsubsection{\texorpdfstring{crc32\+\_\+start()}{crc32\_start()}}
+{\footnotesize\ttfamily constexpr void telegen\+::util\+::crc32\+\_\+start (\begin{DoxyParamCaption}\item[{uint32\+\_\+t \&}]{crc }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacetelegen_1_1util_ad9294f759196bd321f5566036af85bf2}\label{namespacetelegen_1_1util_ad9294f759196bd321f5566036af85bf2}} 
+\index{telegen\+::util@{telegen\+::util}!proto\+\_\+string\+\_\+encoder@{proto\+\_\+string\+\_\+encoder}}
+\index{proto\+\_\+string\+\_\+encoder@{proto\+\_\+string\+\_\+encoder}!telegen\+::util@{telegen\+::util}}
+\subsubsection{\texorpdfstring{proto\+\_\+string\+\_\+encoder()}{proto\_string\_encoder()}}
+{\footnotesize\ttfamily bool telegen\+::util\+::proto\+\_\+string\+\_\+encoder (\begin{DoxyParamCaption}\item[{pb\+\_\+ostream\+\_\+t $\ast$}]{stream,  }\item[{const pb\+\_\+field\+\_\+iter\+\_\+t $\ast$}]{field,  }\item[{void $\ast$const $\ast$}]{arg }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Variable Documentation}
+\mbox{\Hypertarget{namespacetelegen_1_1util_acf354c2c0ec545191120b1f8628cb7d2}\label{namespacetelegen_1_1util_acf354c2c0ec545191120b1f8628cb7d2}} 
+\index{telegen\+::util@{telegen\+::util}!crc\+\_\+table@{crc\+\_\+table}}
+\index{crc\+\_\+table@{crc\+\_\+table}!telegen\+::util@{telegen\+::util}}
+\subsubsection{\texorpdfstring{crc\+\_\+table}{crc\_table}}
+{\footnotesize\ttfamily constexpr const uint32\+\_\+t telegen\+::util\+::crc\+\_\+table\mbox{[}256\mbox{]}}
+

@@ -1,0 +1,228 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="namespacetelegen_1_1util" kind="namespace" language="C++">
+    <compoundname>telegen::util</compoundname>
+    <innerclass refid="structtelegen_1_1util_1_1index__tuple" prot="public">telegen::util::index_tuple</innerclass>
+    <innerclass refid="structtelegen_1_1util_1_1make__indexes" prot="public">telegen::util::make_indexes</innerclass>
+    <innerclass refid="structtelegen_1_1util_1_1make__indexes__impl" prot="public">telegen::util::make_indexes_impl</innerclass>
+    <innerclass refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_01_4" prot="public">telegen::util::make_indexes_impl&lt; I, index_tuple&lt; Indexes... &gt; &gt;</innerclass>
+    <innerclass refid="structtelegen_1_1util_1_1make__indexes__impl_3_01I_00_01index__tuple_3_01Indexes_8_8_8_01_4_00_01T_00_01Types_8_8_8_01_4" prot="public">telegen::util::make_indexes_impl&lt; I, index_tuple&lt; Indexes... &gt;, T, Types... &gt;</innerclass>
+      <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacetelegen_1_1util_1acf354c2c0ec545191120b1f8628cb7d2" prot="public" static="no" mutable="no">
+        <type>constexpr const uint32_t</type>
+        <definition>constexpr const uint32_t telegen::util::crc_table[256]</definition>
+        <argsstring>[256]</argsstring>
+        <name>crc_table</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/util.hpp" line="21" column="1" bodyfile="gen/telegen/util.hpp" bodystart="21" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="namespacetelegen_1_1util_1ad9294f759196bd321f5566036af85bf2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegen::util::proto_string_encoder</definition>
+        <argsstring>(pb_ostream_t *stream, const pb_field_iter_t *field, void *const *arg)</argsstring>
+        <name>proto_string_encoder</name>
+        <param>
+          <type>pb_ostream_t *</type>
+          <declname>stream</declname>
+        </param>
+        <param>
+          <type>const pb_field_iter_t *</type>
+          <declname>field</declname>
+        </param>
+        <param>
+          <type>void *const *</type>
+          <declname>arg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/util.hpp" line="14" column="1" bodyfile="gen/telegen/util.hpp" bodystart="14" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacetelegen_1_1util_1ae8b96d2bcf704fd8de4366ea725b54f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void telegen::util::crc32_start</definition>
+        <argsstring>(uint32_t &amp;crc)</argsstring>
+        <name>crc32_start</name>
+        <param>
+          <type>uint32_t &amp;</type>
+          <declname>crc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/util.hpp" line="67" column="1" bodyfile="gen/telegen/util.hpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacetelegen_1_1util_1a6724e747bbf9b75d4c08cf9a910b5d0f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void telegen::util::crc32_next</definition>
+        <argsstring>(uint32_t &amp;crc, uint8_t val)</argsstring>
+        <name>crc32_next</name>
+        <param>
+          <type>uint32_t &amp;</type>
+          <declname>crc</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/util.hpp" line="70" column="1" bodyfile="gen/telegen/util.hpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacetelegen_1_1util_1a8955104562232d81e72279ab7a4787fe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void telegen::util::crc32_finalize</definition>
+        <argsstring>(uint32_t &amp;crc)</argsstring>
+        <name>crc32_finalize</name>
+        <param>
+          <type>uint32_t &amp;</type>
+          <declname>crc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/util.hpp" line="73" column="1" bodyfile="gen/telegen/util.hpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacetelegen_1_1util_1a8a5ff5e52e1ddc9e7872d27ecf1f12f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>constexpr uint32_t</type>
+        <definition>constexpr uint32_t telegen::util::crc32_block</definition>
+        <argsstring>(const uint8_t *p, size_t size)</argsstring>
+        <name>crc32_block</name>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>p</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/util.hpp" line="76" column="1" bodyfile="gen/telegen/util.hpp" bodystart="76" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacetelegen_1_1util_1ab05aef37c616f107c1b070178cabb28e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>size_t</type>
+            <declname>Cap</declname>
+            <defname>Cap</defname>
+          </param>
+          <param>
+            <type>class Ret</type>
+          </param>
+          <param>
+            <type>class A</type>
+          </param>
+          <param>
+            <type>class...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+          <param>
+            <type>int...</type>
+            <declname>Indexes</declname>
+            <defname>Indexes</defname>
+          </param>
+        </templateparamlist>
+        <type>Ret</type>
+        <definition>Ret telegen::util::apply_helper</definition>
+        <argsstring>(const stdext::inplace_function&lt; Ret(A, Args &amp;&amp;...), Cap &gt; &amp;f, A a, index_tuple&lt; Indexes... &gt;, std::tuple&lt; Args... &gt; &amp;&amp;tup)</argsstring>
+        <name>apply_helper</name>
+        <param>
+          <type>const <ref refid="classstdext_1_1inplace__function" kindref="compound">stdext::inplace_function</ref>&lt; Ret(A, Args &amp;&amp;...), Cap &gt; &amp;</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>A</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type><ref refid="structtelegen_1_1util_1_1index__tuple" kindref="compound">index_tuple</ref>&lt; Indexes... &gt;</type>
+        </param>
+        <param>
+          <type>std::tuple&lt; Args... &gt; &amp;&amp;</type>
+          <declname>tup</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/util.hpp" line="110" column="1" bodyfile="gen/telegen/util.hpp" bodystart="110" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacetelegen_1_1util_1a427fe35f9153460a301fe1e84598bfc7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>size_t</type>
+            <declname>Cap</declname>
+            <defname>Cap</defname>
+          </param>
+          <param>
+            <type>class Ret</type>
+          </param>
+          <param>
+            <type>class A</type>
+          </param>
+          <param>
+            <type>class ...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>Ret</type>
+        <definition>Ret telegen::util::apply</definition>
+        <argsstring>(const stdext::inplace_function&lt; Ret(A, Args &amp;&amp;...), Cap &gt; &amp;f, A a, std::tuple&lt; Args... &gt; &amp;&amp;tup)</argsstring>
+        <name>apply</name>
+        <param>
+          <type>const <ref refid="classstdext_1_1inplace__function" kindref="compound">stdext::inplace_function</ref>&lt; Ret(A, Args &amp;&amp;...), Cap &gt; &amp;</type>
+          <declname>f</declname>
+        </param>
+        <param>
+          <type>A</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>std::tuple&lt; Args... &gt; &amp;&amp;</type>
+          <declname>tup</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/util.hpp" line="116" column="1" bodyfile="gen/telegen/util.hpp" bodystart="116" bodyend="120"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="gen/telegen/util.hpp" line="13" column="1"/>
+  </compounddef>
+</doxygen>

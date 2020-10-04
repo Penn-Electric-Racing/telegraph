@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="uuid_8hpp" kind="file" language="C++">
+    <compoundname>uuid.hpp</compoundname>
+    <includes local="no">boost/uuid/uuid.hpp</includes>
+    <includes local="no">boost/uuid/random_generator.hpp</includes>
+    <includes local="no">boost/functional/hash.hpp</includes>
+    <includedby refid="collection_8hpp" local="yes">collection.hpp</includedby>
+    <includedby refid="common_2namespace_8hpp" local="yes">namespace.hpp</includedby>
+    <includedby refid="local_2namespace_8hpp" local="yes">namespace.hpp</includedby>
+    <incdepgraph>
+      <node id="1471">
+        <label>boost/functional/hash.hpp</label>
+      </node>
+      <node id="1468">
+        <label>uuid.hpp</label>
+        <link refid="uuid_8hpp"/>
+        <childnode refid="1469" relation="include">
+        </childnode>
+        <childnode refid="1470" relation="include">
+        </childnode>
+        <childnode refid="1471" relation="include">
+        </childnode>
+      </node>
+      <node id="1470">
+        <label>boost/uuid/random_generator.hpp</label>
+      </node>
+      <node id="1469">
+        <label>boost/uuid/uuid.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1482">
+        <label>dummy_device.hpp</label>
+        <link refid="dummy__device_8hpp"/>
+        <childnode refid="1483" relation="include">
+        </childnode>
+        <childnode refid="1478" relation="include">
+        </childnode>
+      </node>
+      <node id="1490">
+        <label>server.cpp</label>
+        <link refid="lib_2telegraph_2remote_2server_8cpp"/>
+      </node>
+      <node id="1476">
+        <label>container.hpp</label>
+        <link refid="container_8hpp"/>
+        <childnode refid="1477" relation="include">
+        </childnode>
+        <childnode refid="1478" relation="include">
+        </childnode>
+      </node>
+      <node id="1472">
+        <label>uuid.hpp</label>
+        <link refid="uuid_8hpp"/>
+        <childnode refid="1473" relation="include">
+        </childnode>
+        <childnode refid="1474" relation="include">
+        </childnode>
+        <childnode refid="1479" relation="include">
+        </childnode>
+      </node>
+      <node id="1483">
+        <label>dummy_device.cpp</label>
+        <link refid="dummy__device_8cpp"/>
+      </node>
+      <node id="1489">
+        <label>server.hpp</label>
+        <link refid="server_8hpp"/>
+        <childnode refid="1490" relation="include">
+        </childnode>
+        <childnode refid="1478" relation="include">
+        </childnode>
+      </node>
+      <node id="1480">
+        <label>device.hpp</label>
+        <link refid="device_8hpp"/>
+        <childnode refid="1481" relation="include">
+        </childnode>
+        <childnode refid="1478" relation="include">
+        </childnode>
+      </node>
+      <node id="1474">
+        <label>namespace.hpp</label>
+        <link refid="common_2namespace_8hpp"/>
+        <childnode refid="1475" relation="include">
+        </childnode>
+        <childnode refid="1476" relation="include">
+        </childnode>
+        <childnode refid="1479" relation="include">
+        </childnode>
+        <childnode refid="1487" relation="include">
+        </childnode>
+        <childnode refid="1488" relation="include">
+        </childnode>
+        <childnode refid="1489" relation="include">
+        </childnode>
+      </node>
+      <node id="1477">
+        <label>container.cpp</label>
+        <link refid="container_8cpp"/>
+      </node>
+      <node id="1473">
+        <label>collection.hpp</label>
+        <link refid="collection_8hpp"/>
+        <childnode refid="1474" relation="include">
+        </childnode>
+        <childnode refid="1487" relation="include">
+        </childnode>
+      </node>
+      <node id="1485">
+        <label>tmp_archive.hpp</label>
+        <link refid="tmp__archive_8hpp"/>
+        <childnode refid="1486" relation="include">
+        </childnode>
+      </node>
+      <node id="1479">
+        <label>namespace.hpp</label>
+        <link refid="local_2namespace_8hpp"/>
+        <childnode refid="1476" relation="include">
+        </childnode>
+        <childnode refid="1480" relation="include">
+        </childnode>
+        <childnode refid="1482" relation="include">
+        </childnode>
+        <childnode refid="1484" relation="include">
+        </childnode>
+        <childnode refid="1485" relation="include">
+        </childnode>
+        <childnode refid="1478" relation="include">
+        </childnode>
+      </node>
+      <node id="1475">
+        <label>params.cpp</label>
+        <link refid="params_8cpp"/>
+      </node>
+      <node id="1487">
+        <label>forwarder.hpp</label>
+        <link refid="forwarder_8hpp"/>
+        <childnode refid="1488" relation="include">
+        </childnode>
+        <childnode refid="1489" relation="include">
+        </childnode>
+      </node>
+      <node id="1481">
+        <label>device.cpp</label>
+        <link refid="device_8cpp"/>
+      </node>
+      <node id="1478">
+        <label>server.cpp</label>
+        <link refid="main_2server_8cpp"/>
+      </node>
+      <node id="1484">
+        <label>namespace.cpp</label>
+        <link refid="namespace_8cpp"/>
+      </node>
+      <node id="1488">
+        <label>forwarder.cpp</label>
+        <link refid="forwarder_8cpp"/>
+      </node>
+      <node id="1486">
+        <label>tmp_archive.cpp</label>
+        <link refid="tmp__archive_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structstd_1_1hash_3_01boost_1_1uuids_1_1uuid_01_4" prot="public">std::hash&lt; boost::uuids::uuid &gt;</innerclass>
+    <innernamespace refid="namespacetelegraph">telegraph</innernamespace>
+    <innernamespace refid="namespacestd">std</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>__TELEGRAPH_UUID_HPP__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__TELEGRAPH_UUID_HPP__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/uuid/uuid.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/uuid/random_generator.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacetelegraph" kindref="compound">telegraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="8" refid="namespacetelegraph_1a51ee91d7eaeef067f7ccac2b170e5d59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespacetelegraph_1a51ee91d7eaeef067f7ccac2b170e5d59" kindref="member">uuid</ref><sp/>=<sp/><ref refid="namespacetelegraph_1a51ee91d7eaeef067f7ccac2b170e5d59" kindref="member">boost::uuids::uuid</ref>;</highlight></codeline>
+<codeline lineno="9" refid="namespacetelegraph_1a201160a557b56b424ce605263acdb0ae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespacetelegraph_1a201160a557b56b424ce605263acdb0ae" kindref="member">random_uuid_generator</ref><sp/>=<sp/>boost::uuids::random_generator;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11" refid="namespacetelegraph_1aba245ee65da02fc6a1ff4b055d460598" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/><ref refid="namespacetelegraph_1a51ee91d7eaeef067f7ccac2b170e5d59" kindref="member">uuid</ref><sp/><ref refid="namespacetelegraph_1aba245ee65da02fc6a1ff4b055d460598" kindref="member">rand_uuid</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacetelegraph_1a201160a557b56b424ce605263acdb0ae" kindref="member">random_uuid_generator</ref><sp/>gen;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gen();</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="15"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/functional/hash.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19" refid="namespacestd" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestd" kindref="compound">std</ref><sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;&gt;</highlight></codeline>
+<codeline lineno="22" refid="structstd_1_1hash_3_01boost_1_1uuids_1_1uuid_01_4" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">hash&lt;<ref refid="namespaceboost" kindref="compound">boost</ref>::<ref refid="namespacetelegraph_1a51ee91d7eaeef067f7ccac2b170e5d59" kindref="member">uuids::uuid</ref>&gt;<sp/>{</highlight></codeline>
+<codeline lineno="23" refid="structstd_1_1hash_3_01boost_1_1uuids_1_1uuid_01_4_1a4cfbd1973b3692bf1837a42320f62b57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>operator<sp/>()<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacetelegraph_1a51ee91d7eaeef067f7ccac2b170e5d59" kindref="member">boost::uuids::uuid</ref>&amp;<sp/>uid)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>boost::hash&lt;boost::uuids::uuid&gt;()(uid);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="lib/telegraph/utils/uuid.hpp"/>
+  </compounddef>
+</doxygen>

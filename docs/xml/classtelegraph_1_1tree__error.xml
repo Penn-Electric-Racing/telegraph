@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1tree__error" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::tree_error</compoundname>
+    <basecompoundref refid="classtelegraph_1_1error" prot="public" virt="non-virtual">telegraph::error</basecompoundref>
+    <includes refid="errors_8hpp" local="no">errors.hpp</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1tree__error_1a3700c5466473f44dd2001b74ceb97305" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::tree_error::tree_error</definition>
+        <argsstring>(const std::string_view &amp;m)</argsstring>
+        <name>tree_error</name>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/utils/errors.hpp" line="47" column="1" bodyfile="lib/telegraph/utils/errors.hpp" bodystart="47" bodyend="48"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="409">
+        <label>telegraph::tree_error</label>
+        <link refid="classtelegraph_1_1tree__error"/>
+        <childnode refid="410" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="410">
+        <label>telegraph::error</label>
+        <link refid="classtelegraph_1_1error"/>
+        <childnode refid="411" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="411">
+        <label>std::exception</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="412">
+        <label>telegraph::tree_error</label>
+        <link refid="classtelegraph_1_1tree__error"/>
+        <childnode refid="413" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="413">
+        <label>telegraph::error</label>
+        <link refid="classtelegraph_1_1error"/>
+        <childnode refid="414" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="414">
+        <label>std::exception</label>
+      </node>
+    </collaborationgraph>
+    <location file="lib/telegraph/utils/errors.hpp" line="45" column="1" bodyfile="lib/telegraph/utils/errors.hpp" bodystart="45" bodyend="49"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1error_1a2381d26711bfbcb841ccd3c7e562b9f8" prot="public" virt="non-virtual"><scope>telegraph::tree_error</scope><name>error</name></member>
+      <member refid="classtelegraph_1_1tree__error_1a3700c5466473f44dd2001b74ceb97305" prot="public" virt="non-virtual"><scope>telegraph::tree_error</scope><name>tree_error</name></member>
+      <member refid="classtelegraph_1_1error_1acd75a8954a9d693faf75eb5918bfe044" prot="public" virt="non-virtual"><scope>telegraph::tree_error</scope><name>what</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

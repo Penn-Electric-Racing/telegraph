@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="json_8hpp" kind="file" language="C++">
+    <compoundname>json.hpp</compoundname>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="config_8cpp" local="yes">config.cpp</includedby>
+    <includedby refid="hocon_8hpp" local="yes">hocon.hpp</includedby>
+    <includedby refid="json_8cpp" local="yes">json.cpp</includedby>
+    <incdepgraph>
+      <node id="737">
+        <label>json.hpp</label>
+        <link refid="json_8hpp"/>
+        <childnode refid="738" relation="include">
+        </childnode>
+      </node>
+      <node id="738">
+        <label>nlohmann/json.hpp</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="741">
+        <label>hocon.hpp</label>
+        <link refid="hocon_8hpp"/>
+        <childnode refid="742" relation="include">
+        </childnode>
+        <childnode refid="743" relation="include">
+        </childnode>
+        <childnode refid="744" relation="include">
+        </childnode>
+      </node>
+      <node id="740">
+        <label>config.cpp</label>
+        <link refid="config_8cpp"/>
+      </node>
+      <node id="739">
+        <label>json.hpp</label>
+        <link refid="json_8hpp"/>
+        <childnode refid="740" relation="include">
+        </childnode>
+        <childnode refid="741" relation="include">
+        </childnode>
+        <childnode refid="745" relation="include">
+        </childnode>
+      </node>
+      <node id="742">
+        <label>hocon.cpp</label>
+        <link refid="hocon_8cpp"/>
+      </node>
+      <node id="744">
+        <label>tree-test.cpp</label>
+        <link refid="tree-test_8cpp"/>
+      </node>
+      <node id="745">
+        <label>json.cpp</label>
+        <link refid="json_8cpp"/>
+      </node>
+      <node id="743">
+        <label>generate.cpp</label>
+        <link refid="generate_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classtelegraph_1_1json__parser" prot="public">telegraph::json_parser</innerclass>
+    <innernamespace refid="namespacetelegraph">telegraph</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>__TELEGRAPH_JSON_HPP__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>__TELEGRAPH_JSON_HPP__</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacetelegraph" kindref="compound">telegraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="7" refid="namespacetelegraph_1ab87b47a6b955c365ddd74c343ecc16f4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespacetelegraph_1ab87b47a6b955c365ddd74c343ecc16f4" kindref="member">json</ref><sp/>=<sp/><ref refid="namespacetelegraph_1ab87b47a6b955c365ddd74c343ecc16f4" kindref="member">nlohmann::json</ref>;</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9" refid="classtelegraph_1_1json__parser" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classtelegraph_1_1json__parser" kindref="compound">json_parser</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacetelegraph_1ab87b47a6b955c365ddd74c343ecc16f4" kindref="member">json</ref><sp/><ref refid="classtelegraph_1_1json__parser_1ad3f209cfb4e81aa7c1d5fb577b09de30" kindref="member">parse_file</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>file);</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="13"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="lib/telegraph/utils/json.hpp"/>
+  </compounddef>
+</doxygen>

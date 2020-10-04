@@ -1,0 +1,303 @@
+\hypertarget{classtelegraph_1_1context}{}\section{telegraph\+:\+:context Class Reference}
+\label{classtelegraph_1_1context}\index{telegraph\+::context@{telegraph\+::context}}
+
+
+{\ttfamily \#include $<$namespace.\+hpp$>$}
+
+Inheritance diagram for telegraph\+:\+:context\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.258065cm]{classtelegraph_1_1context}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegraph_1_1context_ad57ca6ff5da9ad653c688e7be3c0bbdc}{context} (io\+::io\+\_\+context \&ioc, const \hyperlink{namespacetelegraph_a51ee91d7eaeef067f7ccac2b170e5d59}{uuid} \&\hyperlink{namespacetelegraph_a51ee91d7eaeef067f7ccac2b170e5d59}{uuid}, const std\+::string\+\_\+view \&name, const std\+::string\+\_\+view \&type, const \hyperlink{classtelegraph_1_1params}{params} \&p, bool headless)
+\item 
+constexpr io\+::io\+\_\+context \& \hyperlink{classtelegraph_1_1context_a5df9df51fb9fc54d69e4a7d43e66345a}{get\+\_\+executor} ()
+\item 
+virtual std\+::shared\+\_\+ptr$<$ \hyperlink{classtelegraph_1_1namespace__}{namespace\+\_\+} $>$ \hyperlink{classtelegraph_1_1context_a84d92cca54be9c4e885e2673480e45a1}{get\+\_\+namespace} ()=0
+\item 
+virtual std\+::shared\+\_\+ptr$<$ const \hyperlink{classtelegraph_1_1namespace__}{namespace\+\_\+} $>$ \hyperlink{classtelegraph_1_1context_a2f6c9ecc15cee66415828df9efa834a2}{get\+\_\+namespace} () const =0
+\item 
+const bool \hyperlink{classtelegraph_1_1context_a4cfaa125584e2f5ee5121c074bc024f1}{is\+\_\+headless} () const
+\item 
+const std\+::string \& \hyperlink{classtelegraph_1_1context_a56bd2af5bbfcdc234f6dd8df052585d7}{get\+\_\+name} () const
+\item 
+const std\+::string \& \hyperlink{classtelegraph_1_1context_a07d07a63d22454c2dc900c5cf749ce18}{get\+\_\+type} () const
+\item 
+const \hyperlink{classtelegraph_1_1params}{params} \& \hyperlink{classtelegraph_1_1context_ab8f2cf6a295d840f8011ff1b5533a1f8}{get\+\_\+params} () const
+\item 
+const \hyperlink{namespacetelegraph_a51ee91d7eaeef067f7ccac2b170e5d59}{uuid} \& \hyperlink{classtelegraph_1_1context_adfc55d7a2ba9d68c1f52abcbac7d74fd}{get\+\_\+uuid} () const
+\item 
+virtual \hyperlink{namespacetelegraph_ad071241508ea0f86c7de0686016f9ca9}{params\+\_\+stream\+\_\+ptr} \hyperlink{classtelegraph_1_1context_a6765d7fa22fe99b9a6723c511396b781}{request} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&, const \hyperlink{classtelegraph_1_1params}{params} \&p)=0
+\item 
+virtual std\+::shared\+\_\+ptr$<$ \hyperlink{classtelegraph_1_1node}{node} $>$ \hyperlink{classtelegraph_1_1context_aa2c0321629f2d51c8bc5632e418b305f}{fetch} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&ctx)=0
+\item 
+virtual \hyperlink{namespacetelegraph_a58641aa5b1a2cbdb0431916a87069f64}{subscription\+\_\+ptr} \hyperlink{classtelegraph_1_1context_a8db167973f187f707a4108e112683969}{subscribe} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&ctx, const std\+::vector$<$ std\+::string\+\_\+view $>$ \&\hyperlink{classtelegraph_1_1variable}{variable}, float min\+\_\+interval, float max\+\_\+interval, float timeout)=0
+\item 
+virtual \hyperlink{namespacetelegraph_a58641aa5b1a2cbdb0431916a87069f64}{subscription\+\_\+ptr} \hyperlink{classtelegraph_1_1context_aec3b3b0d7210a86f2ea2f5067ef8e922}{subscribe} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&ctx, const \hyperlink{classtelegraph_1_1variable}{variable} $\ast$v, float min\+\_\+interval, float max\+\_\+interval, float timeout)=0
+\item 
+virtual \hyperlink{classtelegraph_1_1value}{value} \hyperlink{classtelegraph_1_1context_a72da471eb635e5505b10d2f1103359ac}{call} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&ctx, \hyperlink{classtelegraph_1_1action}{action} $\ast$a, \hyperlink{classtelegraph_1_1value}{value} v, float timeout)=0
+\item 
+virtual \hyperlink{classtelegraph_1_1value}{value} \hyperlink{classtelegraph_1_1context_a0798d49ea0874a870d4c980f6f09b6c2}{call} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&ctx, const std\+::vector$<$ std\+::string\+\_\+view $>$ \&a, \hyperlink{classtelegraph_1_1value}{value} v, float timeout)=0
+\item 
+virtual bool \hyperlink{classtelegraph_1_1context_a6067b9a6f2590733c81f6a3b2ed9cba7}{write\+\_\+data} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, \hyperlink{classtelegraph_1_1variable}{variable} $\ast$v, const std\+::vector$<$ \hyperlink{classtelegraph_1_1data__point}{data\+\_\+point} $>$ \&data)=0
+\item 
+virtual bool \hyperlink{classtelegraph_1_1context_a1f600d6159df21dd2750b1c706ca3412}{write\+\_\+data} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, const std\+::vector$<$ std\+::string\+\_\+view $>$ \&var, const std\+::vector$<$ \hyperlink{classtelegraph_1_1data__point}{data\+\_\+point} $>$ \&data)=0
+\item 
+virtual \hyperlink{namespacetelegraph_a6ffe775ac48dca2a4013b53d692199c8}{data\+\_\+query\+\_\+ptr} \hyperlink{classtelegraph_1_1context_a301114c9b73194507ae58221566a3e57}{query\+\_\+data} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, const \hyperlink{classtelegraph_1_1variable}{variable} $\ast$v)=0
+\item 
+virtual \hyperlink{namespacetelegraph_a6ffe775ac48dca2a4013b53d692199c8}{data\+\_\+query\+\_\+ptr} \hyperlink{classtelegraph_1_1context_a34793623d2a2def580ad0b8710c74c6d}{query\+\_\+data} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, const std\+::vector$<$ std\+::string\+\_\+view $>$ \&v)=0
+\item 
+virtual void \hyperlink{classtelegraph_1_1context_a4017c1bcd9c84170a5cb612ae45d6fb4}{destroy} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield)=0
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegraph_1_1signal}{signal} \hyperlink{classtelegraph_1_1context_aeae90cedad8326dcd9d6180d1058a10f}{destroyed}
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+io\+::io\+\_\+context \& \hyperlink{classtelegraph_1_1context_a51949d83373c67e0c9e1050127df30c1}{ioc\+\_\+}
+\item 
+const \hyperlink{namespacetelegraph_a51ee91d7eaeef067f7ccac2b170e5d59}{uuid} \hyperlink{classtelegraph_1_1context_a0bf1873b5a611776d48b3e854e9e3589}{uuid\+\_\+}
+\item 
+const bool \hyperlink{classtelegraph_1_1context_a5053f72fe2b58e264a0ce00de2727953}{headless\+\_\+}
+\item 
+const std\+::string \hyperlink{classtelegraph_1_1context_a19b7cc6a4c3cf53d79e07fc78573fc31}{name\+\_\+}
+\item 
+const std\+::string \hyperlink{classtelegraph_1_1context_af1cab34ed3278340157e25d828bb6c77}{type\+\_\+}
+\item 
+const \hyperlink{classtelegraph_1_1params}{params} \hyperlink{classtelegraph_1_1context_aa80ae462af488940258d71ccb6435b33}{params\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1context_ad57ca6ff5da9ad653c688e7be3c0bbdc}\label{classtelegraph_1_1context_ad57ca6ff5da9ad653c688e7be3c0bbdc}} 
+\index{telegraph\+::context@{telegraph\+::context}!context@{context}}
+\index{context@{context}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{context()}{context()}}
+{\footnotesize\ttfamily telegraph\+::context\+::context (\begin{DoxyParamCaption}\item[{io\+::io\+\_\+context \&}]{ioc,  }\item[{const \hyperlink{namespacetelegraph_a51ee91d7eaeef067f7ccac2b170e5d59}{uuid} \&}]{uuid,  }\item[{const std\+::string\+\_\+view \&}]{name,  }\item[{const std\+::string\+\_\+view \&}]{type,  }\item[{const \hyperlink{classtelegraph_1_1params}{params} \&}]{p,  }\item[{bool}]{headless }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1context_a72da471eb635e5505b10d2f1103359ac}\label{classtelegraph_1_1context_a72da471eb635e5505b10d2f1103359ac}} 
+\index{telegraph\+::context@{telegraph\+::context}!call@{call}}
+\index{call@{call}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{call()}{call()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual \hyperlink{classtelegraph_1_1value}{value} telegraph\+::context\+::call (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{ctx,  }\item[{\hyperlink{classtelegraph_1_1action}{action} $\ast$}]{a,  }\item[{\hyperlink{classtelegraph_1_1value}{value}}]{v,  }\item[{float}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1tmp__archive_a9edb8a731ef989f40ae06e4b6c63c0be}{telegraph\+::tmp\+\_\+archive}, \hyperlink{classtelegraph_1_1local__component_af4d74d161754055d3f811bfe95a59f26}{telegraph\+::local\+\_\+component}, \hyperlink{classtelegraph_1_1device_ac6558ddeed4799f4d69428863363a1e6}{telegraph\+::device}, \hyperlink{classtelegraph_1_1container_a499649499d61f07dbe44bbec933414a0}{telegraph\+::container}, and \hyperlink{classtelegraph_1_1dummy__device_af2e3be5731809d7693cb6a4607e5e3f6}{telegraph\+::dummy\+\_\+device}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a0798d49ea0874a870d4c980f6f09b6c2}\label{classtelegraph_1_1context_a0798d49ea0874a870d4c980f6f09b6c2}} 
+\index{telegraph\+::context@{telegraph\+::context}!call@{call}}
+\index{call@{call}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{call()}{call()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual \hyperlink{classtelegraph_1_1value}{value} telegraph\+::context\+::call (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{ctx,  }\item[{const std\+::vector$<$ std\+::string\+\_\+view $>$ \&}]{a,  }\item[{\hyperlink{classtelegraph_1_1value}{value}}]{v,  }\item[{float}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1tmp__archive_a1ccf8c90f14b36f3a09a501e0931e42e}{telegraph\+::tmp\+\_\+archive}, \hyperlink{classtelegraph_1_1local__component_a6fa6fbf49a0d77a8da54b4a77b578edd}{telegraph\+::local\+\_\+component}, \hyperlink{classtelegraph_1_1device_a581368ab8f35ef72db17d2e330ded068}{telegraph\+::device}, \hyperlink{classtelegraph_1_1container_a83d26f574b7f75655be9752147e30dce}{telegraph\+::container}, and \hyperlink{classtelegraph_1_1dummy__device_ab037df44b352953369760dd6071d84b5}{telegraph\+::dummy\+\_\+device}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a4017c1bcd9c84170a5cb612ae45d6fb4}\label{classtelegraph_1_1context_a4017c1bcd9c84170a5cb612ae45d6fb4}} 
+\index{telegraph\+::context@{telegraph\+::context}!destroy@{destroy}}
+\index{destroy@{destroy}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily virtual void telegraph\+::context\+::destroy (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1device_a8d619b64e89b2ae933b282dc05956d37}{telegraph\+::device}, and \hyperlink{classtelegraph_1_1local__context_a301da16810636030a5098e4838587a99}{telegraph\+::local\+\_\+context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_aa2c0321629f2d51c8bc5632e418b305f}\label{classtelegraph_1_1context_aa2c0321629f2d51c8bc5632e418b305f}} 
+\index{telegraph\+::context@{telegraph\+::context}!fetch@{fetch}}
+\index{fetch@{fetch}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{fetch()}{fetch()}}
+{\footnotesize\ttfamily virtual std\+::shared\+\_\+ptr$<$\hyperlink{classtelegraph_1_1node}{node}$>$ telegraph\+::context\+::fetch (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{ctx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1local__component_abbeb3b12dc95e19e1a2972e9a374fd33}{telegraph\+::local\+\_\+component}, and \hyperlink{classtelegraph_1_1local__context_aefadafdf25e6f6ba23c4b332872836e2}{telegraph\+::local\+\_\+context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a5df9df51fb9fc54d69e4a7d43e66345a}\label{classtelegraph_1_1context_a5df9df51fb9fc54d69e4a7d43e66345a}} 
+\index{telegraph\+::context@{telegraph\+::context}!get\+\_\+executor@{get\+\_\+executor}}
+\index{get\+\_\+executor@{get\+\_\+executor}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{get\+\_\+executor()}{get\_executor()}}
+{\footnotesize\ttfamily constexpr io\+::io\+\_\+context\& telegraph\+::context\+::get\+\_\+executor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a56bd2af5bbfcdc234f6dd8df052585d7}\label{classtelegraph_1_1context_a56bd2af5bbfcdc234f6dd8df052585d7}} 
+\index{telegraph\+::context@{telegraph\+::context}!get\+\_\+name@{get\+\_\+name}}
+\index{get\+\_\+name@{get\+\_\+name}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{get\+\_\+name()}{get\_name()}}
+{\footnotesize\ttfamily const std\+::string\& telegraph\+::context\+::get\+\_\+name (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a84d92cca54be9c4e885e2673480e45a1}\label{classtelegraph_1_1context_a84d92cca54be9c4e885e2673480e45a1}} 
+\index{telegraph\+::context@{telegraph\+::context}!get\+\_\+namespace@{get\+\_\+namespace}}
+\index{get\+\_\+namespace@{get\+\_\+namespace}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{get\+\_\+namespace()}{get\_namespace()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual std\+::shared\+\_\+ptr$<$\hyperlink{classtelegraph_1_1namespace__}{namespace\+\_\+}$>$ telegraph\+::context\+::get\+\_\+namespace (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1local__context_a71a19090a93c3193615e61940fba918a}{telegraph\+::local\+\_\+context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a2f6c9ecc15cee66415828df9efa834a2}\label{classtelegraph_1_1context_a2f6c9ecc15cee66415828df9efa834a2}} 
+\index{telegraph\+::context@{telegraph\+::context}!get\+\_\+namespace@{get\+\_\+namespace}}
+\index{get\+\_\+namespace@{get\+\_\+namespace}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{get\+\_\+namespace()}{get\_namespace()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual std\+::shared\+\_\+ptr$<$const \hyperlink{classtelegraph_1_1namespace__}{namespace\+\_\+}$>$ telegraph\+::context\+::get\+\_\+namespace (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1local__context_aba1ff115df4b54bae75ea41580ba32b5}{telegraph\+::local\+\_\+context}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_ab8f2cf6a295d840f8011ff1b5533a1f8}\label{classtelegraph_1_1context_ab8f2cf6a295d840f8011ff1b5533a1f8}} 
+\index{telegraph\+::context@{telegraph\+::context}!get\+\_\+params@{get\+\_\+params}}
+\index{get\+\_\+params@{get\+\_\+params}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{get\+\_\+params()}{get\_params()}}
+{\footnotesize\ttfamily const \hyperlink{classtelegraph_1_1params}{params}\& telegraph\+::context\+::get\+\_\+params (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a07d07a63d22454c2dc900c5cf749ce18}\label{classtelegraph_1_1context_a07d07a63d22454c2dc900c5cf749ce18}} 
+\index{telegraph\+::context@{telegraph\+::context}!get\+\_\+type@{get\+\_\+type}}
+\index{get\+\_\+type@{get\+\_\+type}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{get\+\_\+type()}{get\_type()}}
+{\footnotesize\ttfamily const std\+::string\& telegraph\+::context\+::get\+\_\+type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_adfc55d7a2ba9d68c1f52abcbac7d74fd}\label{classtelegraph_1_1context_adfc55d7a2ba9d68c1f52abcbac7d74fd}} 
+\index{telegraph\+::context@{telegraph\+::context}!get\+\_\+uuid@{get\+\_\+uuid}}
+\index{get\+\_\+uuid@{get\+\_\+uuid}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{get\+\_\+uuid()}{get\_uuid()}}
+{\footnotesize\ttfamily const \hyperlink{namespacetelegraph_a51ee91d7eaeef067f7ccac2b170e5d59}{uuid}\& telegraph\+::context\+::get\+\_\+uuid (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a4cfaa125584e2f5ee5121c074bc024f1}\label{classtelegraph_1_1context_a4cfaa125584e2f5ee5121c074bc024f1}} 
+\index{telegraph\+::context@{telegraph\+::context}!is\+\_\+headless@{is\+\_\+headless}}
+\index{is\+\_\+headless@{is\+\_\+headless}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{is\+\_\+headless()}{is\_headless()}}
+{\footnotesize\ttfamily const bool telegraph\+::context\+::is\+\_\+headless (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a301114c9b73194507ae58221566a3e57}\label{classtelegraph_1_1context_a301114c9b73194507ae58221566a3e57}} 
+\index{telegraph\+::context@{telegraph\+::context}!query\+\_\+data@{query\+\_\+data}}
+\index{query\+\_\+data@{query\+\_\+data}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{query\+\_\+data()}{query\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual \hyperlink{namespacetelegraph_a6ffe775ac48dca2a4013b53d692199c8}{data\+\_\+query\+\_\+ptr} telegraph\+::context\+::query\+\_\+data (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{const \hyperlink{classtelegraph_1_1variable}{variable} $\ast$}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1local__component_a4410ca44a41de1c139273efd31f281c4}{telegraph\+::local\+\_\+component}, \hyperlink{classtelegraph_1_1device_a4c46c7e98bf5a573a9966fd2cc199021}{telegraph\+::device}, \hyperlink{classtelegraph_1_1dummy__device_a23b7704d488ca5e9ac732256621e8137}{telegraph\+::dummy\+\_\+device}, \hyperlink{classtelegraph_1_1container_a1a9849e53091061da81e7c1a73502e47}{telegraph\+::container}, and \hyperlink{classtelegraph_1_1tmp__archive_a7f2d18d2a4c9a7fd65d9752c8f4ce4d5}{telegraph\+::tmp\+\_\+archive}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a34793623d2a2def580ad0b8710c74c6d}\label{classtelegraph_1_1context_a34793623d2a2def580ad0b8710c74c6d}} 
+\index{telegraph\+::context@{telegraph\+::context}!query\+\_\+data@{query\+\_\+data}}
+\index{query\+\_\+data@{query\+\_\+data}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{query\+\_\+data()}{query\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual \hyperlink{namespacetelegraph_a6ffe775ac48dca2a4013b53d692199c8}{data\+\_\+query\+\_\+ptr} telegraph\+::context\+::query\+\_\+data (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{const std\+::vector$<$ std\+::string\+\_\+view $>$ \&}]{v }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1local__component_ad8c3abb4f9e6ab31b0590beac901eec5}{telegraph\+::local\+\_\+component}, \hyperlink{classtelegraph_1_1device_a9a5ef799aadf591a355cc1e50442d762}{telegraph\+::device}, \hyperlink{classtelegraph_1_1tmp__archive_a8a860d67e3733e2eee7a8315942450e5}{telegraph\+::tmp\+\_\+archive}, \hyperlink{classtelegraph_1_1dummy__device_ae7820cd8f1d5683ccc90b7256e88a735}{telegraph\+::dummy\+\_\+device}, and \hyperlink{classtelegraph_1_1container_aca8b0b22be3cde48f0bc5f3fa79b29da}{telegraph\+::container}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a6765d7fa22fe99b9a6723c511396b781}\label{classtelegraph_1_1context_a6765d7fa22fe99b9a6723c511396b781}} 
+\index{telegraph\+::context@{telegraph\+::context}!request@{request}}
+\index{request@{request}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{request()}{request()}}
+{\footnotesize\ttfamily virtual \hyperlink{namespacetelegraph_ad071241508ea0f86c7de0686016f9ca9}{params\+\_\+stream\+\_\+ptr} telegraph\+::context\+::request (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{,  }\item[{const \hyperlink{classtelegraph_1_1params}{params} \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1device__scanner_a5873278cb04e50896c3f125639df4c73}{telegraph\+::device\+\_\+scanner}, \hyperlink{classtelegraph_1_1device_a9e5042e4640035b28dd9de780d7326df}{telegraph\+::device}, \hyperlink{classtelegraph_1_1tmp__archive_a688a661b85092244e5634f9c3e380f94}{telegraph\+::tmp\+\_\+archive}, \hyperlink{classtelegraph_1_1container_ade9ce299ee72554a84c1a71f0ad37915}{telegraph\+::container}, and \hyperlink{classtelegraph_1_1dummy__device_a46d728506b36e9e8b5b6939eb6aefe12}{telegraph\+::dummy\+\_\+device}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a8db167973f187f707a4108e112683969}\label{classtelegraph_1_1context_a8db167973f187f707a4108e112683969}} 
+\index{telegraph\+::context@{telegraph\+::context}!subscribe@{subscribe}}
+\index{subscribe@{subscribe}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{subscribe()}{subscribe()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual \hyperlink{namespacetelegraph_a58641aa5b1a2cbdb0431916a87069f64}{subscription\+\_\+ptr} telegraph\+::context\+::subscribe (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{ctx,  }\item[{const std\+::vector$<$ std\+::string\+\_\+view $>$ \&}]{variable,  }\item[{float}]{min\+\_\+interval,  }\item[{float}]{max\+\_\+interval,  }\item[{float}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1tmp__archive_a9cf4be673f860b875b085c1ecac913ff}{telegraph\+::tmp\+\_\+archive}, \hyperlink{classtelegraph_1_1local__component_a53aa0199bd938578a6400cfd3a19c86f}{telegraph\+::local\+\_\+component}, \hyperlink{classtelegraph_1_1device_aedf52d2dbb133e2b71958c116671b9df}{telegraph\+::device}, \hyperlink{classtelegraph_1_1container_ae1ae26a08bf3d367bbc13020623780b2}{telegraph\+::container}, and \hyperlink{classtelegraph_1_1dummy__device_a8996ac06dfc98de11c3d156b4a0a2caf}{telegraph\+::dummy\+\_\+device}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_aec3b3b0d7210a86f2ea2f5067ef8e922}\label{classtelegraph_1_1context_aec3b3b0d7210a86f2ea2f5067ef8e922}} 
+\index{telegraph\+::context@{telegraph\+::context}!subscribe@{subscribe}}
+\index{subscribe@{subscribe}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{subscribe()}{subscribe()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual \hyperlink{namespacetelegraph_a58641aa5b1a2cbdb0431916a87069f64}{subscription\+\_\+ptr} telegraph\+::context\+::subscribe (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{ctx,  }\item[{const \hyperlink{classtelegraph_1_1variable}{variable} $\ast$}]{v,  }\item[{float}]{min\+\_\+interval,  }\item[{float}]{max\+\_\+interval,  }\item[{float}]{timeout }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1local__component_a5a2282f1cf80dce32ed26e37c956d5c4}{telegraph\+::local\+\_\+component}, \hyperlink{classtelegraph_1_1tmp__archive_a10adc383103f4183e0a37485a5406cf1}{telegraph\+::tmp\+\_\+archive}, \hyperlink{classtelegraph_1_1device_ab0117f6015f904afae72d6ab90c8ad95}{telegraph\+::device}, \hyperlink{classtelegraph_1_1container_aa11f4e622d784b566a032c05f2019264}{telegraph\+::container}, and \hyperlink{classtelegraph_1_1dummy__device_a06470ed069c481e8199dce9387448c8b}{telegraph\+::dummy\+\_\+device}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a6067b9a6f2590733c81f6a3b2ed9cba7}\label{classtelegraph_1_1context_a6067b9a6f2590733c81f6a3b2ed9cba7}} 
+\index{telegraph\+::context@{telegraph\+::context}!write\+\_\+data@{write\+\_\+data}}
+\index{write\+\_\+data@{write\+\_\+data}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{write\+\_\+data()}{write\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily virtual bool telegraph\+::context\+::write\+\_\+data (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{\hyperlink{classtelegraph_1_1variable}{variable} $\ast$}]{v,  }\item[{const std\+::vector$<$ \hyperlink{classtelegraph_1_1data__point}{data\+\_\+point} $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1local__component_ac546cfea4802ef3ca125c5dc183adf6c}{telegraph\+::local\+\_\+component}, \hyperlink{classtelegraph_1_1device_a60150e55bc6fb63d27252051caf462db}{telegraph\+::device}, \hyperlink{classtelegraph_1_1dummy__device_a162f8f7a02c2907693ecf86662f6ffe1}{telegraph\+::dummy\+\_\+device}, \hyperlink{classtelegraph_1_1container_aad8390913b2961a2270e6d4065deb59b}{telegraph\+::container}, and \hyperlink{classtelegraph_1_1tmp__archive_ae1838ff3fc3f1cd0eab31535a2f2e974}{telegraph\+::tmp\+\_\+archive}.
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a1f600d6159df21dd2750b1c706ca3412}\label{classtelegraph_1_1context_a1f600d6159df21dd2750b1c706ca3412}} 
+\index{telegraph\+::context@{telegraph\+::context}!write\+\_\+data@{write\+\_\+data}}
+\index{write\+\_\+data@{write\+\_\+data}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{write\+\_\+data()}{write\_data()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily virtual bool telegraph\+::context\+::write\+\_\+data (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{const std\+::vector$<$ std\+::string\+\_\+view $>$ \&}]{var,  }\item[{const std\+::vector$<$ \hyperlink{classtelegraph_1_1data__point}{data\+\_\+point} $>$ \&}]{data }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1local__component_a572a4116130a4b7ad270701eba2af0e7}{telegraph\+::local\+\_\+component}, \hyperlink{classtelegraph_1_1device_aaedca7b20bc36f8439d5afccbcaf1304}{telegraph\+::device}, \hyperlink{classtelegraph_1_1dummy__device_a2d18fd0ec74a6d4bb76f789135403f19}{telegraph\+::dummy\+\_\+device}, \hyperlink{classtelegraph_1_1container_a6c608535adf0fee7783f6684ab4b69c8}{telegraph\+::container}, and \hyperlink{classtelegraph_1_1tmp__archive_a228c2c681beb749268d09cd83d594246}{telegraph\+::tmp\+\_\+archive}.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1context_aeae90cedad8326dcd9d6180d1058a10f}\label{classtelegraph_1_1context_aeae90cedad8326dcd9d6180d1058a10f}} 
+\index{telegraph\+::context@{telegraph\+::context}!destroyed@{destroyed}}
+\index{destroyed@{destroyed}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{destroyed}{destroyed}}
+{\footnotesize\ttfamily \hyperlink{classtelegraph_1_1signal}{signal} telegraph\+::context\+::destroyed}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a5053f72fe2b58e264a0ce00de2727953}\label{classtelegraph_1_1context_a5053f72fe2b58e264a0ce00de2727953}} 
+\index{telegraph\+::context@{telegraph\+::context}!headless\+\_\+@{headless\+\_\+}}
+\index{headless\+\_\+@{headless\+\_\+}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{headless\+\_\+}{headless\_}}
+{\footnotesize\ttfamily const bool telegraph\+::context\+::headless\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a51949d83373c67e0c9e1050127df30c1}\label{classtelegraph_1_1context_a51949d83373c67e0c9e1050127df30c1}} 
+\index{telegraph\+::context@{telegraph\+::context}!ioc\+\_\+@{ioc\+\_\+}}
+\index{ioc\+\_\+@{ioc\+\_\+}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{ioc\+\_\+}{ioc\_}}
+{\footnotesize\ttfamily io\+::io\+\_\+context\& telegraph\+::context\+::ioc\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a19b7cc6a4c3cf53d79e07fc78573fc31}\label{classtelegraph_1_1context_a19b7cc6a4c3cf53d79e07fc78573fc31}} 
+\index{telegraph\+::context@{telegraph\+::context}!name\+\_\+@{name\+\_\+}}
+\index{name\+\_\+@{name\+\_\+}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{name\+\_\+}{name\_}}
+{\footnotesize\ttfamily const std\+::string telegraph\+::context\+::name\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_aa80ae462af488940258d71ccb6435b33}\label{classtelegraph_1_1context_aa80ae462af488940258d71ccb6435b33}} 
+\index{telegraph\+::context@{telegraph\+::context}!params\+\_\+@{params\+\_\+}}
+\index{params\+\_\+@{params\+\_\+}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{params\+\_\+}{params\_}}
+{\footnotesize\ttfamily const \hyperlink{classtelegraph_1_1params}{params} telegraph\+::context\+::params\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_af1cab34ed3278340157e25d828bb6c77}\label{classtelegraph_1_1context_af1cab34ed3278340157e25d828bb6c77}} 
+\index{telegraph\+::context@{telegraph\+::context}!type\+\_\+@{type\+\_\+}}
+\index{type\+\_\+@{type\+\_\+}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{type\+\_\+}{type\_}}
+{\footnotesize\ttfamily const std\+::string telegraph\+::context\+::type\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{classtelegraph_1_1context_a0bf1873b5a611776d48b3e854e9e3589}\label{classtelegraph_1_1context_a0bf1873b5a611776d48b3e854e9e3589}} 
+\index{telegraph\+::context@{telegraph\+::context}!uuid\+\_\+@{uuid\+\_\+}}
+\index{uuid\+\_\+@{uuid\+\_\+}!telegraph\+::context@{telegraph\+::context}}
+\subsubsection{\texorpdfstring{uuid\+\_\+}{uuid\_}}
+{\footnotesize\ttfamily const \hyperlink{namespacetelegraph_a51ee91d7eaeef067f7ccac2b170e5d59}{uuid} telegraph\+::context\+::uuid\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{common_2namespace_8hpp}{common/namespace.\+hpp}\end{DoxyCompactItemize}

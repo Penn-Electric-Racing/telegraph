@@ -1,0 +1,111 @@
+\hypertarget{classtelegraph_1_1connection}{}\section{telegraph\+:\+:connection Class Reference}
+\label{classtelegraph_1_1connection}\index{telegraph\+::connection@{telegraph\+::connection}}
+
+
+{\ttfamily \#include $<$connection.\+hpp$>$}
+
+Inheritance diagram for telegraph\+:\+:connection\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classtelegraph_1_1connection}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classtelegraph_1_1connection_a6952fb62edd1c7e78fe8744d4eac7aaa}{connection} (io\+::io\+\_\+context \&ioc, bool count\+\_\+down)
+\item 
+\hyperlink{classtelegraph_1_1connection_a469b53662900132cfc89a595b1dab28c}{$\sim$connection} ()
+\item 
+void \hyperlink{classtelegraph_1_1connection_a6dd7c859165db61ecdd14a8e5bcc7fcf}{received} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, const api\+::\+Packet \&p)
+\item 
+virtual void \hyperlink{classtelegraph_1_1connection_ad5fd2c23680ecda6e07c2f02f3735809}{send} (api\+::\+Packet \&\&p)=0
+\item 
+api\+::\+Packet \hyperlink{classtelegraph_1_1connection_a5edeb1d722fad636d63f125d896e41c4}{request\+\_\+response} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, api\+::\+Packet \&\&req)
+\item 
+api\+::\+Packet \hyperlink{classtelegraph_1_1connection_a769414199f9cf151ff115f223f07fb5c}{request\+\_\+stream} (\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&yield, api\+::\+Packet \&\&req, const handler \&cb)
+\item 
+void \hyperlink{classtelegraph_1_1connection_a07cd6d890aad0f708ca32d136e063937}{set\+\_\+handler} (api\+::\+Packet\+::\+Payload\+Case c, const handler \&h)
+\item 
+void \hyperlink{classtelegraph_1_1connection_ad3ec8072dd935d37eaac8cbc2390177d}{set\+\_\+stream\+\_\+cb} (int32\+\_\+t req\+\_\+id, const handler \&h)
+\item 
+void \hyperlink{classtelegraph_1_1connection_a5bf70bff51c2cd812f4f27b3e37e9060}{write\+\_\+back} (int32\+\_\+t req\+\_\+id, api\+::\+Packet \&\&p)
+\item 
+void \hyperlink{classtelegraph_1_1connection_a8c977ff1083d9457444cee0cc4fc1add}{close\+\_\+stream} (int32\+\_\+t req\+\_\+id)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1connection_a6952fb62edd1c7e78fe8744d4eac7aaa}\label{classtelegraph_1_1connection_a6952fb62edd1c7e78fe8744d4eac7aaa}} 
+\index{telegraph\+::connection@{telegraph\+::connection}!connection@{connection}}
+\index{connection@{connection}!telegraph\+::connection@{telegraph\+::connection}}
+\subsubsection{\texorpdfstring{connection()}{connection()}}
+{\footnotesize\ttfamily telegraph\+::connection\+::connection (\begin{DoxyParamCaption}\item[{io\+::io\+\_\+context \&}]{ioc,  }\item[{bool}]{count\+\_\+down }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classtelegraph_1_1connection_a469b53662900132cfc89a595b1dab28c}\label{classtelegraph_1_1connection_a469b53662900132cfc89a595b1dab28c}} 
+\index{telegraph\+::connection@{telegraph\+::connection}!````~connection@{$\sim$connection}}
+\index{````~connection@{$\sim$connection}!telegraph\+::connection@{telegraph\+::connection}}
+\subsubsection{\texorpdfstring{$\sim$connection()}{~connection()}}
+{\footnotesize\ttfamily telegraph\+::connection\+::$\sim$connection (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{classtelegraph_1_1connection_a8c977ff1083d9457444cee0cc4fc1add}\label{classtelegraph_1_1connection_a8c977ff1083d9457444cee0cc4fc1add}} 
+\index{telegraph\+::connection@{telegraph\+::connection}!close\+\_\+stream@{close\+\_\+stream}}
+\index{close\+\_\+stream@{close\+\_\+stream}!telegraph\+::connection@{telegraph\+::connection}}
+\subsubsection{\texorpdfstring{close\+\_\+stream()}{close\_stream()}}
+{\footnotesize\ttfamily void telegraph\+::connection\+::close\+\_\+stream (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{req\+\_\+id }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classtelegraph_1_1connection_a6dd7c859165db61ecdd14a8e5bcc7fcf}\label{classtelegraph_1_1connection_a6dd7c859165db61ecdd14a8e5bcc7fcf}} 
+\index{telegraph\+::connection@{telegraph\+::connection}!received@{received}}
+\index{received@{received}!telegraph\+::connection@{telegraph\+::connection}}
+\subsubsection{\texorpdfstring{received()}{received()}}
+{\footnotesize\ttfamily void telegraph\+::connection\+::received (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{const api\+::\+Packet \&}]{p }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classtelegraph_1_1connection_a5edeb1d722fad636d63f125d896e41c4}\label{classtelegraph_1_1connection_a5edeb1d722fad636d63f125d896e41c4}} 
+\index{telegraph\+::connection@{telegraph\+::connection}!request\+\_\+response@{request\+\_\+response}}
+\index{request\+\_\+response@{request\+\_\+response}!telegraph\+::connection@{telegraph\+::connection}}
+\subsubsection{\texorpdfstring{request\+\_\+response()}{request\_response()}}
+{\footnotesize\ttfamily api\+::\+Packet telegraph\+::connection\+::request\+\_\+response (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{api\+::\+Packet \&\&}]{req }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classtelegraph_1_1connection_a769414199f9cf151ff115f223f07fb5c}\label{classtelegraph_1_1connection_a769414199f9cf151ff115f223f07fb5c}} 
+\index{telegraph\+::connection@{telegraph\+::connection}!request\+\_\+stream@{request\+\_\+stream}}
+\index{request\+\_\+stream@{request\+\_\+stream}!telegraph\+::connection@{telegraph\+::connection}}
+\subsubsection{\texorpdfstring{request\+\_\+stream()}{request\_stream()}}
+{\footnotesize\ttfamily api\+::\+Packet telegraph\+::connection\+::request\+\_\+stream (\begin{DoxyParamCaption}\item[{\hyperlink{structboost_1_1asio_1_1yield__ctx}{io\+::yield\+\_\+ctx} \&}]{yield,  }\item[{api\+::\+Packet \&\&}]{req,  }\item[{const handler \&}]{cb }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classtelegraph_1_1connection_ad5fd2c23680ecda6e07c2f02f3735809}\label{classtelegraph_1_1connection_ad5fd2c23680ecda6e07c2f02f3735809}} 
+\index{telegraph\+::connection@{telegraph\+::connection}!send@{send}}
+\index{send@{send}!telegraph\+::connection@{telegraph\+::connection}}
+\subsubsection{\texorpdfstring{send()}{send()}}
+{\footnotesize\ttfamily virtual void telegraph\+::connection\+::send (\begin{DoxyParamCaption}\item[{api\+::\+Packet \&\&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \hyperlink{classtelegraph_1_1server_1_1remote_aa6a2f2d4045ea8bb51938ca3da4e1b5e}{telegraph\+::server\+::remote}.
+
+\mbox{\Hypertarget{classtelegraph_1_1connection_a07cd6d890aad0f708ca32d136e063937}\label{classtelegraph_1_1connection_a07cd6d890aad0f708ca32d136e063937}} 
+\index{telegraph\+::connection@{telegraph\+::connection}!set\+\_\+handler@{set\+\_\+handler}}
+\index{set\+\_\+handler@{set\+\_\+handler}!telegraph\+::connection@{telegraph\+::connection}}
+\subsubsection{\texorpdfstring{set\+\_\+handler()}{set\_handler()}}
+{\footnotesize\ttfamily void telegraph\+::connection\+::set\+\_\+handler (\begin{DoxyParamCaption}\item[{api\+::\+Packet\+::\+Payload\+Case}]{c,  }\item[{const handler \&}]{h }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classtelegraph_1_1connection_ad3ec8072dd935d37eaac8cbc2390177d}\label{classtelegraph_1_1connection_ad3ec8072dd935d37eaac8cbc2390177d}} 
+\index{telegraph\+::connection@{telegraph\+::connection}!set\+\_\+stream\+\_\+cb@{set\+\_\+stream\+\_\+cb}}
+\index{set\+\_\+stream\+\_\+cb@{set\+\_\+stream\+\_\+cb}!telegraph\+::connection@{telegraph\+::connection}}
+\subsubsection{\texorpdfstring{set\+\_\+stream\+\_\+cb()}{set\_stream\_cb()}}
+{\footnotesize\ttfamily void telegraph\+::connection\+::set\+\_\+stream\+\_\+cb (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{req\+\_\+id,  }\item[{const handler \&}]{h }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classtelegraph_1_1connection_a5bf70bff51c2cd812f4f27b3e37e9060}\label{classtelegraph_1_1connection_a5bf70bff51c2cd812f4f27b3e37e9060}} 
+\index{telegraph\+::connection@{telegraph\+::connection}!write\+\_\+back@{write\+\_\+back}}
+\index{write\+\_\+back@{write\+\_\+back}!telegraph\+::connection@{telegraph\+::connection}}
+\subsubsection{\texorpdfstring{write\+\_\+back()}{write\_back()}}
+{\footnotesize\ttfamily void telegraph\+::connection\+::write\+\_\+back (\begin{DoxyParamCaption}\item[{int32\+\_\+t}]{req\+\_\+id,  }\item[{api\+::\+Packet \&\&}]{p }\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+\hyperlink{connection_8hpp}{connection.\+hpp}\item 
+\hyperlink{connection_8cpp}{connection.\+cpp}\end{DoxyCompactItemize}

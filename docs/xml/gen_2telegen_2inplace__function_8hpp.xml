@@ -1,0 +1,532 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="gen_2telegen_2inplace__function_8hpp" kind="file" language="C++">
+    <compoundname>gen/telegen/inplace_function.hpp</compoundname>
+    <includes local="no">type_traits</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">functional</includes>
+    <includedby refid="util_8hpp" local="yes">util.hpp</includedby>
+    <includedby refid="promise_8hpp" local="yes">promise.hpp</includedby>
+    <includedby refid="gen_2telegen_2nodes_8hpp" local="yes">nodes.hpp</includedby>
+    <incdepgraph>
+      <node id="672">
+        <label>functional</label>
+      </node>
+      <node id="671">
+        <label>utility</label>
+      </node>
+      <node id="670">
+        <label>type_traits</label>
+      </node>
+      <node id="669">
+        <label>inplace_function.hpp</label>
+        <link refid="gen_2telegen_2inplace__function_8hpp"/>
+        <childnode refid="670" relation="include">
+        </childnode>
+        <childnode refid="671" relation="include">
+        </childnode>
+        <childnode refid="672" relation="include">
+        </childnode>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="675">
+        <label>nodes.hpp</label>
+        <link refid="gen_2telegen_2nodes_8hpp"/>
+        <childnode refid="676" relation="include">
+        </childnode>
+        <childnode refid="677" relation="include">
+        </childnode>
+      </node>
+      <node id="681">
+        <label>value.hpp</label>
+        <link refid="gen_2telegen_2value_8hpp"/>
+        <childnode refid="679" relation="include">
+        </childnode>
+        <childnode refid="677" relation="include">
+        </childnode>
+      </node>
+      <node id="680">
+        <label>types.hpp</label>
+        <link refid="types_8hpp"/>
+        <childnode refid="681" relation="include">
+        </childnode>
+        <childnode refid="675" relation="include">
+        </childnode>
+      </node>
+      <node id="678">
+        <label>promise.hpp</label>
+        <link refid="promise_8hpp"/>
+        <childnode refid="679" relation="include">
+        </childnode>
+        <childnode refid="677" relation="include">
+        </childnode>
+      </node>
+      <node id="679">
+        <label>source.hpp</label>
+        <link refid="source_8hpp"/>
+        <childnode refid="675" relation="include">
+        </childnode>
+        <childnode refid="676" relation="include">
+        </childnode>
+        <childnode refid="677" relation="include">
+        </childnode>
+      </node>
+      <node id="677">
+        <label>uart_interface.hpp</label>
+        <link refid="uart__interface_8hpp"/>
+      </node>
+      <node id="676">
+        <label>publisher.hpp</label>
+        <link refid="gen_2telegen_2publisher_8hpp"/>
+      </node>
+      <node id="673">
+        <label>inplace_function.hpp</label>
+        <link refid="gen_2telegen_2inplace__function_8hpp"/>
+        <childnode refid="674" relation="include">
+        </childnode>
+        <childnode refid="678" relation="include">
+        </childnode>
+        <childnode refid="675" relation="include">
+        </childnode>
+      </node>
+      <node id="674">
+        <label>util.hpp</label>
+        <link refid="util_8hpp"/>
+        <childnode refid="675" relation="include">
+        </childnode>
+        <childnode refid="678" relation="include">
+        </childnode>
+        <childnode refid="680" relation="include">
+        </childnode>
+        <childnode refid="677" relation="include">
+        </childnode>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper" prot="public">stdext::inplace_function_detail::aligned_storage_helper</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double1" prot="public">stdext::inplace_function_detail::aligned_storage_helper::double1</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double4" prot="public">stdext::inplace_function_detail::aligned_storage_helper::double4</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1aligned__storage" prot="public">stdext::inplace_function_detail::aligned_storage</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1wrapper" prot="public">stdext::inplace_function_detail::wrapper</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1vtable" prot="public">stdext::inplace_function_detail::vtable</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__valid__inplace__dst" prot="public">stdext::inplace_function_detail::is_valid_inplace_dst</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" prot="public">stdext::inplace_function_detail::is_invocable_r_impl</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07std_1_1declva53be7366370c87c5d74810a4225ea3b9" prot="public">stdext::inplace_function_detail::is_invocable_r_impl&lt; decltype(std::declval&lt; F &gt;()(std::declval&lt; Args &gt;()...), void()), void, F, Args... &gt;</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07std_1_1declva0b72e3b51b5a25ed55b63381e8d17b0a" prot="public">stdext::inplace_function_detail::is_invocable_r_impl&lt; decltype(std::declval&lt; F &gt;()(std::declval&lt; Args &gt;()...), void()), const void, F, Args... &gt;</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07accept_3_01R_32d81c51f4037807d0fe4b47c34d0755" prot="public">stdext::inplace_function_detail::is_invocable_r_impl&lt; decltype(accept&lt; R &gt;(std::declval&lt; F &gt;()(std::declval&lt; Args &gt;()...))), R, F, Args... &gt;</innerclass>
+    <innerclass refid="classstdext_1_1inplace__function" prot="public">stdext::inplace_function</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function" prot="public">stdext::inplace_function_detail::is_inplace_function</innerclass>
+    <innerclass refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function_3_01inplace__function_3_01Sig_00_01Cap_00_01Align_01_4_01_4" prot="public">stdext::inplace_function_detail::is_inplace_function&lt; inplace_function&lt; Sig, Cap, Align &gt; &gt;</innerclass>
+    <innerclass refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4" prot="public">stdext::inplace_function&lt; R(Args...), Capacity, Alignment &gt;</innerclass>
+    <innernamespace refid="namespacestdext">stdext</innernamespace>
+    <innernamespace refid="namespacestdext_1_1inplace__function__detail">stdext::inplace_function_detail</innernamespace>
+      <sectiondef kind="define">
+      <memberdef kind="define" id="gen_2telegen_2inplace__function_8hpp_1a812e9ceaad1fc4ca92a3d7f276b9c6b0" prot="public" static="no">
+        <name>SG14_INPLACE_FUNCTION_THROW</name>
+        <param><defname>x</defname></param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/inplace_function.hpp" line="35" column="9" bodyfile="gen/telegen/inplace_function.hpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Boost<sp/>Software<sp/>License<sp/>-<sp/>Version<sp/>1.0<sp/>-<sp/>August<sp/>17th,<sp/>2003</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Permission<sp/>is<sp/>hereby<sp/>granted,<sp/>free<sp/>of<sp/>charge,<sp/>to<sp/>any<sp/>person<sp/>or<sp/>organization</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>obtaining<sp/>a<sp/>copy<sp/>of<sp/>the<sp/>software<sp/>and<sp/>accompanying<sp/>documentation<sp/>covered<sp/>by</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*<sp/>this<sp/>license<sp/>(the<sp/>&quot;Software&quot;)<sp/>to<sp/>use,<sp/>reproduce,<sp/>display,<sp/>distribute,</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>execute,<sp/>and<sp/>transmit<sp/>the<sp/>Software,<sp/>and<sp/>to<sp/>prepare<sp/>derivative<sp/>works<sp/>of<sp/>the</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/>Software,<sp/>and<sp/>to<sp/>permit<sp/>third-parties<sp/>to<sp/>whom<sp/>the<sp/>Software<sp/>is<sp/>furnished<sp/>to</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/>do<sp/>so,<sp/>all<sp/>subject<sp/>to<sp/>the<sp/>following:</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*<sp/>The<sp/>copyright<sp/>notices<sp/>in<sp/>the<sp/>Software<sp/>and<sp/>this<sp/>entire<sp/>statement,<sp/>including</highlight></codeline>
+<codeline lineno="12"><highlight class="comment"><sp/>*<sp/>the<sp/>above<sp/>license<sp/>grant,<sp/>this<sp/>restriction<sp/>and<sp/>the<sp/>following<sp/>disclaimer,</highlight></codeline>
+<codeline lineno="13"><highlight class="comment"><sp/>*<sp/>must<sp/>be<sp/>included<sp/>in<sp/>all<sp/>copies<sp/>of<sp/>the<sp/>Software,<sp/>in<sp/>whole<sp/>or<sp/>in<sp/>part,<sp/>and</highlight></codeline>
+<codeline lineno="14"><highlight class="comment"><sp/>*<sp/>all<sp/>derivative<sp/>works<sp/>of<sp/>the<sp/>Software,<sp/>unless<sp/>such<sp/>copies<sp/>or<sp/>derivative</highlight></codeline>
+<codeline lineno="15"><highlight class="comment"><sp/>*<sp/>works<sp/>are<sp/>solely<sp/>in<sp/>the<sp/>form<sp/>of<sp/>machine-executable<sp/>object<sp/>code<sp/>generated<sp/>by</highlight></codeline>
+<codeline lineno="16"><highlight class="comment"><sp/>*<sp/>a<sp/>source<sp/>language<sp/>processor.</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/>*<sp/>THE<sp/>SOFTWARE<sp/>IS<sp/>PROVIDED<sp/>&quot;AS<sp/>IS&quot;,<sp/>WITHOUT<sp/>WARRANTY<sp/>OF<sp/>ANY<sp/>KIND,<sp/>EXPRESS<sp/>OR</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/>*<sp/>IMPLIED,<sp/>INCLUDING<sp/>BUT<sp/>NOT<sp/>LIMITED<sp/>TO<sp/>THE<sp/>WARRANTIES<sp/>OF<sp/>MERCHANTABILITY,</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/>*<sp/>FITNESS<sp/>FOR<sp/>A<sp/>PARTICULAR<sp/>PURPOSE,<sp/>TITLE<sp/>AND<sp/>NON-INFRINGEMENT.<sp/>IN<sp/>NO<sp/>EVENT</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/>*<sp/>SHALL<sp/>THE<sp/>COPYRIGHT<sp/>HOLDERS<sp/>OR<sp/>ANYONE<sp/>DISTRIBUTING<sp/>THE<sp/>SOFTWARE<sp/>BE<sp/>LIABLE</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/>*<sp/>FOR<sp/>ANY<sp/>DAMAGES<sp/>OR<sp/>OTHER<sp/>LIABILITY,<sp/>WHETHER<sp/>IN<sp/>CONTRACT,<sp/>TORT<sp/>OR<sp/>OTHERWISE,</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/>*<sp/>ARISING<sp/>FROM,<sp/>OUT<sp/>OF<sp/>OR<sp/>IN<sp/>CONNECTION<sp/>WITH<sp/>THE<sp/>SOFTWARE<sp/>OR<sp/>THE<sp/>USE<sp/>OR<sp/>OTHER</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/>*<sp/>DEALINGS<sp/>IN<sp/>THE<sp/>SOFTWARE.</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>do<sp/>nothing<sp/>on<sp/>function<sp/>throw<sp/>since<sp/>we<sp/>have<sp/>-fno-exceptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>SG14_INPLACE_FUNCTION_THROW</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="gen_2telegen_2inplace__function_8hpp_1a812e9ceaad1fc4ca92a3d7f276b9c6b0" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>SG14_INPLACE_FUNCTION_THROW(x)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespacestdext" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacestdext" kindref="compound">stdext</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="namespacestdext_1_1inplace__function__detail" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">inplace_function_detail<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>InplaceFunctionDefaultCapacity<sp/>=<sp/>32;</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="preprocessor">#ifndef<sp/>SG14_USE_STD_ALIGNED_STORAGE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>https://gcc.gnu.org/bugzilla/show_bug.cgi?id=61458</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MSVC<sp/>32-bit<sp/>has<sp/>the<sp/>same<sp/>bug.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>libc++<sp/>and<sp/>MSVC<sp/>64-bit<sp/>seem<sp/>to<sp/>work<sp/>fine<sp/>right<sp/>now,<sp/>but<sp/>why<sp/>run<sp/>the<sp/>risk?</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Cap&gt;</highlight></codeline>
+<codeline lineno="49" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">union<sp/></highlight><highlight class="normal"><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper" kindref="compound">aligned_storage_helper</ref><sp/>{</highlight></codeline>
+<codeline lineno="50" refid="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double1_1a21bd2ba02bde2bd642aff6bdee37407f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double1" kindref="compound">double1</ref><sp/>{<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double1_1a21bd2ba02bde2bd642aff6bdee37407f" kindref="member">a</ref>;<sp/>};</highlight></codeline>
+<codeline lineno="51" refid="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double4_1a02373c793fa67c6b57d24d2f34b58504" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double4" kindref="compound">double4</ref><sp/>{<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1_1double1_1a21bd2ba02bde2bd642aff6bdee37407f" kindref="member">a</ref>[4];<sp/>};</highlight></codeline>
+<codeline lineno="52" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a8265d2d65d57b5e7de088f8b6fc02370" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/>T&gt;<sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a8265d2d65d57b5e7de088f8b6fc02370" kindref="member">maybe</ref><sp/>=<sp/>std::conditional_t&lt;(Cap<sp/>&gt;=<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(T)),<sp/>T,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="53" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1ae41b7c85be0b0ea99933e3c615864df0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal"><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1ae41b7c85be0b0ea99933e3c615864df0" kindref="member">real_data</ref>[Cap];</highlight></codeline>
+<codeline lineno="54" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1af004f7336a4fed40e87fe79d09a9c72f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a8265d2d65d57b5e7de088f8b6fc02370" kindref="member">maybe&lt;int&gt;</ref><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1af004f7336a4fed40e87fe79d09a9c72f" kindref="member">a</ref>;</highlight></codeline>
+<codeline lineno="55" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a032cd3fd7df6feed8f515f61fd91d345" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a8265d2d65d57b5e7de088f8b6fc02370" kindref="member">maybe&lt;long&gt;</ref><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a032cd3fd7df6feed8f515f61fd91d345" kindref="member">b</ref>;</highlight></codeline>
+<codeline lineno="56" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a7bcac46d1d7574edfe5f59838ec0e4ff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a8265d2d65d57b5e7de088f8b6fc02370" kindref="member">maybe&lt;long long&gt;</ref><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a7bcac46d1d7574edfe5f59838ec0e4ff" kindref="member">c</ref>;</highlight></codeline>
+<codeline lineno="57" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a4184b86861e804b51e0e4e2b784585ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a8265d2d65d57b5e7de088f8b6fc02370" kindref="member">maybe&lt;void*&gt;</ref><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a4184b86861e804b51e0e4e2b784585ea" kindref="member">d</ref>;</highlight></codeline>
+<codeline lineno="58" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1abd0e5c31a14b58c138889d7b59a2bea7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a8265d2d65d57b5e7de088f8b6fc02370" kindref="member">maybe&lt;void(*)()&gt;</ref><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1abd0e5c31a14b58c138889d7b59a2bea7" kindref="member">e</ref>;</highlight></codeline>
+<codeline lineno="59" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a3d89d23804162fcae83e24dcaf6a5acd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a8265d2d65d57b5e7de088f8b6fc02370" kindref="member">maybe&lt;double1&gt;</ref><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a3d89d23804162fcae83e24dcaf6a5acd" kindref="member">f</ref>;</highlight></codeline>
+<codeline lineno="60" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a3ec253d4296818e85bb04c048b321bf8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a8265d2d65d57b5e7de088f8b6fc02370" kindref="member">maybe&lt;double4&gt;</ref><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a3ec253d4296818e85bb04c048b321bf8" kindref="member">g</ref>;</highlight></codeline>
+<codeline lineno="61" refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a790aee0f127912bcebca554a2cc75395" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a8265d2d65d57b5e7de088f8b6fc02370" kindref="member">maybe&lt;long double&gt;</ref><sp/><ref refid="unionstdext_1_1inplace__function__detail_1_1aligned__storage__helper_1a790aee0f127912bcebca554a2cc75395" kindref="member">h</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Cap,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Align<sp/>=<sp/>alignof(aligned_storage_helper&lt;Cap&gt;)&gt;</highlight></codeline>
+<codeline lineno="65" refid="structstdext_1_1inplace__function__detail_1_1aligned__storage" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1aligned__storage" kindref="compound">aligned_storage</ref><sp/>{</highlight></codeline>
+<codeline lineno="66" refid="structstdext_1_1inplace__function__detail_1_1aligned__storage_1a2715429b3ff736ab58dea08f28f06947" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1aligned__storage_1a2715429b3ff736ab58dea08f28f06947" kindref="member">type</ref><sp/>=<sp/>std::aligned_storage_t&lt;Cap,<sp/>Align&gt;;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Cap,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Align<sp/>=<sp/>alignof(aligned_storage_helper&lt;Cap&gt;)&gt;</highlight></codeline>
+<codeline lineno="70" refid="namespacestdext_1_1inplace__function__detail_1a84aa129d717eea675489c4b491812944" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespacestdext_1_1inplace__function__detail_1a84aa129d717eea675489c4b491812944" kindref="member">aligned_storage_t</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1aligned__storage_1a2715429b3ff736ab58dea08f28f06947" kindref="member">aligned_storage&lt;Cap, Align&gt;::type</ref>;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="namespacestdext_1_1inplace__function__detail_1a84aa129d717eea675489c4b491812944" kindref="member">aligned_storage_t</ref>&lt;</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)&gt;)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*),<sp/></highlight><highlight class="stringliteral">&quot;A&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="72"><highlight class="normal">static_assert(</highlight><highlight class="keyword">alignof</highlight><highlight class="normal">(<ref refid="namespacestdext_1_1inplace__function__detail_1a84aa129d717eea675489c4b491812944" kindref="member">aligned_storage_t</ref>&lt;</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)&gt;)<sp/>==<sp/></highlight><highlight class="keyword">alignof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*),<sp/></highlight><highlight class="stringliteral">&quot;B&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>std::aligned_storage;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="namespacestdext_1_1inplace__function__detail_1a84aa129d717eea675489c4b491812944" kindref="member">std::aligned_storage_t</ref>;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(<ref refid="namespacestdext_1_1inplace__function__detail_1a84aa129d717eea675489c4b491812944" kindref="member">std::aligned_storage_t</ref>&lt;</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)&gt;)<sp/>==<sp/></highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*),<sp/></highlight><highlight class="stringliteral">&quot;C&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal">static_assert(</highlight><highlight class="keyword">alignof</highlight><highlight class="normal">(<ref refid="namespacestdext_1_1inplace__function__detail_1a84aa129d717eea675489c4b491812944" kindref="member">std::aligned_storage_t</ref>&lt;</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*)&gt;)<sp/>==<sp/></highlight><highlight class="keyword">alignof</highlight><highlight class="normal">(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*),<sp/></highlight><highlight class="stringliteral">&quot;D&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structstdext_1_1inplace__function__detail_1_1wrapper" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/>T&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1wrapper" kindref="compound">wrapper</ref></highlight></codeline>
+<codeline lineno="81"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="82" refid="structstdext_1_1inplace__function__detail_1_1wrapper_1a8ffe3ee24387462eac3adb955deba564" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1wrapper_1a8ffe3ee24387462eac3adb955deba564" kindref="member">type</ref><sp/>=<sp/>T;</highlight></codeline>
+<codeline lineno="83"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85" refid="structstdext_1_1inplace__function__detail_1_1vtable" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">R,<sp/></highlight><highlight class="keyword">class</highlight><highlight class="normal">...<sp/>Args&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref></highlight></codeline>
+<codeline lineno="86"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="87" refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref><sp/>=<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*;</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="structstdext_1_1inplace__function__detail_1_1vtable_1af01857ded8c77028b981d09f77903ffb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1af01857ded8c77028b981d09f77903ffb" kindref="member">invoke_ptr_t</ref><sp/>=<sp/>R(*)(<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref>,<sp/>Args&amp;&amp;...);</highlight></codeline>
+<codeline lineno="90" refid="structstdext_1_1inplace__function__detail_1_1vtable_1af52f23b9203f5508d063e887ce7626a0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1af52f23b9203f5508d063e887ce7626a0" kindref="member">process_ptr_t</ref><sp/>=<sp/>void(*)(<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref>,<sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref>);</highlight></codeline>
+<codeline lineno="91" refid="structstdext_1_1inplace__function__detail_1_1vtable_1aefd72ab62cd75d43d4f24e6503c8ec97" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1aefd72ab62cd75d43d4f24e6503c8ec97" kindref="member">destructor_ptr_t</ref><sp/>=<sp/>void(*)(<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref>);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="structstdext_1_1inplace__function__detail_1_1vtable_1abf9116992f2429c1fb9029f3909de3f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1af01857ded8c77028b981d09f77903ffb" kindref="member">invoke_ptr_t</ref><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1abf9116992f2429c1fb9029f3909de3f5" kindref="member">invoke_ptr</ref>;</highlight></codeline>
+<codeline lineno="94" refid="structstdext_1_1inplace__function__detail_1_1vtable_1ac5820a8381befdaa2d84a36aea13610c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1af52f23b9203f5508d063e887ce7626a0" kindref="member">process_ptr_t</ref><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1ac5820a8381befdaa2d84a36aea13610c" kindref="member">copy_ptr</ref>;</highlight></codeline>
+<codeline lineno="95" refid="structstdext_1_1inplace__function__detail_1_1vtable_1ac0af7a0be08b3e087023b1d7c8dd1993" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1af52f23b9203f5508d063e887ce7626a0" kindref="member">process_ptr_t</ref><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1ac0af7a0be08b3e087023b1d7c8dd1993" kindref="member">relocate_ptr</ref>;</highlight></codeline>
+<codeline lineno="96" refid="structstdext_1_1inplace__function__detail_1_1vtable_1a7d2e5a449f99a37b7d71d858fa71eba6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1aefd72ab62cd75d43d4f24e6503c8ec97" kindref="member">destructor_ptr_t</ref><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1a7d2e5a449f99a37b7d71d858fa71eba6" kindref="member">destructor_ptr</ref>;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structstdext_1_1inplace__function__detail_1_1vtable_1acec966ae149e457bf0f5042974254ba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>constexpr<sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1acec966ae149e457bf0f5042974254ba4" kindref="member">vtable</ref>()<sp/>noexcept<sp/>:</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>invoke_ptr{<sp/>[](<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref>,<sp/>Args&amp;&amp;...)<sp/>-&gt;<sp/>R</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/><ref refid="gen_2telegen_2inplace__function_8hpp_1a812e9ceaad1fc4ca92a3d7f276b9c6b0" kindref="member">SG14_INPLACE_FUNCTION_THROW</ref>(std::bad_function_call());<sp/>}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>copy_ptr{<sp/>[](<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref>,<sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>{}<sp/>},</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>relocate_ptr{<sp/>[](<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref>,<sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>{}<sp/>},</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>destructor_ptr{<sp/>[](<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref>)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>{}<sp/>}</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="structstdext_1_1inplace__function__detail_1_1vtable_1ae59e9dfc5b677cbb7f9397cfc52f2b47" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/>C&gt;<sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>constexpr<sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1ae59e9dfc5b677cbb7f9397cfc52f2b47" kindref="member">vtable</ref>(<ref refid="structstdext_1_1inplace__function__detail_1_1wrapper" kindref="compound">wrapper&lt;C&gt;</ref>)<sp/>noexcept<sp/>:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>invoke_ptr{<sp/>[](<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref><sp/>storage_ptr,<sp/>Args&amp;&amp;...<sp/>args)<sp/>-&gt;<sp/>R</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(*static_cast&lt;C*&gt;(storage_ptr))(</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_cast&lt;Args&amp;&amp;&gt;(args)...</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);<sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>copy_ptr{<sp/>[](<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref><sp/>dst_ptr,<sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref><sp/>src_ptr)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/>::new<sp/>(dst_ptr)<sp/>C{<sp/>(*</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">C*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(src_ptr))<sp/>};<sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>relocate_ptr{<sp/>[](<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref><sp/>dst_ptr,<sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref><sp/>src_ptr)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::new<sp/>(dst_ptr)<sp/>C{<sp/>std::move(*static_cast&lt;C*&gt;(src_ptr))<sp/>};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">C*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(src_ptr)-&gt;~C();</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>},</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>destructor_ptr{<sp/>[](<ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">storage_ptr_t</ref><sp/>src_ptr)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">C*</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(src_ptr)-&gt;~C();<sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>(<ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>&amp;<sp/>operator=<sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>&amp;<sp/>operator=<sp/>(<ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>~<ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">R,<sp/></highlight><highlight class="keyword">class</highlight><highlight class="normal">...<sp/>Args&gt;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>__cplusplus<sp/>&gt;=<sp/>201703L</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/>constexpr</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="namespacestdext_1_1inplace__function__detail_1a31403f05f455c45323900ed791032eda" refkind="member"><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable</ref>&lt;R,<sp/>Args...&gt;<sp/><ref refid="namespacestdext_1_1inplace__function__detail_1a31403f05f455c45323900ed791032eda" kindref="member">empty_vtable</ref>{};</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>DstCap,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>DstAlign,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>SrcCap,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>SrcAlign&gt;</highlight></codeline>
+<codeline lineno="143" refid="structstdext_1_1inplace__function__detail_1_1is__valid__inplace__dst" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1is__valid__inplace__dst" kindref="compound">is_valid_inplace_dst</ref><sp/>:<sp/>std::true_type</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>static_assert(DstCap<sp/>&gt;=<sp/>SrcCap,</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Can&apos;t<sp/>squeeze<sp/>larger<sp/>inplace_function<sp/>into<sp/>a<sp/>smaller<sp/>one&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>static_assert(DstAlign<sp/>%<sp/>SrcAlign<sp/>==<sp/>0,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;Incompatible<sp/>inplace_function<sp/>alignments&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="152"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight><highlight class="comment">//<sp/>C++11<sp/>MSVC<sp/>compatible<sp/>implementation<sp/>of<sp/>std::is_invocable_r.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/>R&gt;<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="namespacestdext_1_1inplace__function__detail_1a6ea79bf8d7a67334837baa7bafb73bf1" kindref="member">accept</ref>(R);</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">R,<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">F,<sp/></highlight><highlight class="keyword">class</highlight><highlight class="normal">...<sp/>Args&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" kindref="compound">is_invocable_r_impl</ref><sp/>:<sp/>std::false_type<sp/>{};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07std_1_1declva53be7366370c87c5d74810a4225ea3b9" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">F,<sp/></highlight><highlight class="keyword">class</highlight><highlight class="normal">...<sp/>Args&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" kindref="compound">is_invocable_r_impl</ref>&lt;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>decltype(<ref refid="namespacestd" kindref="compound">std</ref>::declval&lt;F&gt;()(std::declval&lt;Args&gt;()...),<sp/>void()),</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>void,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>F,</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>Args...</highlight></codeline>
+<codeline lineno="165"><highlight class="normal">&gt;<sp/>:<sp/>std::true_type<sp/>{};</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07std_1_1declva0b72e3b51b5a25ed55b63381e8d17b0a" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">F,<sp/></highlight><highlight class="keyword">class</highlight><highlight class="normal">...<sp/>Args&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" kindref="compound">is_invocable_r_impl</ref>&lt;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>decltype(<ref refid="namespacestd" kindref="compound">std</ref>::declval&lt;F&gt;()(std::declval&lt;Args&gt;()...),<sp/>void()),</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>const<sp/>void,</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>F,</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>Args...</highlight></codeline>
+<codeline lineno="172"><highlight class="normal">&gt;<sp/>:<sp/>std::true_type<sp/>{};</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07accept_3_01R_32d81c51f4037807d0fe4b47c34d0755" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">R,<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">F,<sp/></highlight><highlight class="keyword">class</highlight><highlight class="normal">...<sp/>Args&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" kindref="compound">is_invocable_r_impl</ref>&lt;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>decltype(accept&lt;R&gt;(<ref refid="namespacestd" kindref="compound">std</ref>::declval&lt;F&gt;()(std::declval&lt;Args&gt;()...))),</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>R,</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>F,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>Args...</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">&gt;<sp/>:<sp/>std::true_type<sp/>{};</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">R,<sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">F,<sp/></highlight><highlight class="keyword">class</highlight><highlight class="normal">...<sp/>Args&gt;<sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" kindref="compound">is_invocable_r</ref><sp/>=<sp/><ref refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" kindref="compound">is_invocable_r_impl</ref>&lt;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>void,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>R,</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>F,</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>Args...</highlight></codeline>
+<codeline lineno="186" refid="namespacestdext_1_1inplace__function__detail_1a8d53be19103030d83354d280975ae690" refkind="member"><highlight class="normal">&gt;;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>inplace_function_detail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Signature,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Capacity<sp/>=<sp/>inplace_function_detail::InplaceFunctionDefaultCapacity,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Alignment<sp/>=<sp/></highlight><highlight class="keyword">alignof</highlight><highlight class="normal">(<ref refid="namespacestdext_1_1inplace__function__detail_1a84aa129d717eea675489c4b491812944" kindref="member">inplace_function_detail::aligned_storage_t&lt;Capacity&gt;</ref>)</highlight></codeline>
+<codeline lineno="193"><highlight class="normal">&gt;</highlight></codeline>
+<codeline lineno="194" refid="classstdext_1_1inplace__function" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>;<sp/></highlight><highlight class="comment">//<sp/>unspecified</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">inplace_function_detail<sp/>{</highlight></codeline>
+<codeline lineno="197" refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal">&gt;<sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function" kindref="compound">is_inplace_function</ref><sp/>:<sp/>std::false_type<sp/>{};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal"><sp/>Sig,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Cap,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Align&gt;</highlight></codeline>
+<codeline lineno="199" refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function_3_01inplace__function_3_01Sig_00_01Cap_00_01Align_01_4_01_4" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function" kindref="compound">is_inplace_function&lt;inplace_function&lt;Sig, Cap, Align&gt;</ref>&gt;<sp/>:<sp/>std::true_type<sp/>{};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>inplace_function_detail</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">R,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class</highlight><highlight class="normal">...<sp/>Args,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Capacity,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Alignment</highlight></codeline>
+<codeline lineno="207"><highlight class="normal">&gt;</highlight></codeline>
+<codeline lineno="208" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>&lt;R(Args...),<sp/>Capacity,<sp/>Alignment&gt;</highlight></codeline>
+<codeline lineno="209"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/>storage_t<sp/>=<sp/><ref refid="namespacestdext_1_1inplace__function__detail_1a84aa129d717eea675489c4b491812944" kindref="member">inplace_function_detail::aligned_storage_t&lt;Capacity, Alignment&gt;</ref>;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable_t</ref><sp/>=<sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">inplace_function_detail::vtable</ref>&lt;R,<sp/>Args...&gt;;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable_ptr_t</ref><sp/>=<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable_t</ref>*;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a5b4d4b71b2852dbb67897387c2e31957" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">class</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&gt;<sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>;</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="217" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a7aeca8cbeac6770ddbbe3d2de1606119" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a7aeca8cbeac6770ddbbe3d2de1606119" kindref="member">capacity</ref><sp/>=<sp/>std::integral_constant&lt;size_t,<sp/>Capacity&gt;;</highlight></codeline>
+<codeline lineno="218" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a6fb11b21afeb300682fb544ff2f9c4db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a6fb11b21afeb300682fb544ff2f9c4db" kindref="member">alignment</ref><sp/>=<sp/>std::integral_constant&lt;size_t,<sp/>Alignment&gt;;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a4f0aa2830789ae07d6eaa554e3665865" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a4f0aa2830789ae07d6eaa554e3665865" kindref="member">inplace_function</ref>()<sp/>noexcept<sp/>:</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_{std::addressof(inplace_function_detail::empty_vtable&lt;R,<sp/>Args...&gt;)}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">T,</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">C<sp/>=<sp/>std::decay_t&lt;T&gt;,</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">=<sp/>std::enable_if_t&lt;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>!<ref refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function" kindref="compound">inplace_function_detail::is_inplace_function&lt;C&gt;::value</ref></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&amp;&amp;<sp/><ref refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl" kindref="compound">inplace_function_detail::is_invocable_r</ref>&lt;R,<sp/>C&amp;,<sp/>Args...&gt;::value</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>&gt;</highlight></codeline>
+<codeline lineno="232" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a28bb1c55b24a4056b128be868af7794b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a28bb1c55b24a4056b128be868af7794b" kindref="member">inplace_function</ref>(T&amp;&amp;<sp/>closure)</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_assert(std::is_copy_constructible&lt;C&gt;::value,</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inplace_function<sp/>cannot<sp/>be<sp/>constructed<sp/>from<sp/>non-copyable<sp/>type&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_assert(</highlight><highlight class="keyword">sizeof</highlight><highlight class="normal">(C)<sp/>&lt;=<sp/>Capacity,</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inplace_function<sp/>cannot<sp/>be<sp/>constructed<sp/>from<sp/>object<sp/>with<sp/>this<sp/>(large)<sp/>size&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_assert(Alignment<sp/>%<sp/></highlight><highlight class="keyword">alignof</highlight><highlight class="normal">(C)<sp/>==<sp/>0,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;inplace_function<sp/>cannot<sp/>be<sp/>constructed<sp/>from<sp/>object<sp/>with<sp/>this<sp/>(large)<sp/>alignment&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable_t</ref><sp/>vt{<ref refid="structstdext_1_1inplace__function__detail_1_1wrapper" kindref="compound">inplace_function_detail::wrapper&lt;C&gt;</ref>{}};</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_<sp/>=<sp/>std::addressof(vt);</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>::new<sp/>(std::addressof(storage_))<sp/>C{std::forward&lt;T&gt;(closure)};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Cap,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Align&gt;</highlight></codeline>
+<codeline lineno="253" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1adc64caf861ce3703357c901c4691ace7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1adc64caf861ce3703357c901c4691ace7" kindref="member">inplace_function</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>&lt;R(Args...),<sp/>Cap,<sp/>Align&gt;&amp;<sp/>other)</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>(other.vtable_ptr_,<sp/>other.vtable_ptr_-&gt;copy_ptr,<sp/><ref refid="namespacestd" kindref="compound">std</ref>::addressof(other.storage_))</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_assert(<ref refid="structstdext_1_1inplace__function__detail_1_1is__valid__inplace__dst" kindref="compound">inplace_function_detail::is_valid_inplace_dst</ref>&lt;</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Capacity,<sp/>Alignment,<sp/>Cap,<sp/>Align</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;::value,<sp/></highlight><highlight class="stringliteral">&quot;conversion<sp/>not<sp/>allowed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal">&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Cap,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>Align&gt;</highlight></codeline>
+<codeline lineno="262" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1adeb6b2419556c7826ca7cd04c3b5ef2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1adeb6b2419556c7826ca7cd04c3b5ef2e" kindref="member">inplace_function</ref>(<ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>&lt;R(Args...),<sp/>Cap,<sp/>Align&gt;&amp;&amp;<sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>(other.vtable_ptr_,<sp/>other.vtable_ptr_-&gt;relocate_ptr,<sp/>std::addressof(other.storage_))</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>static_assert(<ref refid="structstdext_1_1inplace__function__detail_1_1is__valid__inplace__dst" kindref="compound">inplace_function_detail::is_valid_inplace_dst</ref>&lt;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Capacity,<sp/>Alignment,<sp/>Cap,<sp/>Align</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&gt;::value,<sp/></highlight><highlight class="stringliteral">&quot;conversion<sp/>not<sp/>allowed&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.vtable_ptr_<sp/>=<sp/>std::addressof(inplace_function_detail::empty_vtable&lt;R,<sp/>Args...&gt;);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a7bd44c3a16e8c7312be0cc3ae1e0d387" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a7bd44c3a16e8c7312be0cc3ae1e0d387" kindref="member">inplace_function</ref>(std::nullptr_t)<sp/>noexcept<sp/>:</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_{std::addressof(inplace_function_detail::empty_vtable&lt;R,<sp/>Args...&gt;)}</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>{}</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"></highlight></codeline>
+<codeline lineno="276" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a1ccbc60554d934faf7c8e4188f6141b0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a1ccbc60554d934faf7c8e4188f6141b0" kindref="member">inplace_function</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>&amp;<sp/>other)<sp/>:</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_{other.vtable_ptr_}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_-&gt;copy_ptr(</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(storage_),</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(other.storage_)</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a9c97182aafdffc26da1f569830bf01bb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a9c97182aafdffc26da1f569830bf01bb" kindref="member">inplace_function</ref>(<ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>&amp;&amp;<sp/>other)<sp/>noexcept<sp/>:</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_{std::exchange(other.vtable_ptr_,<sp/>std::addressof(inplace_function_detail::empty_vtable&lt;R,<sp/>Args...&gt;))}</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_-&gt;relocate_ptr(</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(storage_),</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(other.storage_)</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1af53e5cf03650c43b743bd040674d4762" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>&amp;<sp/>operator=<sp/>(std::nullptr_t)<sp/>noexcept</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_-&gt;destructor_ptr(std::addressof(storage_));</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_<sp/>=<sp/>std::addressof(inplace_function_detail::empty_vtable&lt;R,<sp/>Args...&gt;);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a191f41fe8250b4189176a9baae25ee60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>&amp;<sp/>operator=<sp/>(<ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref><sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_-&gt;destructor_ptr(std::addressof(storage_));</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_<sp/>=<sp/>std::exchange(other.vtable_ptr_,<sp/>std::addressof(inplace_function_detail::empty_vtable&lt;R,<sp/>Args...&gt;));</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_-&gt;relocate_ptr(</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(storage_),</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(other.storage_)</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*</highlight><highlight class="keyword">this</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"></highlight></codeline>
+<codeline lineno="313" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1acb623711bd68bbbf71cb7e233f6226de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1acb623711bd68bbbf71cb7e233f6226de" kindref="member">~inplace_function</ref>()</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_-&gt;destructor_ptr(std::addressof(storage_));</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a64e0f59000063faaf35ebdcdf1e10bae" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>R<sp/>operator()<sp/>(Args...<sp/>args)</highlight><highlight class="keyword"><sp/>const</highlight></codeline>
+<codeline lineno="319"><highlight class="keyword"><sp/><sp/><sp/><sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>vtable_ptr_-&gt;invoke_ptr(</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(storage_),</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::forward&lt;Args&gt;(args)...</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a2fc2327b65754cc6c20d37d76cb86aa9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a2fc2327b65754cc6c20d37d76cb86aa9" kindref="member">data</ref>()<sp/>const<sp/>noexcept</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>{<sp/></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::addressof(storage_);<sp/></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a174b90228b202356b44b3fa91ae566e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator==<sp/>(std::nullptr_t)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!</highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool();</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a0991678f0a58072f1f3f89919fe92676" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>constexpr<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>operator!=<sp/>(std::nullptr_t)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>noexcept</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool();</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a8fa4d88e328279b050356c0968ec0498" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/>constexpr<sp/></highlight><highlight class="keyword">operator</highlight><highlight class="normal"><sp/>bool()<sp/>const<sp/>noexcept</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>vtable_ptr_<sp/>!=<sp/>std::addressof(inplace_function_detail::empty_vtable&lt;R,<sp/>Args...&gt;);</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a7524f21e7df2da0b701d6948c0936956" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1a7524f21e7df2da0b701d6948c0936956" kindref="member">swap</ref>(<ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>&amp;<sp/>other)<sp/>noexcept</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">this</highlight><highlight class="normal"><sp/>==<sp/>std::addressof(other))<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="349"><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>storage_t<sp/>tmp;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_-&gt;relocate_ptr(</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(tmp),</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(storage_)</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>other.vtable_ptr_-&gt;relocate_ptr(</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(storage_),</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(other.storage_)</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>vtable_ptr_-&gt;relocate_ptr(</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(other.storage_),</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::addressof(tmp)</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::swap(vtable_ptr_,<sp/>other.vtable_ptr_);</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369" refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1ac652007694c3840de1d307fc57b972f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">friend</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classstdext_1_1inplace__function_3_01R_07Args_8_8_8_08_00_01Capacity_00_01Alignment_01_4_1ac652007694c3840de1d307fc57b972f5" kindref="member">swap</ref>(<ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>&amp;<sp/>lhs,<sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>&amp;<sp/>rhs)<sp/>noexcept</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lhs.swap(rhs);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable_ptr_t</ref><sp/>vtable_ptr_;</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>storage_t<sp/>storage_;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"></highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classstdext_1_1inplace__function" kindref="compound">inplace_function</ref>(</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable" kindref="compound">vtable_ptr_t</ref><sp/>vtable_ptr,</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1af52f23b9203f5508d063e887ce7626a0" kindref="member">vtable_t::process_ptr_t</ref><sp/>process_ptr,</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="structstdext_1_1inplace__function__detail_1_1vtable_1afbcc981dca754e07bf57710ac26880f2" kindref="member">vtable_t::storage_ptr_t</ref><sp/>storage_ptr</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>:<sp/>vtable_ptr_{vtable_ptr}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>process_ptr(std::addressof(storage_),<sp/>storage_ptr);</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="386"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>telegen</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="gen/telegen/inplace_function.hpp"/>
+  </compounddef>
+</doxygen>

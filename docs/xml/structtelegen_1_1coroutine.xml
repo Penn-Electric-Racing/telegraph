@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structtelegen_1_1coroutine" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>telegen::coroutine</compoundname>
+    <derivedcompoundref refid="classtelegen_1_1basic__promise" prot="public" virt="non-virtual">telegen::basic_promise&lt; Cap, T &gt;</derivedcompoundref>
+    <derivedcompoundref refid="classtelegen_1_1publisher__base" prot="public" virt="non-virtual">telegen::publisher_base</derivedcompoundref>
+    <derivedcompoundref refid="classtelegen_1_1publisher__scheduler" prot="public" virt="non-virtual">telegen::publisher_scheduler</derivedcompoundref>
+    <derivedcompoundref refid="classtelegen_1_1uart__interface" prot="public" virt="non-virtual">telegen::uart_interface&lt; Uart, Clock &gt;</derivedcompoundref>
+    <includes refid="coroutine_8hpp" local="no">coroutine.hpp</includes>
+    <innerclass refid="classtelegen_1_1coroutine_1_1ref" prot="public">telegen::coroutine::ref</innerclass>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="structtelegen_1_1coroutine_1aa3d603af636458056061ae4b08fe9c18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class ref</definition>
+        <argsstring></argsstring>
+        <name>ref</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="80" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="structtelegen_1_1coroutine_1a7cf4ee10f19590610e095527969286af" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int telegen::coroutine::breakpoint_</definition>
+        <argsstring></argsstring>
+        <name>breakpoint_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="101" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structtelegen_1_1coroutine_1ac13b85fb7d6b08c684c69f1109c2f947" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr telegen::coroutine::coroutine</definition>
+        <argsstring>()</argsstring>
+        <name>coroutine</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="82" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="82" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="structtelegen_1_1coroutine_1a345d1cc0fd5bd8d126022958d4f17d3b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>constexpr void</type>
+        <definition>virtual constexpr void telegen::coroutine::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="87" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="87" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="structtelegen_1_1coroutine_1a335f75302785f4ee9d8073caf8cfc60b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr void</type>
+        <definition>constexpr void telegen::coroutine::finish</definition>
+        <argsstring>()</argsstring>
+        <name>finish</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="89" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="89" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="structtelegen_1_1coroutine_1a4e807c9f48ccfd7fd64a0b6ef2024da0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr bool</type>
+        <definition>constexpr bool telegen::coroutine::is_finished</definition>
+        <argsstring>()</argsstring>
+        <name>is_finished</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="90" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="90" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="structtelegen_1_1coroutine_1a48b19e2ca54c0a7b63fe5c5f19620bcb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegen::coroutine::run</definition>
+        <argsstring>()</argsstring>
+        <name>run</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="93" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="93" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="structtelegen_1_1coroutine_1a2a7408a5b9474af3e59128934e3a5c00" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void telegen::coroutine::resume</definition>
+        <argsstring>()=0</argsstring>
+        <name>resume</name>
+        <reimplementedby refid="classtelegen_1_1basic__promise_1a384761b0c7536d6b9ab3dc0f63c7e259">resume</reimplementedby>
+        <reimplementedby refid="classtelegen_1_1publisher_1a143382f6ff9560be4839c50b3f1dc86c">resume</reimplementedby>
+        <reimplementedby refid="classtelegen_1_1uart__interface_1acc4f7dbff9e17b04a55ece5f447272df">resume</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/coroutine.hpp" line="99" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="99">
+        <label>telegen::basic_promise&lt; Cap, T &gt;</label>
+        <link refid="classtelegen_1_1basic__promise"/>
+        <childnode refid="98" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="101">
+        <label>telegen::publisher&lt; T, Clock &gt;</label>
+        <link refid="classtelegen_1_1publisher"/>
+        <childnode refid="100" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="102">
+        <label>telegen::publisher_scheduler</label>
+        <link refid="classtelegen_1_1publisher__scheduler"/>
+        <childnode refid="98" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="98">
+        <label>telegen::coroutine</label>
+        <link refid="structtelegen_1_1coroutine"/>
+      </node>
+      <node id="100">
+        <label>telegen::publisher_base</label>
+        <link refid="classtelegen_1_1publisher__base"/>
+        <childnode refid="98" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="103">
+        <label>telegen::uart_interface&lt; Uart, Clock &gt;</label>
+        <link refid="classtelegen_1_1uart__interface"/>
+        <childnode refid="98" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="gen/telegen/coroutine.hpp" line="57" column="1" bodyfile="gen/telegen/coroutine.hpp" bodystart="57" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structtelegen_1_1coroutine_1a7cf4ee10f19590610e095527969286af" prot="private" virt="non-virtual"><scope>telegen::coroutine</scope><name>breakpoint_</name></member>
+      <member refid="structtelegen_1_1coroutine_1ac13b85fb7d6b08c684c69f1109c2f947" prot="public" virt="non-virtual"><scope>telegen::coroutine</scope><name>coroutine</name></member>
+      <member refid="structtelegen_1_1coroutine_1a335f75302785f4ee9d8073caf8cfc60b" prot="public" virt="non-virtual"><scope>telegen::coroutine</scope><name>finish</name></member>
+      <member refid="structtelegen_1_1coroutine_1a4e807c9f48ccfd7fd64a0b6ef2024da0" prot="public" virt="non-virtual"><scope>telegen::coroutine</scope><name>is_finished</name></member>
+      <member refid="structtelegen_1_1coroutine_1aa3d603af636458056061ae4b08fe9c18" prot="public" virt="non-virtual"><scope>telegen::coroutine</scope><name>ref</name></member>
+      <member refid="structtelegen_1_1coroutine_1a345d1cc0fd5bd8d126022958d4f17d3b" prot="public" virt="virtual"><scope>telegen::coroutine</scope><name>reset</name></member>
+      <member refid="structtelegen_1_1coroutine_1a2a7408a5b9474af3e59128934e3a5c00" prot="public" virt="pure-virtual"><scope>telegen::coroutine</scope><name>resume</name></member>
+      <member refid="structtelegen_1_1coroutine_1a48b19e2ca54c0a7b63fe5c5f19620bcb" prot="public" virt="non-virtual"><scope>telegen::coroutine</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

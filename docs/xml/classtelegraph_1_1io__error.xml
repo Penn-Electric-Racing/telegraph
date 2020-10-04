@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1io__error" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::io_error</compoundname>
+    <basecompoundref refid="classtelegraph_1_1error" prot="public" virt="non-virtual">telegraph::error</basecompoundref>
+    <includes refid="errors_8hpp" local="no">errors.hpp</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1io__error_1a173bdfb9ed5c5ec6dd4d80a137834d41" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::io_error::io_error</definition>
+        <argsstring>(const std::string_view &amp;m)</argsstring>
+        <name>io_error</name>
+        <param>
+          <type>const std::string_view &amp;</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/utils/errors.hpp" line="53" column="1" bodyfile="lib/telegraph/utils/errors.hpp" bodystart="53" bodyend="54"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="188">
+        <label>telegraph::error</label>
+        <link refid="classtelegraph_1_1error"/>
+        <childnode refid="189" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="189">
+        <label>std::exception</label>
+      </node>
+      <node id="187">
+        <label>telegraph::io_error</label>
+        <link refid="classtelegraph_1_1io__error"/>
+        <childnode refid="188" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="191">
+        <label>telegraph::error</label>
+        <link refid="classtelegraph_1_1error"/>
+        <childnode refid="192" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="192">
+        <label>std::exception</label>
+      </node>
+      <node id="190">
+        <label>telegraph::io_error</label>
+        <link refid="classtelegraph_1_1io__error"/>
+        <childnode refid="191" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="lib/telegraph/utils/errors.hpp" line="51" column="1" bodyfile="lib/telegraph/utils/errors.hpp" bodystart="51" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1error_1a2381d26711bfbcb841ccd3c7e562b9f8" prot="public" virt="non-virtual"><scope>telegraph::io_error</scope><name>error</name></member>
+      <member refid="classtelegraph_1_1io__error_1a173bdfb9ed5c5ec6dd4d80a137834d41" prot="public" virt="non-virtual"><scope>telegraph::io_error</scope><name>io_error</name></member>
+      <member refid="classtelegraph_1_1error_1acd75a8954a9d693faf75eb5918bfe044" prot="public" virt="non-virtual"><scope>telegraph::io_error</scope><name>what</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

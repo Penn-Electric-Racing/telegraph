@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structtelegen_1_1util_1_1make__indexes" kind="struct" language="C++" prot="public">
+    <compoundname>telegen::util::make_indexes</compoundname>
+    <basecompoundref refid="structtelegen_1_1util_1_1make__indexes__impl" prot="public" virt="non-virtual">telegen::util::make_indexes_impl&lt; 0, index_tuple&lt;&gt;, Types... &gt;</basecompoundref>
+    <includes refid="util_8hpp" local="no">util.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename ...</type>
+        <declname>Types</declname>
+        <defname>Types</defname>
+      </param>
+    </templateparamlist>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="258">
+        <label>telegen::util::make_indexes&lt; Types &gt;</label>
+        <link refid="structtelegen_1_1util_1_1make__indexes"/>
+        <childnode refid="259" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="259">
+        <label>telegen::util::make_indexes_impl&lt; 0, index_tuple&lt;&gt;, Types... &gt;</label>
+        <link refid="structtelegen_1_1util_1_1make__indexes__impl"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="260">
+        <label>telegen::util::make_indexes&lt; Types &gt;</label>
+        <link refid="structtelegen_1_1util_1_1make__indexes"/>
+        <childnode refid="261" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="261">
+        <label>telegen::util::make_indexes_impl&lt; 0, index_tuple&lt;&gt;, Types... &gt;</label>
+        <link refid="structtelegen_1_1util_1_1make__indexes__impl"/>
+      </node>
+    </collaborationgraph>
+    <location file="gen/telegen/util.hpp" line="107" column="1" bodyfile="gen/telegen/util.hpp" bodystart="107" bodyend="107"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

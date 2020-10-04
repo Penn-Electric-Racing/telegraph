@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1adapter" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::adapter</compoundname>
+    <basecompoundref refid="classtelegraph_1_1adapter__base" prot="public" virt="non-virtual">telegraph::adapter_base</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">std::enable_shared_from_this&lt; adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt; &gt;</basecompoundref>
+    <includes refid="adapter_8hpp" local="no">adapter.hpp</includes>
+    <innerclass refid="classtelegraph_1_1adapter_1_1sub" prot="private">telegraph::adapter::sub</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename PollFunc</type>
+      </param>
+      <param>
+        <type>typename ChangeFunc</type>
+      </param>
+      <param>
+        <type>typename CancelFunc</type>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="classtelegraph_1_1adapter_1ab2c878d6781ca08bfe45ff431c1ab90d" prot="private" static="no">
+        <type>std::weak_ptr&lt; <ref refid="classtelegraph_1_1adapter" kindref="compound">adapter</ref>&lt; PollFunc, ChangeFunc, CancelFunc &gt; &gt;</type>
+        <definition>using telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::wadapter_ptr =  std::weak_ptr&lt;adapter&lt;PollFunc, ChangeFunc, CancelFunc&gt; &gt;</definition>
+        <argsstring></argsstring>
+        <name>wadapter_ptr</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="31" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classtelegraph_1_1adapter_1aa1d42a83e16956670795959f328adff4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class sub</definition>
+        <argsstring></argsstring>
+        <name>sub</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="30" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="30" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1a8d9596d12cbfc202ce11b86c28b2459f" prot="private" static="no" mutable="no">
+        <type>io::io_context &amp;</type>
+        <definition>io::io_context&amp; telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::ioc_</definition>
+        <argsstring></argsstring>
+        <name>ioc_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="110" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1ad80c0daff2a6ab6442c81d37a898089c" prot="private" static="no" mutable="no">
+        <type><ref refid="classtelegraph_1_1value__type" kindref="compound">value_type</ref></type>
+        <definition>value_type telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::type_</definition>
+        <argsstring></argsstring>
+        <name>type_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="111" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1aae478f55ecabe7663dc9575623ca08b4" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::subscribed_</definition>
+        <argsstring></argsstring>
+        <name>subscribed_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="114" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1a055baaeb6f6c32a124d8c0288dd500a9" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::debounce_</definition>
+        <argsstring></argsstring>
+        <name>debounce_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="115" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1ab136e1de8e4765d244367fcce2b90d5b" prot="private" static="no" mutable="no">
+        <type>float</type>
+        <definition>float telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::refresh_</definition>
+        <argsstring></argsstring>
+        <name>refresh_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="116" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1ad2c80dd236dd5c4f9a5bbd4a4436b535" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::running_op_</definition>
+        <argsstring></argsstring>
+        <name>running_op_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="119" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1a8fa0930e72e7a43b2edc3acbdba5e8f6" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; io::deadline_timer * &gt;</type>
+        <definition>std::deque&lt;io::deadline_timer*&gt; telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::waiting_ops_</definition>
+        <argsstring></argsstring>
+        <name>waiting_ops_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="120" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1a8a1457bad58a1b95fa7b454fb6567446" prot="private" static="no" mutable="no">
+        <type>std::unordered_set&lt; <ref refid="classtelegraph_1_1adapter_1aa1d42a83e16956670795959f328adff4" kindref="member">sub</ref> * &gt;</type>
+        <definition>std::unordered_set&lt;sub*&gt; telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::subs_</definition>
+        <argsstring></argsstring>
+        <name>subs_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="121" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1afa106a42873b635b05ff21d498c201fd" prot="private" static="no" mutable="no">
+        <type>PollFunc</type>
+        <definition>PollFunc telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::poll_</definition>
+        <argsstring></argsstring>
+        <name>poll_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="123" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1a6515c38d3c74b0b11664a930802f95bc" prot="private" static="no" mutable="no">
+        <type>ChangeFunc</type>
+        <definition>ChangeFunc telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::change_</definition>
+        <argsstring></argsstring>
+        <name>change_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="124" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1adapter_1acf7ce81a2d9902d0113740378856a2e0" prot="private" static="no" mutable="no">
+        <type>CancelFunc</type>
+        <definition>CancelFunc telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::cancel_</definition>
+        <argsstring></argsstring>
+        <name>cancel_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="125" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1adapter_1a01578ea2a59c672e85b7c400d4b70817" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::adapter</definition>
+        <argsstring>(io::io_context &amp;ioc, value_type t, PollFunc poll, ChangeFunc change, CancelFunc cancel)</argsstring>
+        <name>adapter</name>
+        <param>
+          <type>io::io_context &amp;</type>
+          <declname>ioc</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegraph_1_1value__type" kindref="compound">value_type</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>PollFunc</type>
+          <declname>poll</declname>
+        </param>
+        <param>
+          <type>ChangeFunc</type>
+          <declname>change</declname>
+        </param>
+        <param>
+          <type>CancelFunc</type>
+          <declname>cancel</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="127" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="127" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1adapter_1aabfebfcdec55822a0a5228277205ab47" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::update</definition>
+        <argsstring>(value v) override</argsstring>
+        <name>update</name>
+        <reimplements refid="classtelegraph_1_1adapter__base_1a3b2347f991a3c621b35f20f81419cf62">update</reimplements>
+        <param>
+          <type><ref refid="classtelegraph_1_1value" kindref="compound">value</ref></type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="135" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="135" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1adapter_1a0b9c93d0584817ca7dfd74f4ae38ebad" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacetelegraph_1a58641aa5b1a2cbdb0431916a87069f64" kindref="member">subscription_ptr</ref></type>
+        <definition>subscription_ptr telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::subscribe</definition>
+        <argsstring>(io::yield_ctx &amp;yield, float min_interval, float max_interval, float timeout) override</argsstring>
+        <name>subscribe</name>
+        <reimplements refid="classtelegraph_1_1adapter__base_1a2fa110e124bc9a86c9433fe04033ff06">subscribe</reimplements>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_interval</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>max_interval</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="143" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="143" bodyend="159"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classtelegraph_1_1adapter_1a13140112ddbfeb05ffffebb4da5335b1" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::poll</definition>
+        <argsstring>()</argsstring>
+        <name>poll</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="161" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="161" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1adapter_1a3ebc756e97a643f26ae6c35ed1a5a1bb" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::change</definition>
+        <argsstring>(io::yield_ctx &amp;yield, float timeout)</argsstring>
+        <name>change</name>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="164" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="164" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1adapter_1a5349f56fe240f671b7c44530766dbb37" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::cancel</definition>
+        <argsstring>(io::yield_ctx &amp;yield, sub *s, float timeout)</argsstring>
+        <name>cancel</name>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegraph_1_1adapter_1aa1d42a83e16956670795959f328adff4" kindref="member">sub</ref> *</type>
+          <declname>s</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="208" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="208" bodyend="252"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1adapter_1aa70e6962e1222c0a051a90c538a03fe9" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;::cancel</definition>
+        <argsstring>(sub *s)</argsstring>
+        <name>cancel</name>
+        <param>
+          <type><ref refid="classtelegraph_1_1adapter_1aa1d42a83e16956670795959f328adff4" kindref="member">sub</ref> *</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/adapter.hpp" line="255" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="255" bodyend="264"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="23">
+        <label>telegraph::adapter_base</label>
+        <link refid="classtelegraph_1_1adapter__base"/>
+      </node>
+      <node id="24">
+        <label>std::enable_shared_from_this&lt; adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt; &gt;</label>
+      </node>
+      <node id="22">
+        <label>telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;</label>
+        <link refid="classtelegraph_1_1adapter"/>
+        <childnode refid="23" relation="public-inheritance">
+        </childnode>
+        <childnode refid="24" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="26">
+        <label>telegraph::adapter_base</label>
+        <link refid="classtelegraph_1_1adapter__base"/>
+      </node>
+      <node id="27">
+        <label>std::enable_shared_from_this&lt; adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt; &gt;</label>
+      </node>
+      <node id="25">
+        <label>telegraph::adapter&lt; PollFunc, ChangeFunc, CancelFunc &gt;</label>
+        <link refid="classtelegraph_1_1adapter"/>
+        <childnode refid="26" relation="public-inheritance">
+        </childnode>
+        <childnode refid="27" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="lib/telegraph/common/adapter.hpp" line="28" column="1" bodyfile="lib/telegraph/common/adapter.hpp" bodystart="27" bodyend="265"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1adapter_1a01578ea2a59c672e85b7c400d4b70817" prot="public" virt="non-virtual"><scope>telegraph::adapter</scope><name>adapter</name></member>
+      <member refid="classtelegraph_1_1adapter_1a5349f56fe240f671b7c44530766dbb37" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>cancel</name></member>
+      <member refid="classtelegraph_1_1adapter_1aa70e6962e1222c0a051a90c538a03fe9" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>cancel</name></member>
+      <member refid="classtelegraph_1_1adapter_1acf7ce81a2d9902d0113740378856a2e0" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>cancel_</name></member>
+      <member refid="classtelegraph_1_1adapter_1a3ebc756e97a643f26ae6c35ed1a5a1bb" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>change</name></member>
+      <member refid="classtelegraph_1_1adapter_1a6515c38d3c74b0b11664a930802f95bc" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>change_</name></member>
+      <member refid="classtelegraph_1_1adapter_1a055baaeb6f6c32a124d8c0288dd500a9" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>debounce_</name></member>
+      <member refid="classtelegraph_1_1adapter_1a8d9596d12cbfc202ce11b86c28b2459f" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>ioc_</name></member>
+      <member refid="classtelegraph_1_1adapter_1a13140112ddbfeb05ffffebb4da5335b1" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>poll</name></member>
+      <member refid="classtelegraph_1_1adapter_1afa106a42873b635b05ff21d498c201fd" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>poll_</name></member>
+      <member refid="classtelegraph_1_1adapter_1ab136e1de8e4765d244367fcce2b90d5b" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>refresh_</name></member>
+      <member refid="classtelegraph_1_1adapter_1ad2c80dd236dd5c4f9a5bbd4a4436b535" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>running_op_</name></member>
+      <member refid="classtelegraph_1_1adapter_1aa1d42a83e16956670795959f328adff4" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>sub</name></member>
+      <member refid="classtelegraph_1_1adapter_1a8a1457bad58a1b95fa7b454fb6567446" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>subs_</name></member>
+      <member refid="classtelegraph_1_1adapter_1a0b9c93d0584817ca7dfd74f4ae38ebad" prot="public" virt="virtual"><scope>telegraph::adapter</scope><name>subscribe</name></member>
+      <member refid="classtelegraph_1_1adapter_1aae478f55ecabe7663dc9575623ca08b4" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>subscribed_</name></member>
+      <member refid="classtelegraph_1_1adapter_1ad80c0daff2a6ab6442c81d37a898089c" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>type_</name></member>
+      <member refid="classtelegraph_1_1adapter_1aabfebfcdec55822a0a5228277205ab47" prot="public" virt="virtual"><scope>telegraph::adapter</scope><name>update</name></member>
+      <member refid="classtelegraph_1_1adapter_1ab2c878d6781ca08bfe45ff431c1ab90d" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>wadapter_ptr</name></member>
+      <member refid="classtelegraph_1_1adapter_1a8fa0930e72e7a43b2edc3acbdba5e8f6" prot="private" virt="non-virtual"><scope>telegraph::adapter</scope><name>waiting_ops_</name></member>
+      <member refid="classtelegraph_1_1adapter__base_1a385f1cf5e39a3cbd2c3f030caeb15451" prot="public" virt="virtual"><scope>telegraph::adapter</scope><name>~adapter_base</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

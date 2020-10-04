@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structtelegen_1_1type__info" kind="struct" language="C++" prot="public">
+    <compoundname>telegen::type_info</compoundname>
+    <includes refid="types_8hpp" local="no">types.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>typename</type>
+        <declname>T</declname>
+        <defname>T</defname>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structtelegen_1_1type__info_1a9d062952fc241b6fd91df2b038995eaf" prot="public" static="no">
+        <type>T</type>
+        <definition>using telegen::type_info&lt; T &gt;::value_type =  T</definition>
+        <argsstring></argsstring>
+        <name>value_type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/types.hpp" line="74" column="1" bodyfile="gen/telegen/types.hpp" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structtelegen_1_1type__info_1a7b45b05aeac67bd7700d3b140455f77f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacetelegen_1a72d4e69f0be1731e1a851a96dec858d8" kindref="member">type_class</ref></type>
+        <definition>type_class telegen::type_info&lt; T &gt;::class_</definition>
+        <argsstring></argsstring>
+        <name>class_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/types.hpp" line="81" column="1" bodyfile="gen/telegen/types.hpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtelegen_1_1type__info_1ad2de0d0c01346808ffb8f86dfb4a3a0e" prot="public" static="no" mutable="no">
+        <type>const char *</type>
+        <definition>const char* telegen::type_info&lt; T &gt;::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/types.hpp" line="82" column="1" bodyfile="gen/telegen/types.hpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtelegen_1_1type__info_1aada1921511a38c6889fe0d89701ce125" prot="public" static="no" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t telegen::type_info&lt; T &gt;::num_labels</definition>
+        <argsstring></argsstring>
+        <name>num_labels</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/types.hpp" line="83" column="1" bodyfile="gen/telegen/types.hpp" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structtelegen_1_1type__info_1a57e2f47e182fd9099f09ac086fd88be8" prot="public" static="no" mutable="no">
+        <type>const char *const  *</type>
+        <definition>const char* const* telegen::type_info&lt; T &gt;::labels</definition>
+        <argsstring></argsstring>
+        <name>labels</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/types.hpp" line="84" column="1" bodyfile="gen/telegen/types.hpp" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="structtelegen_1_1type__info_1a2f67a3b15149ac1a6a95354725f9d72a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>constexpr</type>
+        <definition>constexpr telegen::type_info&lt; T &gt;::type_info</definition>
+        <argsstring>(const char *nm, size_t nl, const char *const *l)</argsstring>
+        <name>type_info</name>
+        <param>
+          <type>const char *</type>
+          <declname>nm</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>nl</declname>
+        </param>
+        <param>
+          <type>const char *const *</type>
+          <declname>l</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/types.hpp" line="76" column="1" bodyfile="gen/telegen/types.hpp" bodystart="76" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="structtelegen_1_1type__info_1a5ed3d1c30970a84b6507c30890d74f86" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegen::type_info&lt; T &gt;::pack</definition>
+        <argsstring>(telegraph_Type *type) const</argsstring>
+        <name>pack</name>
+        <param>
+          <type>telegraph_Type *</type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/types.hpp" line="86" column="1" bodyfile="gen/telegen/types.hpp" bodystart="86" bodyend="104"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="gen/telegen/types.hpp" line="73" column="1" bodyfile="gen/telegen/types.hpp" bodystart="73" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structtelegen_1_1type__info_1a7b45b05aeac67bd7700d3b140455f77f" prot="public" virt="non-virtual"><scope>telegen::type_info</scope><name>class_</name></member>
+      <member refid="structtelegen_1_1type__info_1a57e2f47e182fd9099f09ac086fd88be8" prot="public" virt="non-virtual"><scope>telegen::type_info</scope><name>labels</name></member>
+      <member refid="structtelegen_1_1type__info_1ad2de0d0c01346808ffb8f86dfb4a3a0e" prot="public" virt="non-virtual"><scope>telegen::type_info</scope><name>name</name></member>
+      <member refid="structtelegen_1_1type__info_1aada1921511a38c6889fe0d89701ce125" prot="public" virt="non-virtual"><scope>telegen::type_info</scope><name>num_labels</name></member>
+      <member refid="structtelegen_1_1type__info_1a5ed3d1c30970a84b6507c30890d74f86" prot="public" virt="non-virtual"><scope>telegen::type_info</scope><name>pack</name></member>
+      <member refid="structtelegen_1_1type__info_1a2f67a3b15149ac1a6a95354725f9d72a" prot="public" virt="non-virtual"><scope>telegen::type_info</scope><name>type_info</name></member>
+      <member refid="structtelegen_1_1type__info_1a9d062952fc241b6fd91df2b038995eaf" prot="public" virt="non-virtual"><scope>telegen::type_info</scope><name>value_type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

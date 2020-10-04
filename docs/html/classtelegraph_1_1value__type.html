@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>telegraph::value_type class | Telegraph An embedded system can/uart framework</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
+  <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
+  <link rel="icon" href="favicon-dark.png" type="image/png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#22272e" />
+</head>
+<body>
+<header><nav id="navigation">
+  <div class="m-container">
+    <div class="m-row">
+      <a href="index.html" id="m-navbar-brand" class="m-col-t-8 m-col-m-none m-left-m">Telegraph <span class="m-thin">An embedded system can/uart framework</span></a>
+      <div class="m-col-t-4 m-hide-m m-text-right m-nopadr">
+        <a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+          <path id="m-doc-search-icon-path" d="m6 0c-3.31 0-6 2.69-6 6 0 3.31 2.69 6 6 6 1.49 0 2.85-0.541 3.89-1.44-0.0164 0.338 0.147 0.759 0.5 1.15l3.22 3.79c0.552 0.614 1.45 0.665 2 0.115 0.55-0.55 0.499-1.45-0.115-2l-3.79-3.22c-0.392-0.353-0.812-0.515-1.15-0.5 0.895-1.05 1.44-2.41 1.44-3.89 0-3.31-2.69-6-6-6zm0 1.56a4.44 4.44 0 0 1 4.44 4.44 4.44 4.44 0 0 1-4.44 4.44 4.44 4.44 0 0 1-4.44-4.44 4.44 4.44 0 0 1 4.44-4.44z"/>
+        </svg></a>
+        <a id="m-navbar-show" href="#navigation" title="Show navigation"></a>
+        <a id="m-navbar-hide" href="#" title="Hide navigation"></a>
+      </div>
+      <div id="m-navbar-collapse" class="m-col-t-12 m-show-m m-col-m-none m-right-m">
+        <div class="m-row">
+          <ol class="m-col-t-6 m-col-m-none">
+            <li><a href="pages.html">Pages</a></li>
+            <li><a href="namespaces.html">Namespaces</a></li>
+          </ol>
+          <ol class="m-col-t-6 m-col-m-none" start="3">
+            <li><a href="annotated.html">Classes</a></li>
+            <li><a href="files.html">Files</a></li>
+            <li class="m-show-m"><a href="#search" class="m-doc-search-icon" title="Search" onclick="return showSearch()"><svg style="height: 0.9rem;" viewBox="0 0 16 16">
+              <use href="#m-doc-search-icon-path" />
+            </svg></a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav></header>
+<main><article>
+  <div class="m-container m-container-inflatable">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <h1>
+          <span class="m-breadcrumb"><a href="namespacetelegraph.html">telegraph</a>::<wbr/></span>value_type <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="type_8hpp.html">&lt;lib/telegraph/common/type.hpp&gt;</a></div>
+        </h1>
+        <p><span></span></p>
+        <div class="m-block m-default">
+          <h3>Contents</h3>
+          <ul>
+            <li>
+              Reference
+              <ul>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
+          <dl class="m-doc">
+            <dt id="a516081c0a4e231cb22554f48f052ff6f">
+              <span class="m-doc-wrap-bumper">enum <a href="#a516081c0a4e231cb22554f48f052ff6f" class="m-doc-self">type_class</a> { </span><span class="m-doc-wrap"><a href="#a516081c0a4e231cb22554f48f052ff6facc1cc882a8c85bf3a7987a1a4c50b514" class="m-doc">Invalid</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fa0f82b021ca18b56f4abab49c89f89581" class="m-doc">None</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fab64feb81a951ff765b7f4b0c59f166d2" class="m-doc">Enum</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6faa377f01fbedf8f2a836f7e4981021152" class="m-doc">Bool</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fa4b710893b87196f36fbf648f5251e254" class="m-doc">Uint8</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fab29d35200c30b177146478c4d107b6d2" class="m-doc">Uint16</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fae1831c5eda2e34c43cacc2700795b273" class="m-doc">Uint32</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fade1493c48a66f0d966ba499cbc6e02ec" class="m-doc">Uint64</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fa36a0435c0dac230b0b3e77d82bfbe40a" class="m-doc">Int8</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fa32be90cd2578a1ecc5407a6a3d5e8b45" class="m-doc">Int16</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fa97911bd7c00117307f3b4f89baee8469" class="m-doc">Int32</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fac678762a768d703603e032a20a0bcb2e" class="m-doc">Int64</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fa0ade428faaf4b7bc8d441e7801e9f3e7" class="m-doc">Float</a>,
+              <a href="#a516081c0a4e231cb22554f48f052ff6fac04c93c7547053995e928b1924a01b89" class="m-doc">Double</a> }</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a7d002f4e90bf6e8dc7e1527a9cb4d894">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a7d002f4e90bf6e8dc7e1527a9cb4d894" class="m-doc-self">pack</a>(</span><span class="m-doc-wrap"><a href="classtelegraph_1_1value__type.html#a516081c0a4e231cb22554f48f052ff6f" class="m-doc">type_<wbr />class</a> tc) -&gt; Type::Class <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="abf022119eeb1ba37cfe259550830a04d">
+              <span class="m-doc-wrap-bumper">static auto <a href="#abf022119eeb1ba37cfe259550830a04d" class="m-doc-self">unpack</a>(</span><span class="m-doc-wrap">Type::Class tc) -&gt; <a href="classtelegraph_1_1value__type.html#a516081c0a4e231cb22554f48f052ff6f" class="m-doc">type_<wbr />class</a> <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a3a4a3de4847ee82da57b5926b534df1f">
+              <span class="m-doc-wrap-bumper">static auto <a href="#a3a4a3de4847ee82da57b5926b534df1f" class="m-doc-self">unpack</a>(</span><span class="m-doc-wrap">const Type&amp; tc) -&gt; <a href="classtelegraph_1_1value__type.html" class="m-doc">value_<wbr />type</a></span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="a70977f8232886ae5580663fc26395211">
+              <span class="m-doc-wrap-bumper"><a href="#a70977f8232886ae5580663fc26395211" class="m-doc-self">value_type</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a1c509cad0f8ae29464da6f71137cbb68">
+              <span class="m-doc-wrap-bumper"><a href="#a1c509cad0f8ae29464da6f71137cbb68" class="m-doc-self">value_type</a>(</span><span class="m-doc-wrap"><a href="classtelegraph_1_1value__type.html#a516081c0a4e231cb22554f48f052ff6f" class="m-doc">type_<wbr />class</a> c)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a66464cefb3475452910c7ae5be643b6b">
+              <span class="m-doc-wrap-bumper"><a href="#a66464cefb3475452910c7ae5be643b6b" class="m-doc-self">value_type</a>(</span><span class="m-doc-wrap">const std::string_view&amp; name,
+              const std::vector&lt;std::string&gt;&amp; labels)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ae80f832e65a0f7fb875bfe6ca5c2c7fc">
+              <span class="m-doc-wrap-bumper"><a href="#ae80f832e65a0f7fb875bfe6ca5c2c7fc" class="m-doc-self">value_type</a>(</span><span class="m-doc-wrap">const std::string_view&amp; name,
+              std::vector&lt;std::string&gt;&amp;&amp; labels)</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="ab80f725bc93dca1e52a76f9a0fff45df">
+              <span class="m-doc-wrap-bumper">auto <a href="#ab80f725bc93dca1e52a76f9a0fff45df" class="m-doc-self">get_class</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classtelegraph_1_1value__type.html#a516081c0a4e231cb22554f48f052ff6f" class="m-doc">type_<wbr />class</a> <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ad15335caeeff4d4a2e5499b28f126427">
+              <span class="m-doc-wrap-bumper">auto <a href="#ad15335caeeff4d4a2e5499b28f126427" class="m-doc-self">get_name</a>(</span><span class="m-doc-wrap">) const -&gt; const std::string&amp; <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a481d2ba1e7ad3307a93481cb3e06b192">
+              <span class="m-doc-wrap-bumper">auto <a href="#a481d2ba1e7ad3307a93481cb3e06b192" class="m-doc-self">get_labels</a>(</span><span class="m-doc-wrap">) const -&gt; const std::vector&lt;std::string&gt;&amp; <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="afcf8bd9842356bc6818b986fe3cf6025">
+              <span class="m-doc-wrap-bumper">void <a href="#afcf8bd9842356bc6818b986fe3cf6025" class="m-doc-self">add_label</a>(</span><span class="m-doc-wrap">const std::string_view&amp; label)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ac591946a9956e9429457ee198fb565c1">
+              <span class="m-doc-wrap-bumper">void <a href="#ac591946a9956e9429457ee198fb565c1" class="m-doc-self">add_label</a>(</span><span class="m-doc-wrap">const std::string&amp; label)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ab8e6a14a043a02360d13124c5fd3fed2">
+              <span class="m-doc-wrap-bumper">void <a href="#ab8e6a14a043a02360d13124c5fd3fed2" class="m-doc-self">set_class</a>(</span><span class="m-doc-wrap"><a href="classtelegraph_1_1value__type.html#a516081c0a4e231cb22554f48f052ff6f" class="m-doc">type_<wbr />class</a> tc)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a0a83a299a45e7ef3c2439c85540a1731">
+              <span class="m-doc-wrap-bumper">void <a href="#a0a83a299a45e7ef3c2439c85540a1731" class="m-doc-self">set_labels</a>(</span><span class="m-doc-wrap">std::vector&lt;std::string&gt;&amp;&amp; labels)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a633f12a04ff6a15e46f6495aaa6dc0da">
+              <span class="m-doc-wrap-bumper">void <a href="#a633f12a04ff6a15e46f6495aaa6dc0da" class="m-doc-self">set_name</a>(</span><span class="m-doc-wrap">const std::string&amp; name)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a59f254ed2dcb92ecb9ba85b4d3ef8e68">
+              <span class="m-doc-wrap-bumper">auto <a href="#a59f254ed2dcb92ecb9ba85b4d3ef8e68" class="m-doc-self">to_str</a>(</span><span class="m-doc-wrap">) const -&gt; std::string</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a34d5c460357b088d0c11497d8f93088b">
+              <span class="m-doc-wrap-bumper">void <a href="#a34d5c460357b088d0c11497d8f93088b" class="m-doc-self">pack</a>(</span><span class="m-doc-wrap">Type* tc) const</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a9a30339ab46ea67c279414318ecf041d">
+              <span class="m-doc-wrap-bumper">auto <a href="#a9a30339ab46ea67c279414318ecf041d" class="m-doc-self">operator==</a>(</span><span class="m-doc-wrap">const <a href="classtelegraph_1_1value__type.html" class="m-doc">value_<wbr />type</a>&amp; other) const -&gt; bool</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+      </div>
+    </div>
+  </div>
+</article></main>
+<div class="m-doc-search" id="search">
+  <a href="#!" onclick="return hideSearch()"></a>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-m-8 m-push-m-2">
+        <div class="m-doc-search-header m-text m-small">
+          <div><span class="m-label m-default">Tab</span> / <span class="m-label m-default">T</span> to search, <span class="m-label m-default">Esc</span> to close</div>
+          <div id="search-symbolcount">&hellip;</div>
+        </div>
+        <div class="m-doc-search-content">
+          <form>
+            <input type="search" name="q" id="search-input" placeholder="Loading &hellip;" disabled="disabled" autofocus="autofocus" autocomplete="off" spellcheck="false" />
+          </form>
+          <noscript class="m-text m-danger m-text-center">Unlike everything else in the docs, the search functionality <em>requires</em> JavaScript.</noscript>
+          <div id="search-help" class="m-text m-dim m-text-center">
+            <p class="m-noindent">Search for symbols, directories, files, pages or
+            modules. You can omit any prefix from the symbol or file path; adding a
+            <code>:</code> or <code>/</code> suffix lists all members of given symbol or
+            directory.</p>
+            <p class="m-noindent">Use <span class="m-label m-dim">&darr;</span>
+            / <span class="m-label m-dim">&uarr;</span> to navigate through the list,
+            <span class="m-label m-dim">Enter</span> to go.
+            <span class="m-label m-dim">Tab</span> autocompletes common prefix, you can
+            copy a link to the result using <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">L</span> while <span class="m-label m-dim">⌘</span>
+            <span class="m-label m-dim">M</span> produces a Markdown link.</p>
+          </div>
+          <div id="search-notfound" class="m-text m-warning m-text-center">Sorry, nothing was found.</div>
+          <ul id="search-results"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="search-v1.js"></script>
+<script src="searchdata-v1.js" async="async"></script>
+<footer><nav>
+  <div class="m-container">
+    <div class="m-row">
+      <div class="m-col-l-10 m-push-l-1">
+        <p>Telegraph An embedded system can/uart framework. Created with <a href="https://doxygen.org/">Doxygen</a> 1.8.13 and <a href="https://mcss.mosra.cz/">m.css</a>.</p>
+      </div>
+    </div>
+  </div>
+</nav></footer>
+</body>
+</html>

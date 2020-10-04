@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structstdext_1_1inplace__function__detail_1_1is__inplace__function" kind="struct" language="C++" prot="public">
+    <compoundname>stdext::inplace_function_detail::is_inplace_function</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">false_type</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">false_type</basecompoundref>
+    <includes refid="gen_2telegen_2inplace__function_8hpp" local="no">inplace_function.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>class</type>
+      </param>
+    </templateparamlist>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="193">
+        <label>stdext::inplace_function_detail::is_inplace_function&lt; class &gt;</label>
+        <link refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function"/>
+        <childnode refid="194" relation="public-inheritance">
+        </childnode>
+        <childnode refid="195" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="195">
+        <label>false_type</label>
+      </node>
+      <node id="194">
+        <label>std::false_type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="196">
+        <label>stdext::inplace_function_detail::is_inplace_function&lt; class &gt;</label>
+        <link refid="structstdext_1_1inplace__function__detail_1_1is__inplace__function"/>
+        <childnode refid="197" relation="public-inheritance">
+        </childnode>
+        <childnode refid="198" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="198">
+        <label>false_type</label>
+      </node>
+      <node id="197">
+        <label>std::false_type</label>
+      </node>
+    </collaborationgraph>
+    <location file="gen/telegen/inplace_function.hpp" line="197" column="1" bodyfile="gen/telegen/inplace_function.hpp" bodystart="197" bodyend="197"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

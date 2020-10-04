@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structstdext_1_1inplace__function__detail_1_1wrapper" kind="struct" language="C++" prot="public">
+    <compoundname>stdext::inplace_function_detail::wrapper</compoundname>
+    <includes refid="gen_2telegen_2inplace__function_8hpp" local="no">inplace_function.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>class T</type>
+      </param>
+    </templateparamlist>
+      <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structstdext_1_1inplace__function__detail_1_1wrapper_1a8ffe3ee24387462eac3adb955deba564" prot="public" static="no">
+        <type>T</type>
+        <definition>using stdext::inplace_function_detail::wrapper&lt; T &gt;::type =  T</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/inplace_function.hpp" line="82" column="1" bodyfile="gen/telegen/inplace_function.hpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structstdext_1_1inplace__function__detail_1_1wrapper_1a8ffe3ee24387462eac3adb955deba564" prot="public" static="no">
+        <type>T</type>
+        <definition>using stdext::inplace_function_detail::wrapper&lt; T &gt;::type =  T</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/utils/inplace_function.hpp" line="82" column="1" bodyfile="lib/telegraph/utils/inplace_function.hpp" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="gen/telegen/inplace_function.hpp" line="81" column="1" bodyfile="gen/telegen/inplace_function.hpp" bodystart="80" bodyend="83"/>
+    <listofallmembers>
+      <member refid="structstdext_1_1inplace__function__detail_1_1wrapper_1a8ffe3ee24387462eac3adb955deba564" prot="public" virt="non-virtual"><scope>stdext::inplace_function_detail::wrapper</scope><name>type</name></member>
+      <member refid="structstdext_1_1inplace__function__detail_1_1wrapper_1a8ffe3ee24387462eac3adb955deba564" prot="public" virt="non-virtual"><scope>stdext::inplace_function_detail::wrapper</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

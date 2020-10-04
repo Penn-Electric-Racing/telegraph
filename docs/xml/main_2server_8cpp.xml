@@ -1,0 +1,580 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="main_2server_8cpp" kind="file" language="C++">
+    <compoundname>main/server.cpp</compoundname>
+    <includes refid="local_2namespace_8hpp" local="no">telegraph/local/namespace.hpp</includes>
+    <includes refid="device_8hpp" local="no">telegraph/local/device.hpp</includes>
+    <includes refid="dummy__device_8hpp" local="no">telegraph/local/dummy_device.hpp</includes>
+    <includes refid="container_8hpp" local="no">telegraph/local/container.hpp</includes>
+    <includes refid="server_8hpp" local="no">telegraph/remote/server.hpp</includes>
+    <includes local="no">iostream</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">boost/asio/io_context.hpp</includes>
+    <incdepgraph>
+      <node id="1163">
+        <label>boost/asio/deadline_timer.hpp</label>
+      </node>
+      <node id="1152">
+        <label>params.hpp</label>
+        <link refid="params_8hpp"/>
+        <childnode refid="1140" relation="include">
+        </childnode>
+        <childnode refid="1148" relation="include">
+        </childnode>
+        <childnode refid="1144" relation="include">
+        </childnode>
+        <childnode refid="1153" relation="include">
+        </childnode>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1131" relation="include">
+        </childnode>
+        <childnode refid="1137" relation="include">
+        </childnode>
+        <childnode refid="1134" relation="include">
+        </childnode>
+      </node>
+      <node id="1138">
+        <label>functional</label>
+      </node>
+      <node id="1126">
+        <label>context.hpp</label>
+      </node>
+      <node id="1175">
+        <label>boost/beast/core.hpp</label>
+      </node>
+      <node id="1130">
+        <label>boost/functional/hash.hpp</label>
+      </node>
+      <node id="1178">
+        <label>filesystem</label>
+      </node>
+      <node id="1143">
+        <label>value.hpp</label>
+        <link refid="lib_2telegraph_2common_2value_8hpp"/>
+        <childnode refid="1144" relation="include">
+        </childnode>
+        <childnode refid="1145" relation="include">
+        </childnode>
+        <childnode refid="1146" relation="include">
+        </childnode>
+        <childnode refid="1147" relation="include">
+        </childnode>
+        <childnode refid="1149" relation="include">
+        </childnode>
+      </node>
+      <node id="1147">
+        <label>type.hpp</label>
+        <link refid="type_8hpp"/>
+        <childnode refid="1148" relation="include">
+        </childnode>
+        <childnode refid="1144" relation="include">
+        </childnode>
+        <childnode refid="1133" relation="include">
+        </childnode>
+        <childnode refid="1149" relation="include">
+        </childnode>
+      </node>
+      <node id="1172">
+        <label>api.pb.h</label>
+      </node>
+      <node id="1153">
+        <label>variant</label>
+      </node>
+      <node id="1131">
+        <label>../utils/errors.hpp</label>
+        <link refid="errors_8hpp"/>
+        <childnode refid="1132" relation="include">
+        </childnode>
+        <childnode refid="1133" relation="include">
+        </childnode>
+      </node>
+      <node id="1168">
+        <label>telegraph/local/dummy_device.hpp</label>
+        <link refid="dummy__device_8hpp"/>
+        <childnode refid="1125" relation="include">
+        </childnode>
+        <childnode refid="1169" relation="include">
+        </childnode>
+        <childnode refid="1164" relation="include">
+        </childnode>
+        <childnode refid="1133" relation="include">
+        </childnode>
+      </node>
+      <node id="1134">
+        <label>../utils/io_fwd.hpp</label>
+        <link refid="io__fwd_8hpp"/>
+      </node>
+      <node id="1137">
+        <label>../utils/signal.hpp</label>
+        <link refid="signal_8hpp"/>
+        <childnode refid="1138" relation="include">
+        </childnode>
+        <childnode refid="1139" relation="include">
+        </childnode>
+        <childnode refid="1140" relation="include">
+        </childnode>
+      </node>
+      <node id="1144">
+        <label>string</label>
+      </node>
+      <node id="1145">
+        <label>cinttypes</label>
+      </node>
+      <node id="1140">
+        <label>map</label>
+      </node>
+      <node id="1158">
+        <label>unordered_set</label>
+      </node>
+      <node id="1159">
+        <label>../utils/io.hpp</label>
+        <link refid="io_8hpp"/>
+        <childnode refid="1160" relation="include">
+        </childnode>
+        <childnode refid="1161" relation="include">
+        </childnode>
+      </node>
+      <node id="1164">
+        <label>../common/nodes.hpp</label>
+        <link refid="lib_2telegraph_2common_2nodes_8hpp"/>
+        <childnode refid="1147" relation="include">
+        </childnode>
+        <childnode refid="1143" relation="include">
+        </childnode>
+        <childnode refid="1150" relation="include">
+        </childnode>
+        <childnode refid="1131" relation="include">
+        </childnode>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1148" relation="include">
+        </childnode>
+        <childnode refid="1144" relation="include">
+        </childnode>
+        <childnode refid="1133" relation="include">
+        </childnode>
+        <childnode refid="1140" relation="include">
+        </childnode>
+        <childnode refid="1149" relation="include">
+        </childnode>
+      </node>
+      <node id="1132">
+        <label>exception</label>
+      </node>
+      <node id="1162">
+        <label>boost/asio/error.hpp</label>
+      </node>
+      <node id="1146">
+        <label>ostream</label>
+      </node>
+      <node id="1170">
+        <label>telegraph/local/container.hpp</label>
+        <link refid="container_8hpp"/>
+        <childnode refid="1134" relation="include">
+        </childnode>
+        <childnode refid="1135" relation="include">
+        </childnode>
+        <childnode refid="1164" relation="include">
+        </childnode>
+        <childnode refid="1150" relation="include">
+        </childnode>
+        <childnode refid="1125" relation="include">
+        </childnode>
+        <childnode refid="1144" relation="include">
+        </childnode>
+        <childnode refid="1133" relation="include">
+        </childnode>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1148" relation="include">
+        </childnode>
+        <childnode refid="1140" relation="include">
+        </childnode>
+        <childnode refid="1142" relation="include">
+        </childnode>
+      </node>
+      <node id="1127">
+        <label>../utils/uuid.hpp</label>
+        <link refid="uuid_8hpp"/>
+        <childnode refid="1128" relation="include">
+        </childnode>
+        <childnode refid="1129" relation="include">
+        </childnode>
+        <childnode refid="1130" relation="include">
+        </childnode>
+      </node>
+      <node id="1133">
+        <label>string_view</label>
+      </node>
+      <node id="1149">
+        <label>common.pb.h</label>
+      </node>
+      <node id="1171">
+        <label>telegraph/remote/server.hpp</label>
+        <link refid="server_8hpp"/>
+        <childnode refid="1159" relation="include">
+        </childnode>
+        <childnode refid="1172" relation="include">
+        </childnode>
+        <childnode refid="1173" relation="include">
+        </childnode>
+        <childnode refid="1174" relation="include">
+        </childnode>
+        <childnode refid="1135" relation="include">
+        </childnode>
+        <childnode refid="1142" relation="include">
+        </childnode>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1157" relation="include">
+        </childnode>
+        <childnode refid="1166" relation="include">
+        </childnode>
+        <childnode refid="1175" relation="include">
+        </childnode>
+        <childnode refid="1176" relation="include">
+        </childnode>
+      </node>
+      <node id="1169">
+        <label>../common/publisher.hpp</label>
+        <link refid="lib_2telegraph_2common_2publisher_8hpp"/>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1158" relation="include">
+        </childnode>
+        <childnode refid="1163" relation="include">
+        </childnode>
+        <childnode refid="1162" relation="include">
+        </childnode>
+        <childnode refid="1150" relation="include">
+        </childnode>
+      </node>
+      <node id="1161">
+        <label>boost/asio/io_context.hpp</label>
+      </node>
+      <node id="1155">
+        <label>telegraph/local/device.hpp</label>
+        <link refid="device_8hpp"/>
+        <childnode refid="1125" relation="include">
+        </childnode>
+        <childnode refid="1152" relation="include">
+        </childnode>
+        <childnode refid="1156" relation="include">
+        </childnode>
+        <childnode refid="1164" relation="include">
+        </childnode>
+        <childnode refid="1134" relation="include">
+        </childnode>
+        <childnode refid="1144" relation="include">
+        </childnode>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1142" relation="include">
+        </childnode>
+        <childnode refid="1157" relation="include">
+        </childnode>
+        <childnode refid="1163" relation="include">
+        </childnode>
+        <childnode refid="1165" relation="include">
+        </childnode>
+        <childnode refid="1166" relation="include">
+        </childnode>
+        <childnode refid="1167" relation="include">
+        </childnode>
+      </node>
+      <node id="1176">
+        <label>boost/beast/websocket.hpp</label>
+      </node>
+      <node id="1129">
+        <label>boost/uuid/random_generator.hpp</label>
+      </node>
+      <node id="1167">
+        <label>stream.pb.h</label>
+      </node>
+      <node id="1154">
+        <label>optional</label>
+      </node>
+      <node id="1166">
+        <label>boost/asio/streambuf.hpp</label>
+      </node>
+      <node id="1148">
+        <label>vector</label>
+      </node>
+      <node id="1173">
+        <label>connection.hpp</label>
+        <link refid="connection_8hpp"/>
+        <childnode refid="1159" relation="include">
+        </childnode>
+        <childnode refid="1172" relation="include">
+        </childnode>
+        <childnode refid="1142" relation="include">
+        </childnode>
+        <childnode refid="1138" relation="include">
+        </childnode>
+        <childnode refid="1163" relation="include">
+        </childnode>
+      </node>
+      <node id="1135">
+        <label>../common/namespace.hpp</label>
+        <link refid="common_2namespace_8hpp"/>
+        <childnode refid="1136" relation="include">
+        </childnode>
+        <childnode refid="1143" relation="include">
+        </childnode>
+        <childnode refid="1150" relation="include">
+        </childnode>
+        <childnode refid="1152" relation="include">
+        </childnode>
+        <childnode refid="1127" relation="include">
+        </childnode>
+        <childnode refid="1134" relation="include">
+        </childnode>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1154" relation="include">
+        </childnode>
+        <childnode refid="1144" relation="include">
+        </childnode>
+        <childnode refid="1133" relation="include">
+        </childnode>
+      </node>
+      <node id="1136">
+        <label>collection.hpp</label>
+        <link refid="collection_8hpp"/>
+        <childnode refid="1127" relation="include">
+        </childnode>
+        <childnode refid="1137" relation="include">
+        </childnode>
+        <childnode refid="1134" relation="include">
+        </childnode>
+        <childnode refid="1131" relation="include">
+        </childnode>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1138" relation="include">
+        </childnode>
+        <childnode refid="1142" relation="include">
+        </childnode>
+      </node>
+      <node id="1125">
+        <label>telegraph/local/namespace.hpp</label>
+        <link refid="local_2namespace_8hpp"/>
+        <childnode refid="1126" relation="include">
+        </childnode>
+        <childnode refid="1127" relation="include">
+        </childnode>
+        <childnode refid="1131" relation="include">
+        </childnode>
+        <childnode refid="1134" relation="include">
+        </childnode>
+        <childnode refid="1135" relation="include">
+        </childnode>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1144" relation="include">
+        </childnode>
+        <childnode refid="1133" relation="include">
+        </childnode>
+        <childnode refid="1140" relation="include">
+        </childnode>
+        <childnode refid="1138" relation="include">
+        </childnode>
+      </node>
+      <node id="1177">
+        <label>iostream</label>
+      </node>
+      <node id="1174">
+        <label>forwarder.hpp</label>
+        <link refid="forwarder_8hpp"/>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1158" relation="include">
+        </childnode>
+        <childnode refid="1172" relation="include">
+        </childnode>
+        <childnode refid="1134" relation="include">
+        </childnode>
+        <childnode refid="1131" relation="include">
+        </childnode>
+        <childnode refid="1136" relation="include">
+        </childnode>
+        <childnode refid="1150" relation="include">
+        </childnode>
+        <childnode refid="1135" relation="include">
+        </childnode>
+        <childnode refid="1142" relation="include">
+        </childnode>
+      </node>
+      <node id="1157">
+        <label>deque</label>
+      </node>
+      <node id="1142">
+        <label>unordered_map</label>
+      </node>
+      <node id="1139">
+        <label>mutex</label>
+      </node>
+      <node id="1151">
+        <label>chrono</label>
+      </node>
+      <node id="1156">
+        <label>../common/adapter.hpp</label>
+        <link refid="adapter_8hpp"/>
+        <childnode refid="1157" relation="include">
+        </childnode>
+        <childnode refid="1138" relation="include">
+        </childnode>
+        <childnode refid="1158" relation="include">
+        </childnode>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1150" relation="include">
+        </childnode>
+        <childnode refid="1159" relation="include">
+        </childnode>
+        <childnode refid="1162" relation="include">
+        </childnode>
+        <childnode refid="1163" relation="include">
+        </childnode>
+      </node>
+      <node id="1124">
+        <label>server.cpp</label>
+        <link refid="main_2server_8cpp"/>
+        <childnode refid="1125" relation="include">
+        </childnode>
+        <childnode refid="1155" relation="include">
+        </childnode>
+        <childnode refid="1168" relation="include">
+        </childnode>
+        <childnode refid="1170" relation="include">
+        </childnode>
+        <childnode refid="1171" relation="include">
+        </childnode>
+        <childnode refid="1177" relation="include">
+        </childnode>
+        <childnode refid="1178" relation="include">
+        </childnode>
+        <childnode refid="1161" relation="include">
+        </childnode>
+      </node>
+      <node id="1128">
+        <label>boost/uuid/uuid.hpp</label>
+      </node>
+      <node id="1165">
+        <label>boost/asio/serial_port.hpp</label>
+      </node>
+      <node id="1160">
+        <label>boost/asio/spawn.hpp</label>
+      </node>
+      <node id="1150">
+        <label>data.hpp</label>
+        <link refid="data_8hpp"/>
+        <childnode refid="1147" relation="include">
+        </childnode>
+        <childnode refid="1143" relation="include">
+        </childnode>
+        <childnode refid="1137" relation="include">
+        </childnode>
+        <childnode refid="1134" relation="include">
+        </childnode>
+        <childnode refid="1145" relation="include">
+        </childnode>
+        <childnode refid="1141" relation="include">
+        </childnode>
+        <childnode refid="1151" relation="include">
+        </childnode>
+      </node>
+      <node id="1141">
+        <label>memory</label>
+      </node>
+    </incdepgraph>
+      <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="main_2server_8cpp_1aacd32e7300ba1ea408f0cb79dbe33d86" prot="public" static="no">
+        <type>boost::asio::ip::tcp</type>
+        <definition>using tcp =  boost::asio::ip::tcp</definition>
+        <argsstring></argsstring>
+        <name>tcp</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="main/server.cpp" line="15" column="1" bodyfile="main/server.cpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="func">
+      <memberdef kind="function" id="main_2server_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int main</definition>
+        <argsstring>(int argc, char **argv)</argsstring>
+        <name>main</name>
+        <param>
+          <type>int</type>
+          <declname>argc</declname>
+        </param>
+        <param>
+          <type>char **</type>
+          <declname>argv</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="main/server.cpp" line="17" column="1" bodyfile="main/server.cpp" bodystart="17" bodyend="42"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;<ref refid="local_2namespace_8hpp" kindref="compound">telegraph/local/namespace.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="device_8hpp" kindref="compound">telegraph/local/device.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="dummy__device_8hpp" kindref="compound">telegraph/local/dummy_device.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="container_8hpp" kindref="compound">telegraph/local/container.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;<ref refid="server_8hpp" kindref="compound">telegraph/remote/server.hpp</ref>&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;iostream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/asio/io_context.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacetelegraph" kindref="compound">telegraph</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespaceboost_1_1asio" kindref="compound">net</ref><sp/>=<sp/><ref refid="namespaceboost_1_1asio" kindref="compound">boost::asio</ref>;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">using</highlight><highlight class="normal"><sp/><ref refid="lib_2telegraph_2remote_2server_8cpp_1aacd32e7300ba1ea408f0cb79dbe33d86" kindref="member">tcp</ref><sp/>=<sp/><ref refid="main_2server_8cpp_1aacd32e7300ba1ea408f0cb79dbe33d86" kindref="member">boost::asio::ip::tcp</ref>;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="main_2server_8cpp_1a3c04138a5bfe5d72780bb7e82a18e627" kindref="member">main</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>argc,<sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">**<sp/>argv)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;starting<sp/>server...&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>boost::asio::io_context<sp/>ctx;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;local_namespace&gt;<sp/>ns<sp/>=<sp/>std::make_shared&lt;local_namespace&gt;(ctx);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>ns-&gt;register_factory(</highlight><highlight class="stringliteral">&quot;device_scanner&quot;</highlight><highlight class="normal">,<sp/><ref refid="classtelegraph_1_1device__scanner_1a53b359ed0ed7088cdaf4d78658936a8d" kindref="member">device_scanner::create</ref>);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/>ns-&gt;register_factory(</highlight><highlight class="stringliteral">&quot;device&quot;</highlight><highlight class="normal">,<sp/><ref refid="classtelegraph_1_1device_1a4bb333fc0232bdb69283e71f086028c4" kindref="member">device::create</ref>);</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>ns-&gt;register_factory(</highlight><highlight class="stringliteral">&quot;dummy_device&quot;</highlight><highlight class="normal">,<sp/><ref refid="classtelegraph_1_1dummy__device_1a185602ee7a397af9cf23a5bb1bab50d3" kindref="member">dummy_device::create</ref>);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>ns-&gt;register_factory(</highlight><highlight class="stringliteral">&quot;container&quot;</highlight><highlight class="normal">,<sp/><ref refid="classtelegraph_1_1container_1a65eb3e80f805cbdb1c9335df40ff64ac" kindref="member">container::create</ref>);</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>start<sp/>a<sp/>server<sp/>on<sp/>the<sp/>relay</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>this<sp/>will<sp/>enqueue<sp/>callbacks<sp/>on<sp/>the<sp/>io<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>address<sp/>=<sp/>net::ip::make_address(</highlight><highlight class="stringliteral">&quot;0.0.0.0&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">short</highlight><highlight class="normal"><sp/>port<sp/>=<sp/>8081;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>io::spawn(ctx,</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;](io::yield_context<sp/>yield)<sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref><sp/>c(yield);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classtelegraph_1_1server" kindref="compound">server</ref><sp/>s(ctx,<sp/>tcp::endpoint{address,port},<sp/>ns);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="classtelegraph_1_1server_1ad7bf15056564c266ea630e35157758bc" kindref="member">run</ref>(c);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>process<sp/>requests<sp/>on<sp/>the<sp/>io<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.run();</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="main/server.cpp"/>
+  </compounddef>
+</doxygen>

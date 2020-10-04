@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegen_1_1publisher__scheduler" kind="class" language="C++" prot="public">
+    <compoundname>telegen::publisher_scheduler</compoundname>
+    <basecompoundref refid="structtelegen_1_1coroutine" prot="public" virt="non-virtual">telegen::coroutine</basecompoundref>
+    <includes refid="gen_2telegen_2publisher_8hpp" local="no">publisher.hpp</includes>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegen_1_1publisher__scheduler_1af8b188f70c00d2600a3b2317116d07cc" prot="private" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t telegen::publisher_scheduler::next_time</definition>
+        <argsstring></argsstring>
+        <name>next_time</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/publisher.hpp" line="223" column="1" bodyfile="gen/telegen/publisher.hpp" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="325">
+        <label>telegen::publisher_scheduler</label>
+        <link refid="classtelegen_1_1publisher__scheduler"/>
+        <childnode refid="326" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="326">
+        <label>telegen::coroutine</label>
+        <link refid="structtelegen_1_1coroutine"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="327">
+        <label>telegen::publisher_scheduler</label>
+        <link refid="classtelegen_1_1publisher__scheduler"/>
+        <childnode refid="328" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="328">
+        <label>telegen::coroutine</label>
+        <link refid="structtelegen_1_1coroutine"/>
+      </node>
+    </collaborationgraph>
+    <location file="gen/telegen/publisher.hpp" line="221" column="1" bodyfile="gen/telegen/publisher.hpp" bodystart="221" bodyend="224"/>
+    <listofallmembers>
+      <member refid="structtelegen_1_1coroutine_1ac13b85fb7d6b08c684c69f1109c2f947" prot="public" virt="non-virtual"><scope>telegen::publisher_scheduler</scope><name>coroutine</name></member>
+      <member refid="structtelegen_1_1coroutine_1a335f75302785f4ee9d8073caf8cfc60b" prot="public" virt="non-virtual"><scope>telegen::publisher_scheduler</scope><name>finish</name></member>
+      <member refid="structtelegen_1_1coroutine_1a4e807c9f48ccfd7fd64a0b6ef2024da0" prot="public" virt="non-virtual"><scope>telegen::publisher_scheduler</scope><name>is_finished</name></member>
+      <member refid="classtelegen_1_1publisher__scheduler_1af8b188f70c00d2600a3b2317116d07cc" prot="private" virt="non-virtual"><scope>telegen::publisher_scheduler</scope><name>next_time</name></member>
+      <member refid="structtelegen_1_1coroutine_1a345d1cc0fd5bd8d126022958d4f17d3b" prot="public" virt="virtual"><scope>telegen::publisher_scheduler</scope><name>reset</name></member>
+      <member refid="structtelegen_1_1coroutine_1a2a7408a5b9474af3e59128934e3a5c00" prot="public" virt="pure-virtual"><scope>telegen::publisher_scheduler</scope><name>resume</name></member>
+      <member refid="structtelegen_1_1coroutine_1a48b19e2ca54c0a7b63fe5c5f19620bcb" prot="public" virt="non-virtual"><scope>telegen::publisher_scheduler</scope><name>run</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

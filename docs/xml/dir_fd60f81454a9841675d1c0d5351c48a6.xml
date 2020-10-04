@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_fd60f81454a9841675d1c0d5351c48a6" kind="dir">
+    <compoundname>local</compoundname>
+    <innerfile refid="container_8cpp">container.cpp</innerfile>
+    <innerfile refid="container_8hpp">container.hpp</innerfile>
+    <innerfile refid="crc_8hpp">crc.hpp</innerfile>
+    <innerfile refid="device_8cpp">device.cpp</innerfile>
+    <innerfile refid="device_8hpp">device.hpp</innerfile>
+    <innerfile refid="dummy__device_8cpp">dummy_device.cpp</innerfile>
+    <innerfile refid="dummy__device_8hpp">dummy_device.hpp</innerfile>
+    <innerfile refid="namespace_8cpp">namespace.cpp</innerfile>
+    <innerfile refid="local_2namespace_8hpp">local/namespace.hpp</innerfile>
+    <innerfile refid="tmp__archive_8cpp">tmp_archive.cpp</innerfile>
+    <innerfile refid="tmp__archive_8hpp">tmp_archive.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/telegraph/local/"/>
+  </compounddef>
+</doxygen>

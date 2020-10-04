@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegrah_1_1gen_1_1can__interface" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>telegrah::gen::can_interface</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">interface&lt; uint8_t &gt;</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">interface public interface&lt; uint32_t &gt; public interface&lt; uint64_t &gt;</basecompoundref>
+    <includes refid="can__interface_8hpp" local="no">can_interface.hpp</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegrah_1_1gen_1_1can__interface_1a86b5cb1f63f8287500a4245a7fb1d5cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>void telegrah::gen::can_interface::send</definition>
+        <argsstring>(int16_t id, uint8_t len, uint8_t *buf)=0</argsstring>
+        <name>send</name>
+        <param>
+          <type>int16_t</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>uint8_t</type>
+          <declname>len</declname>
+        </param>
+        <param>
+          <type>uint8_t *</type>
+          <declname>buf</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="gen/telegen/can_interface.hpp" line="14" column="1"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="51">
+        <label>telegrah::gen::can_interface</label>
+        <link refid="classtelegrah_1_1gen_1_1can__interface"/>
+        <childnode refid="52" relation="public-inheritance">
+        </childnode>
+        <childnode refid="53" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>interface&lt; uint16_t &gt;
+        public interface&lt; uint32_t &gt;
+        public interface&lt; uint64_t &gt;</label>
+      </node>
+      <node id="52">
+        <label>interface&lt; uint8_t &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="54">
+        <label>telegrah::gen::can_interface</label>
+        <link refid="classtelegrah_1_1gen_1_1can__interface"/>
+        <childnode refid="55" relation="public-inheritance">
+        </childnode>
+        <childnode refid="56" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>interface&lt; uint16_t &gt;
+        public interface&lt; uint32_t &gt;
+        public interface&lt; uint64_t &gt;</label>
+      </node>
+      <node id="55">
+        <label>interface&lt; uint8_t &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="gen/telegen/can_interface.hpp" line="12" column="1" bodyfile="gen/telegen/can_interface.hpp" bodystart="8" bodyend="16"/>
+    <listofallmembers>
+      <member refid="classtelegrah_1_1gen_1_1can__interface_1a86b5cb1f63f8287500a4245a7fb1d5cc" prot="public" virt="pure-virtual"><scope>telegrah::gen::can_interface</scope><name>send</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

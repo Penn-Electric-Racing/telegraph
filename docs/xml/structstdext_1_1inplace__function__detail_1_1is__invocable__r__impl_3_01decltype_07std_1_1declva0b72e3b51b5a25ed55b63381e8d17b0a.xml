@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07std_1_1declva0b72e3b51b5a25ed55b63381e8d17b0a" kind="struct" language="C++" prot="public">
+    <compoundname>stdext::inplace_function_detail::is_invocable_r_impl&lt; decltype(std::declval&lt; F &gt;()(std::declval&lt; Args &gt;()...), void()), const void, F, Args... &gt;</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">true_type</basecompoundref>
+    <basecompoundref prot="public" virt="non-virtual">true_type</basecompoundref>
+    <includes refid="gen_2telegen_2inplace__function_8hpp" local="no">inplace_function.hpp</includes>
+    <templateparamlist>
+      <param>
+        <type>class F</type>
+      </param>
+      <param>
+        <type>class...</type>
+        <declname>Args</declname>
+        <defname>Args</defname>
+      </param>
+    </templateparamlist>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="212">
+        <label>std::true_type</label>
+      </node>
+      <node id="211">
+        <label>stdext::inplace_function_detail::is_invocable_r_impl&lt; decltype(std::declval&lt; F &gt;()(std::declval&lt; Args &gt;()...), void()), const void, F, Args... &gt;</label>
+        <link refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07std_1_1declva0b72e3b51b5a25ed55b63381e8d17b0a"/>
+        <childnode refid="212" relation="public-inheritance">
+        </childnode>
+        <childnode refid="213" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="213">
+        <label>true_type</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="215">
+        <label>std::true_type</label>
+      </node>
+      <node id="214">
+        <label>stdext::inplace_function_detail::is_invocable_r_impl&lt; decltype(std::declval&lt; F &gt;()(std::declval&lt; Args &gt;()...), void()), const void, F, Args... &gt;</label>
+        <link refid="structstdext_1_1inplace__function__detail_1_1is__invocable__r__impl_3_01decltype_07std_1_1declva0b72e3b51b5a25ed55b63381e8d17b0a"/>
+        <childnode refid="215" relation="public-inheritance">
+        </childnode>
+        <childnode refid="216" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="216">
+        <label>true_type</label>
+      </node>
+    </collaborationgraph>
+    <location file="gen/telegen/inplace_function.hpp" line="172" column="1" bodyfile="gen/telegen/inplace_function.hpp" bodystart="167" bodyend="172"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

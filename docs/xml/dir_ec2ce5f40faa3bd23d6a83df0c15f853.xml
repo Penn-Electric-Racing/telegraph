@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="dir_ec2ce5f40faa3bd23d6a83df0c15f853" kind="dir">
+    <compoundname>telegraph</compoundname>
+    <innerdir refid="dir_075dcd10bfebf0efe12f9be573deadc6">common</innerdir>
+    <innerdir refid="dir_0ebbe0cbacff0193d7766d8221923699">gen</innerdir>
+    <innerdir refid="dir_fd60f81454a9841675d1c0d5351c48a6">local</innerdir>
+    <innerdir refid="dir_a5e0a15aa5b312d96a9acea449ed8374">remote</innerdir>
+    <innerdir refid="dir_3d582e8b63435547bd8bafb5ddee3392">utils</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/telegraph/"/>
+  </compounddef>
+</doxygen>

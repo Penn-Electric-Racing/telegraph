@@ -1,0 +1,330 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1publisher_1_1sub" kind="class" language="C++" prot="private">
+    <compoundname>telegraph::publisher::sub</compoundname>
+    <basecompoundref refid="classtelegraph_1_1subscription" prot="public" virt="non-virtual">telegraph::subscription</basecompoundref>
+      <sectiondef kind="friend">
+      <memberdef kind="friend" id="classtelegraph_1_1publisher_1_1sub_1a6bc931deb7006307558dd5e082d03f8d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>friend class</type>
+        <definition>friend class publisher</definition>
+        <argsstring></argsstring>
+        <name>publisher</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="15" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="15" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classtelegraph_1_1publisher_1_1sub_1a185763dd3df147399cd9be4ee4f2a2d7" prot="private" static="no" mutable="no">
+        <type>std::weak_ptr&lt; <ref refid="classtelegraph_1_1publisher" kindref="compound">publisher</ref> &gt;</type>
+        <definition>std::weak_ptr&lt;publisher&gt; telegraph::publisher::sub::publisher_</definition>
+        <argsstring></argsstring>
+        <name>publisher_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="17" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="17" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1publisher_1_1sub_1ab0890ba478a248a3c9b242f2173555bf" prot="private" static="no" mutable="no">
+        <type>io::deadline_timer</type>
+        <definition>io::deadline_timer telegraph::publisher::sub::refresh_timer_</definition>
+        <argsstring></argsstring>
+        <name>refresh_timer_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="18" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="18" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1publisher_1_1sub_1abba80e409cfa7f4b8046f2c7b48fb861" prot="private" static="no" mutable="no">
+        <type><ref refid="namespacetelegraph_1a0f1714084e0d249aa06f757c9159c0ca" kindref="member">time_point</ref></type>
+        <definition>time_point telegraph::publisher::sub::last_update_</definition>
+        <argsstring></argsstring>
+        <name>last_update_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="19" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="19" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classtelegraph_1_1publisher_1_1sub_1acf7e43f59e1d7d9b6cd24a98b954f07b" prot="private" static="no" mutable="no">
+        <type><ref refid="classtelegraph_1_1value" kindref="compound">value</ref></type>
+        <definition>value telegraph::publisher::sub::last_value_</definition>
+        <argsstring></argsstring>
+        <name>last_value_</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="20" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="private-func">
+      <memberdef kind="function" id="classtelegraph_1_1publisher_1_1sub_1a43b4e22b4ceb1634876d40d2798a084b" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::publisher::sub::reset_refresh_timer</definition>
+        <argsstring>()</argsstring>
+        <name>reset_refresh_timer</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="22" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="22" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1publisher_1_1sub_1aca26a385438c0f013317208361b3c8b6" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::publisher::sub::resend</definition>
+        <argsstring>(const boost::system::error_code &amp;ec)</argsstring>
+        <name>resend</name>
+        <param>
+          <type>const boost::system::error_code &amp;</type>
+          <declname>ec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="73" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="73" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1publisher_1_1sub_1add1737b2da63bb7fcbe5a4ec4a847adb" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::publisher::sub::update</definition>
+        <argsstring>(time_point tp, value v)</argsstring>
+        <name>update</name>
+        <param>
+          <type><ref refid="namespacetelegraph_1a0f1714084e0d249aa06f757c9159c0ca" kindref="member">time_point</ref></type>
+          <declname>tp</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegraph_1_1value" kindref="compound">value</ref></type>
+          <declname>v</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="83" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="83" bodyend="92"/>
+      </memberdef>
+      </sectiondef>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1publisher_1_1sub_1a9c812ac088325cbdc9a424877d115729" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::publisher::sub::sub</definition>
+        <argsstring>(io::io_context &amp;ioc, const std::weak_ptr&lt; publisher &gt; pub, value_type t, float debounce, float refresh)</argsstring>
+        <name>sub</name>
+        <param>
+          <type>io::io_context &amp;</type>
+          <declname>ioc</declname>
+        </param>
+        <param>
+          <type>const std::weak_ptr&lt; <ref refid="classtelegraph_1_1publisher" kindref="compound">publisher</ref> &gt;</type>
+          <declname>pub</declname>
+        </param>
+        <param>
+          <type><ref refid="classtelegraph_1_1value__type" kindref="compound">value_type</ref></type>
+          <declname>t</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>debounce</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>refresh</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="34" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="34" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1publisher_1_1sub_1ac167cfcf04fa734d455c1e78eec1c0cb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>telegraph::publisher::sub::~sub</definition>
+        <argsstring>()</argsstring>
+        <name>~sub</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="40" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="40" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1publisher_1_1sub_1a97faef5c67cdcaa2bc8f5e72907eecc3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::publisher::sub::poll</definition>
+        <argsstring>()</argsstring>
+        <name>poll</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="43" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="43" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1publisher_1_1sub_1ae91b2fa4cf8d429041bf75cb4e64659e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::publisher::sub::change</definition>
+        <argsstring>(io::yield_ctx &amp;yield, float debounce, float refresh, float timeout) override</argsstring>
+        <name>change</name>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>debounce</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>refresh</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="49" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="49" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1publisher_1_1sub_1ad2b11ffaf3474519e4be1331b55a7414" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::publisher::sub::cancel</definition>
+        <argsstring>(io::yield_ctx &amp;yield, float timeout) override</argsstring>
+        <name>cancel</name>
+        <param>
+          <type><ref refid="structboost_1_1asio_1_1yield__ctx" kindref="compound">io::yield_ctx</ref> &amp;</type>
+          <declname>yield</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="56" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classtelegraph_1_1publisher_1_1sub_1a2a198bb8efe11001db1ecbbafe996a6d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void telegraph::publisher::sub::cancel</definition>
+        <argsstring>() override</argsstring>
+        <name>cancel</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/common/publisher.hpp" line="60" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="60" bodyend="71"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="358">
+        <label>telegraph::publisher::sub</label>
+        <childnode refid="359" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="359">
+        <label>telegraph::subscription</label>
+        <link refid="classtelegraph_1_1subscription"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="362">
+        <label>telegraph::value_type</label>
+        <link refid="classtelegraph_1_1value__type"/>
+      </node>
+      <node id="364">
+        <label>telegraph::signal&lt; telegraph::value &gt;</label>
+        <link refid="classtelegraph_1_1signal"/>
+      </node>
+      <node id="360">
+        <label>telegraph::publisher::sub</label>
+        <childnode refid="361" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="361">
+        <label>telegraph::subscription</label>
+        <link refid="classtelegraph_1_1subscription"/>
+        <childnode refid="362" relation="usage">
+          <edgelabel>type_</edgelabel>
+        </childnode>
+        <childnode refid="363" relation="usage">
+          <edgelabel>cancelled</edgelabel>
+        </childnode>
+        <childnode refid="364" relation="usage">
+          <edgelabel>data</edgelabel>
+        </childnode>
+      </node>
+      <node id="363">
+        <label>telegraph::signal&lt; T &gt;</label>
+        <link refid="classtelegraph_1_1signal"/>
+      </node>
+    </collaborationgraph>
+    <location file="lib/telegraph/common/publisher.hpp" line="14" column="1" bodyfile="lib/telegraph/common/publisher.hpp" bodystart="14" bodyend="93"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1ad2b11ffaf3474519e4be1331b55a7414" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>cancel</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1a2a198bb8efe11001db1ecbbafe996a6d" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>cancel</name></member>
+      <member refid="classtelegraph_1_1subscription_1af871f21ea83b527626725c9fedc247f2" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>cancelled</name></member>
+      <member refid="classtelegraph_1_1subscription_1a4a52c45f257a495f0ced91d5e9cc3723" prot="protected" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>cancelled_</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1ae91b2fa4cf8d429041bf75cb4e64659e" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>change</name></member>
+      <member refid="classtelegraph_1_1subscription_1adaaff860567d8a1dd105cd1fcc91a840" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>data</name></member>
+      <member refid="classtelegraph_1_1subscription_1a81abb8423637f2519d24a319f3f45cf0" prot="protected" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>debounce_</name></member>
+      <member refid="classtelegraph_1_1subscription_1a193bc79b41f19075b015c7af7c1f7738" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>DISABLED</name></member>
+      <member refid="classtelegraph_1_1subscription_1a8ce2ae85cf733760222ed81db2791acf" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>get_debounce</name></member>
+      <member refid="classtelegraph_1_1subscription_1a92eb73e4f104fefbdfe886ec8122a2b7" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>get_refresh</name></member>
+      <member refid="classtelegraph_1_1subscription_1a9a574364550840ba96c594a4dab83b9e" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>get_type</name></member>
+      <member refid="classtelegraph_1_1subscription_1a9dc4805fc25661d3901e8a4181e2e0f1" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>is_cancelled</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1abba80e409cfa7f4b8046f2c7b48fb861" prot="private" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>last_update_</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1acf7e43f59e1d7d9b6cd24a98b954f07b" prot="private" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>last_value_</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1a97faef5c67cdcaa2bc8f5e72907eecc3" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>poll</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1a6bc931deb7006307558dd5e082d03f8d" prot="private" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>publisher</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1a185763dd3df147399cd9be4ee4f2a2d7" prot="private" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>publisher_</name></member>
+      <member refid="classtelegraph_1_1subscription_1aaae42162bcfb0f4e6e75f4a3e36de6d9" prot="protected" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>refresh_</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1ab0890ba478a248a3c9b242f2173555bf" prot="private" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>refresh_timer_</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1aca26a385438c0f013317208361b3c8b6" prot="private" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>resend</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1a43b4e22b4ceb1634876d40d2798a084b" prot="private" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>reset_refresh_timer</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1a9c812ac088325cbdc9a424877d115729" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>sub</name></member>
+      <member refid="classtelegraph_1_1subscription_1ae4c98364487057db2aa99675dac8afb5" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>subscription</name></member>
+      <member refid="classtelegraph_1_1subscription_1a1f168a6bb8f030ebc870e1a702192139" prot="protected" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>type_</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1add1737b2da63bb7fcbe5a4ec4a847adb" prot="private" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>update</name></member>
+      <member refid="classtelegraph_1_1publisher_1_1sub_1ac167cfcf04fa734d455c1e78eec1c0cb" prot="public" virt="non-virtual"><scope>telegraph::publisher::sub</scope><name>~sub</name></member>
+      <member refid="classtelegraph_1_1subscription_1a8a9cf662e9a068514d9595d9df0a48ca" prot="public" virt="virtual"><scope>telegraph::publisher::sub</scope><name>~subscription</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

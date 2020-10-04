@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.8.13">
+  <compounddef id="classtelegraph_1_1json__parser" kind="class" language="C++" prot="public">
+    <compoundname>telegraph::json_parser</compoundname>
+    <includes refid="json_8hpp" local="no">json.hpp</includes>
+      <sectiondef kind="public-func">
+      <memberdef kind="function" id="classtelegraph_1_1json__parser_1ad3f209cfb4e81aa7c1d5fb577b09de30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacetelegraph_1ab87b47a6b955c365ddd74c343ecc16f4" kindref="member">json</ref></type>
+        <definition>json telegraph::json_parser::parse_file</definition>
+        <argsstring>(const std::string &amp;file)</argsstring>
+        <name>parse_file</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="lib/telegraph/utils/json.hpp" line="11" column="1" bodyfile="lib/telegraph/utils/json.cpp" bodystart="7" bodyend="12"/>
+      </memberdef>
+      </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="lib/telegraph/utils/json.hpp" line="9" column="1" bodyfile="lib/telegraph/utils/json.hpp" bodystart="9" bodyend="12"/>
+    <listofallmembers>
+      <member refid="classtelegraph_1_1json__parser_1ad3f209cfb4e81aa7c1d5fb577b09de30" prot="public" virt="non-virtual"><scope>telegraph::json_parser</scope><name>parse_file</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
