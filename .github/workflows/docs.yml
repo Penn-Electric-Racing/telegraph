@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - wvauclain/doxygen # testing
 
 jobs:
   deploy:
