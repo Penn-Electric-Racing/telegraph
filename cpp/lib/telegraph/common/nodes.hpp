@@ -114,8 +114,20 @@ namespace telegraph {
                     const std::string_view& desc, const std::string_view& schema, int version,
                     std::vector<node*>&& children) : 
                 node(i, name, pretty, desc),
-                schema_(schema), version_(version), 
+                schema_(schema), version_(version), placeholders_(),
                 children_(children), children_map_() {
+            // populate the children map
+            for (node* n : children_) {
+                n->set_parent(this);
+                children_map_[n->get_name()] = n;
+            }
+        }
+        group(id i, const std::string_view& name, const std::string_view& pretty,
+                    const std::string_view& desc, const std::string_view& schema, int version,
+                    std::vector<node::id>&& placeholders) : 
+                node(i, name, pretty, desc),
+                schema_(schema), version_(version), placeholders_(std::move(placeholders)),
+                children_(), children_map_() {
             // populate the children map
             for (node* n : children_) {
                 n->set_parent(this);
@@ -237,6 +249,7 @@ namespace telegraph {
         std::string schema_;
         int version_;
 
+        std::vector<node::id> placeholders_;
         std::vector<node*> children_;
         std::map<std::string, node*, std::less<>> children_map_;
     };

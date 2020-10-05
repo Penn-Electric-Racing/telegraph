@@ -48,6 +48,7 @@ namespace telegraph {
         auto sthis = shared_device_this();
         io::dispatch(port_.get_executor(), [sthis] () { sthis->do_reading(0); });
 
+        /*
         io::deadline_timer timer(ioc_, 
             boost::posix_time::milliseconds(1000));
         uint32_t req_id = sthis->req_id_++;
@@ -106,6 +107,7 @@ namespace telegraph {
                 }
             });
         }
+        */
     }
 
     void
@@ -272,9 +274,9 @@ namespace telegraph {
         if (ec) return; // on error cancel the reading loop
 
         // calculate the header length
-        uint32_t length = 0;
+        uint32_t header_val = 0;
 
-        uint8_t byte;
+        uint8_t byte = 0;
         uint8_t header_pos = 0;
         uint_fast8_t bitpos = 0;
         do {
@@ -288,7 +290,7 @@ namespace telegraph {
             if (header_pos >= read_buf_.size()) break;
             byte = *(io::buffers_begin(read_buf_.data()) + (header_pos++));
 
-            length |= (uint32_t) (byte & 0x7F) << bitpos;
+            header_val |= (uint32_t) (byte & 0x7F) << bitpos;
             bitpos = (uint_fast8_t)(bitpos + 7);
         } while (byte & 0x80);
 
@@ -297,6 +299,8 @@ namespace telegraph {
             // clear the read buffer
             read_buf_.consume(read_buf_.size());
         }
+
+        int32_t length = (int32_t) header_val;
 
         if (byte & 0x80) {
             // header is not complete, 
@@ -316,11 +320,11 @@ namespace telegraph {
         uint32_t crc_actual = 0;
         {
             auto buf = read_buf_.data();
-            auto checksum_loc = io::buffers_begin(buf) + header_pos + length;
-            crc_expected = crc::crc32_buffers(io::buffers_begin(buf), checksum_loc);
+            auto payload_loc = io::buffers_begin(buf) + header_pos;
+            auto end_of_payload_loc = io::buffers_begin(buf) + header_pos + length;
+            crc_expected = crc::crc32_buffers(payload_loc, end_of_payload_loc);
 
-            // hacky but we can only read a byte at a time (might be
-            // split across buffers)
+            auto checksum_loc = end_of_payload_loc;
             crc_actual |= (uint32_t) ((uint8_t) *(checksum_loc)); 
             checksum_loc++;
             crc_actual |= (uint32_t) ((uint8_t) *(checksum_loc)) << 8; 

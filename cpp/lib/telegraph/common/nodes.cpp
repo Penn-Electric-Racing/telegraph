@@ -26,6 +26,7 @@ namespace telegraph {
         case Node::kGroup: return group::unpack(proto.group());
         case Node::kVar: return variable::unpack(proto.var());
         case Node::kAction: return action::unpack(proto.action());
+        case Node::kPlaceholder: return nullptr;
         default: return nullptr;
         }
     }
@@ -74,12 +75,26 @@ namespace telegraph {
     group*
     group::unpack(const Group& g) {
         std::vector<node*> children;
+        std::vector<node::id> placeholders;
         for (int i = 0; i < g.children_size(); i++) {
-            children.push_back(node::unpack(g.children(i)));
+            const Node& n = g.children(i);
+            if (n.node_case() == Node::kPlaceholder) {
+                placeholders.push_back(n.placeholder());
+            } else {
+                children.push_back(node::unpack(g.children(i)));
+            }
         }
-        return new group(g.id(), g.name(), g.pretty(),
-                         g.desc(), g.schema(), g.version(),
-                         std::move(children));
+        if (children.size() > 0 && placeholders.size() > 0) {
+            return nullptr;
+        } else if (children.size() > 0) {
+            return new group(g.id(), g.name(), g.pretty(),
+                            g.desc(), g.schema(), g.version(),
+                            std::move(children));
+        } else {
+            return new group(g.id(), g.name(), g.pretty(),
+                            g.desc(), g.schema(), g.version(),
+                            std::move(placeholders));
+        }
     }
 
     void

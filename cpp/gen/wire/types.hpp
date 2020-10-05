@@ -106,27 +106,27 @@ namespace wire {
 }
 
 // PRIMITIVE DATA TYPES (note: not in a namespace)
-constexpr wire::type_info<none> none_type = wire::type_info<none>("none", 0, {});
-constexpr wire::type_info<bool> bool_type = wire::type_info<bool>("bool", 0, {});
+constexpr wire::type_info<none> none_type = wire::type_info<none>("", 0, {});
+constexpr wire::type_info<bool> bool_type = wire::type_info<bool>("", 0, {});
 
 constexpr wire::type_info<uint8_t> uint8_type =
-            wire::type_info<uint8_t>("uint8", 0, {});
+            wire::type_info<uint8_t>("", 0, {});
 constexpr wire::type_info<uint16_t> uint16_type =
-            wire::type_info<uint16_t>("uint16", 0, {});
+            wire::type_info<uint16_t>("", 0, {});
 constexpr wire::type_info<uint32_t> uint32_type =
-            wire::type_info<uint32_t>("uint32", 0, {});
+            wire::type_info<uint32_t>("", 0, {});
 constexpr wire::type_info<uint64_t> uint64_type =
-            wire::type_info<uint64_t>("uint64", 0, {});
+            wire::type_info<uint64_t>("", 0, {});
 
 constexpr wire::type_info<int8_t> int8_type =
-            wire::type_info<int8_t>("int8", 0, {});
+            wire::type_info<int8_t>("", 0, {});
 constexpr wire::type_info<int16_t> int16_type =
-            wire::type_info<int16_t>("int16", 0, {});
+            wire::type_info<int16_t>("", 0, {});
 constexpr wire::type_info<int32_t> int32_type =
-            wire::type_info<int32_t>("int32", 0, {});
+            wire::type_info<int32_t>("", 0, {});
 constexpr wire::type_info<int64_t> int64_type =
-            wire::type_info<int64_t>("int64", 0, {});
+            wire::type_info<int64_t>("", 0, {});
 
-constexpr wire::type_info<float> float_type = wire::type_info<float>("float", 0, {});
-constexpr wire::type_info<double> double_type = wire::type_info<double>("double", 0, {});
+constexpr wire::type_info<float> float_type = wire::type_info<float>("", 0, {});
+constexpr wire::type_info<double> double_type = wire::type_info<double>("", 0, {});
 #endif

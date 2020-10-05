@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 import os
 import time
+import queue
 import curses
 import sys
 import threading
+import ctypes
 
-from google.protobuf.internal.encoder import _VarintBytes
 from google.protobuf.message import DecodeError
 
 # TODO: Automatically run the protobuf generator
 
 from stream_pb2 import Packet
 from common_pb2 import Empty
-from util import crc32
+from util import crc32, hamming_decode, hamming_encode
 
 import serial
 import struct
@@ -20,9 +21,21 @@ import struct
 write_lock = threading.Lock()
 refresh_lock = threading.Lock()
 
-ser = serial.Serial('/dev/ttyACM0', 57600)
+ser = serial.Serial('/dev/ttyACM0', 112500)
 
 ui = None
+
+def escape_buf(buf):
+    escaped = bytearray()
+    it = iter(buf)
+    while True:
+        val = next(it, None)
+        if val is None:
+            break
+        elif val == 0x40 or val == 0x53 or val == 0x45:
+            escaped.append(0x40)
+        escaped.append(val)
+    return escaped
 
 req_id = 0
 def write_packet(p):
@@ -31,56 +44,108 @@ def write_packet(p):
         req_id = req_id + 1
         p.req_id = req_id
         size = p.ByteSize()
-        varint = _VarintBytes(size)
-        buf = varint + p.SerializeToString()
-        buf += struct.pack('<I', crc32(buf))
+
+        buf = bytearray()
+        buf.append(0x53)
+        buf.append(0x53)
+        payload = p.SerializeToString()
+        content = payload + struct.pack('<I', crc32(payload))
+        buf.extend(escape_buf(content))
+        buf.append(0x45)
+
+        print('writing', buf)
         ser.write(buf)
         ser.flush()
 
-def read_varint32():
-    mask = (1 << 32) - 1
-    result = 0
-    shift = 0
-    while 1:
-      by = ser.read()
-      b = int.from_bytes(by, byteorder='big')
-      result |= ((b & 0x7f) << shift)
-      if not (b & 0x80):
-        result &= mask
-        result = int(result)
-        return result
-      shift += 7
-      if shift >= 64:
-          raise ValueError('Too many bytes when decoding')
+
+prev_val = 0
 
 def read_packet():
+    global prev_val
     while True:
-        size = read_varint32()
-        buf = ser.read(size + 4)
-        payload = buf[:-4]
+        # read until we hit the next 0x1A 0x1A sequence
+        # if we hit the end of the buffer, return
+        while True:
+            #if ser.in_waiting > 0:
+            val = ord(ser.read())
+            # else:
+            #    time.sleep(0.05)
+            #    if ser.in_waiting == 0:
+            #        return None
+            #    val = ord(ser.read())
 
-        msg = _VarintBytes(size) + payload
-        expected_checksum = crc32(msg)
-        checksum, = struct.unpack('<I', buf[-4:])
+            if val == 0x53 and prev_val == 0x53:
+                prev_val = 0
+                break
+            prev_val = val
+
+        content = bytearray()
+        while True:
+            val = ser.read()
+            c = ord(val)
+            if c == 0x40:
+                escaped = ser.read()
+                content.extend(escaped)
+            elif c == 0x53:
+                prev_val = 0x53
+                return None
+            elif c == 0x45:
+                prev_val = 0
+                break
+            else:
+                content.append(c)
+
+        payload = content[:-4]
+        print('recv', payload)
+        expected_checksum = crc32(payload)
+        checksum, = struct.unpack('<I', content[-4:])
+
         if expected_checksum != checksum:
-            print("Bad checksum for packet of length {}!".format(size))
             return None
+
         packet = Packet()
         packet.ParseFromString(payload)
         return packet
 
-
-
 def fetch_tree():
-    packet = Packet()
-    packet.fetch_tree.SetInParent()
-    write_packet(packet)
 
-    while True:
-        p = read_packet()
-        if p and hasattr(p, 'tree'):
-            return p.tree
-        time.sleep(0.5)
+    id_queue = queue.Queue()
+    id_queue.put(0)
+
+    id_map = {}
+
+    while not id_queue.empty():
+        tgt_id = id_queue.get()
+
+        while True:
+            packet = Packet()
+            packet.fetch_node = tgt_id
+            write_packet(packet)
+            p = read_packet()
+            if p and p.HasField("node"):
+                id_map[tgt_id] = p.node
+                break
+
+        node = id_map[tgt_id]
+        if node.HasField("group"):
+            for c in node.group.children:
+                if c.placeholder not in id_map:
+                    id_queue.put(c.placeholder)
+    
+    complete_map = {}
+    while len(complete_map) != len(id_map):
+        for (id, n) in id_map.items():
+            if id not in complete_map:
+                if n.HasField("group"):
+                    if all([c.placeholder in complete_map for c in n.group.children]):
+                        g = n.group
+                        children_ids = [c.placeholder for c in g.children]
+                        del g.children[:]
+                        g.children.extend([complete_map[i] for i in children_ids])
+                        complete_map[id] = n
+                else:
+                    complete_map[id] = n
+    return id_map[0]
 
 def set_status(id, status):
     global ui

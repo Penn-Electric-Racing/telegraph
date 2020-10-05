@@ -39,6 +39,12 @@ namespace wire {
         // encode this node into a node protobuffer descriptor
         virtual void pack(telegraph_Node* n) const = 0;
 
+        // encode this node with placeholders for children
+        // overridden only for the group
+        virtual void pack_condensed(telegraph_Node* n) const {
+            pack(n);
+        }
+
         constexpr void set_owner(source* i) {
             if (!owner_) owner_ = i;
         }
@@ -65,7 +71,7 @@ namespace wire {
 
         constexpr size_t num_children() const { return num_children_; }
 
-        void pack(telegraph_Group* g) const {
+        void pack(telegraph_Group* g, bool condensed=false) const {
             g->id = get_id();
 
             g->name.arg = (void*) get_name();
@@ -81,26 +87,49 @@ namespace wire {
             g->schema.funcs.encode = util::proto_string_encoder;
 
             g->children.arg = (void*) this;
-            g->children.funcs.encode = 
-                [](pb_ostream_t* stream, const pb_field_iter_t* field, 
-                        void* const* arg) {
-                    const group* g = (const group*) *arg;
-                    telegraph_Node n = telegraph_Node_init_default;
-                    for (size_t i = 0; i < g->num_children(); i++) {
-                        if (!pb_encode_tag_for_field(stream, field))
-                            return false;
-                        g->children_[i]->pack(&n);
-                        if (!pb_encode_submessage(stream, 
-                                    telegraph_Node_fields, &n))
-                            return false;
-                    }
-                    return true;
-                };
+            if (condensed) {
+                g->children.funcs.encode = 
+                    [](pb_ostream_t* stream, const pb_field_iter_t* field, 
+                            void* const* arg) {
+                        const group* g = (const group*) *arg;
+                        telegraph_Node n = telegraph_Node_init_default;
+                        for (size_t i = 0; i < g->num_children(); i++) {
+                            if (!pb_encode_tag_for_field(stream, field))
+                                return false;
+                            n.which_node = telegraph_Node_placeholder_tag;
+                            n.node.placeholder = g->children_[i]->get_id();
+                            if (!pb_encode_submessage(stream, 
+                                        telegraph_Node_fields, &n))
+                                return false;
+                        }
+                        return true;
+                    };
+            } else {
+                g->children.funcs.encode = 
+                    [](pb_ostream_t* stream, const pb_field_iter_t* field, 
+                            void* const* arg) {
+                        const group* g = (const group*) *arg;
+                        telegraph_Node n = telegraph_Node_init_default;
+                        for (size_t i = 0; i < g->num_children(); i++) {
+                            if (!pb_encode_tag_for_field(stream, field))
+                                return false;
+                            g->children_[i]->pack(&n);
+                            if (!pb_encode_submessage(stream, 
+                                        telegraph_Node_fields, &n))
+                                return false;
+                        }
+                        return true;
+                    };
+            }
         }
 
         void pack(telegraph_Node* n) const override {
             n->which_node = telegraph_Node_group_tag;
             pack(&n->node.group);
+        }
+        void pack_condensed(telegraph_Node* n) const override {
+            n->which_node = telegraph_Node_group_tag;
+            pack(&n->node.group, true);
         }
 
         node* operator[](size_t i) {
