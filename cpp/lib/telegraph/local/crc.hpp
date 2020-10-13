@@ -4,7 +4,7 @@
 namespace telegraph {
     namespace crc {
         // crc utilities
-        static const uint32_t crc_table[256] = {
+        static constexpr const uint32_t crc_table[256] = {
             0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f,
             0xe963a535, 0x9e6495a3,	0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988,
             0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91, 0x1db71064, 0x6ab020f2,
@@ -50,6 +50,18 @@ namespace telegraph {
             0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
         };
 
+        constexpr void crc32_start(uint32_t& crc) {
+            crc = ~0U;
+        }
+
+        constexpr void crc32_next(uint32_t& crc, uint8_t val) {
+            crc = crc_table[(crc ^ val) & 0xFF] ^ (crc >> 8);
+        }
+
+        constexpr void crc32_finalize(uint32_t& crc) {
+            crc = crc ^ ~0U;
+        }
+
         template<typename ConstBuffersIter>
             uint32_t crc32_buffers(ConstBuffersIter start, ConstBuffersIter end) {
                 uint32_t crc = ~0U;
@@ -60,43 +72,6 @@ namespace telegraph {
                 }
                 return crc ^ ~0U;
             }
-
-    }
-    namespace hamming {
-        constexpr const uint8_t hamming_encode_table[16] = {
-            0, 105, 170, 195, 204, 165, 102, 15, 240, 153, 90, 51, 60, 85, 150, 255
-        };
-        constexpr const uint8_t hamming_decode_table[256] =  {
-            0, 0, 0, 255, 0, 255, 255, 7, 0, 255, 255, 7, 255, 7, 7, 7, 0, 255, 255,
-            11, 255, 13, 14, 255, 255, 9, 10, 255, 12, 255, 255, 7, 0, 255, 255, 11,
-            255, 5, 6, 255, 255, 1, 2, 255, 12, 255, 255, 7, 255, 11, 11, 11, 12, 255,
-            255, 11, 12, 255, 255, 11, 12, 12, 12, 255, 0, 255, 255, 3, 255, 13, 6, 255,
-            255, 1, 10, 255, 4, 255, 255, 7, 255, 13, 10, 255, 13, 13, 255, 13, 10, 255,
-            10, 10, 255, 13, 10, 255, 255, 1, 6, 255, 6, 255, 6, 6, 1, 1, 255, 1, 255,
-            1, 6, 255, 8, 255, 255, 11, 255, 13, 6, 255, 255, 1, 10, 255, 12, 255, 255,
-            15, 0, 255, 255, 3, 255, 5, 14, 255, 255, 9, 2, 255, 4, 255, 255, 7, 255,
-            9, 14, 255, 14, 255, 14, 14, 9, 9, 255, 9, 255, 9, 14, 255, 255, 5, 2, 255,
-            5, 5, 255, 5, 2, 255, 2, 2, 255, 5, 2, 255, 8, 255, 255, 11, 255, 5, 14, 255, 
-            255, 9, 2, 255, 12, 255, 255, 15, 255, 3, 3, 3, 4, 255, 255, 3, 4, 255, 255,
-            3, 4, 4, 4, 255, 8, 255, 255, 3, 255, 13, 14, 255, 255, 9, 10, 255, 4, 255,
-            255, 15, 8, 255, 255, 3, 255, 5, 6, 255, 255, 1, 2, 255, 4, 255, 255, 15, 
-            8, 8, 8, 255, 8, 255, 255, 15, 8, 255, 255, 15, 255, 15, 15, 15
-        };
-
-        constexpr void hamming_encode(uint8_t val, uint8_t* res) {
-            uint8_t lower = val & 0xF;
-            uint8_t upper = val >> 4;
-            uint16_t lower_res = hamming_encode_table[lower];
-            uint16_t upper_res = hamming_encode_table[upper];
-            res[0] = lower_res;
-            res[1] = upper_res;
-        }
-
-        constexpr uint8_t hamming_decode(uint8_t* val) {
-            uint8_t lower_res = hamming_decode_table[val[0]];
-            uint8_t upper_res = hamming_decode_table[val[1]];
-            return (upper_res << 4) | lower_res;
-        }
     }
 }
 

@@ -53,7 +53,7 @@ def write_packet(p):
         buf.extend(escape_buf(content))
         buf.append(0x45)
 
-        print('writing', buf)
+        print('writing', p, buf)
         ser.write(buf)
         ser.flush()
 

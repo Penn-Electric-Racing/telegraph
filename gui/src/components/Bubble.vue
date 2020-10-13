@@ -6,7 +6,7 @@
         </slot>
       </div>
       <div class="bubble-content" 
-            :class="{margin:!noMargin}" v-if="hasContent">
+            :class="{indent}" v-if="hasContent">
         <slot name="content">
         </slot>
       </div>
@@ -25,7 +25,7 @@
     props: {
       draggable: { type: Boolean, default: false },
       hasContent: { type: Boolean, default: false },
-      noMargin: { type: Boolean, default: false },
+      indent: { type: Boolean, default: false },
       hasSidebar: { type: Boolean, default: false },
       dragData: { type: Object, default: null },
     },
@@ -117,8 +117,7 @@
     background-color: #343C42;
     border-radius: 0px 0px 16px 16px;
   }
-  .margin {
-    padding: 3px;
+  .indent {
     padding-left: 10px;
   }
 </style>

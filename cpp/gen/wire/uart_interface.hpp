@@ -96,6 +96,7 @@ namespace wire {
                 case telegraph_stream_Packet_fetch_node_tag: {
                     telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
                     node::id node_id = packet.event.fetch_node;
+                    p.req_id = packet.req_id;
                     p.which_event = telegraph_stream_Packet_node_tag;
                     node* n = (node_id >= table_size_) ? root_ : lookup_table_[node_id]; 
                     if (n == nullptr) n = root_;

@@ -205,6 +205,10 @@ namespace telegraph {
             return n;
         }
 
+        const std::vector<node::id>& placeholders() const {
+            return placeholders_;
+        }
+
         node* operator[](size_t idx) override {
             if (idx >= children_.size()) return nullptr;
             return children_[idx];
@@ -239,6 +243,25 @@ namespace telegraph {
         void pack(Group* group) const;
         virtual void pack(Node* proto) const override;
         static group* unpack(const Group& g);
+
+        template<typename M>
+            bool resolve_placeholders(M* nodes) {
+                for (node::id p : placeholders_) {
+                    if (nodes->find(p) == nodes->end()) return false;
+                }
+                for (node::id p : placeholders_) {
+                    auto nodes_it = nodes->find(p);
+                    if (nodes_it == nodes->end()) return false;
+                    node* child = nodes_it->second;
+
+                    children_.push_back(child);
+                    child->set_parent(this);
+                    children_map_[child->get_name()] = child;
+
+                    nodes->erase(nodes_it);
+                }
+                return true;
+            }
 
         std::unique_ptr<node> clone() const override {
             return std::make_unique<group>(*this);

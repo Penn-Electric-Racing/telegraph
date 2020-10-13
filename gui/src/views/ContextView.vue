@@ -1,5 +1,5 @@
 <template>
-    <Bubble hasContent noMargin>
+    <Bubble hasContent>
         <template v-slot:header>
             <div class="items header-items">
                 <span> {{ context.name }} </span>

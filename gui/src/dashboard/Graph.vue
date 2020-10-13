@@ -93,7 +93,6 @@
               factor: 0.8,
               scrollCallback: (oldMin, oldMax, newMin, newMax) => {
                 if (this.useTimespan && this.live) {
-                  console.log(oldMin);
                   this.timespan = newMax - newMin;
                   return {min: oldMax - (newMax - newMin), max: oldMax};
                 }

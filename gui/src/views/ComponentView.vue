@@ -1,5 +1,5 @@
 <template>
-    <Bubble :hasContent="true">
+    <Bubble hasContent>
         <template v-slot:header>
             <div class="items header-items">
                 <span> {{ component.name }} </span>
@@ -83,7 +83,10 @@ export default {
 }
 .content-items {
     justify-content: flex-start;
-    padding-right: 7px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 4px;
 }
 .header-items {
     justify-content: space-between;
