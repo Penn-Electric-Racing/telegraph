@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run: sudo apt install doxygen
+      - run: sudo apt install doxygen git
 
       - run: bazel build //cpp:docs
 
