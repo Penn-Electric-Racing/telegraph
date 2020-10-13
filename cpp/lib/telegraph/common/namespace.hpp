@@ -96,7 +96,7 @@ namespace telegraph {
         virtual data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& v) = 0;
 
         virtual void destroy(io::yield_ctx& yield) = 0;
-        signal<> destroyed;
+        signal<io::yield_ctx&> destroyed;
     protected:
         io::io_context& ioc_;
         const uuid uuid_;

@@ -75,7 +75,6 @@ namespace telegraph {
                                 float timeout) override {
             auto n =  tree_->from_path(path);
             auto v = dynamic_cast<variable*>(n);
-            for (auto s : path) std::cout << s << std::endl;
             if (!v) return nullptr;
             return subscribe(ctx, v, min_interval, max_interval, timeout);
         }
