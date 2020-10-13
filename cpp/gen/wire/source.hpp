@@ -1,5 +1,5 @@
-#ifndef __TELEGEN_INTERFACE_HPP__
-#define __TELEGEN_INTERFACE_HPP__
+#ifndef __WIRE_INTERFACE_HPP__
+#define __WIRE_INTERFACE_HPP__
 
 #include "promise.hpp"
 #include "value.hpp"
@@ -8,7 +8,7 @@
 #include <memory>
 #include <cstdint>
 
-namespace telegen {
+namespace wire {
     class variable_base;
     class action_base;
     class subscription;

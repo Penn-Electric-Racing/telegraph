@@ -55,20 +55,32 @@ namespace telegraph {
     using time_point = std::chrono::time_point<std::chrono::system_clock>;
     /**
      */
-    class data_point {
+    class datapoint {
     private:
         time_point time_;
         value val_;
     public:
-        data_point(time_point time, value val) : time_(time), val_(val) {}
+        datapoint(time_point time, value val) : time_(time), val_(val) {}
         constexpr time_point get_time() const { return time_; }
         constexpr value get_value() const { return val_; }
+
+        void pack(Datapoint* dp) {
+            auto micro = 
+                std::chrono::duration_cast<std::chrono::microseconds>(
+                    time_.time_since_epoch());
+            dp->set_timestamp(micro.count());
+            val_.pack(dp->mutable_value());
+        }
+
+        static time_point now() {
+            return std::chrono::system_clock::now();
+        }
     };
 
     class data_query {
     public:
-        virtual const std::vector<data_point>& get_current() const = 0;
-        signal<const std::vector<data_point>&> data;
+        virtual const std::vector<datapoint>& get_current() const = 0;
+        signal<const std::vector<datapoint>&> data;
     };
     using data_query_ptr = std::shared_ptr<data_query>;
 }

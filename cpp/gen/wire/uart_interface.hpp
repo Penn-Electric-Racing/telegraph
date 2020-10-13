@@ -12,7 +12,7 @@
 
 #include <unordered_map>
 
-namespace telegen {
+namespace wire {
     /**
      * A stream interface is designed to be used on a bidirectional stream
      * like a uart device
@@ -38,19 +38,19 @@ namespace telegen {
             std::unordered_map<int32_t, subscription_ptr> subs_;
 
             std::unique_ptr<uint8_t[]> recv_buf_;
+            uint8_t recv_prev_;
+            bool recv_start_;
             size_t recv_idx_;
-            size_t header_len_;
-            size_t payload_len_;
         public:
 
             // takes a root node and an id-lookup-table
             uart_interface(Uart* u, Clock* c, node* root, 
-                    node* const *id_lookup_table, size_t table_size, uint32_t timeout) : 
+                    node* const *id_lookup_table, size_t table_size, uint32_t timeout = 1000) : 
                 uart_(u), clock_(c), root_(root), 
                 lookup_table_(id_lookup_table), table_size_(table_size),
                 last_time_(0), timeout_(timeout), subs_(),
                 recv_buf_(new uint8_t[256]), 
-                recv_idx_(0), header_len_(1), payload_len_(0) {}
+                recv_prev_(0), recv_start_(false), recv_idx_(0) {}
             ~uart_interface() {}
 
             // nobody can subscribe through here
@@ -93,10 +93,14 @@ namespace telegen {
                 last_time_ = clock_->millis();
                 uint32_t req_id = packet.req_id;
                 switch(packet.which_event) {
-                case telegraph_stream_Packet_fetch_tree_tag: {
+                case telegraph_stream_Packet_fetch_node_tag: {
                     telegraph_stream_Packet p = telegraph_stream_Packet_init_default;
-                    p.which_event = telegraph_stream_Packet_tree_tag;
-                    root_->pack(&p.event.tree);
+                    node::id node_id = packet.event.fetch_node;
+                    p.req_id = packet.req_id;
+                    p.which_event = telegraph_stream_Packet_node_tag;
+                    node* n = (node_id >= table_size_) ? root_ : lookup_table_[node_id]; 
+                    if (n == nullptr) n = root_;
+                    n->pack_condensed(&p.event.node);
                     write_packet(p);
                 } break;
                 case telegraph_stream_Packet_change_sub_tag: {
@@ -183,121 +187,135 @@ namespace telegen {
                     Uart* uart;
                     uint32_t crc;
                 };
-
                 stream_state state;
                 state.uart = uart_;
                 util::crc32_start(state.crc);
 
-                pb_ostream_t stream;
-                stream.state = &state;
-                stream.max_size = SIZE_MAX;
-                stream.bytes_written = 0;
-                stream.callback = [](pb_ostream_t* stream, 
+                pb_ostream_t raw_stream;
+                raw_stream.state = &state;
+                raw_stream.max_size = SIZE_MAX;
+                raw_stream.bytes_written = 0;
+                raw_stream.callback = [](pb_ostream_t* stream, 
+                        const uint8_t* buf, size_t count) {
+                    stream_state* s = (stream_state*) stream->state;
+                    do {
+                        size_t written = s->uart->try_write(buf, count);
+                        buf += written;
+                        count -= written;
+                    } while (count > 0);
+                    return true;
+                };
+
+                pb_ostream_t payload_stream;
+                payload_stream.state = &state;
+                payload_stream.max_size = SIZE_MAX;
+                payload_stream.bytes_written = 0;
+                payload_stream.callback = [](pb_ostream_t* stream, 
                         const uint8_t* buf, size_t count) {
                     stream_state* s = (stream_state*) stream->state;
                     for (size_t i = 0; i < count; i++) {
                         util::crc32_next(s->crc, buf[i]);
+                        // start, end, escape
+                        if (buf[i] == 0x53 || buf[i] == 0x45 || 
+                                buf[i] == 0x40) {
+                            uint8_t escape = 0x40;
+                            while (!s->uart->try_write(&escape, 1));
+                        }
+                        while (!s->uart->try_write(buf + i, 1));
                     }
-                    // make sure the entire 
-                    // write goes out
-                    // TODO: This will block other 
-                    // coroutines since this will not yield
-                    // but the write buffer should rarely be full
-                    // so theoretically this should not be a performance
-                    // issue. If we had a spin-based clock to lock the uart
-                    // interface and could "resume" the encode then we could
-                    // yield control here. Not sure if worth the effort though
-                    do {
-                        count -= s->uart->try_write(buf, count);
-                    } while (count > 0);
                     return true;
                 };
-                // write packet with var ints
-                if (!pb_encode_ex(&stream, telegraph_stream_Packet_fields, 
-                                 &packet, PB_ENCODE_DELIMITED)) {
+
+                uint8_t val = 0x53;
+                while (!uart_->try_write(&val, 1));
+                while (!uart_->try_write(&val, 1));
+
+                // write packet with escapes
+                if (!pb_encode(&payload_stream, telegraph_stream_Packet_fields,
+                                &packet)) {
                     // should never be reached!
                     #ifndef NDEBUG
                     while(true) {}
                     #endif
                 }
-                util::crc32_finalize(state.crc);
-                // write the crc
-                size_t count = sizeof(uint32_t);
-                do {
-                    count -= uart_->try_write((const uint8_t*) &state.crc, count);
-                } while (count > 0);
-            }
 
-            void reset_read_buf() {
-                recv_idx_ = 0;
-                header_len_ = 1;
-                payload_len_ = 0;
+                // crc is part of the content and is also
+                // escaped
+                util::crc32_finalize(state.crc);
+                uint32_t crc = state.crc;
+                pb_write(&payload_stream, 
+                    (const uint8_t*) &crc, sizeof(crc));
+
+                val = 0x45;
+                while (!uart_->try_write(&val, 1));
+
+                uart_->flush();
             }
 
             // called by the coroutine whenever
             void receive() {
-                // read header (1 byte, which is 1/4 the length of the payload)
-                if (recv_idx_ < header_len_) {
-                    size_t rd = uart_->try_read(&recv_buf_[recv_idx_], 
-                                    header_len_ - recv_idx_);
-                    recv_idx_ += rd;
-                    if (recv_idx_ < 1) return;
-                }
-                if (payload_len_ == 0) {
-                    uint32_t result = 0;
-
-                    uint8_t byte;
-                    uint8_t byte_pos = 0;
-                    uint_fast8_t bitpos = 0;
-                    do {
-                        // something went very wrong
-                        if (bitpos >= 32) {
-                            reset_read_buf();
-                            return;
-                        }
-                        // next byte
-                        if (byte_pos > header_len_) {
-                            header_len_ = byte_pos;
-                            return;
-                        }
-                        byte = recv_buf_[byte_pos++];
-
-                        result |= (uint32_t) (byte & 0x7F) << bitpos;
-                        bitpos = (uint_fast8_t)(bitpos + 7);
-                    } while (byte & 0x80);
-
-                    // something went very wrong
-                    if (bitpos > 32) {
-                        reset_read_buf();
+                if (!recv_start_) {
+                    uint8_t val = 0;
+                    if (!uart_->try_read(&val, 1)) return;
+                    if (val == 0x53 && recv_prev_ == 0x53) {
+                        recv_start_ = true;
+                        recv_prev_ = 0x00;
+                        recv_idx_ = 0;
+                    } else {
+                        recv_prev_ = val;
                         return;
                     }
-                    payload_len_ = result;
-                }
-                size_t expected = header_len_ + payload_len_ + 4;
-                if (expected > 256) reset_read_buf();
-                if (recv_idx_ < expected) {
-                    size_t rd = uart_->try_read(&recv_buf_[recv_idx_], 
-                                                expected - recv_idx_);
-                    recv_idx_ += rd;
-                    if (recv_idx_ < expected) return;
                 }
 
-                // we have all the bytes we need
-                uint32_t crc = *reinterpret_cast<uint32_t*>(&recv_buf_[header_len_ + payload_len_]);
-                uint32_t crc_expected = util::crc32_block(&recv_buf_[0], header_len_ + payload_len_);
+                if (recv_start_) {
+                    while (true) {
+                        if (recv_idx_ >= 255) {
+                            // go back to looking for a header
+                            recv_prev_ = 0;
+                            recv_start_ = false;
+                            return;
+                        }
+                        // decode the payload
+                        uint8_t val = 0;
+                        if (!uart_->try_read(&val, 1)) return;
+
+                        if (recv_prev_ == 0x40) {
+                            recv_buf_[recv_idx_++] = val;
+                            recv_prev_ = 0;
+                        } else if (val == 0x53) {
+                            recv_prev_ = 0x53;
+                            recv_start_ = false;
+                            return;
+                        } else if (val == 0x45) {
+                            recv_prev_ = 0;
+                            break;
+                        } else if (val == 0x40) {
+                            recv_prev_ = val;
+                        } else {
+                            recv_buf_[recv_idx_++] = val;
+                        }
+                    }
+                }
+
+                recv_prev_ = 0;
+                recv_start_ = false;
+                if (recv_idx_ < 4) return;
+
+                // payload minus the tail
+                size_t payload_len = recv_idx_ - 4;
+
+                uint32_t crc = *reinterpret_cast<uint32_t*>(&recv_buf_[recv_idx_ - 4]);
+                uint32_t crc_expected = util::crc32_block(&recv_buf_[0], payload_len);
                 if (crc != crc_expected) {
-                    // ERROR WITH THE CHECKSUMS!
-                    reset_read_buf();
                     return;
                 }
 
                 telegraph_stream_Packet packet = telegraph_stream_Packet_init_default;
-                pb_istream_t stream = pb_istream_from_buffer(&recv_buf_[header_len_], 
-                                                            payload_len_);
+                pb_istream_t stream = pb_istream_from_buffer(
+                            &recv_buf_[0], payload_len);
                 if (pb_decode(&stream, telegraph_stream_Packet_fields, &packet)) {
                     received_packet(packet);
                 }
-                reset_read_buf();
             }
 
             void resume() override {

@@ -114,8 +114,20 @@ namespace telegraph {
                     const std::string_view& desc, const std::string_view& schema, int version,
                     std::vector<node*>&& children) : 
                 node(i, name, pretty, desc),
-                schema_(schema), version_(version), 
+                schema_(schema), version_(version), placeholders_(),
                 children_(children), children_map_() {
+            // populate the children map
+            for (node* n : children_) {
+                n->set_parent(this);
+                children_map_[n->get_name()] = n;
+            }
+        }
+        group(id i, const std::string_view& name, const std::string_view& pretty,
+                    const std::string_view& desc, const std::string_view& schema, int version,
+                    std::vector<node::id>&& placeholders) : 
+                node(i, name, pretty, desc),
+                schema_(schema), version_(version), placeholders_(std::move(placeholders)),
+                children_(), children_map_() {
             // populate the children map
             for (node* n : children_) {
                 n->set_parent(this);
@@ -193,6 +205,10 @@ namespace telegraph {
             return n;
         }
 
+        const std::vector<node::id>& placeholders() const {
+            return placeholders_;
+        }
+
         node* operator[](size_t idx) override {
             if (idx >= children_.size()) return nullptr;
             return children_[idx];
@@ -228,6 +244,25 @@ namespace telegraph {
         virtual void pack(Node* proto) const override;
         static group* unpack(const Group& g);
 
+        template<typename M>
+            bool resolve_placeholders(M* nodes) {
+                for (node::id p : placeholders_) {
+                    if (nodes->find(p) == nodes->end()) return false;
+                }
+                for (node::id p : placeholders_) {
+                    auto nodes_it = nodes->find(p);
+                    if (nodes_it == nodes->end()) return false;
+                    node* child = nodes_it->second;
+
+                    children_.push_back(child);
+                    child->set_parent(this);
+                    children_map_[child->get_name()] = child;
+
+                    nodes->erase(nodes_it);
+                }
+                return true;
+            }
+
         std::unique_ptr<node> clone() const override {
             return std::make_unique<group>(*this);
         }
@@ -237,6 +272,7 @@ namespace telegraph {
         std::string schema_;
         int version_;
 
+        std::vector<node::id> placeholders_;
         std::vector<node*> children_;
         std::map<std::string, node*, std::less<>> children_map_;
     };

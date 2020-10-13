@@ -6,9 +6,17 @@ namespace telegraph {
                     local_context(ioc, name, "container", params{}, 
                         std::shared_ptr<node>{std::move(tree)}), 
                         mounts_(std::move(mounts)) {
+        for (auto cp : mounts_) {
+            cp->destroyed.add(this, [this](io::yield_ctx& y) {
+                destroy(y);
+            });
+        }
     }
 
     container::~container() {
+        for (auto cp : mounts_) {
+            cp->destroyed.remove(this);
+        }
         for (auto s: subs_) {
             auto sp = s.second.lock();
             if (sp) sp->cancelled.remove(this);

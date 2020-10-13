@@ -40,6 +40,8 @@ message Node {
         Group group = 1;
         Variable var = 2;
         Action action = 3;
+        // this should only be used for the stream protocol, nowhere else
+        int32 placeholder = 4; 
     }
 }
 

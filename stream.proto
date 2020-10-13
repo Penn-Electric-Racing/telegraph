@@ -25,8 +25,8 @@ message Cancel {
 message Packet {
     uint32 req_id = 1; // set to var_id for updates
     oneof event {
-        Empty fetch_tree = 2;
-        Node tree = 3;
+        uint32 fetch_node = 2;
+        Node node = 3; // has placeholders instead of the whole tree
 
         Value update = 4; // SPECIAL: uses req_id for the variable id to save space
         Call call_action = 5;

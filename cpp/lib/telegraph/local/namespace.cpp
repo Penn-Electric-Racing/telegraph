@@ -54,7 +54,7 @@ namespace telegraph {
         if (!s) return;
         s->contexts->remove_by_key_(get_uuid());
         ns_.reset();
-        destroyed();
+        destroyed(yield);
     }
 
     local_component::local_component(io::io_context& ioc, const std::string_view& name, 

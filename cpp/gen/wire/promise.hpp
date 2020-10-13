@@ -1,5 +1,5 @@
-#ifndef __TELEGEN_PROMISE_HPP__
-#define __TELEGEN_PROMISE_HPP__
+#ifndef __WIRE_PROMISE_HPP__
+#define __WIRE_PROMISE_HPP__
 
 #include <functional>
 #include <tuple>
@@ -7,7 +7,7 @@
 #include "coroutine.hpp"
 #include "inplace_function.hpp"
 
-namespace telegen {
+namespace wire {
     enum class promise_status { Waiting, Resolved, Rejected };
 
     // a promise completer
@@ -56,7 +56,7 @@ namespace telegen {
         using promise_completer = basic_promise_completer<24, T...>;
 
     template<typename... T>
-        using cpromise_completer = basic_promise_completer<2*sizeof(void*), T...>;
+        using spromise_completer = basic_promise_completer<2*sizeof(void*), T...>;
 
     template<size_t Cap, typename... T>
         class basic_promise : public coroutine {
@@ -66,7 +66,7 @@ namespace telegen {
             // completer in it, used for chaining promises
             template<typename A>
             struct chainer {
-                cpromise_completer<A> completer;
+                spromise_completer<A> completer;
                 chain_func<A> transform;
 
                 chainer(const chainer& c)
@@ -186,7 +186,7 @@ namespace telegen {
         using promise = basic_promise<24, T...>;
 
     template<typename... T>
-        using cpromise = basic_promise<8, T...>;
+        using spromise = basic_promise<8, T...>;
 }
 
 #endif

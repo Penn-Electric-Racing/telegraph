@@ -2,6 +2,8 @@
   <div class="panel" v-else>
     <div class="panel-header">
       <div class="panel-header-text">{{header}}<br/></div>
+      <slot name="header">
+      </slot>
       <div class="panel-close noDrag" @click="$emit('close')">
         <div class="close-1"/>
         <div class="close-2"/>

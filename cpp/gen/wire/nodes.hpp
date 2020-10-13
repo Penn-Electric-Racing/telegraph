@@ -1,5 +1,5 @@
-#ifndef __TELEGEN_NODES_HPP__
-#define __TELEGEN_NODES_HPP__
+#ifndef __WIRE_NODES_HPP__
+#define __WIRE_NODES_HPP__
 
 #include "util.hpp"
 #include "source.hpp"
@@ -15,7 +15,7 @@
 #include <array>
 
 
-namespace telegen {
+namespace wire {
     template<size_t N>
         using id_array = std::array<int32_t, N>;
 
@@ -38,6 +38,12 @@ namespace telegen {
 
         // encode this node into a node protobuffer descriptor
         virtual void pack(telegraph_Node* n) const = 0;
+
+        // encode this node with placeholders for children
+        // overridden only for the group
+        virtual void pack_condensed(telegraph_Node* n) const {
+            pack(n);
+        }
 
         constexpr void set_owner(source* i) {
             if (!owner_) owner_ = i;
@@ -65,7 +71,7 @@ namespace telegen {
 
         constexpr size_t num_children() const { return num_children_; }
 
-        inline void pack(telegraph_Group* g) const {
+        void pack(telegraph_Group* g, bool condensed=false) const {
             g->id = get_id();
 
             g->name.arg = (void*) get_name();
@@ -81,26 +87,57 @@ namespace telegen {
             g->schema.funcs.encode = util::proto_string_encoder;
 
             g->children.arg = (void*) this;
-            g->children.funcs.encode = 
-                [](pb_ostream_t* stream, const pb_field_iter_t* field, 
-                        void* const* arg) {
-                    const group* g = (const group*) *arg;
-                    telegraph_Node n = telegraph_Node_init_default;
-                    for (size_t i = 0; i < g->num_children(); i++) {
-                        if (!pb_encode_tag_for_field(stream, field))
-                            return false;
-                        g->children_[i]->pack(&n);
-                        if (!pb_encode_submessage(stream, 
-                                    telegraph_Node_fields, &n))
-                            return false;
-                    }
-                    return true;
-                };
+            if (condensed) {
+                g->children.funcs.encode = 
+                    [](pb_ostream_t* stream, const pb_field_iter_t* field, 
+                            void* const* arg) {
+                        const group* g = (const group*) *arg;
+                        telegraph_Node n = telegraph_Node_init_default;
+                        for (size_t i = 0; i < g->num_children(); i++) {
+                            if (!pb_encode_tag_for_field(stream, field))
+                                return false;
+                            n.which_node = telegraph_Node_placeholder_tag;
+                            n.node.placeholder = g->children_[i]->get_id();
+                            if (!pb_encode_submessage(stream, 
+                                        telegraph_Node_fields, &n))
+                                return false;
+                        }
+                        return true;
+                    };
+            } else {
+                g->children.funcs.encode = 
+                    [](pb_ostream_t* stream, const pb_field_iter_t* field, 
+                            void* const* arg) {
+                        const group* g = (const group*) *arg;
+                        telegraph_Node n = telegraph_Node_init_default;
+                        for (size_t i = 0; i < g->num_children(); i++) {
+                            if (!pb_encode_tag_for_field(stream, field))
+                                return false;
+                            g->children_[i]->pack(&n);
+                            if (!pb_encode_submessage(stream, 
+                                        telegraph_Node_fields, &n))
+                                return false;
+                        }
+                        return true;
+                    };
+            }
         }
 
-        inline void pack(telegraph_Node* n) const override {
+        void pack(telegraph_Node* n) const override {
             n->which_node = telegraph_Node_group_tag;
             pack(&n->node.group);
+        }
+        void pack_condensed(telegraph_Node* n) const override {
+            n->which_node = telegraph_Node_group_tag;
+            pack(&n->node.group, true);
+        }
+
+        node* operator[](size_t i) {
+            return i < num_children_ ? children_[i] : nullptr;
+        }
+
+        const node* operator[](size_t i) const {
+            return i < num_children_ ? children_[i] : nullptr;
         }
     private:
         const char* const schema_;
@@ -132,7 +169,7 @@ namespace telegen {
                         arg_type_(arg_type),
                         ret_type_(ret_type) {}
 
-            cpromise<Ret> call(const Arg& a) {
+            spromise<Ret> call(const Arg& a) {
                 value v{get_type_class<Arg>()};
                 v.set<Arg>(v);
                 auto p = call(v);
@@ -241,7 +278,7 @@ namespace telegen {
                 :  variable_base(id, name, pretty, desc),
                    type_(type) {}
 
-            cpromise<sub<T>> subs(interval min_interval, interval max_interval, interval timeout) {
+            spromise<sub<T>> subs(interval min_interval, interval max_interval, interval timeout) {
                 auto p = subscribe(min_interval, max_interval, timeout);
                 return p.template chain<sub<T>>([] (promise_status p, subscription_ptr&& s) -> sub<T> { 
                         return sub<T>(std::move(s)); 

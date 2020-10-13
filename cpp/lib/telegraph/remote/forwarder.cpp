@@ -165,7 +165,8 @@ namespace telegraph {
                 sub->data.add(this, [this, req_id](value v) {
                     // write the data back
                     api::Packet p;
-                    v.pack(p.mutable_sub_update());
+                    datapoint dp{datapoint::now(), v};
+                    dp.pack(p.mutable_sub_update());
                     conn_.write_back(req_id, std::move(p));
                 });
                 sub->cancelled.add(this, [this, req_id]() {
@@ -228,9 +229,10 @@ namespace telegraph {
             auto ctx = ns_->contexts->get(u);
             if (!ctx) throw missing_error("no such context");
             value ret = ctx->call(c, path, v, req.timeout());
+            datapoint dp{datapoint::now(), ret};
             // reply with the result
             api::Packet res;
-            ret.pack(res.mutable_call_return());
+            dp.pack(res.mutable_call_return());
             conn_.write_back(req_id, std::move(res));
         } catch (const std::exception& e) {
             reply_error(p, e);
@@ -244,12 +246,12 @@ namespace telegraph {
             const auto& req = p.data_write();
 
             uuid u = boost::lexical_cast<uuid>(req.uuid());
-            std::vector<data_point> data;
+            std::vector<datapoint> data;
             for (const Datapoint& v : req.data()) {
                 uint64_t millisecs = v.timestamp();
                 std::chrono::milliseconds m{millisecs};
                 time_point tp{m};
-                data.push_back(data_point{tp,
+                data.push_back(datapoint{tp,
                                value{v.value()}});
             }
             std::vector<std::string_view> path;
@@ -281,10 +283,10 @@ namespace telegraph {
             auto ctx = ns_->contexts->get(u);
             if (!ctx) throw missing_error("no such context");
             auto q = ctx->query_data(c, path);
-            q->data.add(this, [this, req_id](const std::vector<data_point>& data) {
+            q->data.add(this, [this, req_id](const std::vector<datapoint>& data) {
                 api::Packet p;
                 api::DataPacket* pack = p.mutable_archive_update();
-                for (const data_point& dp : data) {
+                for (const datapoint& dp : data) {
                     Datapoint* d = pack->add_data();
                     auto dur = dp.get_time().time_since_epoch();
                     uint64_t ts = (uint64_t) std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();

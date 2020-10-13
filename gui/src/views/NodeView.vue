@@ -1,6 +1,6 @@
 <template>
   <Bubble v-if="isGroup" class="node-bubble" 
-                draggable hasContent :dragData="node">
+                draggable hasContent :dragData="node" indent>
     <template v-slot:header>
         <span class="node-name">{{ node.getName() }}</span>
     </template>
@@ -53,8 +53,6 @@ export default {
         for (let c of children) {
           var allow = false;
           for (let d of c.nodes()) {
-            console.log(d.path());
-            console.log(d.path().join('.'));
             var path = '/' + d.path().join('.');
             for (let p of anyOf) {
               var parts = p.split('/');
@@ -110,6 +108,8 @@ ul.tree-wiew > li{
 
 .node-name {
   user-select: none;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .icon {

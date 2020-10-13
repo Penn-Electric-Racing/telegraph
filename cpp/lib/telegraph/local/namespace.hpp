@@ -85,9 +85,9 @@ namespace telegraph {
                             value v, float timeout) override { return value::invalid(); }
 
         bool write_data(io::yield_ctx& yield, variable* v, 
-                                    const std::vector<data_point>& data) override { return false; }
+                                    const std::vector<datapoint>& data) override { return false; }
         bool write_data(io::yield_ctx& yield, const std::vector<std::string_view>& var,
-                                    const std::vector<data_point>& data) override { return false; }
+                                    const std::vector<datapoint>& data) override { return false; }
 
         data_query_ptr query_data(io::yield_ctx& yield, const variable* v) override { return nullptr; }
         data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& v) override { return nullptr; }

@@ -1,10 +1,10 @@
-#ifndef __TELEGEN_VALUE_HPP__
-#define __TELEGEN_VALUE_HPP__
+#ifndef __WIRE_VALUE_HPP__
+#define __WIRE_VALUE_HPP__
 
 #include "types.hpp"
 #include "common.nanopb.h"
 
-namespace telegen {
+namespace wire {
     class value;
 
     class value {

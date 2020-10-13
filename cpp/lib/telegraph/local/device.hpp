@@ -13,6 +13,7 @@
 #include <memory>
 #include <unordered_map>
 #include <deque>
+#include <iostream>
 
 #include <boost/asio/deadline_timer.hpp>
 #include <boost/asio/serial_port.hpp>
@@ -27,6 +28,10 @@ namespace telegraph {
         std::deque<stream::Packet> write_queue_;
         io::streambuf write_buf_;
         io::streambuf read_buf_;
+
+        bool one_start_;
+        bool decoding_;
+        io::streambuf decode_buf_;
 
         uint32_t req_id_;
         struct req {
@@ -49,6 +54,9 @@ namespace telegraph {
         // init should be called right after construction! (this is done by create)
         // or the context will not have a tree (this is done by device_io_task)
         void init(io::yield_ctx&, int millisec_timeout);
+
+        bool ping(io::yield_ctx&, bool wait=true, int millisec_timeout=50);
+        node* fetch_node(io::yield_ctx&, node::id id);
 
         // no querying
         params_stream_ptr request(io::yield_ctx&, const params& p) { return nullptr; }
@@ -81,11 +89,11 @@ namespace telegraph {
 
         // unimplemented context functions
         bool write_data(io::yield_ctx&, variable* v, 
-                const std::vector<data_point>& d) override { return false; }
+                const std::vector<datapoint>& d) override { return false; }
 
         bool write_data(io::yield_ctx&, 
                 const std::vector<std::string_view>& path, 
-                const std::vector<data_point>& d) override { return false; }
+                const std::vector<datapoint>& d) override { return false; }
 
         data_query_ptr query_data(io::yield_ctx& yield, 
                                             const variable * n) override { return nullptr; }

@@ -1,5 +1,14 @@
 <template>
   <Panel @close="$emit('close')" :header="header" :noMargin="true">
+    <template v-slot:header>
+      <div class="graph-controls">
+        <NumberField v-model="timespan" @input="updateTimespan"/>
+        <FlatButton icon="clock" :class="{controlActive: useTimespan}" 
+            @click="useTimespan = !useTimespan"/>
+        <FlatButton icon="play" :class="{controlActive: live}"
+            @click="live = !live"/>
+      </div>
+    </template>
     <div ref="chart-container" class="chart-container">
       <div ref="chart" class="chart" :style="{'width': this.width+'px', 'height': this.height+'px'}">
       </div>
@@ -9,12 +18,18 @@
 
 <script>
   import Panel from '../components/Panel.vue'
+  import FlatButton from '../components/FlatButton.vue'
+  import NumberField from '../components/NumberField.vue'
   import { NamespaceQuery, Variable } from 'telegraph'
   import uPlot from 'uplot'
 
+  import { wheelZoomPlugin } from './graph-plugins.js'
+
+
+
   export default {
     name: 'Graph',
-    components: { Panel  },
+    components: { Panel, FlatButton, NumberField },
     props: {
       id: String,
       nsQuery: NamespaceQuery,
@@ -24,6 +39,11 @@
       return {
         variables: [],
         history: [[],[]],
+
+        timespan: 20,
+        useTimespan: true,
+        live: true,
+
         width: 0,
         height: 0,
         sub: null,
@@ -59,7 +79,7 @@
         const opts = {
           width: this.width,
           height: this.height,
-          scales: { x: { time: false}, y: { auto: true }},
+          scales: { x: { time: true, min: null, max: null, auto: false }, y: { auto: true }},
           axes: [
             {stroke: "#fff", grid: {stroke: "rgb(80, 80, 80)"}},
             {stroke: "#fff", grid: {stroke: "rgb(80, 80, 80)"}}
@@ -67,12 +87,53 @@
           series: [
             {},
             {label: "None", stroke: "#1c8ed7", width: 1}
+          ],
+          plugins: [
+            wheelZoomPlugin({
+              factor: 0.8,
+              scrollCallback: (oldMin, oldMax, newMin, newMax) => {
+                if (this.useTimespan && this.live) {
+                  this.timespan = newMax - newMin;
+                  return {min: oldMax - (newMax - newMin), max: oldMax};
+                }
+              },
+              canScroll: () => {
+                return !this.live || (this.live && this.useTimespan);
+              },
+              canMove: () => { return !this.live }
+            })
           ]
         }
         this.plot = new uPlot(opts, this.history, this.$refs['chart'])
       },
       relayout() {
         this.plot.setSize({width: this.width, height: this.height})
+      },
+      toggleLive() {
+        this.live = !this.live;
+        if (this.live) {
+          this.plot.batch(() => {
+            this.updateScale();
+          });
+        }
+      },
+      updateTimespan() {
+        if (this.live && this.useTimespan) {
+          this.plot.batch(() => {
+            this.updateScale();
+          })
+        }
+      },
+      updateScale() {
+        let nxMin = this.history[0] ? this.history[0][0] : null;
+        let nxMax = this.history[0] ? this.history[0][this.history[0].length - 1] : null;
+        if (this.useTimespan && this.timespan > 0) {
+          nxMin = nxMax - this.timespan;
+        }
+        this.plot.setScale("x", {
+            min: nxMin,
+            max: nxMax,
+        });
       },
       updateVariable(v) {
         if (!v || !(v instanceof Variable)) this.variable = [];
@@ -81,12 +142,16 @@
           if (this.sub) await this.sub.cancel();
           if (v) {
             this.sub = null;
-            this.sub = await v.subscribe(0.05, 1);
+            this.sub = await v.subscribe(0.0001, 1);
             if (this.sub) {
-              this.sub.data.add(v => {
-                this.history[0].push(this.history[0].length)
-                this.history[1].push(v)
-                this.plot.setData(this.history);
+              this.sub.data.add(dp => {
+                this.history[0].push(dp.t / 1000000)
+                this.history[1].push(dp.v)
+                if (this.live) {
+                  this.updateScale();
+                }
+                this.plot.setData(this.history, this.live);
+                if (!this.live) this.plot.redraw();
               });
               this.sub.poll();
             }
@@ -114,6 +179,19 @@
   width: 100%;
   height: 100%;
 }
+.graph-controls > input {
+  text-align: right;
+}
+.graph-controls {
+  display: flex;
+  flex-direction: row;
+  color: #88939C;
+}
+
+.controlActive {
+  color: #fff;
+}
+
 .chart {
   display: block;
 }

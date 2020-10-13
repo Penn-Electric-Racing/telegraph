@@ -209,7 +209,7 @@ class RemoteContext extends Context {
               s.received.add((m) => {
                 if (m.cancel) adapter.close();
                 else if (m.subUpdate && adapter_type) {
-                  adapter.update(Value.unpack(m.subUpdate, adapter_type));
+                  adapter.update({t: m.subUpdate.timestamp.toNumber(), v: Value.unpack(m.subUpdate.value, adapter_type)});
                 }
               });
               s.start();
@@ -322,26 +322,6 @@ class RemoteContext extends Context {
       throw e;
     }
     return req;
-  }
-
-  async mount(s) {
-    if (!s) throw new Error("Bad source");
-    var msg = {
-      mount : { src: s.uuid, tgt: this.uuid }
-    };
-    var res = await this.ns._conn.requestResponse(msg);
-    checkError(res);
-    if (!res.success) throw new Error("Mount failed!");
-  }
-
-  async unmount(s) {
-    if (!s) throw new Error("Bad source");
-    var msg = {
-      unmount : { src: s.uuid, tgt: this.uuid }
-    };
-    var res = await this.ns._conn.requestResponse(msg);
-    checkError(res);
-    if (!res.success) throw new Error("Unmount failed!");
   }
 
   async destroy() {
