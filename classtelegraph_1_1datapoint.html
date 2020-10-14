@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>gen/wire/uart_interface.hpp file | Telegraph An embedded system can/uart framework</title>
+  <title>telegraph::datapoint class | Telegraph An embedded system can/uart framework</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -44,7 +44,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_76d06afa57792f775bcb80774dbca277.html">gen</a>/</span><span class="m-breadcrumb"><a href="dir_d7327c033eadbcf4981f39694175dadc.html">wire</a>/</span>uart_interface.hpp <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="namespacetelegraph.html">telegraph</a>::<wbr/></span>datapoint <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="data_8hpp.html">&lt;lib/telegraph/common/data.hpp&gt;</a></div>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -53,27 +54,47 @@
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#pub-static-methods">Public static functions</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+        <section id="pub-static-methods">
+          <h2><a href="#pub-static-methods">Public static functions</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a href="namespacewire.html" class="m-doc">wire</a></dt>
+            <dt id="abc71e74b527f33978b660e93208c9bb8">
+              <span class="m-doc-wrap-bumper">static auto <a href="#abc71e74b527f33978b660e93208c9bb8" class="m-doc-self">now</a>(</span><span class="m-doc-wrap">) -&gt; <a href="namespacetelegraph.html#a0f1714084e0d249aa06f757c9159c0ca" class="m-doc">time_<wbr />point</a></span>
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename Uart, typename Clock&gt;</div>
-              class <a href="classwire_1_1uart__interface.html" class="m-doc">wire::uart_interface</a>
+            <dt id="ab589e2528b32e5caf1ad64f41db76419">
+              <span class="m-doc-wrap-bumper"><a href="#ab589e2528b32e5caf1ad64f41db76419" class="m-doc-self">datapoint</a>(</span><span class="m-doc-wrap"><a href="namespacetelegraph.html#a0f1714084e0d249aa06f757c9159c0ca" class="m-doc">time_<wbr />point</a> time,
+              <a href="classtelegraph_1_1value.html" class="m-doc">value</a> val)</span>
             </dt>
-            <dd></dd>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a610347df6fddfec728f5a674e9d6cf15">
+              <span class="m-doc-wrap-bumper">auto <a href="#a610347df6fddfec728f5a674e9d6cf15" class="m-doc-self">get_time</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="namespacetelegraph.html#a0f1714084e0d249aa06f757c9159c0ca" class="m-doc">time_<wbr />point</a> <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="af5899883ef6b44af439d98d9469e79d9">
+              <span class="m-doc-wrap-bumper">auto <a href="#af5899883ef6b44af439d98d9469e79d9" class="m-doc-self">get_value</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="classtelegraph_1_1value.html" class="m-doc">value</a> <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ad11662069b5f2e3762e7592fdbe97f55">
+              <span class="m-doc-wrap-bumper">void <a href="#ad11662069b5f2e3762e7592fdbe97f55" class="m-doc-self">pack</a>(</span><span class="m-doc-wrap">Datapoint* dp)</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

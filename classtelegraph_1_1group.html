@@ -93,6 +93,16 @@
               std::vector&lt;<a href="classtelegraph_1_1node.html" class="m-doc">node</a>*&gt;&amp;&amp; children)</span>
             </dt>
             <dd><span></span></dd>
+            <dt id="aa410fc8a0a71dd2cbd1b28642b107fda">
+              <span class="m-doc-wrap-bumper"><a href="#aa410fc8a0a71dd2cbd1b28642b107fda" class="m-doc-self">group</a>(</span><span class="m-doc-wrap"><a href="classtelegraph_1_1node.html#a90bc576d668ed141d5354a06aa9c8d9a" class="m-doc">id</a> i,
+              const std::string_view&amp; name,
+              const std::string_view&amp; pretty,
+              const std::string_view&amp; desc,
+              const std::string_view&amp; schema,
+              int version,
+              std::vector&lt;<a href="classtelegraph_1_1node.html#a90bc576d668ed141d5354a06aa9c8d9a" class="m-doc">node::<wbr />id</a>&gt;&amp;&amp; placeholders)</span>
+            </dt>
+            <dd><span></span></dd>
             <dt id="a88d584b6dc7383e319a00fc266b29be7">
               <span class="m-doc-wrap-bumper"><a href="#a88d584b6dc7383e319a00fc266b29be7" class="m-doc-self">group</a>(</span><span class="m-doc-wrap">const <a href="classtelegraph_1_1group.html" class="m-doc">group</a>&amp; g)</span>
             </dt>
@@ -138,6 +148,10 @@
             <dd><span></span></dd>
             <dt id="ad5a82543eef530a7b07ca2cdbe6a82f5">
               <span class="m-doc-wrap-bumper">auto <a href="#ad5a82543eef530a7b07ca2cdbe6a82f5" class="m-doc-self">nodes</a>(</span><span class="m-doc-wrap">) const -&gt; std::vector&lt;const <a href="classtelegraph_1_1node.html" class="m-doc">node</a>*&gt; <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a7203085ce5feb980e27ba62870853eb9">
+              <span class="m-doc-wrap-bumper">auto <a href="#a7203085ce5feb980e27ba62870853eb9" class="m-doc-self">placeholders</a>(</span><span class="m-doc-wrap">) const -&gt; const std::vector&lt;<a href="classtelegraph_1_1node.html#a90bc576d668ed141d5354a06aa9c8d9a" class="m-doc">node::<wbr />id</a>&gt;&amp;</span>
             </dt>
             <dd><span></span></dd>
             <dt id="aaf32eea781de1f18d37765793589dda5">
@@ -186,6 +200,11 @@
             <dd><span></span></dd>
             <dt id="a070decfe980bb669646af5307f5c93e4">
               <span class="m-doc-wrap-bumper">void <a href="#a070decfe980bb669646af5307f5c93e4" class="m-doc-self">pack</a>(</span><span class="m-doc-wrap">Node* proto) const <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a9c829b2dc194c6109dea107bd7293646">
+              <div class="m-doc-template">template&lt;typename M&gt;</div>
+              <span class="m-doc-wrap-bumper">auto <a href="#a9c829b2dc194c6109dea107bd7293646" class="m-doc-self">resolve_placeholders</a>(</span><span class="m-doc-wrap">M* nodes) -&gt; bool</span>
             </dt>
             <dd><span></span></dd>
             <dt id="a0e937eea18e4f650b892ac9061c461fa">

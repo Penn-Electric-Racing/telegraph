@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>gen/wire/uart_interface.hpp file | Telegraph An embedded system can/uart framework</title>
+  <title>wire::action_base class | Telegraph An embedded system can/uart framework</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -44,7 +44,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_76d06afa57792f775bcb80774dbca277.html">gen</a>/</span><span class="m-breadcrumb"><a href="dir_d7327c033eadbcf4981f39694175dadc.html">wire</a>/</span>uart_interface.hpp <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="namespacewire.html">wire</a>::<wbr/></span>action_base <span class="m-thin">class</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -53,27 +53,54 @@
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a href="namespacewire.html" class="m-doc">wire</a></dt>
+            <dt>
+              class <a href="classwire_1_1node.html" class="m-doc">node</a>
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
             <dt>
-              <div class="m-doc-template">template&lt;typename Uart, typename Clock&gt;</div>
-              class <a href="classwire_1_1uart__interface.html" class="m-doc">wire::uart_interface</a>
+              <div class="m-doc-template">template&lt;typename Arg, typename Ret&gt;</div>
+              class <a href="classwire_1_1action.html" class="m-doc">action</a>
             </dt>
-            <dd></dd>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="a986e4adc6da37a6da1db3d30f5ea5b4f">
+              <span class="m-doc-wrap-bumper"><a href="#a986e4adc6da37a6da1db3d30f5ea5b4f" class="m-doc-self">action_base</a>(</span><span class="m-doc-wrap">int32_t id,
+              const char* name,
+              const char* pretty,
+              const char* desc) <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a1e30d35abc6f716bcd0c6063e918804e">
+              <span class="m-doc-wrap-bumper">auto <a href="#a1e30d35abc6f716bcd0c6063e918804e" class="m-doc-self">call</a>(</span><span class="m-doc-wrap"><a href="classwire_1_1action__base.html" class="m-doc">action_<wbr />base</a>* a,
+              <a href="classwire_1_1value.html" class="m-doc">value</a> arg,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> timeout) -&gt; <a href="namespacewire.html#a58c89846f8d43e34f17b57bdc5254235" class="m-doc">promise</a>&lt;<a href="classwire_1_1value.html" class="m-doc">value</a>&gt;</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

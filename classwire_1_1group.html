@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>gen/wire/uart_interface.hpp file | Telegraph An embedded system can/uart framework</title>
+  <title>wire::group class | Telegraph An embedded system can/uart framework</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -44,7 +44,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_76d06afa57792f775bcb80774dbca277.html">gen</a>/</span><span class="m-breadcrumb"><a href="dir_d7327c033eadbcf4981f39694175dadc.html">wire</a>/</span>uart_interface.hpp <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="namespacewire.html">wire</a>::<wbr/></span>group <span class="m-thin">class</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -53,27 +53,74 @@
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a href="namespacewire.html" class="m-doc">wire</a></dt>
+            <dt>
+              class <a href="classwire_1_1node.html" class="m-doc">node</a>
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename Uart, typename Clock&gt;</div>
-              class <a href="classwire_1_1uart__interface.html" class="m-doc">wire::uart_interface</a>
+            <dt id="a20fb4a541b1b1ac70cc8f819491a2c13">
+              <span class="m-doc-wrap-bumper"><a href="#a20fb4a541b1b1ac70cc8f819491a2c13" class="m-doc-self">group</a>(</span><span class="m-doc-wrap"><a href="classwire_1_1node.html#ab73181b83644326244e56984138e4e06" class="m-doc">id</a> i,
+              const char* name,
+              const char* pretty,
+              const char* desc,
+              const char* schema,
+              int32_t version,
+              <a href="classwire_1_1node.html" class="m-doc">node</a>*const* children,
+              size_t num_children) <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
-            <dd></dd>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a2ee8e131e8ddb62ae7d65d4b93685871">
+              <span class="m-doc-wrap-bumper">auto <a href="#a2ee8e131e8ddb62ae7d65d4b93685871" class="m-doc-self">get_schema</a>(</span><span class="m-doc-wrap">) const -&gt; const char* <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a913a76ae14ff2a74c50b74b4fcb9cc8b">
+              <span class="m-doc-wrap-bumper">auto <a href="#a913a76ae14ff2a74c50b74b4fcb9cc8b" class="m-doc-self">get_version</a>(</span><span class="m-doc-wrap">) const -&gt; int32_t <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a1548984188e8908ea08f9512bd5c6954">
+              <span class="m-doc-wrap-bumper">auto <a href="#a1548984188e8908ea08f9512bd5c6954" class="m-doc-self">num_children</a>(</span><span class="m-doc-wrap">) const -&gt; size_t <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a404ad00f21904d28986bea1d99154d00">
+              <span class="m-doc-wrap-bumper">void <a href="#a404ad00f21904d28986bea1d99154d00" class="m-doc-self">pack</a>(</span><span class="m-doc-wrap">telegraph_Group* g,
+              bool condensed = false) const</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa79bb7686cae95447071b1634cf0cb63">
+              <span class="m-doc-wrap-bumper">void <a href="#aa79bb7686cae95447071b1634cf0cb63" class="m-doc-self">pack</a>(</span><span class="m-doc-wrap">telegraph_Node* n) const <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a2c8fe5dc6a4639767dc27398d4f1b981">
+              <span class="m-doc-wrap-bumper">void <a href="#a2c8fe5dc6a4639767dc27398d4f1b981" class="m-doc-self">pack_condensed</a>(</span><span class="m-doc-wrap">telegraph_Node* n) const <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a9bd6090ae53077a0d6812b6dc2c882c0">
+              <span class="m-doc-wrap-bumper">auto <a href="#a9bd6090ae53077a0d6812b6dc2c882c0" class="m-doc-self">operator[]</a>(</span><span class="m-doc-wrap">size_t i) -&gt; <a href="classwire_1_1node.html" class="m-doc">node</a>*</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="af3a36312df93c6dc99ecd8eecf2d1d58">
+              <span class="m-doc-wrap-bumper">auto <a href="#af3a36312df93c6dc99ecd8eecf2d1d58" class="m-doc-self">operator[]</a>(</span><span class="m-doc-wrap">size_t i) const -&gt; const <a href="classwire_1_1node.html" class="m-doc">node</a>*</span>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

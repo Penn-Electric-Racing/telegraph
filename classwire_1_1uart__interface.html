@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>telegraph::local_component class | Telegraph An embedded system can/uart framework</title>
+  <title>wire::uart_interface class | Telegraph An embedded system can/uart framework</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -44,9 +44,10 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespacetelegraph.html">telegraph</a>::<wbr/></span>local_component <span class="m-thin">class</span>
+          <div class="m-doc-include m-code m-inverted m-right-m m-text-right"><span class="cp">#include</span> <a class="cpf" href="uart__interface_8hpp.html">&lt;gen/wire/uart_interface.hpp&gt;</a></div>
+          <div class="m-doc-template">template&lt;typename Uart, typename Clock&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacewire.html">wire</a>::<wbr/></span>uart_interface <span class="m-thin">class</span>
         </h1>
-        <p><span></span></p>
         <div class="m-block m-default">
           <h3>Contents</h3>
           <ul>
@@ -54,27 +55,22 @@
               Reference
               <ul>
                 <li><a href="#base-classes">Base classes</a></li>
-                <li><a href="#derived-classes">Derived classes</a></li>
                 <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
                 <li><a href="#pub-methods">Public functions</a></li>
               </ul>
             </li>
           </ul>
         </div>
+<p>A stream interface is designed to be used on a bidirectional stream like a uart device</p><p>This is templated on the i/o stream class type and the timer type so that it can be reused for different platforms, each of which can implement their own stream/timer type (and so maximize performance by templating it)</p>
         <section id="base-classes">
           <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
             <dt>
-              class <a href="classtelegraph_1_1local__context.html" class="m-doc">local_context</a>
+              class <a href="classwire_1_1source.html" class="m-doc">source</a>
             </dt>
             <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="derived-classes">
-          <h2><a href="#derived-classes">Derived classes</a></h2>
-          <dl class="m-doc">
             <dt>
-              class <a href="classtelegraph_1_1device__scanner.html" class="m-doc">device_scanner</a>
+              struct <a href="structwire_1_1coroutine.html" class="m-doc">coroutine</a>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -82,11 +78,17 @@
         <section id="typeless-methods">
           <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="a4cd9cd1728ba53391553b81dbb4e3494">
-              <span class="m-doc-wrap-bumper"><a href="#a4cd9cd1728ba53391553b81dbb4e3494" class="m-doc-self">local_component</a>(</span><span class="m-doc-wrap">io::io_context&amp; ioc,
-              const std::string_view&amp; name,
-              const std::string_view&amp; type,
-              const <a href="classtelegraph_1_1params.html" class="m-doc">params</a>&amp; i)</span>
+            <dt id="a66a2f15c3985925998eb1c0a0097f9dd">
+              <span class="m-doc-wrap-bumper"><a href="#a66a2f15c3985925998eb1c0a0097f9dd" class="m-doc-self">uart_interface</a>(</span><span class="m-doc-wrap">Uart* u,
+              Clock* c,
+              <a href="classwire_1_1node.html" class="m-doc">node</a>* root,
+              <a href="classwire_1_1node.html" class="m-doc">node</a>*const* id_lookup_table,
+              size_t table_size,
+              uint32_t timeout = 1000)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa34a40eb18b5c2636f21fd0b720899f7">
+              <span class="m-doc-wrap-bumper"><a href="#aa34a40eb18b5c2636f21fd0b720899f7" class="m-doc-self">~uart_interface</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd><span></span></dd>
           </dl>
@@ -94,60 +96,47 @@
         <section id="pub-methods">
           <h2><a href="#pub-methods">Public functions</a></h2>
           <dl class="m-doc">
-            <dt id="abbeb3b12dc95e19e1a2972e9a374fd33">
-              <span class="m-doc-wrap-bumper">auto <a href="#abbeb3b12dc95e19e1a2972e9a374fd33" class="m-doc-self">fetch</a>(</span><span class="m-doc-wrap"><a href="structboost_1_1asio_1_1yield__ctx.html" class="m-doc">io::<wbr />yield_ctx</a>&amp; ctx) -&gt; std::shared_ptr&lt;<a href="classtelegraph_1_1node.html" class="m-doc">node</a>&gt; <span class="m-label m-flat m-warning">override</span></span>
+            <dt id="a79217a3c1b42a21fcec9724129705737">
+              <span class="m-doc-wrap-bumper">auto <a href="#a79217a3c1b42a21fcec9724129705737" class="m-doc-self">subscribe</a>(</span><span class="m-doc-wrap"><a href="classwire_1_1variable__base.html" class="m-doc">variable_<wbr />base</a>* v,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> debounce,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> referesh,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> timeout) -&gt; <a href="namespacewire.html#a58c89846f8d43e34f17b57bdc5254235" class="m-doc">promise</a>&lt;<a href="namespacewire.html#a6e6b31b714ba53a81cc0545e448282db" class="m-doc">subscription_<wbr />ptr</a>&gt; <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a53aa0199bd938578a6400cfd3a19c86f">
-              <span class="m-doc-wrap-bumper">auto <a href="#a53aa0199bd938578a6400cfd3a19c86f" class="m-doc-self">subscribe</a>(</span><span class="m-doc-wrap"><a href="structboost_1_1asio_1_1yield__ctx.html" class="m-doc">io::<wbr />yield_ctx</a>&amp; ctx,
-              const std::vector&lt;std::string_view&gt;&amp; variable,
-              float min_interval,
-              float max_interval,
-              float timeout) -&gt; <a href="namespacetelegraph.html#a58641aa5b1a2cbdb0431916a87069f64" class="m-doc">subscription_<wbr />ptr</a> <span class="m-label m-flat m-warning">override</span></span>
+            <dt id="a6833a750349c79ed3f48ef15d8dc6695">
+              <span class="m-doc-wrap-bumper">auto <a href="#a6833a750349c79ed3f48ef15d8dc6695" class="m-doc-self">call</a>(</span><span class="m-doc-wrap"><a href="classwire_1_1action__base.html" class="m-doc">action_<wbr />base</a>* a,
+              <a href="classwire_1_1value.html" class="m-doc">value</a> arg,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> timeout) -&gt; <a href="namespacewire.html#a58c89846f8d43e34f17b57bdc5254235" class="m-doc">promise</a>&lt;<a href="classwire_1_1value.html" class="m-doc">value</a>&gt; <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a5a2282f1cf80dce32ed26e37c956d5c4">
-              <span class="m-doc-wrap-bumper">auto <a href="#a5a2282f1cf80dce32ed26e37c956d5c4" class="m-doc-self">subscribe</a>(</span><span class="m-doc-wrap"><a href="structboost_1_1asio_1_1yield__ctx.html" class="m-doc">io::<wbr />yield_ctx</a>&amp; ctx,
-              const <a href="classtelegraph_1_1variable.html" class="m-doc">variable</a>* v,
-              float min_interval,
-              float max_interval,
-              float timeout) -&gt; <a href="namespacetelegraph.html#a58641aa5b1a2cbdb0431916a87069f64" class="m-doc">subscription_<wbr />ptr</a> <span class="m-label m-flat m-warning">override</span></span>
+            <dt id="a8054a963ebc058658c1b17e604144c7a">
+              <span class="m-doc-wrap-bumper">void <a href="#a8054a963ebc058658c1b17e604144c7a" class="m-doc-self">notify_success</a>(</span><span class="m-doc-wrap">uint32_t req_id,
+              bool success)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="af4d74d161754055d3f811bfe95a59f26">
-              <span class="m-doc-wrap-bumper">auto <a href="#af4d74d161754055d3f811bfe95a59f26" class="m-doc-self">call</a>(</span><span class="m-doc-wrap"><a href="structboost_1_1asio_1_1yield__ctx.html" class="m-doc">io::<wbr />yield_ctx</a>&amp; ctx,
-              <a href="classtelegraph_1_1action.html" class="m-doc">action</a>* a,
-              <a href="classtelegraph_1_1value.html" class="m-doc">value</a> v,
-              float timeout) -&gt; <a href="classtelegraph_1_1value.html" class="m-doc">value</a> <span class="m-label m-flat m-warning">override</span></span>
+            <dt id="a98959cfd2977ce918f0e7c5206ba8210">
+              <span class="m-doc-wrap-bumper">void <a href="#a98959cfd2977ce918f0e7c5206ba8210" class="m-doc-self">notify_cancelled</a>(</span><span class="m-doc-wrap"><a href="classwire_1_1node.html#ab73181b83644326244e56984138e4e06" class="m-doc">node::<wbr />id</a> var_id)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a6fa6fbf49a0d77a8da54b4a77b578edd">
-              <span class="m-doc-wrap-bumper">auto <a href="#a6fa6fbf49a0d77a8da54b4a77b578edd" class="m-doc-self">call</a>(</span><span class="m-doc-wrap"><a href="structboost_1_1asio_1_1yield__ctx.html" class="m-doc">io::<wbr />yield_ctx</a>&amp; ctx,
-              const std::vector&lt;std::string_view&gt;&amp; a,
-              <a href="classtelegraph_1_1value.html" class="m-doc">value</a> v,
-              float timeout) -&gt; <a href="classtelegraph_1_1value.html" class="m-doc">value</a> <span class="m-label m-flat m-warning">override</span></span>
+            <dt id="a51accc2108b7fafe7866229c01e81aac">
+              <span class="m-doc-wrap-bumper">void <a href="#a51accc2108b7fafe7866229c01e81aac" class="m-doc-self">push_update</a>(</span><span class="m-doc-wrap"><a href="classwire_1_1node.html#ab73181b83644326244e56984138e4e06" class="m-doc">node::<wbr />id</a> var_id,
+              const <a href="classwire_1_1value.html" class="m-doc">value</a>&amp; v)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a69324b3c9b14491cf30b99215d01c85e">
-              <span class="m-doc-wrap-bumper">auto <a href="#a69324b3c9b14491cf30b99215d01c85e" class="m-doc-self">write_data</a>(</span><span class="m-doc-wrap"><a href="structboost_1_1asio_1_1yield__ctx.html" class="m-doc">io::<wbr />yield_ctx</a>&amp; yield,
-              <a href="classtelegraph_1_1variable.html" class="m-doc">variable</a>* v,
-              const std::vector&lt;<a href="classtelegraph_1_1datapoint.html" class="m-doc">datapoint</a>&gt;&amp; data) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            <dt id="a834a361947636cda895d8cbf37b6d429">
+              <span class="m-doc-wrap-bumper">void <a href="#a834a361947636cda895d8cbf37b6d429" class="m-doc-self">received_packet</a>(</span><span class="m-doc-wrap">const telegraph_stream_Packet&amp; packet)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a35f2ee578116e68b68b7f7a4cc8151cb">
-              <span class="m-doc-wrap-bumper">auto <a href="#a35f2ee578116e68b68b7f7a4cc8151cb" class="m-doc-self">write_data</a>(</span><span class="m-doc-wrap"><a href="structboost_1_1asio_1_1yield__ctx.html" class="m-doc">io::<wbr />yield_ctx</a>&amp; yield,
-              const std::vector&lt;std::string_view&gt;&amp; var,
-              const std::vector&lt;<a href="classtelegraph_1_1datapoint.html" class="m-doc">datapoint</a>&gt;&amp; data) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            <dt id="a147b8845d550f8a79f3d5104f1fa2b15">
+              <span class="m-doc-wrap-bumper">void <a href="#a147b8845d550f8a79f3d5104f1fa2b15" class="m-doc-self">write_packet</a>(</span><span class="m-doc-wrap">const telegraph_stream_Packet&amp; packet)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a4410ca44a41de1c139273efd31f281c4">
-              <span class="m-doc-wrap-bumper">auto <a href="#a4410ca44a41de1c139273efd31f281c4" class="m-doc-self">query_data</a>(</span><span class="m-doc-wrap"><a href="structboost_1_1asio_1_1yield__ctx.html" class="m-doc">io::<wbr />yield_ctx</a>&amp; yield,
-              const <a href="classtelegraph_1_1variable.html" class="m-doc">variable</a>* v) -&gt; <a href="namespacetelegraph.html#a6ffe775ac48dca2a4013b53d692199c8" class="m-doc">data_<wbr />query_<wbr />ptr</a> <span class="m-label m-flat m-warning">override</span></span>
+            <dt id="a668eda79542a3fc157e5e44849cbfeca">
+              <span class="m-doc-wrap-bumper">void <a href="#a668eda79542a3fc157e5e44849cbfeca" class="m-doc-self">receive</a>(</span><span class="m-doc-wrap">)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="ad8c3abb4f9e6ab31b0590beac901eec5">
-              <span class="m-doc-wrap-bumper">auto <a href="#ad8c3abb4f9e6ab31b0590beac901eec5" class="m-doc-self">query_data</a>(</span><span class="m-doc-wrap"><a href="structboost_1_1asio_1_1yield__ctx.html" class="m-doc">io::<wbr />yield_ctx</a>&amp; yield,
-              const std::vector&lt;std::string_view&gt;&amp; v) -&gt; <a href="namespacetelegraph.html#a6ffe775ac48dca2a4013b53d692199c8" class="m-doc">data_<wbr />query_<wbr />ptr</a> <span class="m-label m-flat m-warning">override</span></span>
+            <dt id="ad83aa24ed002182cc51332dd6e117856">
+              <span class="m-doc-wrap-bumper">void <a href="#ad83aa24ed002182cc51332dd6e117856" class="m-doc-self">resume</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-warning">override</span></span>
             </dt>
             <dd><span></span></dd>
           </dl>

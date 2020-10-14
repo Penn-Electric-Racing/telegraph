@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>gen/wire/uart_interface.hpp file | Telegraph An embedded system can/uart framework</title>
+  <title>wire::variable class | Telegraph An embedded system can/uart framework</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -44,7 +44,8 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_76d06afa57792f775bcb80774dbca277.html">gen</a>/</span><span class="m-breadcrumb"><a href="dir_d7327c033eadbcf4981f39694175dadc.html">wire</a>/</span>uart_interface.hpp <span class="m-thin">file</span>
+          <div class="m-doc-template">template&lt;typename T&gt;</div>
+          <span class="m-breadcrumb"><a href="namespacewire.html">wire</a>::<wbr/></span>variable <span class="m-thin">class</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -53,27 +54,72 @@
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#pub-types">Public types</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pro-attribs">Protected variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
-            <dt>namespace <a href="namespacewire.html" class="m-doc">wire</a></dt>
+            <dt>
+              class <a href="classwire_1_1variable__base.html" class="m-doc">variable_base</a>
+            </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+        <section id="pub-types">
+          <h2><a href="#pub-types">Public types</a></h2>
           <dl class="m-doc">
-            <dt>
-              <div class="m-doc-template">template&lt;typename Uart, typename Clock&gt;</div>
-              class <a href="classwire_1_1uart__interface.html" class="m-doc">wire::uart_interface</a>
+            <dt id="a5ced3e50094159d18c784656cbb927a9">
+              using <a href="#a5ced3e50094159d18c784656cbb927a9" class="m-doc-self">value_type</a> = typename <a href="structwire_1_1type__info.html" class="m-doc">type_<wbr />info</a>&lt;T&gt;::<a href="classwire_1_1variable.html#a5ced3e50094159d18c784656cbb927a9" class="m-doc">value_<wbr />type</a>
             </dt>
-            <dd></dd>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
+          <dl class="m-doc">
+            <dt id="a25e765513fdf486d915d74e464e89aaf">
+              <span class="m-doc-wrap-bumper"><a href="#a25e765513fdf486d915d74e464e89aaf" class="m-doc-self">variable</a>(</span><span class="m-doc-wrap">int32_t id,
+              const char* name,
+              const char* pretty,
+              const char* desc,
+              const <a href="structwire_1_1type__info.html" class="m-doc">type_<wbr />info</a>&lt;T&gt;* type) <span class="m-label m-flat m-primary">constexpr</span></span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="af06d0e27e636fbf285c0a5b1d0745e7d">
+              <span class="m-doc-wrap-bumper">auto <a href="#af06d0e27e636fbf285c0a5b1d0745e7d" class="m-doc-self">subs</a>(</span><span class="m-doc-wrap"><a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> min_interval,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> max_interval,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> timeout) -&gt; <a href="namespacewire.html#a9e661d6977607c566562de0f59fb50db" class="m-doc">spromise</a>&lt;<a href="classwire_1_1sub.html" class="m-doc">sub</a>&lt;T&gt;&gt;</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="aa7e35e9469c9183f16fcd7c86766d13a">
+              <span class="m-doc-wrap-bumper">void <a href="#aa7e35e9469c9183f16fcd7c86766d13a" class="m-doc-self">pack</a>(</span><span class="m-doc-wrap">telegraph_Variable* v) const</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a6776cac800b31dff22b04b6ca9391c90">
+              <span class="m-doc-wrap-bumper">void <a href="#a6776cac800b31dff22b04b6ca9391c90" class="m-doc-self">pack</a>(</span><span class="m-doc-wrap">telegraph_Node* n) const <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pro-attribs">
+          <h2><a href="#pro-attribs">Protected variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a8cfa0c7c4131f8d8b83960b41e2a1a43">
+              const <a href="structwire_1_1type__info.html" class="m-doc">type_<wbr />info</a>&lt;T&gt;*const <a href="#a8cfa0c7c4131f8d8b83960b41e2a1a43" class="m-doc-self">type_</a>
+            </dt>
+            <dd><span></span></dd>
           </dl>
         </section>
       </div>

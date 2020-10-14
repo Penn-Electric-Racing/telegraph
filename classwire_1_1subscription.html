@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>gen/wire/types.hpp file | Telegraph An embedded system can/uart framework</title>
+  <title>wire::subscription class | Telegraph An embedded system can/uart framework</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -44,7 +44,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="dir_76d06afa57792f775bcb80774dbca277.html">gen</a>/</span><span class="m-breadcrumb"><a href="dir_d7327c033eadbcf4981f39694175dadc.html">wire</a>/</span>types.hpp <span class="m-thin">file</span>
+          <span class="m-breadcrumb"><a href="namespacewire.html">wire</a>::<wbr/></span>subscription <span class="m-thin">class</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -53,83 +53,89 @@
             <li>
               Reference
               <ul>
-                <li><a href="#namespaces">Namespaces</a></li>
-                <li><a href="#nested-classes">Classes</a></li>
-                <li><a href="#var-members">Variables</a></li>
+                <li><a href="#derived-classes">Derived classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pro-attribs">Protected variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="namespaces">
-          <h2><a href="#namespaces">Namespaces</a></h2>
-          <dl class="m-doc">
-            <dt>namespace <a href="namespacewire.html" class="m-doc">wire</a></dt>
-            <dd><span></span></dd>
-          </dl>
-        </section>
-        <section id="nested-classes">
-          <h2><a href="#nested-classes">Classes</a></h2>
+        <section id="derived-classes">
+          <h2><a href="#derived-classes">Derived classes</a></h2>
           <dl class="m-doc">
             <dt>
-              struct <a href="structnone.html" class="m-doc">none</a>
-            </dt>
-            <dd><span></span></dd>
-            <dt>
-              <div class="m-doc-template">template&lt;typename T&gt;</div>
-              struct <a href="structwire_1_1type__info.html" class="m-doc">wire::type_info</a>
+              class <a href="classwire_1_1publisher_1_1sub__impl.html" class="m-doc">wire::publisher::sub_impl</a>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="var-members">
-          <h2><a href="#var-members">Variables</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="abfbee18b4e2641f5820e1da74cc6bcf0">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;<a href="structnone.html" class="m-doc">none</a>&gt; <a href="#abfbee18b4e2641f5820e1da74cc6bcf0" class="m-doc-self">none_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a093c9f0f2365e9f8136838c9c76fd3dc">
+              <span class="m-doc-wrap-bumper"><a href="#a093c9f0f2365e9f8136838c9c76fd3dc" class="m-doc-self">subscription</a>(</span><span class="m-doc-wrap"><a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> min_time,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> max_time)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a3aac2af7297d84c8b76638f6661392f4">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;bool&gt; <a href="#a3aac2af7297d84c8b76638f6661392f4" class="m-doc-self">bool_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="aad4e3f6857e038ba4c8dcdcf2d96a064">
+              <span class="m-doc-wrap-bumper"><a href="#aad4e3f6857e038ba4c8dcdcf2d96a064" class="m-doc-self">~subscription</a>(</span><span class="m-doc-wrap">) <span class="m-label m-flat m-warning">virtual</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a1122e8053aeaba2048267445310c38de">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;uint8_t&gt; <a href="#a1122e8053aeaba2048267445310c38de" class="m-doc-self">uint8_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="aac2d0f24c685abe0ef1aef8fbac1252b">
+              <span class="m-doc-wrap-bumper">auto <a href="#aac2d0f24c685abe0ef1aef8fbac1252b" class="m-doc-self">is_cancelled</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="af09da5a47447821d8439017b49801ca0">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;uint16_t&gt; <a href="#af09da5a47447821d8439017b49801ca0" class="m-doc-self">uint16_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a5ef5525ee4508339878bb285a021bd60">
+              <span class="m-doc-wrap-bumper">auto <a href="#a5ef5525ee4508339878bb285a021bd60" class="m-doc-self">cancel</a>(</span><span class="m-doc-wrap"><a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> timeout) -&gt; <a href="namespacewire.html#a58c89846f8d43e34f17b57bdc5254235" class="m-doc">promise</a> <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a7207f7acf42e61262a8fba2c2e0e5177">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;uint32_t&gt; <a href="#a7207f7acf42e61262a8fba2c2e0e5177" class="m-doc-self">uint32_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a17c2d5c25716f1129b04bc2da4e012f9">
+              <span class="m-doc-wrap-bumper">auto <a href="#a17c2d5c25716f1129b04bc2da4e012f9" class="m-doc-self">change</a>(</span><span class="m-doc-wrap"><a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> min_interval,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> max_interval,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> timeout) -&gt; <a href="namespacewire.html#a58c89846f8d43e34f17b57bdc5254235" class="m-doc">promise</a> <span class="m-label m-flat m-warning">pure virtual</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="ae68970fb3b61ffd1f07ef10e32151a1e">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;uint64_t&gt; <a href="#ae68970fb3b61ffd1f07ef10e32151a1e" class="m-doc-self">uint64_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="aaa3d2b49e4758c069b6992c12ea1dc3d">
+              <span class="m-doc-wrap-bumper">auto <a href="#aaa3d2b49e4758c069b6992c12ea1dc3d" class="m-doc-self">get_min_interval</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a61d0eb387b9d4fd5600eed13e408bc87">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;int8_t&gt; <a href="#a61d0eb387b9d4fd5600eed13e408bc87" class="m-doc-self">int8_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a2222d3a72c9004cf3aa1f57005c4a96b">
+              <span class="m-doc-wrap-bumper">auto <a href="#a2222d3a72c9004cf3aa1f57005c4a96b" class="m-doc-self">get_max_interval</a>(</span><span class="m-doc-wrap">) const -&gt; <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> <span class="m-label m-flat m-primary">constexpr</span></span>
             </dt>
             <dd><span></span></dd>
-            <dt id="aa1aa13639136e8f475a5f84a17e21efb">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;int16_t&gt; <a href="#aa1aa13639136e8f475a5f84a17e21efb" class="m-doc-self">int16_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a505790e00a53384ac25023a67cd29aec">
+              <span class="m-doc-wrap-bumper">void <a href="#a505790e00a53384ac25023a67cd29aec" class="m-doc-self">handler</a>(</span><span class="m-doc-wrap">const <a href="classstdext_1_1inplace__function.html" class="m-doc">stdext::<wbr />inplace_function</a>&lt;void(const <a href="classwire_1_1value.html" class="m-doc">value</a>&amp;), 16&gt;&amp; cb)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="ac2e2db5ef77ef6f3cbdf5f831be61f42">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;int32_t&gt; <a href="#ac2e2db5ef77ef6f3cbdf5f831be61f42" class="m-doc-self">int32_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a3d6380602595478925b005239df797f5">
+              <span class="m-doc-wrap-bumper">void <a href="#a3d6380602595478925b005239df797f5" class="m-doc-self">cancel_handler</a>(</span><span class="m-doc-wrap">const <a href="classstdext_1_1inplace__function.html" class="m-doc">stdext::<wbr />inplace_function</a>&lt;void(), 16&gt;&amp; cb)</span>
             </dt>
             <dd><span></span></dd>
-            <dt id="a2627be67ceeacc1162ff814b412d8ba1">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;int64_t&gt; <a href="#a2627be67ceeacc1162ff814b412d8ba1" class="m-doc-self">int64_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+          </dl>
+        </section>
+        <section id="pro-attribs">
+          <h2><a href="#pro-attribs">Protected variables</a></h2>
+          <dl class="m-doc">
+            <dt id="ae8b700368c069829c65ef15cf535c9a4">
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> <a href="#ae8b700368c069829c65ef15cf535c9a4" class="m-doc-self">min_interval_</a>
             </dt>
             <dd><span></span></dd>
-            <dt id="a1bdde68ce460de650b4701a4520a0918">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;float&gt; <a href="#a1bdde68ce460de650b4701a4520a0918" class="m-doc-self">float_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="ae3bcdddcad8594f8d57b2b2a40f48d33">
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> <a href="#ae3bcdddcad8594f8d57b2b2a40f48d33" class="m-doc-self">max_interval_</a>
             </dt>
             <dd><span></span></dd>
-            <dt id="afb96aa277374ef32d72343be9d36597a">
-              <a href="structwire_1_1type__info.html" class="m-doc">wire::<wbr />type_info</a>&lt;double&gt; <a href="#afb96aa277374ef32d72343be9d36597a" class="m-doc-self">double_type</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="af08949df1f6b1fd51a7560b7d427fcbf">
+              <a href="classstdext_1_1inplace__function.html" class="m-doc">stdext::<wbr />inplace_function</a>&lt;void(const <a href="classwire_1_1value.html" class="m-doc">value</a>&amp;val), 16&gt; <a href="#af08949df1f6b1fd51a7560b7d427fcbf" class="m-doc-self">cb_</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="abc19fd60c219b72784326a6e48d41230">
+              <a href="classstdext_1_1inplace__function.html" class="m-doc">stdext::<wbr />inplace_function</a>&lt;void(), 16&gt; <a href="#abc19fd60c219b72784326a6e48d41230" class="m-doc-self">cancel_cb_</a>
             </dt>
             <dd><span></span></dd>
           </dl>

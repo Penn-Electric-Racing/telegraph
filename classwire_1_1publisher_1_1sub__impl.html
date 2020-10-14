@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>telegraph::crc namespace | Telegraph An embedded system can/uart framework</title>
+  <title>wire::publisher::sub_impl class | Telegraph An embedded system can/uart framework</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i%7CSource+Code+Pro:400,400i,600" />
   <link rel="stylesheet" href="m-dark+documentation.compiled.css" />
   <link rel="icon" href="favicon-dark.png" type="image/png" />
@@ -44,8 +44,7 @@
     <div class="m-row">
       <div class="m-col-l-10 m-push-l-1">
         <h1>
-          <span class="m-breadcrumb"><a href="namespacetelegraph.html">telegraph</a>::<wbr/></span>crc <span class="m-thin">namespace</span>
-          <div class="m-doc-include m-code m-inverted m-text-right"><span class="cp">#include</span> <a class="cpf" href="crc_8hpp.html">&lt;lib/telegraph/local/crc.hpp&gt;</a></div>
+          <span class="m-breadcrumb"><a href="namespacewire.html">wire</a>::<wbr/></span><span class="m-breadcrumb"><a href="classwire_1_1publisher.html">publisher</a>::<wbr/></span>sub_impl <span class="m-thin">class</span>
         </h1>
         <p><span></span></p>
         <div class="m-block m-default">
@@ -54,41 +53,89 @@
             <li>
               Reference
               <ul>
-                <li><a href="#func-members">Functions</a></li>
-                <li><a href="#var-members">Variables</a></li>
+                <li><a href="#base-classes">Base classes</a></li>
+                <li><a href="#typeless-methods">Constructors, destructors, conversion operators</a></li>
+                <li><a href="#pub-methods">Public functions</a></li>
+                <li><a href="#pub-attribs">Public variables</a></li>
               </ul>
             </li>
           </ul>
         </div>
-        <section id="func-members">
-          <h2><a href="#func-members">Functions</a></h2>
+        <section id="base-classes">
+          <h2><a href="#base-classes">Base classes</a></h2>
           <dl class="m-doc">
-            <dt id="ad61e12d4db3a020bc6f04874940c1217">
-              <span class="m-doc-wrap-bumper">void <a href="#ad61e12d4db3a020bc6f04874940c1217" class="m-doc-self">crc32_start</a>(</span><span class="m-doc-wrap">uint32_t&amp; crc) <span class="m-label m-flat m-primary">constexpr</span></span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="aafa7af12407dc0a4a1fafd32a9d4a831">
-              <span class="m-doc-wrap-bumper">void <a href="#aafa7af12407dc0a4a1fafd32a9d4a831" class="m-doc-self">crc32_next</a>(</span><span class="m-doc-wrap">uint32_t&amp; crc,
-              uint8_t val) <span class="m-label m-flat m-primary">constexpr</span></span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a1b33925e77503b4df67c4db518a53fa0">
-              <span class="m-doc-wrap-bumper">void <a href="#a1b33925e77503b4df67c4db518a53fa0" class="m-doc-self">crc32_finalize</a>(</span><span class="m-doc-wrap">uint32_t&amp; crc) <span class="m-label m-flat m-primary">constexpr</span></span>
-            </dt>
-            <dd><span></span></dd>
-            <dt id="a3152a661ad8854e339e75baa81a6c57e">
-              <div class="m-doc-template">template&lt;typename ConstBuffersIter&gt;</div>
-              <span class="m-doc-wrap-bumper">auto <a href="#a3152a661ad8854e339e75baa81a6c57e" class="m-doc-self">crc32_buffers</a>(</span><span class="m-doc-wrap">ConstBuffersIter start,
-              ConstBuffersIter end) -&gt; uint32_t</span>
+            <dt>
+              class <a href="classwire_1_1subscription.html" class="m-doc">wire::subscription</a>
             </dt>
             <dd><span></span></dd>
           </dl>
         </section>
-        <section id="var-members">
-          <h2><a href="#var-members">Variables</a></h2>
+        <section id="typeless-methods">
+          <h2><a href="#typeless-methods">Constructors, destructors, conversion operators</a></h2>
           <dl class="m-doc">
-            <dt id="abf2164432665fb967b9f3d0ca17fc3c2">
-              static const uint32_t <a href="#abf2164432665fb967b9f3d0ca17fc3c2" class="m-doc-self">crc_table</a> <span class="m-label m-flat m-primary">constexpr</span>
+            <dt id="a668603a72ac1c7acefefcd124e9c55e9">
+              <span class="m-doc-wrap-bumper"><a href="#a668603a72ac1c7acefefcd124e9c55e9" class="m-doc-self">sub_impl</a>(</span><span class="m-doc-wrap"><a href="classwire_1_1publisher.html" class="m-doc">publisher</a>&lt;T, Clock&gt;* pub,
+              int32_t min_interval,
+              int32_t max_interval)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a89f838bda04f99ad52183cf99ed7f72a">
+              <span class="m-doc-wrap-bumper"><a href="#a89f838bda04f99ad52183cf99ed7f72a" class="m-doc-self">~sub_impl</a>(</span><span class="m-doc-wrap">)</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-methods">
+          <h2><a href="#pub-methods">Public functions</a></h2>
+          <dl class="m-doc">
+            <dt id="a88aa16a6a17e0c249b06f585b4f372c5">
+              <span class="m-doc-wrap-bumper">auto <a href="#a88aa16a6a17e0c249b06f585b4f372c5" class="m-doc-self">is_cancelled</a>(</span><span class="m-doc-wrap">) -&gt; bool <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a9f4d6cc55f3deb5619371bbdc78c1ed5">
+              <span class="m-doc-wrap-bumper">auto <a href="#a9f4d6cc55f3deb5619371bbdc78c1ed5" class="m-doc-self">cancel</a>(</span><span class="m-doc-wrap"><a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> timeout) -&gt; <a href="namespacewire.html#a58c89846f8d43e34f17b57bdc5254235" class="m-doc">promise</a> <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a0ad68d21636891edc64099647a140696">
+              <span class="m-doc-wrap-bumper">auto <a href="#a0ad68d21636891edc64099647a140696" class="m-doc-self">change</a>(</span><span class="m-doc-wrap"><a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> min_int,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> max_int,
+              <a href="namespacewire.html#ad341de707d74a79ba963a8128c674001" class="m-doc">interval</a> timeout) -&gt; <a href="namespacewire.html#a58c89846f8d43e34f17b57bdc5254235" class="m-doc">promise</a> <span class="m-label m-flat m-warning">override</span></span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a3fe249fc9ce4db9fc1b740a647742db3">
+              <span class="m-doc-wrap-bumper">void <a href="#a3fe249fc9ce4db9fc1b740a647742db3" class="m-doc-self">push</a>(</span><span class="m-doc-wrap">const T&amp; v,
+              int32_t now_time)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a45c670208646a7cfd71e12fc45adf260">
+              <span class="m-doc-wrap-bumper">void <a href="#a45c670208646a7cfd71e12fc45adf260" class="m-doc-self">push_delayed</a>(</span><span class="m-doc-wrap">const T&amp; v,
+              uint32_t now_time)</span>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a9ab61abed7031f0165ae919ad0973d4c">
+              <span class="m-doc-wrap-bumper">void <a href="#a9ab61abed7031f0165ae919ad0973d4c" class="m-doc-self">push_resend</a>(</span><span class="m-doc-wrap">const T&amp; v,
+              int32_t now_time)</span>
+            </dt>
+            <dd><span></span></dd>
+          </dl>
+        </section>
+        <section id="pub-attribs">
+          <h2><a href="#pub-attribs">Public variables</a></h2>
+          <dl class="m-doc">
+            <dt id="a7b28ebcbecfeef14bd20dfd5f7653c40">
+              uint32_t <a href="#a7b28ebcbecfeef14bd20dfd5f7653c40" class="m-doc-self">last_time_</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a9510e9027092e6c49d585569bf053c9c">
+              uint32_t <a href="#a9510e9027092e6c49d585569bf053c9c" class="m-doc-self">delay_alarm_</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="a753e995fbf3c62ac5b6148de63cebe64">
+              uint32_t <a href="#a753e995fbf3c62ac5b6148de63cebe64" class="m-doc-self">resend_alarm_</a>
+            </dt>
+            <dd><span></span></dd>
+            <dt id="ad5362b7829c102327354d669c55c8a30">
+              <a href="classwire_1_1publisher.html" class="m-doc">publisher</a>&lt;T, Clock&gt;* <a href="#ad5362b7829c102327354d669c55c8a30" class="m-doc-self">pub_</a>
             </dt>
             <dd><span></span></dd>
           </dl>
