@@ -65,3 +65,11 @@ cc_nanopb_library(name="cc_nanopb_log", proto_library="//:proto_log", base_name=
 cc_nanopb_library(name="cc_nanopb_stream", proto_library="//:proto_stream", base_name="stream",
                   includes=["."], deps=[":cc_nanopb_common"],
                   visibility=["//visibility:public"])
+
+load("//tools:doxygen.bzl", "doxygen_archive")
+
+doxygen_archive(
+     name = "docs",
+     srcs = glob(["**/*.cpp", "**/*.hpp"]),
+     doxyfile = "Doxyfile"
+)
