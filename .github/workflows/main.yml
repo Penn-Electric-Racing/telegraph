@@ -13,4 +13,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Bazel Build
-      run: bazel build //...
+      run: bazel build //cpp:server //cpp:generate
