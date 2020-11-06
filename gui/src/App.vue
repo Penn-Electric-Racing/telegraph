@@ -39,37 +39,46 @@
       </div>
 
       <div id="content-container">
-        <div id="sidebar" v-show="sidebarShowing" ref="sidebar">
-          <div id="sidebar-header">
-            <TabSwitcher :tabs="sidebarHeaders" :active="activeSidebar" 
-                        @selected="selectSidebar"/>
-          </div>
-          <TabArea id="sidebar-area" @newtab="newTab" @closetab="closeTab"
-                                     @popup="newPopup">
-            <SettingsPage v-show="activeSidebar=='settings'" :nsQuery="nsQuery"/>
-            <DashboardsPage v-show="activeSidebar=='dashboards'" 
-                :nsQuery="nsQuery" :dashboards="dashboards"/>
-            <LogsPage v-show="activeSidebar=='logs'" :nsQuery="nsQuery"/>
-            <ContextsPage v-show="activeSidebar=='contexts'" :nsQuery="nsQuery"/>
-            <ComponentsPage v-show="activeSidebar=='components'" :nsQuery="nsQuery"/>
-            <LivePage v-show="activeSidebar=='live'" :nsQuery="nsQuery"/>
-          </TabArea>
-        </div>
+	<ResSplitPane split-to="columns" :allow-resize="true"
+					 :size=220
+					 :min-size=220
+					 :resizerColor="'#272C30'">
+	  <div slot="firstPane" >
+            <div id="sidebar" v-show="sidebarShowing" ref="sidebar">
+              <div id="sidebar-header">
+                <TabSwitcher :tabs="sidebarHeaders" :active="activeSidebar" 
+                            @selected="selectSidebar"/>
+              </div>
+              <TabArea id="sidebar-area" @newtab="newTab" @closetab="closeTab"
+                                         @popup="newPopup">
+                <SettingsPage v-show="activeSidebar=='settings'" :nsQuery="nsQuery"/>
+                <DashboardsPage v-show="activeSidebar=='dashboards'" 
+                    :nsQuery="nsQuery" :dashboards="dashboards"/>
+                <LogsPage v-show="activeSidebar=='logs'" :nsQuery="nsQuery"/>
+                <ContextsPage v-show="activeSidebar=='contexts'" :nsQuery="nsQuery"/>
+                <ComponentsPage v-show="activeSidebar=='components'" :nsQuery="nsQuery"/>
+                <LivePage v-show="activeSidebar=='live'" :nsQuery="nsQuery"/>
+              </TabArea>
+            </div>
+	  </div>
 
-        <TabArea id="content-area">
-          <component :is="tab.type" 
-                    :name="tab.name" 
-                    :id="tab.id"
-                    :nsQuery="nsQuery"
-                    :key="tab.id"
-                    v-bind="tab.props"
-                    @popup="newPopup"
-                    @newtab="newTab"
-                    @renamed="(name) => {renameTab(tab.id, name)}"
-                    @close="() => {closeTab(tab.id)}"
-                    v-for="tab in loadedTabs"
-                    v-show="tab.id==activeTab"/>
-        </TabArea>
+	  <div slot="secondPane">
+            <TabArea id="content-area">
+              <component :is="tab.type" 
+                        :name="tab.name" 
+                        :id="tab.id"
+                        :nsQuery="nsQuery"
+                        :key="tab.id"
+                        v-bind="tab.props"
+                        @popup="newPopup"
+                        @newtab="newTab"
+                        @renamed="(name) => {renameTab(tab.id, name)}"
+                        @close="() => {closeTab(tab.id)}"
+                        v-for="tab in loadedTabs"
+                        v-show="tab.id==activeTab"/>
+            </TabArea>
+	  </div>
+	</ResSplitPane>
       </div>
     </div>
   </div>
@@ -79,7 +88,7 @@
 import TabSwitcher from './components/TabSwitcher.vue'
 import TabArea from './components/TabArea.vue'
 import Popup from './components/Popup.vue'
-
+import ResSplitPane from 'vue-resize-split-pane'
 import FlatButton from './components/FlatButton.vue'
 
 import LivePage from './pages/LivePage.vue'
@@ -106,6 +115,7 @@ export default {
     ContextsPage, DashboardsPage,
     LogsPage, SettingsPage,
     FlatButton, Popup,
+    ResSplitPane,
 
     Burger, Dashboard
   },
@@ -395,10 +405,14 @@ html, body {
   box-shadow: inset 1px 1px 5px 1px #272c30;
 }
 
+
+.Pane > div{
+  height: 100%;
+}
+
 #sidebar  {
   height: 100%;
   min-width: 220px;
-  max-width: 220px;
   background-color: #30363c;
 
   display: flex;
