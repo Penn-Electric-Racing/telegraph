@@ -40,7 +40,7 @@
 
       <div id="content-container">
 	<ResSplitPane split-to="columns" :allow-resize="true"
-					 :size=220
+					 :size=sidebarWidth
 					 :min-size=220
 					 :resizerColor="'#272C30'"
 					 id="content-pane">
