@@ -63,20 +63,22 @@
 	  </div>
 
 	  <div slot="secondPane">
-            <TabArea id="content-area">
-              <component :is="tab.type" 
-                        :name="tab.name" 
-                        :id="tab.id"
-                        :nsQuery="nsQuery"
-                        :key="tab.id"
-                        v-bind="tab.props"
-                        @popup="newPopup"
-                        @newtab="newTab"
-                        @renamed="(name) => {renameTab(tab.id, name)}"
-                        @close="() => {closeTab(tab.id)}"
-                        v-for="tab in loadedTabs"
-                        v-show="tab.id==activeTab"/>
-            </TabArea>
+	    <div id="tab-area">
+              <TabArea id="content-area">
+                <component :is="tab.type" 
+                          :name="tab.name" 
+                          :id="tab.id"
+                          :nsQuery="nsQuery"
+                          :key="tab.id"
+                          v-bind="tab.props"
+                          @popup="newPopup"
+                          @newtab="newTab"
+                          @renamed="(name) => {renameTab(tab.id, name)}"
+                          @close="() => {closeTab(tab.id)}"
+                          v-for="tab in loadedTabs"
+                          v-show="tab.id==activeTab"/>
+              </TabArea>
+	    </div>
 	  </div>
 	</ResSplitPane>
       </div>
