@@ -43,7 +43,7 @@
 					 :size=220
 					 :min-size=220
 					 :resizerColor="'#272C30'">
-	  <div slot="firstPane" >
+	  <div slot="firstPane">
             <div id="sidebar" v-show="sidebarShowing" ref="sidebar">
               <div id="sidebar-header">
                 <TabSwitcher :tabs="sidebarHeaders" :active="activeSidebar" 
@@ -403,11 +403,6 @@ html, body {
   width: 100%;
   height: 100%;
   box-shadow: inset 1px 1px 5px 1px #272c30;
-}
-
-
-.Pane > div{
-  height: 100%;
 }
 
 #sidebar  {
