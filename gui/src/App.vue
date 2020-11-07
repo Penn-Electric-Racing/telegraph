@@ -42,7 +42,8 @@
 	<ResSplitPane split-to="columns" :allow-resize="true"
 					 :size=220
 					 :min-size=220
-					 :resizerColor="'#272C30'">
+					 :resizerColor="'#272C30'"
+					 id="content-pane">
 	  <div slot="firstPane">
             <div id="sidebar" v-show="sidebarShowing" ref="sidebar">
               <div id="sidebar-header">
@@ -405,6 +406,18 @@ html, body {
   width: 100%;
   height: 100%;
   box-shadow: inset 1px 1px 5px 1px #272c30;
+}
+
+.Pane > div{
+  height: 100%;
+}
+
+#content-pane {
+  position: relative;
+}
+
+#tab-area {
+  height: 100%;
 }
 
 #sidebar  {
