@@ -5,7 +5,7 @@
         <slot name="header">
         </slot>
       </div>
-      <div class="bubble-content" 
+      <div class="bubble-content"
             :class="{indent}" v-if="hasContent">
         <slot name="content">
         </slot>

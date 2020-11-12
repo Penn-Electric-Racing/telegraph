@@ -6,8 +6,8 @@
         <Popup v-for="(popup, idx) in popups" :name="popup.name" :id="popup.id" :key="popup.id"
                 @popup="newPopup" @newtab="newTab" @close="() => {closePopup(popup.id)}"
                 @focus="() => { focusPopup(popup.id) }">
-          <component :is="popup.type" 
-                    :name="popup.name" 
+          <component :is="popup.type"
+                    :name="popup.name"
                     :id="popup.id"
                     :nsQuery="nsQuery"
                     :key="popup.id"
@@ -19,15 +19,15 @@
     <div id="app-content">
       <!-- TODO: Instead of making the sidebar adjust size to its content maybe
           have the sidebar be draggable-resizable so you can choose how large you want it
-          and the content in the sidebar can expand/show more things 
+          and the content in the sidebar can expand/show more things
           (small picture graphs, etc) if you make it bigger -->
 
       <div id="header-container">
         <Burger :expanded="sidebarShowing" @toggle="toggleSidebar"
           :style="{minWidth: sidebarWidth > 0 ? sidebarWidth + 'px' : null}"></Burger>
         <div class="header-tabs">
-          <TabSwitcher :tabs="tabs" 
-                      :active="activeTab" 
+          <TabSwitcher :tabs="tabs"
+                      :active="activeTab"
                       :closeable="true" :editable="true" :draggable="true"
                       @selected="selectTab"
                       @closed="closeTab"
@@ -39,21 +39,21 @@
       </div>
 
       <div id="content-container">
-	<ResSplitPane split-to="columns" :allow-resize=sidebarShowing
-					 :size=sidebarWidth
-					 :min-size=220
-					 :resizerColor="'#272C30'"
-					 id="content-pane">
-	  <div slot="firstPane">
+  <ResSplitPane split-to="columns" :allow-resize=sidebarShowing
+          :size=sidebarWidth
+          :min-size=220
+					:resizerColor="'#272C30'"
+					id="content-pane">
+  <div slot="firstPane">
             <div id="sidebar" v-show="sidebarShowing" ref="sidebar">
               <div id="sidebar-header">
-                <TabSwitcher :tabs="sidebarHeaders" :active="activeSidebar" 
+                <TabSwitcher :tabs="sidebarHeaders" :active="activeSidebar"
                             @selected="selectSidebar"/>
               </div>
               <TabArea id="sidebar-area" @newtab="newTab" @closetab="closeTab"
                                          @popup="newPopup">
                 <SettingsPage v-show="activeSidebar=='settings'" :nsQuery="nsQuery"/>
-                <DashboardsPage v-show="activeSidebar=='dashboards'" 
+                <DashboardsPage v-show="activeSidebar=='dashboards'"
                     :nsQuery="nsQuery" :dashboards="dashboards"/>
                 <LogsPage v-show="activeSidebar=='logs'" :nsQuery="nsQuery"/>
                 <ContextsPage v-show="activeSidebar=='contexts'" :nsQuery="nsQuery"/>
@@ -61,13 +61,13 @@
                 <LivePage v-show="activeSidebar=='live'" :nsQuery="nsQuery"/>
               </TabArea>
             </div>
-	  </div>
+    </div>
 
-	  <div slot="secondPane">
-	    <div id="tab-area">
+    <div slot="secondPane">
+      <div id="tab-area">
               <TabArea id="content-area">
-                <component :is="tab.type" 
-                          :name="tab.name" 
+                <component :is="tab.type"
+                          :name="tab.name"
                           :id="tab.id"
                           :nsQuery="nsQuery"
                           :key="tab.id"
@@ -79,9 +79,9 @@
                           v-for="tab in loadedTabs"
                           v-show="tab.id==activeTab"/>
               </TabArea>
-	    </div>
-	  </div>
-	</ResSplitPane>
+      </div>
+    </div>
+  </ResSplitPane>
       </div>
     </div>
   </div>
@@ -129,13 +129,13 @@ export default {
       sidebarShowing: true,
       sidebarWidth: null,
       sidebarHeaders: [
-                       {"icon":"wifi", "id": "live"}, 
-                       {"icon":"columns", "id": "dashboards"}, 
+                       {"icon":"wifi", "id": "live"},
+                       {"icon":"columns", "id": "dashboards"},
                        {"icon":"edit", "id": "logs"},
-                       {"icon":"box", "id": "contexts"}, 
-                       {"icon":"tasks", "id": "components"}, 
-                       {"icon":"cogs", "id": "settings"}, 
-                      ], 
+                       {"icon":"box", "id": "contexts"},
+                       {"icon":"tasks", "id": "components"},
+                       {"icon":"cogs", "id": "settings"},
+                      ],
       activeSidebar: "live",
 
       // each tab must have a type, a name, and an id
@@ -188,7 +188,7 @@ export default {
       });
       var id = uuidv4();
       this.tabs.push(Vue.observable({type: 'Dashboard',
-                      name: 'Untitled', 
+                      name: 'Untitled',
                       props: {data:dashData},
                       id: id }));
       if (this.activeTab == null) this.activeTab = id;
@@ -314,7 +314,7 @@ export default {
   mounted() {
     //setInterval(() => { this.createDashboard('Untitled') }, 20000)
     new ResizeObserver(() => {
-      if (this.$refs['sidebar']) 
+      if (this.$refs['sidebar'])
         this.sidebarWidth = this.$refs['sidebar'].offsetWidth;
     }).observe(this.$refs['sidebar']);
   }
@@ -432,7 +432,7 @@ html, body {
   display: flex;
   align-items: stretch;
   flex-direction: column;
-} 
+}
 
 #sidebar-area {
   box-sizing: border-box;

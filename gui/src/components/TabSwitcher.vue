@@ -2,8 +2,9 @@
   <div class="tabSwitcher">
     <ScrollArea horizontalWheel>
       <div class="tabsList">
-        <div :class="{tabHeader:true, active:tab.id==active}"
-            v-for="tab in tabs" v-on:click.stop="selectTab(tab.id)" :key="tab.id">
+        <div :class="{tabHeader:true, active:tab.id==active}" ref="tabHeader"
+            v-for="tab in tabs" @mousedown="selectTab(tab.id)" :key="tab.id"
+            class="tabHeader">
           <span class="tabName" v-if="tab.name != undefined" 
                                 @dblclick="requestEdit"
                                 @blur="(e) => {requestStopEdit(e, tab.id)}"
@@ -25,6 +26,7 @@
 <script>
   import TabArea from './TabArea.vue'
   import ScrollArea from './ScrollArea.vue'
+  import interact from 'interactjs'
   export default {
     name: 'TabSwitcher',
     components: { TabArea, ScrollArea },
@@ -34,6 +36,19 @@
       closeable: { type: Boolean, default: false },
       editable: { type: Boolean, default: false },
       draggable: { type: Boolean, default: false }
+    },
+    mounted() {
+      const element = this.$refs.tabHeader
+      if (true || this.draggable) {
+        interact(element)
+        .draggable({
+         onmove: event => {
+           const x = this.interactPosition.x + event.dx
+           const y = this.interactPosition.y + event.dy
+           this.interactSetPosition({ x, y })
+         }
+        });
+      }
     },
     methods: {
       requestEdit(e) {
@@ -117,6 +132,7 @@
     white-space: nowrap;
     min-width: 20px;
     min-height: 1em;
+    user-select: none;
   }
 
   .tabIcon {
