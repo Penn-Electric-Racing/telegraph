@@ -2,22 +2,11 @@
   <div class="tabSwitcher">
     <ScrollArea horizontalWheel>
       <div class="tabsList">
-        <div :class="{tabHeader:true, active:tab.id==active}" ref="tabHeader"
-            v-for="tab in tabs" @mousedown="selectTab(tab.id)" :key="tab.id"
-            class="tabHeader">
-          <span class="tabName" v-if="tab.name != undefined" 
-                                @dblclick="requestEdit"
-                                @blur="(e) => {requestStopEdit(e, tab.id)}"
-                                @keydown.enter.prevent="(e) => {enter(e, tab.id)}">
-            {{ tab.name }}
-          </span>
-
-          <font-awesome-icon :icon="tab.icon" class="tabIcon" size="sm" v-if="tab.icon != undefined"/>
-
-          <span class="tabClose" v-on:click.stop="closeTab(tab.id)" v-if="closeable">
-            <font-awesome-icon icon="times"/>
-          </span>
-        </div>
+        <TabElement v-for="tab in tabs" :tab="tab"
+        :closeable="closeable" :editable="editable" :draggable="draggable"
+        :active="tab.id==active" @selected="selected" @closed="closed"
+        @tabMoved="tabMoved" ref="tabElements">
+        </TabElement>
       </div>
     </ScrollArea>
   </div>
@@ -27,9 +16,10 @@
   import TabArea from './TabArea.vue'
   import ScrollArea from './ScrollArea.vue'
   import interact from 'interactjs'
+  import TabElement from './TabElement.vue'
   export default {
     name: 'TabSwitcher',
-    components: { TabArea, ScrollArea },
+    components: { TabArea, ScrollArea, TabElement },
     props: {
       tabs: Array, // an array of strings
       active: String,
@@ -37,41 +27,36 @@
       editable: { type: Boolean, default: false },
       draggable: { type: Boolean, default: false }
     },
-    mounted() {
-      const element = this.$refs.tabHeader
-      if (true || this.draggable) {
-        interact(element)
-        .draggable({
-         onmove: event => {
-           const x = this.interactPosition.x + event.dx
-           const y = this.interactPosition.y + event.dy
-           this.interactSetPosition({ x, y })
-         }
-        });
-      }
-    },
     methods: {
-      requestEdit(e) {
-        if (this.editable) {
-          e.srcElement.contentEditable = true;
-        }
-      },
-      requestStopEdit(e, id) {
-        e.srcElement.contentEditable = false;
-        this.renameTab(id, e.srcElement.textContent);
-      },
-      enter(e, id) {
-        this.requestStopEdit(e, id);
-      },
-      selectTab(id) {
+      selected(id) {
         this.$emit('selected', id)
       },
-      closeTab(id) {
+      closed(id) {
         this.$emit('closed', id)
       },
+      tabMoved(id, x){
+        var sizes = this.$refs.tabElements.map( (f) => {
+          return f.$el.clientWidth
+        });;
+        var index;
+        for (var i in this.tabs) {
+          if (this.tabs[i].id == id) {
+            index = i;
+            break;
+          }
+        }
+        if (index > 0 && x < sizes[index - 1] / 2) {
+          var temp = this.tabs[index - 1];
+          this.tabs[index - 1] = this.tabs[index];
+          this.tabs[index] = temp;
+        }
+        else if (index < sizes.length && x > sizes[index + 1] / 2) {
+          var temp = this.tabs[index];
+          this.tabs[index] = this.tabs[index + 1];
+          this.tabs[index + 1] = temp;
+        }
 
-      renameTab(id, newName) {
-        this.$emit('renamed', id, newName)
+
       }
     }
   }
@@ -94,48 +79,5 @@
     flex-direction: row;
     align-items: stretch;
     min-width: 0px;
-  }
-  .tabHeader {
-    width: 100%;
-
-    color: #5e6870;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding-left: 0.3rem;
-    padding-right: 0.3rem;
-
-    border-bottom: 2px solid #5e6870;
-  }
-  .tabClose {
-    color: #5e6870;
-    margin-left: 5px;
-    transition: color 0.5s;
-  }
-  .tabClose:hover {
-    color: #ed4949;
-  }
-
-  .tabHeader.active {
-    color: #ffffff;
-    background-color: #252a2e;
-    border-bottom: 2px solid #1c8ed7;
-  }
-
-  .tabName {
-    display: block;
-    padding: 0px;
-    width: auto;
-    display: inline-block;
-    white-space: nowrap;
-    min-width: 20px;
-    min-height: 1em;
-    user-select: none;
-  }
-
-  .tabIcon {
-    padding: 7px 5px 7px 5px;
   }
 </style>
