@@ -1,11 +1,11 @@
 <template>
-  <div class="tabSwitcher">
+  <div class="tabSwitcher" ref="tabSwitcher">
     <ScrollArea horizontalWheel>
       <div class="tabsList">
         <TabElement v-for="tab in tabs" :tab="tab"
         :closeable="closeable" :editable="editable" :draggable="draggable"
         :active="tab.id==active" @selected="selected" @closed="closed"
-        @tabMoved="tabMoved" ref="tabElements">
+        @tabMoved="tabMoved" @renamed="renamed" ref="tabElements">
         </TabElement>
       </div>
     </ScrollArea>
@@ -17,6 +17,7 @@
   import ScrollArea from './ScrollArea.vue'
   import interact from 'interactjs'
   import TabElement from './TabElement.vue'
+
   export default {
     name: 'TabSwitcher',
     components: { TabArea, ScrollArea, TabElement },
@@ -34,7 +35,19 @@
       closed(id) {
         this.$emit('closed', id)
       },
-      tabMoved(id, x){
+      renamed(id, newName) {
+        this.$emit('renamed', id, newName);
+      },
+      tabMoved(id, x, data_x){
+        if (this.$refs.tabSwitcher.getAttribute('switchedCurrentTick') == 'true' && data_x == 0) {
+          console.log('switched!');
+          this.$refs.tabSwitcher.setAttribute('switchedCurrentTick', false);
+          return;
+        }
+        else {
+          console.log(this.$refs.tabSwitcher.getAttribute('switchedCurrentTick'));
+        }
+        //console.log(x);
         var sizes = this.$refs.tabElements.map( (f) => {
           return f.$el.clientWidth
         });;
@@ -45,18 +58,28 @@
             break;
           }
         }
-        if (index > 0 && x < sizes[index - 1] / 2) {
-          var temp = this.tabs[index - 1];
-          this.tabs[index - 1] = this.tabs[index];
-          this.tabs[index] = temp;
+        if (index > 0 && x < -sizes[index - 1]) {
+          console.log('switching left');
+          this.$refs.tabSwitcher.setAttribute('switchedCurrentTick', true);
+          [this.tabs[index - 1], this.tabs[index]] = [this.tabs[index], this.tabs[index - 1]];
+          this.$forceUpdate();
+          this.$nextTick().then(() => {
+            this.$refs.tabElements.forEach(f => {f.resetDrag()});
+            //this.$refs.tabElements[index].resetDrag();
+            //this.$refs.tabElements[index - 1].resetDrag();
+            //this.$refs.tabSwitcher.setAttribute('switchedCurrentTick', false);
+          });
         }
-        else if (index < sizes.length && x > sizes[index + 1] / 2) {
-          var temp = this.tabs[index];
-          this.tabs[index] = this.tabs[index + 1];
-          this.tabs[index + 1] = temp;
+        else if (index < sizes.length && x > sizes[index - -1]) {
+          console.log('switching right');
+          this.$refs.tabSwitcher.setAttribute('switchedCurrentTick', true);
+          [this.tabs[index - -1], this.tabs[index]] = [this.tabs[index], this.tabs[index - -1]];
+          this.$forceUpdate();
+          this.$nextTick().then(() => {
+            this.$refs.tabElements.forEach(f => {f.resetDrag()});
+            //this.$refs.tabSwitcher.setAttribute('switchedCurrentTick', false);
+          });
         }
-
-
       }
     }
   }

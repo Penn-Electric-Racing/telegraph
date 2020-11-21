@@ -11,6 +11,7 @@ import { faCogs, faWifi, faTimes, faSlidersH,
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+
 library.add(faTimes, faWifi, faCogs, faEdit, faFolderOpen, faColumns,
             faBox, faPlus, faSlidersH, faCubes, faChartBar, faTasks,
             faTrash, faTrashAlt, faExchangeAlt, faQuestion, faServer,

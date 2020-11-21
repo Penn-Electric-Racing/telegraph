@@ -33,14 +33,12 @@
       const element = this.$refs.tabHeader
       if (this.draggable) {
         interact(element)
-        .draggable({ maunualStart: true})
+        .draggable(true)
         .on('dragmove', (event) => {
-          var x = parseFloat(event.target.getAttribute('data-x') || 0) + event.dx;
-          event.target.setAttribute('data-x', x);
-          this.$emit('tabMoved', this.tab.id, x);
+            this.dragMove(event);
         })
-        .on('dragend', (event) => {
-          event.target.setAttribute('data-x', 0);
+        .on('dragend',(event) => {
+            this.dragEnd(event);
         });
       }
     },
@@ -65,6 +63,32 @@
       },
       renameTab(id, newName) {
         this.$emit('renamed', id, newName)
+      },
+      resetDrag() {
+        this.$refs.tabHeader.setAttribute('data-x', 0);
+        interact(this.$refs.tabHeader).draggable(true)
+        .on('dragmove', (event) => {
+            this.dragMove(event);
+        })
+        .on('dragend',(event) => {
+            this.dragEnd(event);
+        });
+        //console.log('tab' + this.tab.name + ' data-x' + this.$refs.tabHeader.getAttribute('data-x'));
+      },
+      dragMove(event) {
+        if(event.target.getAttribute('starting-id') == null ||
+          event.target.getAttribute('starting-id') == "null") event.target.setAttribute('starting-id', this.tab.id);
+        var startingId = event.target.getAttribute('starting-id');
+        var data_x = (parseFloat(event.target.getAttribute('data-x')) || 0);
+        var x =  data_x + event.dx;
+        //console.log('event dx: ' + event.dx);
+        event.target.setAttribute('data-x', x);
+        //console.log('data-x later ' + event.target.getAttribute('data-x'));
+        this.$emit('tabMoved', startingId, x, data_x);
+      },
+      dragEnd(event) {
+        event.target.setAttribute('data-x', 0);
+        event.target.setAttribute('starting-id', null);
       }
     }
   }
