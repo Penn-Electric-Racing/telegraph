@@ -22,10 +22,10 @@ def telegraph_deps():
         strip_prefix = "protobuf-3.11.2",
         urls=["https://github.com/protocolbuffers/protobuf/archive/v3.11.2.zip"]
     )
-    
+
     http_archive(
         name = "com_github_nelhage_rules_boost",
         sha256 = "5160110f1700dee958a07c226ea7d9cc51d510328e977a3bcb0f3c9539e36ad6",
         strip_prefix = "rules_boost-master",
-        urls=["https://github.com/Penn-Electric-Racing/rules_boost/archive/master.zip"]
+        urls=["https://github.com/Penn-Electric-Racing/rules_boost/archive/53276db9d8971782ab51a20ae32271b2d12fd0e1.zip"]
     )
