@@ -5,7 +5,7 @@
         <TabElement v-for="tab in tabs" :tab="tab"
         :closeable="closeable" :editable="editable" :draggable="draggable"
         :active="tab.id==active" @selected="selected" @closed="closed"
-        @tabMoved="tabMoved" @renamed="renamed" ref="tabElements">
+        @tabMoved="tabMoved" @renamed="renamed" @resetDrag="resetDrag" ref="tabElements">
         </TabElement>
       </div>
     </ScrollArea>
@@ -38,19 +38,23 @@
       renamed(id, newName) {
         this.$emit('renamed', id, newName);
       },
-      tabMoved(id, x, data_x){
-        if (this.$refs.tabSwitcher.getAttribute('switchedCurrentTick') == 'true' && data_x == 0) {
-          console.log('switched!');
-          this.$refs.tabSwitcher.setAttribute('switchedCurrentTick', false);
-          return;
-        }
-        else {
-          console.log(this.$refs.tabSwitcher.getAttribute('switchedCurrentTick'));
-        }
+      tabMoved(id, x, target) {
+        console.log('x: ' + x);
+        //if (!this.$refs.tabSwitcher.getAttribute('switchedWidth'))
+        //  this.$refs.tabSwitcher.setAttribute('switchedWidth', 0);
+
+        //if (this.$refs.tabSwitcher.getAttribute('switchedWidth') != 0) {
+        //  var data_x = parseFloat(target.getAttribute('data-x'));
+        //  var switchedWidth = parseFloat(this.$refs.tabSwitcher.getAttribute('switchedWidth'));
+        //  console.log('switchedWidth' + switchedWidth);
+        //  target.setAttribute('data-x', data_x - switchedWidth);
+        //  this.$refs.tabSwitcher.setAttribute('switchedWidth', 0);
+        //  return;
+        //}
         //console.log(x);
         var sizes = this.$refs.tabElements.map( (f) => {
           return f.$el.clientWidth
-        });;
+        });
         var index;
         for (var i in this.tabs) {
           if (this.tabs[i].id == id) {
@@ -58,28 +62,29 @@
             break;
           }
         }
+        for(var i = 0; i < sizes.length ; i++){
+    console.log(sizes[i])
+}
         if (index > 0 && x < -sizes[index - 1]) {
           console.log('switching left');
-          this.$refs.tabSwitcher.setAttribute('switchedCurrentTick', true);
+          var data_x = parseFloat(target.getAttribute('data-x'));
+          target.setAttribute('data-x', data_x - -sizes[index - 1]);
+          this.$refs.tabSwitcher.setAttribute('switchedWidth', -sizes[index - 1]);
           [this.tabs[index - 1], this.tabs[index]] = [this.tabs[index], this.tabs[index - 1]];
           this.$forceUpdate();
-          this.$nextTick().then(() => {
-            this.$refs.tabElements.forEach(f => {f.resetDrag()});
-            //this.$refs.tabElements[index].resetDrag();
-            //this.$refs.tabElements[index - 1].resetDrag();
-            //this.$refs.tabSwitcher.setAttribute('switchedCurrentTick', false);
-          });
         }
         else if (index < sizes.length && x > sizes[index - -1]) {
           console.log('switching right');
-          this.$refs.tabSwitcher.setAttribute('switchedCurrentTick', true);
+          var data_x = parseFloat(target.getAttribute('data-x'));
+          target.setAttribute('data-x', data_x - sizes[index - 1]);
+          this.$refs.tabSwitcher.setAttribute('switchedWidth', sizes[index - -1]);
           [this.tabs[index - -1], this.tabs[index]] = [this.tabs[index], this.tabs[index - -1]];
           this.$forceUpdate();
-          this.$nextTick().then(() => {
-            this.$refs.tabElements.forEach(f => {f.resetDrag()});
-            //this.$refs.tabSwitcher.setAttribute('switchedCurrentTick', false);
-          });
         }
+      },
+      resetDrag() {
+        console.log('resetting drag');
+        this.$refs.tabElements.forEach(f => {f.resetDrag()});
       }
     }
   }

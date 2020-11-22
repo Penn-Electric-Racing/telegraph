@@ -34,12 +34,9 @@
       if (this.draggable) {
         interact(element)
         .draggable(true)
-        .on('dragmove', (event) => {
-            this.dragMove(event);
-        })
-        .on('dragend',(event) => {
-            this.dragEnd(event);
-        });
+        .on('dragmove', this.dragMove)
+        .on('dragend', this.dragEnd);
+        element.setAttribute('starting', false);
       }
     },
     methods: {
@@ -65,14 +62,11 @@
         this.$emit('renamed', id, newName)
       },
       resetDrag() {
-        this.$refs.tabHeader.setAttribute('data-x', 0);
+        this.$refs.tabHeader.setAttribute('starting', true);
         interact(this.$refs.tabHeader).draggable(true)
-        .on('dragmove', (event) => {
-            this.dragMove(event);
-        })
-        .on('dragend',(event) => {
-            this.dragEnd(event);
-        });
+        .on('dragmove', this.dragMove)
+        .on('dragend', this.dragEnd);
+        this.$refs.tabHeader.setAttribute('starting', false);
         //console.log('tab' + this.tab.name + ' data-x' + this.$refs.tabHeader.getAttribute('data-x'));
       },
       dragMove(event) {
@@ -84,11 +78,15 @@
         //console.log('event dx: ' + event.dx);
         event.target.setAttribute('data-x', x);
         //console.log('data-x later ' + event.target.getAttribute('data-x'));
-        this.$emit('tabMoved', startingId, x, data_x);
+        this.$emit('tabMoved', startingId, x, event.target);
       },
       dragEnd(event) {
-        event.target.setAttribute('data-x', 0);
-        event.target.setAttribute('starting-id', null);
+        if (this.$refs.tabHeader.getAttribute('starting') == false ||
+          !this.$refs.tabHeader.getAttribute('starting')) {
+          console.log('not running');
+          event.target.setAttribute('starting-id', null);
+          this.$emit('resetDrag');
+        }
       }
     }
   }
