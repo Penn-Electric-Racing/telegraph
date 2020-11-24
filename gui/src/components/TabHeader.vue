@@ -20,7 +20,7 @@
   import ScrollArea from './ScrollArea.vue'
   import interact from 'interactjs'
   export default {
-    name: 'TabElement',
+    name: 'TabHeader',
     components: { TabArea, ScrollArea },
     props: {
       tab: Object,
