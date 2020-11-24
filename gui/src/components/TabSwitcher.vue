@@ -2,11 +2,11 @@
   <div class="tabSwitcher" ref="tabSwitcher">
     <ScrollArea horizontalWheel>
       <div class="tabsList">
-        <TabHeader v-for="tab in tabs" :tab="tab"
+        <TabElement v-for="tab in tabs" :tab="tab"
         :closeable="closeable" :editable="editable" :draggable="draggable"
         :active="tab.id==active" @selected="selected" @closed="closed"
         @tabMoved="tabMoved" @renamed="renamed" @resetDrag="resetDrag" ref="tabElements">
-        </TabHeader>
+        </TabElement>
       </div>
     </ScrollArea>
   </div>
@@ -16,7 +16,7 @@
   import TabArea from './TabArea.vue'
   import ScrollArea from './ScrollArea.vue'
   import interact from 'interactjs'
-  import TabHeader from './TabHeader.vue'
+  import TabElement from './TabElement.vue'
 
   export default {
     name: 'TabSwitcher',
