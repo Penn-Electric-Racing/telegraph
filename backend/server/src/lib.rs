@@ -3,6 +3,7 @@ use tokio::net::TcpStream;
 use anyhow::{anyhow, Context, Result};
 use prost::Message as _; // Import the message trait so that we can decode `Packet`s
 
+pub mod types;
 pub mod nodes;
 // Disable clippy warnings for generated code, since we can't control/fix them
 #[allow(clippy::all)]

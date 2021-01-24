@@ -2,12 +2,14 @@ use std::collections::HashMap;
 use std::fmt;
 use std::rc::{Rc, Weak};
 
+use crate::types::Type;
 use crate::wire;
-
 
 /*
  * Node: things common to every node type
  */
+
+// TODO: according to the protobuf this is an i32?
 
 /// We use unsigned 16-bit integers to store the ID for a node
 pub type NodeID = u16;
@@ -114,29 +116,19 @@ impl Node {
 
     //         virtual void set_unowned() { owner_.reset(); }
 
-    // TODO: Why do we need compatible_with?
-    // fn compatible_with(&self, other: Node) -> bool {
-    //     match &self.node_type {
-    //         NodeType::Group(group) => {
-    //             if let NodeType::Group(other_group) = &other.node_type {
-    //                 // TODO: check if the children are compatible with each other
-    //                 let children_compatible = true;
-    //                 children_compatible && self.name == other.name && self.pretty == other.pretty && self.desc == other.desc
-    //             } else {
-    //                 false
-    //             }
-    //         }
-    //     }
-    // }
-
     /// Deserialize this node from a protobuf node
     pub fn unpack(_proto: wire::Node) -> Self {
-        panic!("Unimplemented: Node::unpack");
+        unimplemented!()
     }
 
     /// Serialize this node back into a protobuf node
     pub fn pack(&self) -> wire::Node {
-        panic!("Unimplemented: Node::pack");
+        match self {
+            Node::Group(group) => group.pack(),
+            Node::Variable(variable) => variable.pack(),
+            Node::Action(action) => action.pack(),
+            Node::Placeholder(placeholder) => placeholder.pack(),
+        }
     }
 
     /// The type of this node, as a string
@@ -179,8 +171,6 @@ impl fmt::Display for Node {
     }
 }
 
-// TODO: should I break these out into separate files?
-
 /*
  * Groups
  */
@@ -191,6 +181,30 @@ pub struct Group {
     // TODO: should this be a vector? And then we store an auxiliary hashmap? That's the way that
     // the C++ does it, but I don't see any advantage to doing it that way
     pub children: HashMap<String, Rc<Node>>,
+
+    pub schema: String,
+    pub version: i32,
+}
+
+impl Group {
+    pub fn pack_children(&self) -> Vec<wire::Node> {
+        unimplemented!()
+    }
+
+    /// Serialize this node back into a protobuf node
+    pub fn pack(&self) -> wire::Node {
+        wire::Node {
+            node: Some(wire::node::Node::Group(wire::Group {
+                id: self.info.id as i32,
+                name: self.info.name.clone(),
+                pretty: self.info.pretty.clone(),
+                desc: self.info.desc.clone(),
+                schema: self.schema.clone(),
+                version: self.version,
+                children: self.pack_children(),
+            })),
+        }
+    }
 }
 
 // TODO: figure out how to make indexing work. Do we want to be able to index by ints?
@@ -336,8 +350,6 @@ pub struct Group {
 
 //     inline size_t num_children() const { return children_.size(); }
 
-//     bool compatible_with(node* other) const override;
-
 //     void pack(Group* group) const;
 //     virtual void pack(Node* proto) const override;
 //     static group* unpack(const Group& g);
@@ -382,6 +394,31 @@ pub struct Group {
 /// An action that can be called on the device associated with this tree.
 pub struct Action {
     info: NodeInfo,
+    arg_type: Option<Type>,
+    ret_type: Option<Type>,
+}
+
+impl Action {
+    pub fn arg_type(&self) -> &Option<Type> {
+        &self.arg_type
+    }
+
+    pub fn ret_type(&self) -> &Option<Type> {
+        &self.ret_type
+    }
+
+    pub fn pack(&self) -> wire::Node {
+        wire::Node {
+            node: Some(wire::node::Node::Action(wire::Action {
+                id: self.info.id as i32,
+                name: self.info.name.clone(),
+                pretty: self.info.pretty.clone(),
+                desc: self.info.desc.clone(),
+                arg_type: self.arg_type.as_ref().map(|t| t.pack()),
+                ret_type: self.ret_type.as_ref().map(|t| t.pack()),
+            })),
+        }
+    }
 }
 
 // class action : public node {
@@ -396,8 +433,6 @@ pub struct Action {
 //         ret_type_(a.get_ret_type()) {}
 //     const value_type& get_arg_type() const { return arg_type_; }
 //     const value_type& get_ret_type() const { return ret_type_; }
-
-//     bool compatible_with(node* other) const override;
 
 //     void pack(Action* proto) const;
 //     virtual void pack(Node* proto) const override;
@@ -419,6 +454,21 @@ pub struct Action {
 /// A variable containing information about the device associated with this tree.
 pub struct Variable {
     info: NodeInfo,
+    data_type: Option<Type>,
+}
+
+impl Variable {
+    pub fn pack(&self) -> wire::Node {
+        wire::Node {
+            node: Some(wire::node::Node::Var(wire::Variable {
+                id: self.info.id as i32,
+                name: self.info.name.clone(),
+                pretty: self.info.pretty.clone(),
+                desc: self.info.desc.clone(),
+                data_type: self.data_type.as_ref().map(|t| t.pack()),
+            })),
+        }
+    }
 }
 
 // class variable : public node {
@@ -456,3 +506,11 @@ pub struct Variable {
   placeholders at the end.
 */
 pub struct Placeholder(NodeID);
+
+impl Placeholder {
+    pub fn pack(&self) -> wire::Node {
+        wire::Node {
+            node: Some(wire::node::Node::Placeholder(self.0 as i32)),
+        }
+    }
+}
