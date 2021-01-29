@@ -101,6 +101,7 @@ import DashboardsPage from './pages/DashboardsPage.vue'
 import LogsPage from './pages/LogsPage.vue'
 import SettingsPage from './pages/SettingsPage.vue'
 
+
 // interface components
 import Burger from './Burger.vue'
 import Dashboard from './dashboard/Dashboard.vue'
@@ -122,6 +123,7 @@ export default {
 
     Burger, Dashboard
   },
+  
   data () {
     var namespace = new Client();
     return {
@@ -154,7 +156,6 @@ export default {
       relay: null
     }
   },
-
   computed : {
     loadedTabs() {
       let loaded = [];

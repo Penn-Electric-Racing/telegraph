@@ -44,30 +44,31 @@
         //  this.$refs.tabSwitcher.setAttribute('switchedWidth', 0);
 
         //if (this.$refs.tabSwitcher.getAttribute('switchedWidth') != 0) {
-        //  var data_x = parseFloat(target.getAttribute('data-x'));
-        //  var switchedWidth = parseFloat(this.$refs.tabSwitcher.getAttribute('switchedWidth'));
+        //  let data_x = parseFloat(target.getAttribute('data-x'));
+        //  let switchedWidth = parseFloat(this.$refs.tabSwitcher.getAttribute('switchedWidth'));
         //  console.log('switchedWidth' + switchedWidth);
         //  target.setAttribute('data-x', data_x - switchedWidth);
         //  this.$refs.tabSwitcher.setAttribute('switchedWidth', 0);
         //  return;
         //}
         //console.log(x);
-        var sizes = this.$refs.tabElements.map( (f) => {
+        let tabs = this.$store.tabs;
+        let sizes = this.$refs.tabElements.map( (f) => {
           return f.$el.clientWidth
         });
-        var index;
-        for (var i in this.tabs) {
+        let index;
+        for (let i in this.tabs) {
           if (this.tabs[i].id == id) {
             index = i;
             break;
           }
         }
-        for(var i = 0; i < sizes.length ; i++){
-    console.log(sizes[i])
-}
+        for(let i = 0; i < sizes.length ; i++){
+          console.log(sizes[i])
+        }
         if (index > 0 && x < -sizes[index - 1]) {
           console.log('switching left');
-          var data_x = parseFloat(target.getAttribute('data-x'));
+          let data_x = parseFloat(target.getAttribute('data-x'));
           target.setAttribute('data-x', data_x - -sizes[index - 1]);
           this.$refs.tabSwitcher.setAttribute('switchedWidth', -sizes[index - 1]);
           [this.tabs[index - 1], this.tabs[index]] = [this.tabs[index], this.tabs[index - 1]];
@@ -75,7 +76,7 @@
         }
         else if (index < sizes.length && x > sizes[index - -1]) {
           console.log('switching right');
-          var data_x = parseFloat(target.getAttribute('data-x'));
+          let data_x = parseFloat(target.getAttribute('data-x'));
           target.setAttribute('data-x', data_x - sizes[index - 1]);
           this.$refs.tabSwitcher.setAttribute('switchedWidth', sizes[index - -1]);
           [this.tabs[index - -1], this.tabs[index]] = [this.tabs[index], this.tabs[index - -1]];
