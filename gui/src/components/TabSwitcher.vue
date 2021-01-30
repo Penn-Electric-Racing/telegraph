@@ -2,7 +2,7 @@
   <div class="tabSwitcher" ref="tabSwitcher">
     <ScrollArea horizontalWheel>
       <div class="tabsList">
-        <TabElement v-for="tab in tabs" :tab="tab"
+        <TabElement v-for="tab in tabs" :tab="tab" :key="tab.id"
         :closeable="closeable" :editable="editable" :draggable="draggable"
         :active="tab.id==active" @selected="selected" @closed="closed"
         @tabMoved="tabMoved" @renamed="renamed" @resetDrag="resetDrag" ref="tabElements">
@@ -39,7 +39,6 @@
         this.$emit('renamed', id, newName);
       },
       tabMoved(id, x, target) {
-        console.log('x: ' + x);
         //if (!this.$refs.tabSwitcher.getAttribute('switchedWidth'))
         //  this.$refs.tabSwitcher.setAttribute('switchedWidth', 0);
 
@@ -52,7 +51,6 @@
         //  return;
         //}
         //console.log(x);
-        let tabs = this.$store.tabs;
         let sizes = this.$refs.tabElements.map( (f) => {
           return f.$el.clientWidth
         });
@@ -63,11 +61,8 @@
             break;
           }
         }
-        for(let i = 0; i < sizes.length ; i++){
-          console.log(sizes[i])
-        }
         if (index > 0 && x < -sizes[index - 1]) {
-          console.log('switching left');
+          // console.log('switching left');
           let data_x = parseFloat(target.getAttribute('data-x'));
           target.setAttribute('data-x', data_x - -sizes[index - 1]);
           this.$refs.tabSwitcher.setAttribute('switchedWidth', -sizes[index - 1]);
@@ -75,7 +70,7 @@
           this.$forceUpdate();
         }
         else if (index < sizes.length && x > sizes[index - -1]) {
-          console.log('switching right');
+          // console.log('switching right');
           let data_x = parseFloat(target.getAttribute('data-x'));
           target.setAttribute('data-x', data_x - sizes[index - 1]);
           this.$refs.tabSwitcher.setAttribute('switchedWidth', sizes[index - -1]);

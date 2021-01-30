@@ -83,7 +83,7 @@
       dragEnd(event) {
         if (this.$refs.tabHeader.getAttribute('starting') == false ||
           !this.$refs.tabHeader.getAttribute('starting')) {
-          console.log('not running');
+          // console.log('not running');
           event.target.setAttribute('starting-id', null);
           this.$emit('resetDrag');
         }
