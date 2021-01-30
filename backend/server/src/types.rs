@@ -1,6 +1,7 @@
 use std::fmt;
 
 use crate::wire;
+use crate::errors::UnpackError;
 
 /// The possible 'type classes' that we care about for actions & variables
 pub enum TypeClass {
@@ -56,7 +57,7 @@ impl fmt::Display for Type {
 
         // If the type has a name and it's not an enum, just tag it on at the end
         if !self.is_enum() && self.name.len() > 0 {
-            write!(f, " ({})", self.name);
+            write!(f, " ({})", self.name)?;
         };
 
         Ok(())
@@ -104,8 +105,14 @@ impl Type {
         proto
     }
 
-    pub fn unpack(proto: &wire::Type) -> Self {
-        Type {
+    pub fn unpack(proto: &wire::Type) -> Result<Self, UnpackError> {
+        // Error if we have a non-enum type with labels, so that we don't have any weird bugs later
+        // expecting this.
+        if proto.r#type() != wire::r#type::Class::Enum && proto.labels.len() > 0 {
+            return Err(UnpackError::LabelsError)
+        }
+
+        Ok(Type {
             name: proto.name.clone(),
 
             type_class: match proto.r#type() {
@@ -125,7 +132,7 @@ impl Type {
                 wire::r#type::Class::Float => TypeClass::Float,
                 wire::r#type::Class::Double => TypeClass::Double,
             },
-        }
+        })
     }
 }
 

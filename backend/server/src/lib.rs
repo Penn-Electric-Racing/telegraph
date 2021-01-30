@@ -1,10 +1,11 @@
-use futures_util::StreamExt;
-use tokio::net::TcpStream;
 use anyhow::{anyhow, Context, Result};
-use prost::Message as _; // Import the message trait so that we can decode `Packet`s
+use futures_util::StreamExt;
+use prost::Message as _;
+use tokio::net::TcpStream; // Import the message trait so that we can decode `Packet`s
 
-pub mod types;
+pub mod errors;
 pub mod nodes;
+pub mod types;
 // Disable clippy warnings for generated code, since we can't control/fix them
 #[allow(clippy::all)]
 pub mod wire;

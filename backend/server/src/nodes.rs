@@ -1,7 +1,6 @@
-use std::collections::HashMap;
 use std::fmt;
-use std::rc::{Rc, Weak};
 
+use crate::errors::UnpackError;
 use crate::types::Type;
 use crate::wire;
 
@@ -95,15 +94,12 @@ impl Node {
 
     // fn from_path(&self, p: &Vec<&str>, idx: usize) -> Weak<dyn Node>;
 
-    pub fn children(&self) -> Vec<Weak<Node>> {
+    // pub fn children(&self) -> Vec<Weak<Node>> {
+    pub fn children(&self) -> Option<&Vec<Node>> {
         if let Node::Group(group) = self {
-            group
-                .children
-                .values()
-                .map(|child| Rc::downgrade(child))
-                .collect()
+            Some(&group.children)
         } else {
-            vec![]
+            None
         }
     }
 
@@ -117,8 +113,17 @@ impl Node {
     //         virtual void set_unowned() { owner_.reset(); }
 
     /// Deserialize this node from a protobuf node
-    pub fn unpack(_proto: wire::Node) -> Self {
-        unimplemented!()
+    pub fn unpack(proto: &wire::Node) -> Result<Self, UnpackError> {
+        use wire::node::Node as wNode;
+        match &proto.node {
+            None => Err(UnpackError::NoneError),
+            Some(wNode::Group(group)) => Ok(Node::Group(Group::unpack(&group)?)),
+            Some(wNode::Var(var)) => Ok(Node::Variable(Variable::unpack(&var)?)),
+            Some(wNode::Action(action)) => Ok(Node::Action(Action::unpack(&action)?)),
+            Some(wNode::Placeholder(placeholder)) => {
+                Ok(Node::Placeholder(Placeholder::unpack(*placeholder)))
+            }
+        }
     }
 
     /// Serialize this node back into a protobuf node
@@ -180,7 +185,9 @@ pub struct Group {
     info: NodeInfo,
     // TODO: should this be a vector? And then we store an auxiliary hashmap? That's the way that
     // the C++ does it, but I don't see any advantage to doing it that way
-    pub children: HashMap<String, Rc<Node>>,
+    // pub children: HashMap<String, Rc<Node>>,
+    // TODO: for now I am making this a vector, but I am still not convinced which it should be
+    pub children: Vec<Node>,
 
     pub schema: String,
     pub version: i32,
@@ -204,6 +211,25 @@ impl Group {
                 children: self.pack_children(),
             })),
         }
+    }
+
+    /// Deserialize this node from a protobuf node
+    pub fn unpack(group: &wire::Group) -> Result<Self, UnpackError> {
+        Ok(Group {
+            info: NodeInfo {
+                id: group.id as NodeID,
+                name: group.name.clone(),
+                pretty: group.pretty.clone(),
+                desc: group.desc.clone(),
+            },
+            children: group
+                .children
+                .iter()
+                .flat_map(|node| Node::unpack(node))
+                .collect(),
+            schema: group.schema.clone(),
+            version: group.version,
+        })
     }
 }
 
@@ -419,6 +445,25 @@ impl Action {
             })),
         }
     }
+
+    pub fn unpack(proto: &wire::Action) -> Result<Self, UnpackError> {
+        Ok(Action {
+            info: NodeInfo {
+                id: proto.id as NodeID,
+                name: proto.name.clone(),
+                pretty: proto.pretty.clone(),
+                desc: proto.desc.clone(),
+            },
+            arg_type: match &proto.arg_type {
+                None => None,
+                Some(t) => Some(Type::unpack(&t)?)
+            },
+            ret_type: match &proto.ret_type {
+                None => None,
+                Some(t) => Some(Type::unpack(&t)?)
+            }
+        })
+    }
 }
 
 // class action : public node {
@@ -469,6 +514,21 @@ impl Variable {
             })),
         }
     }
+
+    pub fn unpack(proto: &wire::Variable) -> Result<Self, UnpackError> {
+        Ok(Variable {
+            info: NodeInfo {
+                id: proto.id as NodeID,
+                name: proto.name.clone(),
+                pretty: proto.pretty.clone(),
+                desc: proto.desc.clone(),
+            },
+            data_type: match &proto.data_type {
+                None => None,
+                Some(t) => Some(Type::unpack(&t)?)
+            }
+        })
+    }
 }
 
 // class variable : public node {
@@ -512,5 +572,9 @@ impl Placeholder {
         wire::Node {
             node: Some(wire::node::Node::Placeholder(self.0 as i32)),
         }
+    }
+
+    pub fn unpack(proto: i32) -> Self {
+        Placeholder(proto as NodeID)
     }
 }
