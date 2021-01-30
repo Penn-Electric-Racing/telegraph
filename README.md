@@ -23,6 +23,7 @@ Install yarn, npm, and node > 13
 
 Go into the js directory
 ```bash
+yarn install
 yarn generate
 yarn link
 ```
@@ -41,3 +42,11 @@ To run as an electron app, do
 ```bash
 yarn electron:serve
 ```
+
+To debug go to contexts (box icon) and click the addition symbol
+```
+Name: live
+Type: dummy_device
+Parameters: 
+```
+This will create 3 variables that produce random values which can be graphed or monitored for debugging purposes
