@@ -17,7 +17,7 @@ def _doxygen_archive_impl(ctx):
     ctx.actions.run_shell(
         inputs = ctx.files.srcs + ctx.files.mcss + [doxyfile],
         outputs = [out_file],
-        command = ["./external/m.css/documentation/doxygen.py", doxyfile.path],
+        command = "./external/m.css/documentation/doxygen.py '" + doxyfile.path + "'",
         env = {
             "TARBALL": out_file.path
         }
