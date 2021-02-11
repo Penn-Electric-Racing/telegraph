@@ -166,6 +166,7 @@ import Dashboard from "./dashboard/Dashboard.vue";
 
 import uuidv4 from "uuid/v4";
 import Vue from "vue";
+import { mapGetters, mapState } from "vuex";
 
 import { Client, NamespaceQuery } from "telegraph";
 
@@ -210,8 +211,8 @@ export default {
 			//
 			// tabs can also have the optional offload=true/false
 			// which, if true will destroy the component when not shown
-			tabs: [],
-			activeTab: null, // the active tab ID
+			// tabs: this.$store.getters["tabs/getTabs"],
+			// activeTab: this.$store.getters["tabs/getActiveTab"], // the active tab ID
 
 			dashboards: {}, // uuid -> data map
 
@@ -221,6 +222,20 @@ export default {
 		};
 	},
 	computed: {
+		// ...mapState("tabs", {
+		// 	activeTab: (state) => state.activeTab,
+		// 	tabs: (state) => state.tabs,
+		// }),
+		...mapGetters("tabs", {
+			activeTab: "getActiveTab",
+			tabs: "getTabs",
+		}),
+		// activeTab() {
+		// 	return this.$store.state.tabs.activeTab;
+		// },
+		// tabs() {
+		// 	return this.$store.state.tabs.tabs;
+		// },
 		loadedTabs() {
 			let loaded = [];
 			for (let t of this.tabs) {
@@ -263,7 +278,7 @@ export default {
 					id: id,
 				})
 			);
-			if (this.activeTab == null) this.activeTab = id;
+			if (this.activeTab == "") this.$store.dispatch("tabs/editActiveTab", id);
 		},
 
 		newTab(obj) {
@@ -272,11 +287,12 @@ export default {
 				if (t.id == obj.id) return;
 			}
 			this.tabs.push(Vue.observable(obj));
-			if (this.activeTab == null) this.activeTab = obj.id;
+			if (this.activeTab == "")
+				this.$store.dispatch("tabs/editActiveTab", obj.id);
 		},
 
 		selectTab(id) {
-			this.activeTab = id;
+			this.$store.dispatch("tabs/editActiveTab", id);
 		},
 		closeTab(id) {
 			this.tabs.splice(

@@ -76,8 +76,8 @@ export default {
 			this.requestStopEdit(e, id);
 		},
 		selectTab(id) {
-			console.log("store: "); //-----------------------------VUEX testing
-			console.log(this.$store);
+			// console.log("store: "); //-----------------------------VUEX testing
+			// console.log(this.$store);
 			let currentValue = this.$store.getters["tabs/getTesting"];
 			console.log(currentValue);
 			console.log("incrementing test value");
