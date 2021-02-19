@@ -78,6 +78,6 @@ pub enum Params {
 
 impl From<Vec<String>> for Params {
     fn from(vec: Vec<String>) -> Self {
-        Params::List(vec.into_iter().map(|s| Params::Str(s)).collect())
+        Params::List(vec.into_iter().map(Params::Str).collect())
     }
 }

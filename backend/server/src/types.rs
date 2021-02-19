@@ -34,11 +34,11 @@ impl fmt::Display for Type {
             TypeClass::Enum(labels) => {
                 write!(f, "enum")?;
 
-                if self.name.len() > 0 {
+                if !self.name.is_empty() {
                     write!(f, "/{}", self.name)?;
                 }
 
-                if labels.len() > 0 {
+                if !labels.is_empty() {
                     write!(f, " [{}]", labels.join(", "))?;
                 }
             }
@@ -56,7 +56,7 @@ impl fmt::Display for Type {
         }
 
         // If the type has a name and it's not an enum, just tag it on at the end
-        if !self.is_enum() && self.name.len() > 0 {
+        if !self.is_enum() && !self.name.is_empty() {
             write!(f, " ({})", self.name)?;
         };
 
@@ -66,11 +66,7 @@ impl fmt::Display for Type {
 
 impl Type {
     pub fn is_enum(&self) -> bool {
-        if let TypeClass::Enum(_) = &self.type_class {
-            true
-        } else {
-            false
-        }
+        matches!(&self.type_class, TypeClass::Enum(_))
     }
 
     pub fn pack(&self) -> wire::Type {
@@ -108,7 +104,7 @@ impl Type {
     pub fn unpack(proto: &wire::Type) -> Result<Self, UnpackError> {
         // Error if we have a non-enum type with labels, so that we don't have any weird bugs later
         // expecting this.
-        if proto.r#type() != wire::r#type::Class::Enum && proto.labels.len() > 0 {
+        if proto.r#type() != wire::r#type::Class::Enum && !proto.labels.is_empty() {
             return Err(UnpackError::LabelsError)
         }
 
