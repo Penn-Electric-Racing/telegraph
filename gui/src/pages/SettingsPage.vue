@@ -1,5 +1,7 @@
 <template>
-	<ScrollArea> <SettingsView /> </ScrollArea>
+	<ScrollArea>
+		<SettingsView title="Appearance" :entries="appearanceEntries" />
+	</ScrollArea>
 </template>
 
 <script>
@@ -10,5 +12,13 @@ export default {
 	name: "SettingsPage",
 	components: { ScrollArea, SettingsView },
 	props: {},
+	data() {
+		return {
+			appearanceEntries: [
+				{ title: "Theme (dark/light)", type: "toggle" },
+				{ title: "Version", type: "info", infoMessage: "0.0.1" },
+			],
+		};
+	},
 };
 </script>

@@ -1,27 +1,30 @@
 <template>
-	<Bubble hasContent>
+	<Bubble hasContent ref="SettingsView">
 		<template v-slot:header>
 			<div class="items header-items">
-				<span> {{ "Appearance" }} </span>
+				<span> {{ title }} </span>
 			</div>
 		</template>
 		<template v-slot:content>
-			<div class="items content-items">
+			<div
+				class="items content-items"
+				v-for="entry in entries"
+				:key="entry.title"
+			>
 				<span class="content-type">
-					{{ "Theme (dark/light)" }}
+					{{ entry.title }}
 				</span>
+				<!-- if it is a toggle  -->
 				<toggle-button
+					v-if="entry.type == 'toggle'"
 					:value="false"
 					:color="{ checked: '#1c8ed7', unchecked: '#5e6870' }"
 					:width="50"
 					:height="20"
 				/>
-			</div>
-			<div class="items content-items">
-				<span class="content-type">
-					{{ "Version" }}
+				<span v-if="entry.type == 'info'">
+					{{ entry.infoMessage }}
 				</span>
-				0.0.1
 			</div>
 		</template>
 	</Bubble>
@@ -32,25 +35,20 @@ import { Context } from "telegraph";
 
 import Bubble from "../components/Bubble.vue";
 
-// globally register the componentinfopage
-import ComponentInfoPage from "../pages/ComponentInfoPage.vue";
-import StreamRequestPage from "../pages/StreamRequestPage.vue";
-
 // import toggle switches
 import { ToggleButton } from "vue-js-toggle-button";
 
 import uuidv4 from "uuid/v4";
 import Vue from "vue";
 
-Vue.component("ComponentInfoPage", ComponentInfoPage);
-Vue.component("StreamRequestPage", StreamRequestPage);
 Vue.component("ToggleButton", ToggleButton);
 
 export default {
-	name: "ComponentView",
+	name: "SettingsView",
 	components: { Bubble },
 	props: {
-		// component: Context,
+		title: String,
+		entries: Array,
 	},
 	methods: {},
 };
