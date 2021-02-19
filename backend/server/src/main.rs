@@ -1,4 +1,3 @@
-
 use server::Server;
 
 use std::env;

@@ -3,7 +3,9 @@ use futures_util::StreamExt;
 use prost::Message as _;
 use tokio::net::TcpStream; // Import the message trait so that we can decode `Packet`s
 
+pub mod common;
 pub mod errors;
+pub mod local;
 pub mod nodes;
 pub mod types;
 // Disable clippy warnings for generated code, since we can't control/fix them
@@ -13,6 +15,7 @@ pub mod wire;
 pub struct Server {}
 
 impl Server {
+    // TODO: I think that this needs to take a namespace
     pub fn new() -> Server {
         Server {}
     }

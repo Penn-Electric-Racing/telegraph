@@ -19,6 +19,8 @@ log = "0.4"
 env_logger = "0.8.2"
 # Anyhow makes error handling more ergonomic
 anyhow = "1.0.35"
+# We use UUIDs for contexts. We need the v4 feature to randomly generate UUIDs
+uuid = { version = "0.8", features = ["v4"] }
 
 [build-dependencies]
 # Pull in prost-build for codegen
