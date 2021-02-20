@@ -53,7 +53,9 @@ export default {
 	methods: {},
 };
 </script>
-<style scoped>
+
+<style scoped lang="scss">
+@import "@/styles/theme-colors.scss";
 .items {
 	display: flex;
 	flex-direction: row;
@@ -71,7 +73,8 @@ export default {
 	justify-content: space-between;
 }
 .content-type {
-	color: #1c8ed7;
+	// color: #1c8ed7;
+	color: $primary;
 	width: 100%;
 }
 </style>

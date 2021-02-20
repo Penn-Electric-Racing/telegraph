@@ -15,10 +15,17 @@ export default {
 	data() {
 		return {
 			appearanceEntries: [
-				{ title: "Theme (dark/light)", type: "toggle" },
+				{
+					title: "Theme (dark/light)",
+					type: "toggle",
+					onSwitch: () => {
+						console.log("switching");
+					},
+				},
 				{ title: "Version", type: "info", infoMessage: "0.0.1" },
 			],
 		};
 	},
+	methods: {},
 };
 </script>
