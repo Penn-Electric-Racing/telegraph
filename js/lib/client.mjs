@@ -209,7 +209,7 @@ class RemoteContext extends Context {
               s.received.add((m) => {
                 if (m.cancel) adapter.close();
                 else if (m.subUpdate && adapter_type) {
-                  adapter.update({t: m.subUpdate.timestamp.toNumber(), v: Value.unpack(m.subUpdate.value, adapter_type)});
+                  adapter.update({t: parseInt(m.subUpdate.timestamp), v: Value.unpack(m.subUpdate.value, adapter_type)});
                 }
               });
               s.start();
