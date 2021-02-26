@@ -75,7 +75,7 @@ export default {
 }
 .content-type {
 	/* color: #1c8ed7; */
-	color: var(--test-color);
+	color: var(--accent-color);
 	width: 100%;
 }
 </style>

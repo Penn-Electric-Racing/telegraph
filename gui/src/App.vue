@@ -411,6 +411,7 @@ export default {
 </script>
 
 <style>
+@import "./assets/css/theme-colors.scss";
 html,
 body {
 	width: 100%;
@@ -437,8 +438,8 @@ body {
 	font-family: "Roboto", sans-serif, "Noto Color Emoji";
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background-color: #343c42;
-	color: #88939c;
+	background-color: var(--main-background-color);
+	color: var(--main-text-color);
 }
 #app-content {
 	z-index: 0;
@@ -455,7 +456,7 @@ body {
 #header-container {
 	height: 3rem;
 	width: 100%;
-	background-color: #272c30;
+	background-color: var(--secondary-background-color);
 
 	display: flex;
 	align-items: stretch;
@@ -472,14 +473,14 @@ body {
 }
 
 .header-button-container {
-	color: #5e6870;
+	color: var(--secondary-text-color);
 	display: flex;
 	align-items: center;
 	padding: 5px;
 }
 
 #new-tab:hover {
-	color: #1c8ed7;
+	color: var(--accent-color);
 }
 
 #content-container {
@@ -495,7 +496,7 @@ body {
 #content-area {
 	width: 100%;
 	height: 100%;
-	box-shadow: inset 1px 1px 5px 1px #272c30;
+	box-shadow: inset 1px 1px 5px 1px var(--main-box-shadow);
 }
 
 .Pane.column {
@@ -517,7 +518,7 @@ body {
 #sidebar {
 	height: 100%;
 	min-width: 220px;
-	background-color: #30363c;
+	background-color: var(--sidebar-background-color);
 
 	display: flex;
 	align-items: stretch;

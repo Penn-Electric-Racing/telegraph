@@ -130,18 +130,18 @@ export default {
 <style scoped>
 .tabHeader {
 	width: 100%;
-	color: #5e6870;
+	color: var(--tab-color);
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding-left: 0.3rem;
 	padding-right: 0.3rem;
-	border-bottom: 2px solid #5e6870;
+	border-bottom: 2px solid var(--tab-color);
 	touch-action: none;
 	flex-direction: row;
 }
 .tabClose {
-	color: #5e6870;
+	color: var(--tab-color);
 	margin-left: 5px;
 	transition: color 0.5s;
 }
@@ -149,9 +149,9 @@ export default {
 	color: #ed4949;
 }
 .tabHeader.active {
-	color: #ffffff;
-	background-color: #252a2e;
-	border-bottom: 2px solid #1c8ed7;
+	color: var(--contrast-color);
+	background-color: var(--secondary-background-color);
+	border-bottom: 2px solid var(--accent-color);
 }
 .tabName {
 	display: block;

@@ -107,9 +107,9 @@ export default {
 <style scoped>
 .tabsList {
 	box-sizing: border-box;
-	background-color: #272c30;
+	background-color: var(--secondary-background-color);
 
-	color: #5e6870;
+	color: var(--tab-color);
 	display: flex;
 	flex-direction: row;
 	justify-content: left;
