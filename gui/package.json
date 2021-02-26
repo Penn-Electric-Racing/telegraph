@@ -22,7 +22,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.8",
     "core-js": "^3.7.0",
     "node-sass": "^5.0.0",
-    "sass-loader": "10.1.1",
+    "sass-loader": "^11.0.1",
     "signals": "^1.0.0",
     "telegraph": "file:../js",
     "uplot": "^1.1.2",

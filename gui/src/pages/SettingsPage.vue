@@ -20,6 +20,15 @@ export default {
 					type: "toggle",
 					onSwitch: () => {
 						console.log("switching");
+						let htmlElement = document.documentElement;
+
+						// document.documentElement.setAttribute("theme", "dark");
+						// console.log(document.documentElement.getAttribute("theme"));
+						if (document.documentElement.getAttribute("theme") == "dark") {
+							document.documentElement.setAttribute("theme", null);
+						} else {
+							document.documentElement.setAttribute("theme", "dark");
+						}
 					},
 				},
 				{ title: "Version", type: "info", infoMessage: "0.0.1" },

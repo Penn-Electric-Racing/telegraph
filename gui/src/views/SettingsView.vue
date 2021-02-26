@@ -21,6 +21,7 @@
 					:color="{ checked: '#1c8ed7', unchecked: '#5e6870' }"
 					:width="50"
 					:height="20"
+					@change="entry.onSwitch"
 				/>
 				<span v-if="entry.type == 'info'">
 					{{ entry.infoMessage }}
@@ -54,8 +55,8 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-@import "@/styles/theme-colors.scss";
+<style scoped>
+@import "../assets/css/theme-colors.scss";
 .items {
 	display: flex;
 	flex-direction: row;
@@ -73,8 +74,8 @@ export default {
 	justify-content: space-between;
 }
 .content-type {
-	// color: #1c8ed7;
-	color: $primary;
+	/* color: #1c8ed7; */
+	color: var(--test-color);
 	width: 100%;
 }
 </style>
