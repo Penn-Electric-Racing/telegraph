@@ -43,7 +43,7 @@ export default {
 	flex-direction: column;
 	background-color: var(--sidebar-background-color);
 	border-radius: 6px;
-	box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+	box-shadow: 0 3px 9px var(--secondary-box-shadow);
 }
 .popup-header {
 	padding: 10px 5px 10px 5px;

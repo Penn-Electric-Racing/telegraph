@@ -327,12 +327,12 @@ uplot,
 
 .u-cursor-x {
 	height: 100%;
-	border-right: 1px dashed #98adb8;
+	border-right: 1px dashed var(--graph-border-color);
 }
 
 .u-cursor-y {
 	width: 100%;
-	border-bottom: 1px dashed #98adb8;
+	border-bottom: 1px dashed var(--graph-border-color);
 }
 
 .u-cursor-pt {

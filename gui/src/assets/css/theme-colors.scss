@@ -1,6 +1,8 @@
 :root {
 	--contrast-color: #ffffff;
+	--inverse-contrast-color: #000000;
 	--main-box-shadow: #272c30;
+	--secondary-box-shadow: #00000088;
 
 	--test-color: red;
 	--accent-color: #1c8ed7;
@@ -25,11 +27,15 @@
 	--button-active-color: #1843b9;
 
 	--graph-border-color: #98adb8;
+	--content-hover: #e5e5e5;
+	--node-record-icon: #3b4044;
 }
 
 [theme="dark"] {
 	--contrast-color: #000000;
+	--inverse-contrast-color: #ffffff;
 	--main-box-shadow: #ffffff;
+	--secondary-box-shadow: #ffffff88;
 
 	--test-color: purple;
 	--accent-color: #1c8ed7;
@@ -41,7 +47,7 @@
 	--tab-color: #707d88;
 
 	--textfield-color: #6f7981;
-	--textfield-border: #2b3136;
+	--textfield-border: #bbc1c7;
 	 
 	--sidebar-background-color: #c0cad4;
 	--panel-header-background: #d2e3ed;
@@ -54,4 +60,6 @@
 	--button-active-color: #1843b9;
 
 	--graph-border-color: #98adb8;
+	--content-hover: #555555;
+	--node-record-icon: #77848f;
 }
