@@ -24,10 +24,10 @@ export default {
 
 						// document.documentElement.setAttribute("theme", "dark");
 						// console.log(document.documentElement.getAttribute("theme"));
-						if (document.documentElement.getAttribute("theme") == "dark") {
+						if (document.documentElement.getAttribute("theme") == "light") {
 							document.documentElement.setAttribute("theme", null);
 						} else {
-							document.documentElement.setAttribute("theme", "dark");
+							document.documentElement.setAttribute("theme", "light");
 						}
 					},
 				},

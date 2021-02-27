@@ -32,16 +32,17 @@
 	--node-record-icon: #3b4044;
 }
 
-[theme="dark"] {
+[theme="light"] {
 	--contrast-color: #000000;
-	--inverse-contrast-color: #ffffff;
-	--main-box-shadow: #ffffff;
-	--secondary-box-shadow: #ffffff88;
+	--foo: #000000;
+	--inverse-contrast-color: #444444;
+	--main-box-shadow: #c8c8c8;
+	--secondary-box-shadow: #c8c7c788;
 
 	--test-color: purple;
 	--accent-color: #1c8ed7;
 	--main-background-color: #e6e6e6;
-	--secondary-background-color: #c6ced3;
+	--secondary-background-color: #d5d9e0;
 
 	--main-text-color: #272a2c;
 	--secondary-text-color: #5e6870;
@@ -50,7 +51,7 @@
 	--textfield-color: #6f7981;
 	--textfield-border: #d8dde2;
 	 
-	--sidebar-background-color: #c0cad4;
+	--sidebar-background-color: #c2cbd4;
 	--panel-header-background: #d2e3ed;
 	--button-background-color: #00000022;
 
