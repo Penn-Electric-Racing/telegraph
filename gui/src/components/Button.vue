@@ -18,7 +18,7 @@ export default {
 	transition: background-color 0.15s ease-in-out;
 	display: inline-block;
 	border: none;
-	color: var(--contrast-color);
+	color: var(--button-text-color);
 	background-color: var(--button-background-color);
 	font-size: 0.9rem;
 	padding: 4px 8px 4px 8px;

@@ -71,7 +71,7 @@
 					:allow-resize="sidebarShowing"
 					:size="sidebarWidth"
 					:min-size="220"
-					:resizerColor="'#272C30'"
+					:resizerColor="'var(--main-box-shadow)'"
 					id="content-pane"
 				>
 					<div slot="firstPane">
