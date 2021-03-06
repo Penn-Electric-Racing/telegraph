@@ -97,6 +97,7 @@ export default {
 
 	display: flex;
 	flex-direction: row;
+	background-color: var(--main-background-color);
 }
 .bubble-stack {
 	width: 100%;
