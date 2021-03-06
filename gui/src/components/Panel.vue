@@ -45,6 +45,7 @@ export default {
 
 	display: flex;
 	align-items: center;
+	overflow: hidden;
 }
 .panel-header-text {
 	font-size: 12px;

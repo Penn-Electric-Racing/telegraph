@@ -427,7 +427,8 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: var(--pane-background-color);
+	background-color: var(--inverse-contrast-color);
+	opacity: 0.3;
 }
 #popup-pane.darkened {
 	z-index: 1000000;

@@ -48,7 +48,7 @@ export default {
 .popup-header {
 	padding: 10px 5px 10px 5px;
 	border-radius: 6px 6px 0px 0px;
-	background-color: var(--secondary-background-color);
+	background-color: #272c30;
 	align-self: stretch;
 	display: flex;
 	flex-direction: row;
