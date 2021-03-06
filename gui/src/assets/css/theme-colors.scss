@@ -18,7 +18,7 @@
 
 	--sidebar-background-color: #30363c;
 	--panel-header-background: #24292c;
-	--button-background-color: #ffffff22;
+	--flat-button-hover-color: rgba(255, 255, 255, 0.15);
 
 	--combobox-hover: #363e44;
 
@@ -30,17 +30,19 @@
 	--graph-border-color: #98adb8;
 	--content-hover: #e5e5e5;
 	--node-record-icon: #3b4044;
+
+	--pane-background-color: rgba(0, 0, 0, 0.3);
 }
 
-[theme="dark"] {
+[theme="light"] {
 	--contrast-color: #000000;
 	--inverse-contrast-color: #ffffff;
-	--main-box-shadow: #ffffff;
+	--main-box-shadow: rgba(0, 0, 0, 0.2);
 	--secondary-box-shadow: #ffffff88;
 
 	--test-color: purple;
 	--accent-color: #1c8ed7;
-	--main-background-color: #ffffff;
+	--main-background-color: #e6e6e6;
 	--secondary-background-color: #c6ced3;
 
 	--main-text-color: #272a2c;
@@ -52,11 +54,11 @@
 	 
 	--sidebar-background-color: #c0cad4;
 	--panel-header-background: #d2e3ed;
-	--button-background-color: #00000022;
+	--flat-button-hover-color: rgba(255, 255, 255, 0.15);
 
 	--combobox-hover: #8da5b8;
 
-	--button-background-color: #1f58f7;
+	--button-background-color: rgba(255, 255, 255, 0.15);
 	--button-text-color: #ffffff;
 	--button-hover-color: #265beb;
 	--button-active-color: #1843b9;
@@ -64,4 +66,6 @@
 	--graph-border-color: #98adb8;
 	--content-hover: #555555;
 	--node-record-icon: #77848f;
+
+	--pane-background-color: rgba(0, 0, 0, 0.3);
 }

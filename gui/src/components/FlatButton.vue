@@ -16,7 +16,7 @@ export default {
 
 <style scoped>
 .flat-button:hover {
-	background-color: var(--button-background-color);
+	background-color: var(--flat-button-hover-color);
 }
 .flat-button:focus {
 	outline: 0;
