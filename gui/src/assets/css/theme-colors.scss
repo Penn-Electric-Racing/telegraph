@@ -18,7 +18,6 @@
 
 	--sidebar-background-color: #30363c;
 	--panel-header-background: #24292c;
-	--button-background-color: #ffffff22;
 
 	--combobox-hover: #363e44;
 
@@ -26,23 +25,25 @@
 	--button-text-color: #ffffff;
 	--button-hover-color: #265beb;
 	--button-active-color: #1843b9;
+	--flat-button-hover-color: rgba(255, 255, 255, 0.13);
 
 	--graph-border-color: #98adb8;
+	--graph-axes-color: #505050;
+
 	--content-hover: #e5e5e5;
 	--node-record-icon: #3b4044;
 }
 
 [theme="light"] {
 	--contrast-color: #000000;
-	--foo: #000000;
 	--inverse-contrast-color: #ffffff;
-	--main-box-shadow: #c8c8c8;
+	--main-box-shadow: #9a9a9a;
 	--secondary-box-shadow: #c8c7c788;
 
 	--test-color: purple;
 	--accent-color: #1c8ed7;
 	--main-background-color: #e6e6e6;
-	--secondary-background-color: #d5d9e0;
+	--secondary-background-color: #c5c8ce;
 
 	--main-text-color: #272a2c;
 	--secondary-text-color: #5e6870;
@@ -61,8 +62,11 @@
 	--button-text-color: #ffffff;
 	--button-hover-color: #265beb;
 	--button-active-color: #1843b9;
+	--flat-button-hover-color: rgba(0, 0, 0, 0.13);
 
 	--graph-border-color: #98adb8;
+	--graph-axes-color: #505050;
+
 	--content-hover: #555555;
 	--node-record-icon: #77848f;
 }

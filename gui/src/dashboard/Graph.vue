@@ -92,8 +92,8 @@ export default {
 					y: { auto: true },
 				},
 				axes: [
-					{ stroke: "#fff", grid: { stroke: "rgb(80, 80, 80)" }},
-					{ stroke: "#fff", grid: { stroke: "rgb(80, 80, 80)" }},
+					{ stroke: "#fff", grid: { stroke: "rgb(80, 80, 80)" } },
+					{ stroke: "#fff", grid: { stroke: "rgb(80, 80, 80)" } },
 				],
 				series: [{}, { label: "None", stroke: "#1c8ed7", width: 1 }],
 				plugins: [
@@ -197,11 +197,11 @@ export default {
 .graph-controls {
 	display: flex;
 	flex-direction: row;
-	color: #88939c;
+	color: var(--main-text-color);
 }
 
 .controlActive {
-	color: #fff;
+	color: var(--contrast-color);
 }
 
 .chart {

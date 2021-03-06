@@ -65,7 +65,7 @@ export default {
 	align-items: center;
 	justify-content: space-between;
 
-	box-shadow: 0px 0px 10px var(--main-box-shaddow);
+	box-shadow: 0px 0px 10px var(--main-box-shadow);
 	background-color: var(--secondary-background-color);
 	border-radius: 3px;
 	color: var(--tab-color);
