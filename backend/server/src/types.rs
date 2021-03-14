@@ -1,7 +1,7 @@
 use std::fmt;
 
-use crate::wire;
 use crate::errors::UnpackError;
+use crate::wire;
 
 /// The possible 'type classes' that we care about for actions & variables
 pub enum TypeClass {
@@ -22,8 +22,60 @@ pub enum TypeClass {
 }
 
 pub struct Type {
-    pub name: String,
+    pub name: Option<String>,
     pub type_class: TypeClass,
+}
+
+pub const BOOL: Type = Type {
+    name: None,
+    type_class: TypeClass::Bool,
+};
+pub const UINT8: Type = Type {
+    name: None,
+    type_class: TypeClass::Uint8,
+};
+pub const UINT16: Type = Type {
+    name: None,
+    type_class: TypeClass::Uint16,
+};
+pub const UINT32: Type = Type {
+    name: None,
+    type_class: TypeClass::Uint32,
+};
+pub const UINT64: Type = Type {
+    name: None,
+    type_class: TypeClass::Uint64,
+};
+pub const INT8: Type = Type {
+    name: None,
+    type_class: TypeClass::Int8,
+};
+pub const INT16: Type = Type {
+    name: None,
+    type_class: TypeClass::Int16,
+};
+pub const INT32: Type = Type {
+    name: None,
+    type_class: TypeClass::Int32,
+};
+pub const INT64: Type = Type {
+    name: None,
+    type_class: TypeClass::Int64,
+};
+pub const FLOAT: Type = Type {
+    name: None,
+    type_class: TypeClass::Float,
+};
+pub const DOUBLE: Type = Type {
+    name: None,
+    type_class: TypeClass::Double,
+};
+
+pub fn enum_type<S: AsRef<str>>(name: S, labels: &[S]) -> Type {
+    Type {
+        name: Some(String::from(name.as_ref())),
+        type_class: TypeClass::Enum(labels.iter().map(|s| String::from(s.as_ref())).collect()),
+    }
 }
 
 impl fmt::Display for Type {
@@ -34,8 +86,8 @@ impl fmt::Display for Type {
             TypeClass::Enum(labels) => {
                 write!(f, "enum")?;
 
-                if !self.name.is_empty() {
-                    write!(f, "/{}", self.name)?;
+                if let Some(name) = &self.name {
+                    write!(f, "/{}", name)?;
                 }
 
                 if !labels.is_empty() {
@@ -56,9 +108,11 @@ impl fmt::Display for Type {
         }
 
         // If the type has a name and it's not an enum, just tag it on at the end
-        if !self.is_enum() && !self.name.is_empty() {
-            write!(f, " ({})", self.name)?;
-        };
+        if !self.is_enum() {
+            if let Some(name) = &self.name {
+                write!(f, " ({})", name)?;
+            }
+        }
 
         Ok(())
     }
@@ -72,7 +126,7 @@ impl Type {
     pub fn pack(&self) -> wire::Type {
         let mut proto = wire::Type {
             r#type: 0,
-            name: self.name.clone(),
+            name: self.name.as_ref().unwrap_or(&String::from("")).clone(),
             labels: if let TypeClass::Enum(labels) = &self.type_class {
                 labels.clone()
             } else {
@@ -105,11 +159,15 @@ impl Type {
         // Error if we have a non-enum type with labels, so that we don't have any weird bugs later
         // expecting this.
         if proto.r#type() != wire::r#type::Class::Enum && !proto.labels.is_empty() {
-            return Err(UnpackError::LabelsError)
+            return Err(UnpackError::LabelsError);
         }
 
         Ok(Type {
-            name: proto.name.clone(),
+            name: if proto.name.is_empty() {
+                None
+            } else {
+                Some(proto.name.clone())
+            },
 
             type_class: match proto.r#type() {
                 // Generated using vim macros :^)
@@ -131,4 +189,3 @@ impl Type {
         })
     }
 }
-

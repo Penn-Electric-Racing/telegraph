@@ -13,7 +13,7 @@ async fn main() -> Result<()> {
 
     let addr = match env::var("TELEGRAPH_SERVER_ADDR") {
         Ok(addr) => addr,
-        Err(env::VarError::NotPresent) => "127.0.0.1:8081".to_string(),
+        Err(env::VarError::NotPresent) => "0.0.0.0:8081".to_string(),
         Err(err) => return Err(anyhow!("error reading the server address: {}", err)),
     };
 

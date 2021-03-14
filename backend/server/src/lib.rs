@@ -8,6 +8,7 @@ pub mod errors;
 pub mod local;
 pub mod nodes;
 pub mod types;
+pub mod value;
 // Disable clippy warnings for generated code, since we can't control/fix them
 #[allow(clippy::all)]
 pub mod wire;

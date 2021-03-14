@@ -81,3 +81,53 @@ impl From<Vec<String>> for Params {
         Params::List(vec.into_iter().map(Params::Str).collect())
     }
 }
+
+// TODO: what is this used for?
+// class params_stream {
+// private:
+//     bool closed_;
+//     std::function<void(params&& p)> handler_;
+//     std::function<void()> on_close_;
+//     std::vector<params> queued_; // back-queue if handler not set
+// public:
+//     signal<> destroyed;
+//     params_stream() :
+//         closed_(false), handler_(),
+//         on_close_(), queued_() {}
+//     ~params_stream() {
+//         close();
+//         destroyed();
+//     }
+
+//     constexpr bool is_closed() const { return closed_; }
+
+//     void close() {
+//         if (!closed_) {
+//             closed_ = true;
+//             if (on_close_) on_close_();
+//         }
+//     }
+
+//     void write(params&& p) {
+//         if (closed_) return;
+//         if (handler_) handler_(std::move(p));
+//         else queued_.emplace_back(std::move(p));
+//     }
+
+//     void reset_pipe() {
+//         handler_ = std::function<void(params&&)>{};
+//         on_close_ = std::function<void()>{};
+//     }
+
+//     void set_pipe(const std::function<void(params&& p)>& h,
+//                   const std::function<void()>& on_close) {
+//         handler_ = h;
+//         on_close_ = on_close;
+//         for (auto& p : queued_) {
+//             h(std::move(p));
+//         }
+//         queued_.clear();
+//         if (closed_) on_close_();
+//     }
+// };
+// using params_stream_ptr = std::shared_ptr<params_stream>;
