@@ -55,6 +55,70 @@ impl fmt::Display for NodeInfo {
 }
 
 impl Node {
+    pub fn group<S: AsRef<str>>(
+        id: NodeID,
+        name: S,
+        pretty: S,
+        desc: S,
+        children: Vec<Node>,
+        schema: S,
+        version: i32,
+    ) -> Self {
+        let info = NodeInfo {
+            id,
+            name: String::from(name.as_ref()),
+            pretty: String::from(pretty.as_ref()),
+            desc: String::from(desc.as_ref()),
+        };
+        Node::Group(Group {
+            info,
+            children,
+            schema: String::from(schema.as_ref()),
+            version,
+        })
+    }
+
+    pub fn action<S: AsRef<str>>(
+        id: NodeID,
+        name: S,
+        pretty: S,
+        desc: S,
+        arg_type: Type,
+        ret_type: Type,
+    ) -> Self {
+        let info = NodeInfo {
+            id,
+            name: String::from(name.as_ref()),
+            pretty: String::from(pretty.as_ref()),
+            desc: String::from(desc.as_ref()),
+        };
+        Node::Action(Action {
+            info,
+            arg_type,
+            ret_type,
+        })
+    }
+
+    pub fn variable<S: AsRef<str>>(
+        id: NodeID,
+        name: S,
+        pretty: S,
+        desc: S,
+        data_type: Type,
+    ) -> Self {
+        let info = NodeInfo {
+            id,
+            name: String::from(name.as_ref()),
+            pretty: String::from(pretty.as_ref()),
+            desc: String::from(desc.as_ref()),
+        };
+        Node::Variable(Variable { info, data_type })
+    }
+
+    pub fn placeholder(id: NodeID) -> Self {
+        Node::Placeholder(Placeholder(id))
+    }
+
     /// Get all of the information that is common to all node variants
     pub fn info(&self) -> &NodeInfo {
         match self {
@@ -116,7 +180,7 @@ impl Node {
     pub fn unpack(proto: &wire::Node) -> Result<Self, UnpackError> {
         use wire::node::Node as wNode;
         match &proto.node {
-            None => Err(UnpackError::NoneError),
+            None => Err(UnpackError::NullNodeError),
             Some(wNode::Group(group)) => Ok(Node::Group(Group::unpack(&group)?)),
             Some(wNode::Var(var)) => Ok(Node::Variable(Variable::unpack(&var)?)),
             Some(wNode::Action(action)) => Ok(Node::Action(Action::unpack(&action)?)),
@@ -194,6 +258,15 @@ pub struct Group {
 }
 
 impl Group {
+    pub fn new(info: NodeInfo, children: Vec<Node>, schema: String, version: i32) -> Self {
+        Self {
+            info,
+            children,
+            schema,
+            version,
+        }
+    }
+
     pub fn pack_children(&self) -> Vec<wire::Node> {
         unimplemented!()
     }
@@ -420,16 +493,24 @@ impl Group {
 /// An action that can be called on the device associated with this tree.
 pub struct Action {
     info: NodeInfo,
-    arg_type: Option<Type>,
-    ret_type: Option<Type>,
+    arg_type: Type,
+    ret_type: Type,
 }
 
 impl Action {
-    pub fn arg_type(&self) -> &Option<Type> {
+    pub fn new(info: NodeInfo, arg_type: Type, ret_type: Type) -> Self {
+        Self {
+            info,
+            arg_type,
+            ret_type,
+        }
+    }
+
+    pub fn arg_type(&self) -> &Type {
         &self.arg_type
     }
 
-    pub fn ret_type(&self) -> &Option<Type> {
+    pub fn ret_type(&self) -> &Type {
         &self.ret_type
     }
 
@@ -440,8 +521,8 @@ impl Action {
                 name: self.info.name.clone(),
                 pretty: self.info.pretty.clone(),
                 desc: self.info.desc.clone(),
-                arg_type: self.arg_type.as_ref().map(|t| t.pack()),
-                ret_type: self.ret_type.as_ref().map(|t| t.pack()),
+                arg_type: Some(self.arg_type.pack()),
+                ret_type: Some(self.arg_type.pack()),
             })),
         }
     }
@@ -455,13 +536,13 @@ impl Action {
                 desc: proto.desc.clone(),
             },
             arg_type: match &proto.arg_type {
-                None => None,
-                Some(t) => Some(Type::unpack(&t)?)
+                None => return Err(UnpackError::NullFieldError),
+                Some(t) => Type::unpack(&t)?,
             },
             ret_type: match &proto.ret_type {
-                None => None,
-                Some(t) => Some(Type::unpack(&t)?)
-            }
+                None => return Err(UnpackError::NullFieldError),
+                Some(t) => Type::unpack(&t)?,
+            },
         })
     }
 }
@@ -499,10 +580,14 @@ impl Action {
 /// A variable containing information about the device associated with this tree.
 pub struct Variable {
     info: NodeInfo,
-    data_type: Option<Type>,
+    data_type: Type,
 }
 
 impl Variable {
+    pub fn new(info: NodeInfo, data_type: Type) -> Self {
+        Self { info, data_type }
+    }
+
     pub fn pack(&self) -> wire::Node {
         wire::Node {
             node: Some(wire::node::Node::Var(wire::Variable {
@@ -510,7 +595,7 @@ impl Variable {
                 name: self.info.name.clone(),
                 pretty: self.info.pretty.clone(),
                 desc: self.info.desc.clone(),
-                data_type: self.data_type.as_ref().map(|t| t.pack()),
+                data_type: Some(self.data_type.pack()),
             })),
         }
     }
@@ -524,9 +609,9 @@ impl Variable {
                 desc: proto.desc.clone(),
             },
             data_type: match &proto.data_type {
-                None => None,
-                Some(t) => Some(Type::unpack(&t)?)
-            }
+                None => return Err(UnpackError::NullFieldError),
+                Some(t) => Type::unpack(&t)?,
+            },
         })
     }
 }
@@ -568,6 +653,10 @@ impl Variable {
 pub struct Placeholder(NodeID);
 
 impl Placeholder {
+    pub fn new(id: NodeID) -> Self {
+        Self(id)
+    }
+
     pub fn pack(&self) -> wire::Node {
         wire::Node {
             node: Some(wire::node::Node::Placeholder(self.0 as i32)),
