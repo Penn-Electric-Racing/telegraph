@@ -21,6 +21,12 @@
 						0.0.1
 					</span>
 				</div>
+				<div class="items content-items">
+					<span class="content-type">
+						Different Options
+					</span>
+					<Dropdown />
+				</div>
 			</template>
 		</Bubble>
 	</ScrollArea>
@@ -30,10 +36,11 @@
 import ScrollArea from "../components/ScrollArea.vue";
 import Bubble from "../components/Bubble.vue";
 import Toggle from "../components/Toggle.vue";
+import Dropdown from "../components/Dropdown.vue";
 
 export default {
 	name: "SettingsPage",
-	components: { ScrollArea, Bubble, Toggle },
+	components: { ScrollArea, Bubble, Toggle, Dropdown },
 	props: {},
 	methods: {
 		switchTheme() {
