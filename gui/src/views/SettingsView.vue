@@ -15,14 +15,10 @@
 					{{ entry.title }}
 				</span>
 				<!-- if it is a toggle  -->
-				<toggle-button
-					v-if="entry.type == 'toggle'"
-					:value="false"
-					:color="{ checked: '#1c8ed7', unchecked: '#5e6870' }"
-					:width="50"
-					:height="20"
-					@change="entry.onSwitch"
-				/>
+				<span v-if="entry.type == 'toggle'">
+					<Toggle />
+				</span>
+
 				<span v-if="entry.type == 'info'">
 					{{ entry.infoMessage }}
 				</span>
@@ -37,16 +33,11 @@ import { Context } from "telegraph";
 import Bubble from "../components/Bubble.vue";
 
 // import toggle switches
-import { ToggleButton } from "vue-js-toggle-button";
-
-import uuidv4 from "uuid/v4";
-import Vue from "vue";
-
-Vue.component("ToggleButton", ToggleButton);
+import Toggle from "../components/Toggle.vue";
 
 export default {
 	name: "SettingsView",
-	components: { Bubble },
+	components: { Bubble, Toggle },
 	props: {
 		title: String,
 		entries: Array,
@@ -56,7 +47,6 @@ export default {
 </script>
 
 <style scoped>
-@import "../assets/css/theme-colors.scss";
 .items {
 	display: flex;
 	flex-direction: row;
