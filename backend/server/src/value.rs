@@ -1,6 +1,7 @@
 use crate::errors::UnpackError;
 use crate::wire;
 
+#[derive(Copy, Clone)]
 pub enum Value {
     Invalid,
     None,
