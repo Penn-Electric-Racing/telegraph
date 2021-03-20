@@ -36,33 +36,37 @@ impl Publisher {
         }
     }
 
-    // TODO: how are the types going to work out on this?
-    // pub fn subscribe(self: Weak<RefCell<Self>>, min_interval: f64, max_interval: f64) -> Rc<RefCell<Subscription>> {
-    //     panic!("unimplemented!");
-    // }
+    // FIXME: this is an ugly associated function. If/when `Arbitrary Self Types` lands in stable
+    // Rust, we should rewrite this as a method. The reason we accept an Rc<RefCell<Self>> is
+    // because we need to hand a weak pointer to the subscription.
+    pub fn subscribe(
+        publisher: Rc<RefCell<Self>>,
+        refresh: Duration,
+        debounce: Duration,
+    ) -> Rc<RefCell<Subscription>> {
+        let sub = Rc::new(RefCell::new(Subscription::new(
+            refresh,
+            debounce,
+            Rc::downgrade(&publisher),
+        )));
 
-//         subscription_ptr subscribe(float min_interval, float max_interval) {
-//             auto s = std::make_shared<sub>(ioc_, weak_from_this(),
-//                             type_, min_interval, max_interval);
-//             subs_.emplace(s.get(), s);
-//             return s;
-//         }
+        publisher
+            .borrow_mut()
+            .subscriptions
+            .push(Rc::downgrade(&sub));
 
-//         void update(value v) {
-//             value_ = v;
-//             auto tp = std::chrono::system_clock::now();
-//             for (auto ws : subs_) {
-//                 auto s = ws.second.lock();
-//                 if (s) s->update(tp, v);
-//             }
-//         }
-//         publisher& operator<<(value v) {
-//             update(v);
-//             return *this;
-//         }
-//     };
-//     using publisher_ptr = std::shared_ptr<publisher>;
-// }
+        sub
+    }
+
+    pub fn update(&mut self, v: Value) {
+        self.value = Some(v);
+        let now = Instant::now();
+        for weak_sub in &self.subscriptions {
+            if let Some(sub) = weak_sub.upgrade() {
+                sub.borrow_mut().update(now, v);
+            }
+        }
+    }
 }
 
 impl Drop for Publisher {
@@ -77,22 +81,26 @@ impl Drop for Publisher {
 
 pub struct Subscription {
     publisher: Weak<RefCell<Publisher>>,
-    last_value: Value,
-    last_update: Instant,
+    last_value: Option<Value>,
+    last_update: Option<Instant>,
+    refresh: Duration,
+    debounce: Duration,
     // TODO: what how are we going to implement the refresh timer?
     // io::deadline_timer refresh_timer_;
     cancelled: bool,
 }
 
 impl Subscription {
-    // TODO: what is handled by this subscription superclass?
-    // sub(io::io_context& ioc, const std::weak_ptr<publisher> pub,
-    //     value_type t, float debounce, float refresh)
-    //         : subscription(t, debounce, refresh),
-    //             publisher_(pub),
-    //             refresh_timer_(ioc), last_update_(),
-    //             last_value_(value::none()) {}
-
+    fn new(refresh: Duration, debounce: Duration, publisher: Weak<RefCell<Publisher>>) -> Self {
+        Self {
+            publisher,
+            last_value: None,
+            last_update: None,
+            refresh,
+            debounce,
+            cancelled: false,
+        }
+    }
 
     /// This internal cancel method is called by a publisher when it is being dropped, because if
     /// the publisher calls cancel while `Drop`ing we don't need to remove this from it.
@@ -121,57 +129,67 @@ impl Subscription {
             if let Some(publisher) = self.publisher.upgrade() {
                 publisher.borrow_mut().remove(self);
             }
-
         }
         // refresh_timer_.cancel();
     }
 
-//             void reset_refresh_timer() {
-//                 refresh_timer_.cancel();
-//                 if (refresh_ != subscription::DISABLED) {
-//                     refresh_timer_.expires_from_now(
-//                         boost::posix_time::milliseconds(
-//                             std::max(1, (int) (1000*refresh_))));
-//                     refresh_timer_.async_wait([this](const boost::system::error_code& ec) {
-//                         resend(ec);
-//                     });
-//                 }
-//             }
+    fn reset_refresh_timer(&mut self) {
+        //  refresh_timer_.cancel();
+        if !self.cancelled {
+            // refresh_timer_.expires_from_now(
+            //     boost::posix_time::milliseconds(
+            //         std::max(1, (int) (1000*refresh_))));
+            // refresh_timer_.async_wait([this](const boost::system::error_code& ec) {
+            //     resend(ec);
+            // });
+        }
+    }
 
-//             void poll() {
-//                 auto p = publisher_.lock();
-//                 if (!p) return;
-//                 last_value_ = value::invalid();
-//                 update(std::chrono::system_clock::now(), p->value_);
-//             }
-//             void change(io::yield_ctx& yield,
-//                         float debounce, float refresh,
-//                         float timeout) override {
-//                 debounce_ = debounce;
-//                 refresh_ = refresh;
-//                 reset_refresh_timer();
-//             }
-//         private:
-//             void resend(const boost::system::error_code& ec) {
-//                 if (ec != boost::asio::error::operation_aborted &&
-//                         last_value_.is_valid()) {
-//                     auto p = publisher_.lock();
-//                     if (p) {
-//                         data(p->value_);
-//                     }
-//                 }
-//             }
+    pub fn poll(&mut self) {
+        if let Some(publisher) = self.publisher.upgrade() {
+            if let Some(value) = publisher.borrow().value {
+                self.last_value = None;
+                self.update(Instant::now(), value);
+            }
+        }
+    }
 
-//             void update(time_point tp, value v) {
-//                 auto d = std::chrono::duration_cast<
-//                     std::chrono::milliseconds>(tp - last_update_);
-//                 if (d.count() > 1000*debounce_ || !last_value_.is_valid()) {
-//                     last_update_ = tp;
-//                     last_value_ = v;
-//                     reset_refresh_timer();
-//                     data(v);
-//                 }
-//             }
+    pub fn change(&mut self, debounce: Duration, refresh: Duration) {
+        self.debounce = debounce;
+        self.refresh = refresh;
+        self.reset_refresh_timer();
+    }
+
+
+    fn update(&mut self, instant: Instant, value: Value) {
+        if let Some(last_update) = self.last_update {
+            // If we have already updated within the debounce window and we have some previous
+            // value, no need to update again
+            if instant - last_update < self.debounce && self.last_value.is_some() {
+                return;
+            }
+        }
+
+        self.last_update = Some(instant);
+        self.last_value = Some(value);
+        self.reset_refresh_timer();
+        // TODO: what do we do here? It looks like `data` is a signal in the boost code
+        // self.data(value);
+    }
+
+    // TODO, this should take some kind of error code
+    fn resend(&mut self) {
+        // TODO: why do we check if the last value is valid if we are just going to send the
+        // publisher's value anyway?
+        //  if (ec != boost::asio::error::operation_aborted && last_value_.is_valid()) {
+        if self.last_value.is_some() {
+            if let Some(_publisher) = self.publisher.upgrade() {
+                // data(publisher.borrow().value)
+            }
+        }
+        //  }
+    }
+
 }
 
 impl Drop for Subscription {
@@ -179,4 +197,3 @@ impl Drop for Subscription {
         self.cancel()
     }
 }
-
