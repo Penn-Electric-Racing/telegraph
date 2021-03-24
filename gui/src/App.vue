@@ -46,23 +46,7 @@
 				<Burger
 					:expanded="sidebarShowing"
 					@toggle="toggleSidebar"
-					:style="{ minWidth: sidebarWidth > 0 ? sidebarWidth + 'px' : null }"
 				></Burger>
-				<div class="header-tabs">
-					<TabSwitcher
-						:tabs="tabs"
-						:active="activeTab"
-						:closeable="true"
-						:editable="true"
-						:draggable="true"
-						@selected="selectTab"
-						@closed="closeTab"
-						@renamed="renameTab"
-					/>
-				</div>
-				<div class="header-button-container">
-					<FlatButton id="new-tab" icon="plus" @click="newDashboard" />
-				</div>
 			</div>
 
 			<div id="content-container">
@@ -113,32 +97,7 @@
 					</div>
 
 					<div slot="secondPane">
-						<div id="tab-area">
-							<TabArea id="content-area">
-								<component
-									:is="tab.type"
-									:name="tab.name"
-									:id="tab.id"
-									:nsQuery="nsQuery"
-									:key="tab.id"
-									v-bind="tab.props"
-									@popup="newPopup"
-									@newtab="newTab"
-									@renamed="
-										(name) => {
-											renameTab(tab.id, name);
-										}
-									"
-									@close="
-										() => {
-											closeTab(tab.id);
-										}
-									"
-									v-for="tab in loadedTabs"
-									v-show="tab.id == activeTab"
-								/>
-							</TabArea>
-						</div>
+						<TabPane :tabGroups="tabGroups" :nsQuery="nsQuery" :dashboards="dashboards" />
 					</div>
 				</ResSplitPane>
 			</div>
@@ -148,6 +107,7 @@
 
 <script>
 import TabSwitcher from "./components/TabSwitcher.vue";
+import TabPane from "./components/TabPane.vue";
 import TabArea from "./components/TabArea.vue";
 import Popup from "./components/Popup.vue";
 import ResSplitPane from "vue-resize-split-pane";
@@ -174,6 +134,7 @@ export default {
 	name: "App",
 	components: {
 		TabSwitcher,
+		TabPane,
 		TabArea,
 		LivePage,
 		ComponentsPage,
@@ -227,8 +188,7 @@ export default {
 		// 	tabs: (state) => state.tabs,
 		// }),
 		...mapGetters("tabs", {
-			activeTab: "getActiveTab",
-			tabs: "getTabs",
+			tabGroups: "getTabGroups",
 		}),
 		// activeTab() {
 		// 	return this.$store.state.tabs.activeTab;
@@ -236,15 +196,6 @@ export default {
 		// tabs() {
 		// 	return this.$store.state.tabs.tabs;
 		// },
-		loadedTabs() {
-			let loaded = [];
-			for (let t of this.tabs) {
-				if (t == this.activeTab || !t.offloaded) {
-					loaded.push(t);
-				}
-			}
-			return loaded;
-		},
 		numPopups() {
 			return this.popups.length;
 		},
@@ -262,25 +213,6 @@ export default {
 					this.sidebarWidth = this.$refs["sidebar"].offsetWidth;
 				});
 		},
-
-		newDashboard() {
-			var dashData = Vue.observable({
-				widgets: {},
-				layout: [],
-				info: { name: "Untitled" },
-			});
-			var id = uuidv4();
-			this.tabs.push(
-				Vue.observable({
-					type: "Dashboard",
-					name: "Untitled",
-					props: { data: dashData },
-					id: id,
-				})
-			);
-			if (this.activeTab == "") this.$store.dispatch("tabs/editActiveTab", id);
-		},
-
 		newTab(obj) {
 			if (!obj || !obj.id) return;
 			for (let t of this.tabs) {
@@ -294,6 +226,7 @@ export default {
 		selectTab(id) {
 			this.$store.dispatch("tabs/editActiveTab", id);
 		},
+
 		closeTab(id) {
 			this.tabs.splice(
 				this.tabs.findIndex((tab) => tab.id == id),
@@ -302,19 +235,6 @@ export default {
 			if (this.activeTab == id) {
 				this.activeTab = null;
 				if (this.tabs.length > 0) this.activeTab = this.tabs[0].id;
-			}
-		},
-		renameTab(id, name) {
-			for (let t of this.tabs) {
-				if (t.id == id) {
-					// TODO: right now we assume all tabs are dashboards
-					t.name = name;
-					t.props.data.info.name = name;
-					if (!this.dashboards[t.id]) {
-						this.$set(this.dashboards, t.id, t.props.data);
-					}
-					break;
-				}
 			}
 		},
 
