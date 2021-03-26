@@ -37,7 +37,7 @@
 </template>
 <script>
 import TabArea from "./TabArea.vue";
-import ScrollArea from "./ScrollArea.vue";
+import ScrollArea from "./../ScrollArea.vue";
 import interact from "interactjs";
 
 import { mapGetters, mapState } from "vuex";

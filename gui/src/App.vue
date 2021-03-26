@@ -106,9 +106,9 @@
 </template>
 
 <script>
-import TabSwitcher from "./components/TabSwitcher.vue";
-import TabPane from "./components/TabPane.vue";
-import TabArea from "./components/TabArea.vue";
+import TabSwitcher from "./components/tabs/TabSwitcher.vue";
+import TabPane from "./components/tabs/TabPane.vue";
+import TabArea from "./components/tabs/TabArea.vue";
 import Popup from "./components/Popup.vue";
 import ResSplitPane from "vue-resize-split-pane";
 import FlatButton from "./components/FlatButton.vue";

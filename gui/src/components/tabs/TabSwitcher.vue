@@ -25,8 +25,7 @@
 
 <script>
 import TabArea from "./TabArea.vue";
-import ScrollArea from "./ScrollArea.vue";
-import interact from "interactjs";
+import ScrollArea from "./../ScrollArea.vue";
 import TabElement from "./TabElement.vue";
 
 export default {

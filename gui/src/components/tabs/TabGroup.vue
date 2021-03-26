@@ -1,9 +1,6 @@
 <template>
     <div class="tabgroup" ref="tabgroup" :style="cssVars">
         <div class="header-tabs">
-            <div class="header-button-container">
-                <FlatButton id="new-tab" icon="plus" @click="newDashboard" />
-            </div>
             <TabSwitcher
                 :tabs="tabgroup.tabs"
                 :active="tabgroup.activeTab"
@@ -14,6 +11,9 @@
                 @closed="closeTab"
                 @renamed="renameTab"
             />
+            <div class="header-button-container">
+                <FlatButton id="new-tab" icon="plus" @click="newDashboard" />
+            </div>
         </div>
         <div class="tabArea">
             <TabArea>
@@ -56,6 +56,7 @@
     height: 100%;
     border-style: dashed;
     border-color: white;
+    
     position: absolute;
     top: var(--top);
     left: var(--left);
@@ -64,6 +65,7 @@
 }
 
 .tabArea {
+    display: flex;
     width: 100%;
     height: 100%;
 }
@@ -87,10 +89,10 @@
 
 <script>
 import TabSwitcher from "./TabSwitcher.vue";
-import FlatButton from "./FlatButton.vue";
+import FlatButton from "./../FlatButton.vue";
 import TabArea from "./TabArea.vue";
 
-import Dashboard from "../dashboard/Dashboard.vue";
+import Dashboard from "../../dashboard/Dashboard.vue";
 
 import uuidv4 from "uuid/v4";
 import Vue from "vue";
