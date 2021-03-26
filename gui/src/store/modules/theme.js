@@ -18,17 +18,12 @@ const getters = {
 // used to update the state
 const actions = {
 	editTheme({ state, commit }, newTheme) {
-		if (newTheme == "dark")
-			document.documentElement.setAttribute("theme", null);
-		else document.documentElement.setAttribute("theme", "light");
 		commit("pushNewTheme", newTheme);
 	},
 	swapTheme({ state, commit }) {
 		if (state.currentTheme == "dark") {
-			document.documentElement.setAttribute("theme", "light");
 			commit("pushNewTheme", "light");
 		} else {
-			document.documentElement.setAttribute("theme", null);
 			commit("pushNewTheme", "dark");
 		}
 	},

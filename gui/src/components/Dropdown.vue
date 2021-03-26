@@ -1,5 +1,5 @@
 <template>
-	<div class="currently-selected">currently selected</div>
+	<div class="currently-selected">current tly selected</div>
 </template>
 
 <script>

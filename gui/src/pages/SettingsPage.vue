@@ -44,11 +44,6 @@ export default {
 	props: {},
 	methods: {
 		switchTheme() {
-			// if (document.documentElement.getAttribute("theme") == "light") {
-			// 	document.documentElement.setAttribute("theme", null);
-			// } else {
-			// 	document.documentElement.setAttribute("theme", "light");
-			// }
 			this.$store.dispatch("theme/swapTheme");
 		},
 	},
