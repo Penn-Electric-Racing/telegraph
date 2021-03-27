@@ -1,14 +1,20 @@
 <template>
-	<div class="currently-selected">current tly selected</div>
+	<select class="currently-selected" @change="changeHandler">
+		<slot name="options" />
+	</select>
 </template>
 
 <script>
 export default {
 	name: "Dropdown",
 	components: {},
-	props: {},
+	props: {
+		changeHandler: {
+			type: Function,
+		},
+		width: { type: Number, defalut: 350 },
+	},
 	methods: {},
-	data: {},
 };
 </script>
 
@@ -22,6 +28,6 @@ export default {
 	justify-content: center;
 	font-size: 15px;
 	color: var(--contrast-color);
-	border-radius: 30px;
+	border-radius: 5px;
 }
 </style>

@@ -25,7 +25,14 @@
 					<span class="content-type">
 						Different Options
 					</span>
-					<Dropdown />
+					<!-- <Dropdown /> -->
+					<Dropdown :changeHandler="onDropdownChange">
+						<template v-slot:options>
+							<option>currently selected</option>
+							<option>first option</option>
+							<option>second option</option>
+						</template>
+					</Dropdown>
 				</div>
 			</template>
 		</Bubble>
@@ -45,6 +52,9 @@ export default {
 	methods: {
 		switchTheme() {
 			this.$store.dispatch("theme/swapTheme");
+		},
+		onDropdownChange(event) {
+			alert(event.target.value);
 		},
 	},
 };
