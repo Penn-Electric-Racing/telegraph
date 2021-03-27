@@ -25,6 +25,7 @@
     "sass-loader": "^11.0.1",
     "signals": "^1.0.0",
     "telegraph": "file:../js",
+    "timechart": "^0.5.2",
     "uplot": "^1.1.2",
     "uuid": "^3.3.3",
     "vue": "^2.6.10",
