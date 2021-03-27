@@ -97,7 +97,7 @@
 					</div>
 
 					<div slot="secondPane">
-						<TabPane :tabGroups="tabGroups" :nsQuery="nsQuery" :dashboards="dashboards" />
+						<TabPane :tabgroup="tabgroup" :nsQuery="nsQuery" :dashboards="dashboards" />
 					</div>
 				</ResSplitPane>
 			</div>
@@ -188,7 +188,7 @@ export default {
 		// 	tabs: (state) => state.tabs,
 		// }),
 		...mapGetters("tabs", {
-			tabGroups: "getTabGroups",
+			tabgroup: "getTabGroup",
 		}),
 		// activeTab() {
 		// 	return this.$store.state.tabs.activeTab;

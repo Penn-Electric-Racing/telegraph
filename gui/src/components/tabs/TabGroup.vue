@@ -1,5 +1,5 @@
 <template>
-    <div class="tabgroup" ref="tabgroup" :style="cssVars">
+    <div class="tabgroup" ref="tabgroup">
         <div class="header-tabs">
             <TabSwitcher
                 :tabs="tabgroup.tabs"
@@ -15,7 +15,7 @@
                 <FlatButton id="new-tab" icon="plus" @click="newDashboard" />
             </div>
         </div>
-        <div class="tabArea">
+        <div class="tabbody">
             <TabArea>
                 <component
                     v-for="tab in tabgroup.tabs"
@@ -54,18 +54,13 @@
 	display: flex;
 	flex-direction: column;
     height: 100%;
-    border-style: dashed;
-    border-color: white;
-    
-    position: absolute;
-    top: var(--top);
-    left: var(--left);
-    max-width: var(--width);
-    width: var(--width);
+    width: 100%;
+
+    border-right: 2px solid var(--secondary-background-color);
+    border-bottom: 2px solid var(--secondary-background-color);
 }
 
-.tabArea {
-    display: flex;
+.tabbody {
     width: 100%;
     height: 100%;
 }
@@ -77,6 +72,8 @@
 	flex-basis: auto;
 	flex-grow: 0;
 	min-width: 0;
+
+    background-color: var(--secondary-background-color);
 }
 
 .header-button-container {
@@ -110,16 +107,6 @@ export default {
 		editable: { type: Boolean, default: false },
 		draggable: { type: Boolean, default: false },
 	},
-    computed: {
-        cssVars() {
-            return {
-                "--top": this.tabgroup.top + "%",
-                "--left": this.tabgroup.left + "%",
-                "--width": this.tabgroup.width + "%",
-                "--height": this.tabgroup.height + "%",
-            }
-        }
-    },
 	methods: {
         newDashboard() {
             var dashData = Vue.observable({
@@ -139,12 +126,12 @@ export default {
 			);
 
 			if (this.tabgroup.activeTab == "") {
-                var payload = {"newActive": id, "groupIndex": this.tabgroup.index};
+                var payload = {"newActive": id, "groupIndex": this.tabgroup.id};
                 this.$store.dispatch("tabs/editActiveTab", payload);
             }
         },
         selectTab(id) {
-            var payload = {"newActive": id, "groupIndex": this.tabgroup.index};
+            var payload = {"newActive": id, "groupIndex": this.tabgroup.id};
             this.$store.dispatch("tabs/editActiveTab", payload);
         },
         closeTab(id) {

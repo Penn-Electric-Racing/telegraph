@@ -1,9 +1,9 @@
 <template>
 	<div class="tabpane">
-        <TabGroup
-            v-for="tg in tabGroups"
-            :key="tg.index"
-            :tabgroup="tg"
+        <component 
+            v-bind:is="tabgroup.layout" 
+            :key="tabgroup.id"
+            :tabgroup="tabgroup"
             :closeable="true"
             :editable="true"
             :draggable="true"
@@ -27,15 +27,17 @@
 </style>
 
 <script>
-import TabGroup from "./TabGroup.vue";
+import TabGroup from './TabGroup.vue';
+import HorizontalSplitTabGroup from './HorizontalSplitTabGroup.vue';
+import VerticalSplitTabGroup from './VerticalSplitTabGroup.vue';
+
 import { NamespaceQuery } from 'telegraph';
 
 export default {
 	name: "TabPane",
-    components: {TabGroup},
-	methods: {},
+    components: { TabGroup, HorizontalSplitTabGroup, VerticalSplitTabGroup },
     props: {
-        tabGroups: Array,
+        tabgroup: Object,
         nsQuery: NamespaceQuery,
         dashboards: Object,
     }
