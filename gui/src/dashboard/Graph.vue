@@ -30,9 +30,8 @@ import Panel from "../components/Panel.vue";
 import FlatButton from "../components/FlatButton.vue";
 import NumberField from "../components/NumberField.vue";
 import { NamespaceQuery, Variable } from "telegraph";
-import uPlot from "uplot";
+import TimeChart from 'timechart'
 
-import { wheelZoomPlugin } from "./graph-plugins.js";
 
 export default {
 	name: "Graph",
@@ -45,7 +44,8 @@ export default {
 	data() {
 		return {
 			variables: [],
-			history: [[], []],
+			history: [],
+			chart: null,
 
 			timespan: 20,
 			useTimespan: true,
@@ -64,7 +64,7 @@ export default {
 		},
 		nodeQuery() {
 			return this.nsQuery.contexts
-				.extract((x) => x.name == this.data.ctx)
+				.extract((x) => x.name == this.history.ctx)
 				.fetch()
 				.fromPath(this.data.node);
 		},
@@ -74,7 +74,7 @@ export default {
 			if (this.$refs["chart-container"]) {
 				this.width = this.$refs["chart-container"].offsetWidth;
 				this.height = this.$refs["chart-container"].offsetHeight;
-				this.relayout();
+				this.$nextTick(this.relayout());
 			}
 		}).observe(this.$refs["chart-container"]);
 		this.width = this.$refs["chart-container"].offsetWidth;
@@ -84,100 +84,38 @@ export default {
 	unmounted() {},
 	methods: {
 		setup() {
-			const opts = {
-				width: this.width,
-				height: this.height,
-				scales: {
-					x: { time: true, min: null, max: null, auto: false },
-					y: { auto: true },
-				},
-				axes: [
-					{ stroke: "#fff", grid: { stroke: "rgb(80, 80, 80)" } },
-					{ stroke: "#fff", grid: { stroke: "rgb(80, 80, 80)" } },
-				],
-				series: [{}, { label: "None", stroke: "#1c8ed7", width: 1 }],
-				plugins: [
-					wheelZoomPlugin({
-						factor: 0.8,
-						scrollCallback: (oldMin, oldMax, newMin, newMax) => {
-							if (this.useTimespan && this.live) {
-								this.timespan = newMax - newMin;
-								return { min: oldMax - (newMax - newMin), max: oldMax };
-							}
-						},
-						canScroll: () => {
-							return !this.live || (this.live && this.useTimespan);
-						},
-						canMove: () => {
-							return !this.live;
-						},
-					}),
-				],
-			};
-			this.plot = new uPlot(opts, this.history, this.$refs["chart"]);
-		},
-		relayout() {
-			this.plot.setSize({ width: this.width, height: this.height });
-		},
-		toggleLive() {
-			this.live = !this.live;
-			if (this.live) {
-				this.plot.batch(() => {
-					this.updateScale();
-				});
-			}
-		},
-		updateTimespan() {
-			if (this.live && this.useTimespan) {
-				this.plot.batch(() => {
-					this.updateScale();
-				});
-			}
-		},
-		updateScale() {
-			let nxMin = this.history[0] ? this.history[0][0] : null;
-			let nxMax = this.history[0]
-				? this.history[0][this.history[0].length - 1]
-				: null;
-			if (this.useTimespan && this.timespan > 0) {
-				nxMin = nxMax - this.timespan;
-			}
-			this.plot.setScale("x", {
-				min: nxMin,
-				max: nxMax,
+			this.chart = new TimeChart(this.$refs["chart"], {
+				series: [{ name : 'Series 1', data: this.history, color: 'blue' }],
+				realTime: true,
+				baseTime: Date.now() - performance.now(),
+				xRange: { min: 0, max: 20 * 1000 },
 			});
 		},
+		relayout() {
+			this.chart.model.resize(this.width, this.height);
+		},
+		toggleLive() {
+		},
+		updateTimespan() {
+		},
+		updateScale() {
+		},
 		updateVariable(v) {
-			if (!v || !(v instanceof Variable)) this.variable = [];
-			else this.variables = [v];
-			(async () => {
-				if (this.sub) await this.sub.cancel();
-				if (v) {
-					this.sub = null;
-					this.sub = await v.subscribe(0.0001, 1);
-					if (this.sub) {
-						this.sub.data.add((dp) => {
-							this.history[0].push(dp.t / 1000000);
-							this.history[1].push(dp.v);
-							if (this.live) {
-								this.updateScale();
-							}
-							this.plot.setData(this.history, this.live);
-							if (!this.live) this.plot.redraw();
-						});
-						this.sub.poll();
-					}
-				}
-			})();
 		},
 	},
 	watch: {
 		nodeQuery(n, o) {
-			if (o) o.unregister(this.updateVariable);
-			n.updated.register(this.updateVariable);
+			// if (o) o.unregister(this.updateVariable);
+			// n.updated.register(this.updateVariable);
 		},
 	},
 	created() {
+		// callback for adding data
+		setInterval(() => {
+			const time = performance.now();
+			this.history.push({x: time, y: Math.sin(time * 0.002)});
+			this.chart.update();
+		}, 100);
 		this.nodeQuery.register(this.updateVariable);
 	},
 	destroyed() {
