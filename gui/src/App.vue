@@ -44,6 +44,7 @@
 
 			<div id="header-container">
 				<Burger
+					class="burger"
 					:expanded="sidebarShowing"
 					@toggle="toggleSidebar"
 				></Burger>
@@ -371,37 +372,22 @@ body {
 	display: flex;
 	align-items: stretch;
 	align-content: stretch;
-	flex-direction: column;
+	flex-direction: row;
 }
 
 #header-container {
-	height: 3rem;
-	width: 100%;
+	height: 100%;
+	width: 2.5rem;
 	background-color: var(--secondary-background-color);
 
 	display: flex;
 	align-items: stretch;
-	flex-direction: row;
+	flex-direction: column;
 }
 
-.header-tabs {
-	display: flex;
-	flex-direction: row;
-	align-items: stretch;
-	flex-basis: auto;
-	flex-grow: 0;
-	min-width: 0;
-}
-
-.header-button-container {
-	color: var(--secondary-text-color);
-	display: flex;
-	align-items: center;
-	padding: 5px;
-}
-
-#new-tab:hover {
-	color: var(--accent-color);
+.burger {
+	margin-left: auto;
+	margin-right: auto;
 }
 
 #content-container {
