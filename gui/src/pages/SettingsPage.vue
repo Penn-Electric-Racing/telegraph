@@ -25,7 +25,6 @@
 					<span class="content-type">
 						Different Options
 					</span>
-					<!-- <Dropdown /> -->
 					<Dropdown :changeHandler="onDropdownChange">
 						<template v-slot:options>
 							<option>currently selected</option>
@@ -33,6 +32,12 @@
 							<option>second option</option>
 						</template>
 					</Dropdown>
+				</div>
+				<div class="items content-items">
+					<span class="content-type">
+						DON'T CLICK
+					</span>
+					<Button text="button"></Button>
 				</div>
 			</template>
 		</Bubble>
@@ -44,10 +49,11 @@ import ScrollArea from "../components/ScrollArea.vue";
 import Bubble from "../components/Bubble.vue";
 import Toggle from "../components/Toggle.vue";
 import Dropdown from "../components/Dropdown.vue";
+import Button from "../components/Button.vue";
 
 export default {
 	name: "SettingsPage",
-	components: { ScrollArea, Bubble, Toggle, Dropdown },
+	components: { ScrollArea, Bubble, Toggle, Dropdown, Button },
 	props: {},
 	methods: {
 		switchTheme() {
