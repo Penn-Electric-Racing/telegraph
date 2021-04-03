@@ -151,7 +151,7 @@ impl Node {
     //     owner_ = c;
     // }
 
-    // virtual void set_unowned() { owner_.reset(); }
+    // TODO: virtual void set_unowned() { owner_.reset(); }
 
     /// Deserialize this node from a protobuf node
     pub fn unpack(proto: &wire::Node) -> Result<Self, UnpackError> {
@@ -291,17 +291,17 @@ impl Group {
         })
     }
 
-    // void set_owner(const std::weak_ptr<context>& c) override {
+    // TODO: void set_owner(const std::weak_ptr<context>& c) override {
     //     node::set_owner(c);
     //     for (node* child : children_) child->set_owner(c);
     // }
 
-    // void set_unowned() override {
+    // TODO: void set_unowned() override {
     //     node::set_unowned();
     //     for (node* c : children_) c->set_unowned();
     // }
 
-    // node* from_path(const std::vector<std::string_view>& p,
+    // TODO: node* from_path(const std::vector<std::string_view>& p,
     //     size_t idx=0) override {
     //     if (idx > p.size()) return nullptr;
     //     else if (idx == p.size()) return this;
@@ -311,7 +311,7 @@ impl Group {
     //         return it->second->from_path(p, ++idx);
     //     }
     // }
-    // const node* from_path(const std::vector<std::string_view>& p,
+    // TODO: const node* from_path(const std::vector<std::string_view>& p,
     //     size_t idx=0) const override {
     //     if (idx > p.size()) return nullptr;
     //     else if (idx == p.size()) return this;
@@ -322,7 +322,7 @@ impl Group {
     //     }
     // }
 
-    // template<typename M>
+    // TODO: template<typename M>
     //     bool resolve_placeholders(M* nodes) {
     //         for (node::id p : placeholders_) {
     //             if (nodes->find(p) == nodes->end()) return false;
@@ -465,7 +465,7 @@ impl Variable {
         &self.data_type
     }
 
-    // bool compatible_with(node* other) const override;
+    // TODO: bool compatible_with(node* other) const override;
 }
 
 /*

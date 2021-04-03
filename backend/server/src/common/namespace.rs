@@ -28,7 +28,7 @@ pub struct ContextInfo {
 /// A Context is an object that wraps a node tree and provides various functions to interface with
 /// the outside world.
 pub trait Context {
-    // constexpr io::io_context& get_executor() { return ioc_; }
+    // TODO: constexpr io::io_context& get_executor() { return ioc_; }
     fn get_info(&self) -> &ContextInfo;
     fn is_headless(&self) -> bool { self.get_info().headless }
     fn get_name(&self) -> &String { &self.get_info().name }
@@ -38,31 +38,31 @@ pub trait Context {
 
     fn fetch(&self) -> Rc<RefCell<Node>>;
 
-    // virtual params_stream_ptr request(io::yield_ctx&, const params& p) = 0;
+    // TODO: virtual params_stream_ptr request(io::yield_ctx&, const params& p) = 0;
 
-    // virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
+    // TODO: virtual std::shared_ptr<node> fetch(io::yield_ctx& ctx) = 0;
 
     // // tree manipulation functions
-    // virtual subscription_ptr  subscribe(io::yield_ctx& ctx,
+    // TODO: virtual subscription_ptr  subscribe(io::yield_ctx& ctx,
     //     const std::vector<std::string_view>& variable,
     //     float min_interval, float max_interval,
     //     float timeout) = 0;
-    // virtual subscription_ptr  subscribe(io::yield_ctx& ctx,
+    // TODO: virtual subscription_ptr  subscribe(io::yield_ctx& ctx,
     //     const variable* v,
     //     float min_interval, float max_interval,
     //     float timeout) = 0;
 
-    // virtual value call(io::yield_ctx& ctx, action* a, value v, float timeout) = 0;
-    // virtual value call(io::yield_ctx& ctx, const std::vector<std::string_view>& a,
+    // TODO: virtual value call(io::yield_ctx& ctx, action* a, value v, float timeout) = 0;
+    // TODO: virtual value call(io::yield_ctx& ctx, const std::vector<std::string_view>& a,
     //     value v, float timeout) = 0;
 
-    // virtual bool write_data(io::yield_ctx& yield, variable* v,
+    // TODO: virtual bool write_data(io::yield_ctx& yield, variable* v,
     //     const std::vector<datapoint>& data) = 0;
-    // virtual bool write_data(io::yield_ctx& yield, const std::vector<std::string_view>& var,
+    // TODO: virtual bool write_data(io::yield_ctx& yield, const std::vector<std::string_view>& var,
     //     const std::vector<datapoint>& data) = 0;
 
-    // virtual data_query_ptr query_data(io::yield_ctx& yield, const variable* v) = 0;
-    // virtual data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& v) = 0;
+    // TODO: virtual data_query_ptr query_data(io::yield_ctx& yield, const variable* v) = 0;
+    // TODO: virtual data_query_ptr query_data(io::yield_ctx& yield, const std::vector<std::string_view>& v) = 0;
 }
 
 pub enum Params {

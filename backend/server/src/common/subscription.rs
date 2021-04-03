@@ -108,7 +108,7 @@ impl Subscription {
         if !self.cancelled {
             self.cancelled = true;
         }
-        // refresh_timer_.cancel();
+        // TODO refresh_timer_.cancel();
     }
 
     pub fn cancel(&mut self) {
@@ -130,13 +130,13 @@ impl Subscription {
                 publisher.borrow_mut().remove(self);
             }
         }
-        // refresh_timer_.cancel();
+        // TODO: refresh_timer_.cancel();
     }
 
     fn reset_refresh_timer(&mut self) {
-        //  refresh_timer_.cancel();
+        // TODO: refresh_timer_.cancel();
         if !self.cancelled {
-            // refresh_timer_.expires_from_now(
+            // TODO: refresh_timer_.expires_from_now(
             //     boost::posix_time::milliseconds(
             //         std::max(1, (int) (1000*refresh_))));
             // refresh_timer_.async_wait([this](const boost::system::error_code& ec) {
