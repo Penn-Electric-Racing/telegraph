@@ -5,7 +5,10 @@ use std::env;
 use log::{error, info};
 use tokio::net::TcpListener;
 
-use anyhow::{anyhow, Result};
+use anyhow::{bail, Result};
+
+// TODO: turn this main function into `try_main` and wrap it with a little bit of logic that
+// pretty-prints any error messages before terminating with an appropriate error code
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -14,7 +17,7 @@ async fn main() -> Result<()> {
     let addr = match env::var("TELEGRAPH_SERVER_ADDR") {
         Ok(addr) => addr,
         Err(env::VarError::NotPresent) => "0.0.0.0:8081".to_string(),
-        Err(err) => return Err(anyhow!("error reading the server address: {}", err)),
+        Err(err) => bail!("error reading the server address: {}", err),
     };
 
     let listener = TcpListener::bind(&addr).await?;

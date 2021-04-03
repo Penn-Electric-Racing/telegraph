@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Context, Result};
+use anyhow::{anyhow, bail, Context, Result};
 use futures_util::StreamExt;
 use prost::Message as _;
 use tokio::net::TcpStream; // Import the message trait so that we can decode `Packet`s
@@ -33,14 +33,14 @@ impl Server {
                     let packet =
                         wire::api::Packet::decode(bytes.as_slice()).context("decoding message")?;
 
-                    // Handle the packet
+                    // TODO: Handle the packet
                     println!("{:?}", packet);
                 }
                 Ok(message) => {
-                    return Err(anyhow!("got unexpected message: {:?}", message));
+                    bail!("got unexpected message: {:?}", message);
                 }
                 Err(error) => {
-                    return Err(anyhow!("error while reading a message: {}", error));
+                    bail!(anyhow!("error while reading a message: {}", error));
                 }
             }
         }
