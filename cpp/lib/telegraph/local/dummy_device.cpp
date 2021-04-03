@@ -38,10 +38,13 @@ namespace telegraph {
     }
 
     value
-    dummy_device::call(io::yield_ctx&, action* a,
+    dummy_device::call(io::yield_ctx& yield, action* a,
                             value arg, float timeout) {
-        return value::invalid();
+        auto it = handlers_.find(a);
+        if ( it == handlers_.end()) return value::invalid();
+        return it->second(yield, arg);
     }
+
    local_context_ptr 
     dummy_device::create(io::yield_ctx&, io::io_context& ioc,
             const std::string_view& name, const std::string_view& type,
@@ -53,7 +56,10 @@ namespace telegraph {
         auto status_type = value_type("Status", std::move(labels));
         auto childC = new variable(4, "c", "C", "", status_type);
 
-        std::vector<node*> children{childA, childB, childC};
+        // action
+        auto action1 = new action(1, "action1", "action1", "", value_type::Uint8, value_type::Uint8);
+
+        std::vector<node*> children{childA, childB, childC, action1};
         auto root = std::make_unique<group>(1, "foo", "Foo", "", "", 1, std::move(children));
         auto dev = std::make_shared<dummy_device>(ioc, name, std::move(root));
 
@@ -64,6 +70,11 @@ namespace telegraph {
         dev->add_publisher(childA, a_publisher);
         dev->add_publisher(childB, b_publisher);
         dev->add_publisher(childC, c_publisher);
+
+        // add action
+        dev->add_handler(action1, [] (io::yield_ctx& yield, value val) -> value {
+            return value{(uint8_t)4};
+        });
 
         // spawn data-pushing loop....
         std::weak_ptr<dummy_device> w{dev};

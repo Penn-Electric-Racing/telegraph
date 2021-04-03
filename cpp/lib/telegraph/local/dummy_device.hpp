@@ -10,7 +10,7 @@
 namespace telegraph {
     class dummy_device : public local_context {
     public:
-        using handler = std::function<void(io::yield_ctx&, value)>;
+        using handler = std::function<value(io::yield_ctx&, value)>;
     private:
         std::unordered_map<const variable*, publisher_ptr> publishers_;
         std::unordered_map<const action*, handler> handlers_;

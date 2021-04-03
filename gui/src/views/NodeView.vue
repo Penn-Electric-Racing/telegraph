@@ -29,7 +29,7 @@
 		:dragData="node"
 	>
 		<template v-slot:header>
-			<span class="node-name">{{ node.getName() }}</span>
+			<span class="node-name">{{ node.getName() + "- action" }}</span>
 		</template>
 	</Bubble>
 	<Bubble
@@ -39,7 +39,7 @@
 		:dragData="node"
 	>
 		<template v-slot:header>
-			<span class="node-name">{{ node.getName() }}</span>
+			<span class="node-name">{{ node.getName() + "- variable" }}</span>
 			<div class="header-icons">
 				<font-awesome-icon
 					icon="circle"
