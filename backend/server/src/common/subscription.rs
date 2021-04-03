@@ -1,12 +1,14 @@
-use std::cell::RefCell;
-use std::rc::{Rc, Weak};
+use std::collections::HashMap;
+use std::sync::{Arc, Mutex, Weak};
 use std::time::{Duration, Instant};
+
+use uuid::Uuid;
 
 use crate::types::Type;
 use crate::value::Value;
 
 pub struct Publisher {
-    subscriptions: Vec<Weak<RefCell<Subscription>>>,
+    subscriptions: HashMap<Uuid, Weak<Mutex<Subscription>>>,
     // TODO: is there a good reason why we have this? What is this ever used for / why can't we get
     // this information from the value itself?
     value_type: Type,
@@ -16,44 +18,40 @@ pub struct Publisher {
 impl Publisher {
     pub fn new(value_type: Type) -> Self {
         Self {
-            subscriptions: vec![],
+            subscriptions: HashMap::new(),
             value_type,
             value: None,
         }
     }
 
     pub fn remove(&mut self, subscription: &Subscription) {
-        let pos = self.subscriptions.iter().position(|s| {
-            if let Some(s) = s.upgrade() {
-                std::ptr::eq(s.as_ref().as_ptr(), subscription)
-            } else {
-                false
-            }
-        });
-
-        if let Some(pos) = pos {
-            self.subscriptions.remove(pos);
-        }
+        self.subscriptions.remove(&subscription.uuid);
     }
 
     // FIXME: this is an ugly associated function. If/when `Arbitrary Self Types` lands in stable
     // Rust, we should rewrite this as a method. The reason we accept an Rc<RefCell<Self>> is
-    // because we need to hand a weak pointer to the subscription.
+    // because we need to hand a weak pointer of ourself to the subscription.
     pub fn subscribe(
-        publisher: Rc<RefCell<Self>>,
+        publisher: Arc<Mutex<Self>>,
         refresh: Duration,
         debounce: Duration,
-    ) -> Rc<RefCell<Subscription>> {
-        let sub = Rc::new(RefCell::new(Subscription::new(
+        on_data_update: Box<dyn Fn(Value) + Send>,
+    ) -> Arc<Mutex<Subscription>> {
+        let uuid = Uuid::new_v4();
+
+        let sub = Arc::new(Mutex::new(Subscription::new(
             refresh,
             debounce,
-            Rc::downgrade(&publisher),
+            Arc::downgrade(&publisher),
+            on_data_update,
+            uuid,
         )));
 
         publisher
-            .borrow_mut()
+            .lock()
+            .expect("failed to unlock the publisher mutex")
             .subscriptions
-            .push(Rc::downgrade(&sub));
+            .insert(uuid, Arc::downgrade(&sub));
 
         sub
     }
@@ -61,9 +59,11 @@ impl Publisher {
     pub fn update(&mut self, v: Value) {
         self.value = Some(v);
         let now = Instant::now();
-        for weak_sub in &self.subscriptions {
+        for weak_sub in self.subscriptions.values() {
             if let Some(sub) = weak_sub.upgrade() {
-                sub.borrow_mut().update(now, v);
+                sub.lock()
+                    .expect("failed to unlock the subscription mutex")
+                    .update(now, v);
             }
         }
     }
@@ -71,16 +71,18 @@ impl Publisher {
 
 impl Drop for Publisher {
     fn drop(&mut self) {
-        for sub in &self.subscriptions {
+        for sub in self.subscriptions.values() {
             if let Some(sub) = sub.upgrade() {
-                sub.borrow_mut().cancel_quietly()
+                sub.lock()
+                    .expect("faield to unlock the subscription mutex")
+                    .cancel_quietly()
             }
         }
     }
 }
 
 pub struct Subscription {
-    publisher: Weak<RefCell<Publisher>>,
+    publisher: Weak<Mutex<Publisher>>,
     last_value: Option<Value>,
     last_update: Option<Instant>,
     refresh: Duration,
@@ -88,10 +90,20 @@ pub struct Subscription {
     // TODO: what how are we going to implement the refresh timer?
     // io::deadline_timer refresh_timer_;
     cancelled: bool,
+    on_data_update: Box<dyn Fn(Value) + Send>,
+
+    /// We track a UUID for each subscription to make unsubscribing easier
+    uuid: Uuid,
 }
 
 impl Subscription {
-    fn new(refresh: Duration, debounce: Duration, publisher: Weak<RefCell<Publisher>>) -> Self {
+    fn new(
+        refresh: Duration,
+        debounce: Duration,
+        publisher: Weak<Mutex<Publisher>>,
+        on_data_update: Box<dyn Fn(Value) + Send>,
+        uuid: Uuid,
+    ) -> Self {
         Self {
             publisher,
             last_value: None,
@@ -99,6 +111,8 @@ impl Subscription {
             refresh,
             debounce,
             cancelled: false,
+            on_data_update,
+            uuid,
         }
     }
 
@@ -127,7 +141,10 @@ impl Subscription {
             // Maybe what we need is a separate RefCell for the subscriptions?
 
             if let Some(publisher) = self.publisher.upgrade() {
-                publisher.borrow_mut().remove(self);
+                publisher
+                    .lock()
+                    .expect("failed to unlock the publisher mutex")
+                    .remove(self);
             }
         }
         // TODO: refresh_timer_.cancel();
@@ -147,7 +164,7 @@ impl Subscription {
 
     pub fn poll(&mut self) {
         if let Some(publisher) = self.publisher.upgrade() {
-            if let Some(value) = publisher.borrow().value {
+            if let Some(value) = publisher.lock().ok().and_then(|p| p.value) {
                 self.last_value = None;
                 self.update(Instant::now(), value);
             }
@@ -159,7 +176,6 @@ impl Subscription {
         self.refresh = refresh;
         self.reset_refresh_timer();
     }
-
 
     fn update(&mut self, instant: Instant, value: Value) {
         if let Some(last_update) = self.last_update {
@@ -173,8 +189,9 @@ impl Subscription {
         self.last_update = Some(instant);
         self.last_value = Some(value);
         self.reset_refresh_timer();
-        // TODO: what do we do here? It looks like `data` is a signal in the boost code
-        // self.data(value);
+
+        // Weird syntax because this is a function object stored on the struct
+        (self.on_data_update)(value);
     }
 
     // TODO, this should take some kind of error code
@@ -189,7 +206,6 @@ impl Subscription {
         }
         //  }
     }
-
 }
 
 impl Drop for Subscription {

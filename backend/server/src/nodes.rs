@@ -228,6 +228,10 @@ impl Group {
         }
     }
 
+    pub fn info(&self) -> &NodeInfo {
+        &self.info
+    }
+
     pub fn children_iter(&self) -> impl Iterator<Item = &Node> {
         self.children.values()
     }
@@ -370,6 +374,10 @@ impl Action {
         }
     }
 
+    pub fn info(&self) -> &NodeInfo {
+        &self.info
+    }
+
     pub fn arg_type(&self) -> &Type {
         &self.arg_type
     }
@@ -434,6 +442,14 @@ impl Variable {
         Self { info, data_type }
     }
 
+    pub fn info(&self) -> &NodeInfo {
+        &self.info
+    }
+
+    pub fn data_type(&self) -> &Type {
+        &self.data_type
+    }
+
     pub fn pack(&self) -> wire::Node {
         wire::Node {
             node: Some(wire::node::Node::Var(wire::Variable {
@@ -459,10 +475,6 @@ impl Variable {
                 Some(t) => Type::unpack(&t)?,
             },
         })
-    }
-
-    pub fn get_type(&self) -> &Type {
-        &self.data_type
     }
 
     // TODO: bool compatible_with(node* other) const override;

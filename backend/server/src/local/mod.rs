@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 use std::rc::{Rc, Weak};
+use std::sync::{Arc, Mutex};
 use std::cell::RefCell;
 
 use uuid::Uuid;
 
-use crate::common::namespace::*;
+use crate::common::{namespace::*, subscription::Publisher};
 use crate::nodes::*;
 
 pub mod dummy_device;
@@ -28,7 +29,9 @@ impl Namespace<LocalContext> for LocalNamespace {
 }
 
 pub struct LocalContext {
-    device: Box<dyn Device>,
+    // TODO: we might need to change the handler type to a more appropriate type here.
+    // I think the C++ code uses an async function that returns void
+    device: Box<dyn Device<Handler = ()>>,
     info: ContextInfo,
     namespace: Weak<RefCell<LocalNamespace>>,
     tree: Rc<RefCell<Node>>,
@@ -73,54 +76,59 @@ impl OwnedContext for LocalContext {
 }
 
 pub trait Device {
-        // TODO: void add_publisher(const variable* v, const publisher_ptr& p);
-        // TODO: void add_handler(const action* a, const handler& h);
+    type Handler;
 
-        // TODO: params_stream_ptr request(io::yield_ctx&, const params& p) override;
+    fn add_publisher(&mut self, v: &Variable, p: Arc<Mutex<Publisher>>);
+    fn add_handler(&mut self, v: &Variable, p: Self::Handler);
 
-        // TODO: subscription_ptr subscribe(io::yield_ctx& ctx,
-        //         const variable* v,
-        //         float min_interval, float max_interval,
-        //         float timeout) override;
+    // TODO: async fn request(&self, p: &Params) -> ParamsStream_ptr;
+    // I think this should be async because we are actually returning something
 
-        // TODO: value call(io::yield_ctx& yield, action* a, value v, float timeout) override;
+    // TODO: subscription_ptr subscribe(io::yield_ctx& ctx,
+    //         const variable* v,
+    //         float min_interval, float max_interval,
+    //         float timeout) override;
 
-        // TODO: subscription_ptr subscribe(io::yield_ctx& yield,
-        //         const std::vector<std::string_view>& path,
-        //         float min_interval, float max_interval,
-        //         float timeout) override {
-        //     auto v = dynamic_cast<variable*>(tree_->from_path(path));
-        //     if (!v) return nullptr;
-        //     return subscribe(yield, v, min_interval, max_interval, timeout);
-        // }
+    // TODO: value call(io::yield_ctx& yield, action* a, value v, float timeout) override;
 
-        // TODO: value call(io::yield_ctx& yield,
-        //             const std::vector<std::string_view>& path,
-        //             value v, float timeout) override {
-        //     auto a = dynamic_cast<action*>(tree_->from_path(path));
-        //     if (!a) return value::invalid();
-        //     return call(yield, a, v, timeout);
-        // }
+    // TODO: subscription_ptr subscribe(io::yield_ctx& yield,
+    //         const std::vector<std::string_view>& path,
+    //         float min_interval, float max_interval,
+    //         float timeout) override {
+    //     auto v = dynamic_cast<variable*>(tree_->from_path(path));
+    //     if (!v) return nullptr;
+    //     return subscribe(yield, v, min_interval, max_interval, timeout);
+    // }
 
-        // TODO: bool write_data(io::yield_ctx& yield,
-        //         variable* v,
-        //         const std::vector<datapoint>& data) override {
-        //     return false;
-        // }
-        // TODO: bool write_data(io::yield_ctx& yield,
-        //         const std::vector<std::string_view>&,
-        //         const std::vector<datapoint>& data) override {
-        //     return false;
-        // }
+    // TODO: value call(io::yield_ctx& yield,
+    //             const std::vector<std::string_view>& path,
+    //             value v, float timeout) override {
+    //     auto a = dynamic_cast<action*>(tree_->from_path(path));
+    //     if (!a) return value::invalid();
+    //     return call(yield, a, v, timeout);
+    // }
 
-        // TODO: data_query_ptr query_data(io::yield_ctx& yield,
-        //                             const variable* v) override {
-        //     return nullptr;
-        // }
-        // TODO: data_query_ptr query_data(io::yield_ctx& yield,
-        //         const std::vector<std::string_view>& v) override {
-        //     return nullptr;
-        // }
+    // TODO: bool write_data(io::yield_ctx& yield,
+    //         variable* v,
+    //         const std::vector<datapoint>& data) override {
+    //     return false;
+    // }
+
+    // TODO: bool write_data(io::yield_ctx& yield,
+    //         const std::vector<std::string_view>&,
+    //         const std::vector<datapoint>& data) override {
+    //     return false;
+    // }
+
+    // TODO: data_query_ptr query_data(io::yield_ctx& yield,
+    //                             const variable* v) override {
+    //     return nullptr;
+    // }
+
+    // TODO: data_query_ptr query_data(io::yield_ctx& yield,
+    //         const std::vector<std::string_view>& v) override {
+    //     return nullptr;
+    // }
 }
 
 
