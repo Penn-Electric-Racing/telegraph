@@ -207,6 +207,8 @@ impl fmt::Display for Node {
  * Groups
  */
 
+// TODO: what if we use arena allocation, and a group just stores the ID of all of its children?
+
 /// A group of nodes (an internal vertex of the node tree)
 pub struct Group {
     info: NodeInfo,
