@@ -1,6 +1,7 @@
 <template>
 	<div class="control-display" :class="{ horizontal: horizontal }">
-		<div class="node-value">{{ stateLabel }}</div>
+		<div v-if="this.node.isVariable()" class="node-value">{{ stateLabel }}</div>
+		<ActionControl v-if="this.node.isAction()" :node="this.node"/>
 		<div class="node-label">
 			{{ node.getPretty() }}
 		</div>
@@ -8,54 +9,64 @@
 </template>
 
 <script>
-import { Node, Action, Variable } from "telegraph";
-export default {
-	name: "Control",
-	props: {
-		node: Node,
-		horizontal: { default: false, type: Boolean },
-	},
-	data: function() {
-		return {
-			sub: null,
-			state: null,
-		};
-	},
-	computed: {
-		stateLabel() {
-			var str = "" + this.state;
-			if (typeof this.state == "number" && this.state % 1 !== 0) {
-				str = this.state.toFixed(2);
-			}
-			return this.state == null ? "..." : "" + str;
+	import { Node, Action, Variable } from "telegraph";
+	import ActionControl from './ActionControl.vue';
+	export default {
+		name: "Control",
+    components: { ActionControl },
+		props: {
+			node: Node,
+			horizontal: { default: false, type: Boolean },
 		},
-	},
-	methods: {
-		async subscribe() {
-			if (this.sub) await this.sub.cancel();
-			if (this.node instanceof Variable) {
-				this.sub = await this.node.subscribe(1, 1);
-				if (this.sub) {
-					this.sub.data.add((dp) => (this.state = dp.v));
-					this.sub.poll();
-				} else {
-					this.state = "N/A";
+		data: function() {
+			return {
+				sub: null,
+				state: null,
+			};
+		},
+		computed: {
+			stateLabel() {
+				var str = "" + this.state;
+				if (typeof this.state == "number" && this.state % 1 !== 0) {
+					str = this.state.toFixed(2);
 				}
-			}
+				return this.state == null ? "..." : "" + str;
+			},
 		},
-	},
-	watch: {
-		node(val) {
+		methods: {
+			async subscribe() {
+				if (this.sub) await this.sub.cancel();
+				if (this.node instanceof Variable) {
+					this.sub = await this.node.subscribe(1, 1);
+					if (this.sub) {
+						this.sub.data.add((dp) => (this.state = dp.v));
+						this.sub.poll();
+					} else {
+						this.state = "N/A";
+					}
+				}
+			},
+		},
+		watch: {
+			node(val) {
+				this.subscribe();
+			},
+		},
+		created() {
+			// console.log(this.node);
+			// console.log(this.node instanceof Variable);
+			// console.log(this.node instanceof Action);
+			// if (this.node instanceof Action) {
+			// 	alert("calling " + this.node.name);
+			// 	let response =this.node.call(10);
+			// 	response.then((value) => {console.log(value)});
+			// }
 			this.subscribe();
 		},
-	},
-	created() {
-		this.subscribe();
-	},
-	destroyed() {
-		if (this.sub) this.sub.cancel();
-	},
-};
+		destroyed() {
+			if (this.sub) this.sub.cancel();
+		},
+	};
 </script>
 
 <style>

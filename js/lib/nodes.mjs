@@ -204,6 +204,14 @@ export class Variable extends Node {
 		return this._type;
 	}
 
+	isVariable() {
+		return true;
+	}
+
+	isAction() {
+		return false;
+	}
+
 	subscribe(minInterval, maxInterval, timeout = 1) {
 		return this._ctx
 			? this._ctx.subscribe(this, minInterval, maxInterval, timeout)
@@ -253,6 +261,14 @@ export class Action extends Node {
 		super(name, pretty, desc);
 		this._argType = argType;
 		this._retType = retType;
+	}
+
+	isVariable() {
+		return false;
+	}
+
+	isAction() {
+		return true;
 	}
 
 	call(value, timeout = 1) {
@@ -388,6 +404,29 @@ export class Type {
 				break; // invalid
 		}
 		return { name: this._name, type: type, labels: this._labels };
+	}
+
+	isNumber() {
+		switch (this._class) {
+			case Type.NONE._class:
+				return false;
+			case Type.ENUM._class:
+				return false;
+			case Type.BOOL._class:
+				return false;
+			default:
+				return true;
+		}
+	}
+
+	isBoolean() {
+		if (this._class == Type.BOOL._class) return true;
+		return false;
+	}
+
+	isEnum() {
+		if (this._class == Type.ENUM._class) return true;
+		return false;
 	}
 
 	static unpack(proto) {
