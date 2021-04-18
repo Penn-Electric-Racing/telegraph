@@ -1,7 +1,7 @@
 <template>
 	<div class="control-display" :class="{ horizontal: horizontal }">
 		<div v-if="this.node.isVariable()" class="node-value">{{ stateLabel }}</div>
-		<ActionControl v-if="this.node.isAction()" :node="this.node"/>
+		<ActionControl v-if="this.node.isAction()" :node="this.node" />
 		<div class="node-label">
 			{{ node.getPretty() }}
 		</div>
@@ -10,10 +10,10 @@
 
 <script>
 	import { Node, Action, Variable } from "telegraph";
-	import ActionControl from './ActionControl.vue';
+	import ActionControl from "./ActionControl.vue";
 	export default {
 		name: "Control",
-    components: { ActionControl },
+		components: { ActionControl },
 		props: {
 			node: Node,
 			horizontal: { default: false, type: Boolean },
@@ -53,14 +53,6 @@
 			},
 		},
 		created() {
-			// console.log(this.node);
-			// console.log(this.node instanceof Variable);
-			// console.log(this.node instanceof Action);
-			// if (this.node instanceof Action) {
-			// 	alert("calling " + this.node.name);
-			// 	let response =this.node.call(10);
-			// 	response.then((value) => {console.log(value)});
-			// }
 			this.subscribe();
 		},
 		destroyed() {
@@ -70,25 +62,25 @@
 </script>
 
 <style>
-.control-display {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-.horizontal {
-	flex-direction: row-reverse;
-	align-items: stretch;
-}
+	.control-display {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.horizontal {
+		flex-direction: row-reverse;
+		align-items: stretch;
+	}
 
-.node-value {
-	font-size: 21px;
-	padding: 3px 10px 3px 10px;
-	min-width: 3em;
-	text-align: center;
-}
-.node-label {
-	font-size: 13px;
-	color: var(--contrast-color);
-	padding: 1px 10px 5px 10px;
-}
+	.node-value {
+		font-size: 21px;
+		padding: 3px 10px 3px 10px;
+		min-width: 3em;
+		text-align: center;
+	}
+	.node-label {
+		font-size: 13px;
+		color: var(--contrast-color);
+		padding: 1px 10px 5px 10px;
+	}
 </style>

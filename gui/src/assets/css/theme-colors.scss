@@ -37,6 +37,8 @@
 
 	--accent-color: #1c8ed7;
 	--hover-color: rgba(28, 144, 217, 0.3);
+
+	--pane-background-color: rgba(0, 0, 0, 0.3);
 }
 
 [theme="light"] {
@@ -76,4 +78,6 @@
 
 	--content-hover: #555555;
 	--node-record-icon: #77848f;
+
+	--pane-background-color: rgba(0, 0, 0, 0.3);
 }

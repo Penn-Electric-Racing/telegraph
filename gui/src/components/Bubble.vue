@@ -57,9 +57,9 @@ export default {
 
 						// set the data
 						clone.setAttribute("data-x", r.left);
-						clone.setAttribute("data-y", r.top);
+						clone.setAttribute("data-y", r.top - 50);
 						clone.style.left = r.left + "px";
-						clone.style.top = r.top + "px";
+						clone.style.top = (r.top - 50) + "px";
 
 						event.currentTarget.parentNode.parentNode.appendChild(clone);
 						// start a drag interaction targeting the clone

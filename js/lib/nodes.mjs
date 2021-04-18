@@ -429,6 +429,11 @@ export class Type {
 		return false;
 	}
 
+	isNone() {
+		if (this._class == Type.NONE._class) return true;
+		return false;
+	}
+
 	static unpack(proto) {
 		switch (proto.type) {
 			case 0:
@@ -522,7 +527,7 @@ export var Value = {
 			case Type.INT8._class:
 				return { i8: val };
 			case Type.INT16._class:
-				return { i16: VAL };
+				return { i16: val };
 			case Type.INT32._class:
 				return { i32: val };
 			case Type.INT64._class:
@@ -534,19 +539,35 @@ export var Value = {
 		}
 	},
 	unpack(proto, type) {
-		if (proto.f) return proto.f;
-		if (proto.d) return proto.d;
-		if (proto.b) return proto.b;
-		if (proto.en) return proto.en;
-		if (proto.u8) return proto.u8;
-		if (proto.u16) return proto.u16;
-		if (proto.u32) return proto.u32;
-		if (proto.u64) return proto.u64;
-		if (proto.i8) return proto.i8;
-		if (proto.i16) return proto.i16;
-		if (proto.i32) return proto.i32;
-		if (proto.i64) return proto.i64;
-		if (proto.none) return null;
-		return undefined;
+		switch (type._class) {
+			case Type.INVALID._class:
+				return null;
+			case Type.NONE._class:
+				return null;
+			case Type.BOOL._class:
+				return proto.b;
+			case Type.ENUM._class:
+				return proto.en;
+			case Type.UINT8._class:
+				return proto.u8;
+			case Type.UINT16._class:
+				return proto.u16;
+			case Type.UINT32._class:
+				return proto.u32;
+			case Type.UINT64._class:
+				return proto.u64;
+			case Type.INT8._class:
+				return proto.i8;
+			case Type.INT16._class:
+				return proto.i16;
+			case Type.INT32._class:
+				return proto.i32;
+			case Type.INT64._class:
+				return proto.i64;
+			case Type.FLOAT._class:
+				return proto.f;
+			case Type.DOUBLE._class:
+				return proto.d;
+		}
 	},
 };
