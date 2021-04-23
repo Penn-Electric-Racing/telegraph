@@ -3,7 +3,9 @@
 		<div class="number-input" v-if="this.node._argType.isNumber()">
 			<input v-model.number="input" type="number" class="number-box" />
 			<Button class="action-button" text="submit" @click="sendInput" />
-			<span v-if="has_value" class="action-response">{{ this.response }}</span>
+			<span v-if="has_value" class="action-response">{{
+				string_response
+			}}</span>
 		</div>
 		<div class="number-input" v-if="this.node._argType.isBoolean()">
 			<Button class="action-button" text="true" @click="sendVal(true)"></Button>
@@ -12,7 +14,9 @@
 				text="false"
 				@click="sendVal(false)"
 			></Button>
-			<span v-if="has_value" class="action-response">{{ this.response }}</span>
+			<span v-if="has_value" class="action-response">{{
+				string_response
+			}}</span>
 		</div>
 		<div class="number-input" v-if="this.node._argType.isNone()">
 			<Button
@@ -20,7 +24,9 @@
 				text="send"
 				@click="sendVal(undefined)"
 			></Button>
-			<span v-if="has_value" class="action-response">{{ this.response }}</span>
+			<span v-if="has_value" class="action-response">{{
+				string_response
+			}}</span>
 		</div>
 		<div
 			class="number-input"
@@ -36,7 +42,9 @@
 				</template>
 			</Dropdown>
 			<Button class="action-button" text="submit" @click="sendInput()" />
-			<span v-if="has_value" class="action-response">{{ this.response }}</span>
+			<span v-if="has_value" class="action-response">{{
+				string_response
+			}}</span>
 		</div>
 		<div
 			class="number-input"
@@ -49,8 +57,11 @@
 				v-for="option in node._argType._labels"
 				:key="option"
 				:text="'(' + node._argType._labels.indexOf(option) + ') ' + option"
+				@click="onOptionClick(option)"
 			/>
-			<span v-if="has_value" class="action-response">{{ this.response }}</span>
+			<span v-if="has_value" class="action-response">{{
+				string_response
+			}}</span>
 		</div>
 	</div>
 </template>
@@ -65,12 +76,21 @@
 		props: {
 			node: Node,
 		},
+		data() {
+			return {
+				input: 0,
+				response: undefined,
+				has_value: false,
+				string_response: undefined,
+			};
+		},
 		methods: {
 			sendInput() {
 				let res_prom = this.node.call(this.input);
 				res_prom.then((res) => {
 					this.has_value = true;
 					this.response = res.v;
+					this.formatResponse();
 				});
 			},
 			sendVal(val) {
@@ -78,6 +98,7 @@
 				res_prom.then((res) => {
 					this.has_value = true;
 					this.response = res.v;
+					this.formatResponse();
 				});
 			},
 			onDropdownChange(event) {
@@ -89,13 +110,17 @@
 				}
 				this.input = Number(index);
 			},
-		},
-		data() {
-			return {
-				input: 0,
-				response: undefined,
-				has_value: false,
-			};
+			onOptionClick(option) {
+				this.sendVal(this.node._argType._labels.indexOf(option));
+			},
+			formatResponse() {
+				console.log(this.node);
+				if (this.node._retType.isEnum()) {
+					this.string_response = this.node._retType._labels[this.response];
+				} else {
+					this.string_response = this.response;
+				}
+			},
 		},
 		created() {},
 	};
