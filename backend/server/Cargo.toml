@@ -1,16 +1,16 @@
 [package]
 name = "server"
-version = "0.1.0"
+version = "2.0.0"
 authors = ["Penn Electric Racing"]
 edition = "2018"
 
 [dependencies]
 # tokio allows for async io
-tokio = { version = "0.3.5", features = ["full"] }
+tokio = { version = "^1", features = ["full"] }
 futures-util = "0.3.8"
 # Tungstenite is a websocket library
-tungstenite = "0.11.1"
-tokio-tungstenite = "0.12.0"
+tungstenite = "0.15.0"
+tokio-tungstenite = "0.15.0"
 # PROST! is a protobuf library
 prost = "^0.8"
 prost-types = "^0.8"
@@ -21,6 +21,15 @@ env_logger = "^0.9"
 anyhow = "^1"
 # We use UUIDs for contexts. We need the v4 feature to randomly generate UUIDs
 uuid = { version = "0.8", features = ["v4"] }
+
+
+# GraphQL dependencies
+juniper = "^0.15"
+juniper_warp = { version = "^0.7.0", features = ["subscriptions"] }
+juniper_graphql_ws = "^0.3"
+warp = "^0.3"
+tokio-stream = "^0.1"
+futures = "^0.3"
 
 [build-dependencies]
 # Pull in prost-build for codegen

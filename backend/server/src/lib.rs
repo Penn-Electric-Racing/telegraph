@@ -29,7 +29,7 @@ impl Server {
 
         while let Some(msg) = read.next().await {
             match msg {
-                Ok(tungstenite::Message::Binary(bytes)) => {
+                Ok(tokio_tungstenite::tungstenite::Message::Binary(bytes)) => {
                     let packet =
                         wire::api::Packet::decode(bytes.as_slice()).context("decoding message")?;
 

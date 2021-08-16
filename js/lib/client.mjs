@@ -8,6 +8,11 @@ import { NamespaceQuery } from './query.mjs'
 import { Context, Namespace, Request } from './namespace.mjs'
 import { DataQuery } from './namespace.mjs'
 
+import { createClient, defaultExchanges, subscriptionExchange} from '@urql/core';
+import * as transport_ws from 'subscriptions-transport-ws';
+
+import { pipe, subscribe } from 'wonka';
+
 function checkError(packet) {
   if (packet.error) throw new Error(packet.error);
   return packet;
@@ -19,6 +24,16 @@ export class Client extends Namespace {
     super();
     this._conn = null;
     this.contexts = new Collection();
+    this.wsClient = new transport_ws.default.SubscriptionClient('ws://localhost:8088/subscriptions', { reconnect: true });
+    this.graphqlClient = createClient({
+      url: 'http://localhost:8088/graphql',
+      exchanges: [
+        ...defaultExchanges,
+        subscriptionExchange({
+          forwardSubscription: (operation) => this.wsClient.request(operation)
+        }),
+      ],
+    });
   }
 
   query() { 

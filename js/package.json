@@ -6,10 +6,14 @@
   "author": "Daniel Pfrommer",
   "license": "MIT",
   "dependencies": {
+    "@urql/core": "^2.2.0",
+    "graphql": "^15.5.1",
     "high-res-timeout": "^1.0.8",
     "isomorphic-ws": "^4.0.1",
     "protobufjs": "^6.8.8",
+    "subscriptions-transport-ws": "^0.9.19",
     "uuid": "^3.3.3",
+    "wonka": "^4.0.15",
     "ws": "^7.2.1"
   },
   "scripts": {
