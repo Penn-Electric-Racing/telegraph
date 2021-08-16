@@ -51,7 +51,7 @@ export class Client extends Namespace {
         this._conn = null;
       });
       await this._conn.connect();
-      await this._queryNS();
+      await this.queryNamespaces();
     } catch (e) {
       // if we couldn't connect, set connection to null and throw an error
       this._conn = null;
@@ -74,39 +74,53 @@ export class Client extends Namespace {
     });
   }
 
-  async _queryNS() {
-    // send a queryNs
-    var [nsRes, stream] = await this._conn.requestStream({queryNs: {}});
-    stream.received.add((packet) => {
-        // handle Context/Component/Mount added/removed
-        if (packet.added) {
-          let c = packet.added;
-          this.contexts._add(new RemoteContext(this, c.uuid, c.name, c.type, c.headless, Params.unpack(c.params)));
-
-        } else if (packet.removed) {
-          this.contexts._removeUUID(packet.removed);
-
-        } 
-    });
-    try {
-      stream.start();
-
-      checkError(nsRes);
-      // populate the namespace based on the query
-      if (!nsRes.ns) throw new Error("Malformed response!");
-      for (let c of nsRes.ns.contexts) {
-        this.contexts._add(new RemoteContext(this, c.uuid, c.name, c.type, c.headless, Params.unpack(c.params)));
+  async queryNamespaces() {
+    console.log("Querying namespaces...")
+    // Subscribe to the namespace changes
+    const namespaceSubscription = `
+      subscription Namespaces {
+        namespacePacketStream {
+          ... on Context {
+            name
+            headless
+            type
+            params
+            uuid
+          }
+          ... on DestroyedContext {
+            destroyedUuid
+          }
+        }
       }
-      // keep a reference to the stream so it stays
-      // alive
-      this._nsStream = stream;
-      var onClosed = () => { this._nsStream = null; stream.remove(onClosed); }
-      this._nsStream.closed.add(onClosed);
-    } catch (e) {
-      this._nsStream = null;
-      stream.close();
-      throw e;
-    }
+    `;
+
+    // TODO: store `unsubscribe` somewhere
+    const { unsubscribe } = pipe(
+      this.graphqlClient.subscription(namespaceSubscription),
+      subscribe(result => {
+        if (result == {}) return
+        if (result.error) {
+          console.log("GraphQL error:", result.error)
+          return
+        }
+
+        if (result.data.namespacePacketStream.destroyedUuid) {
+
+          let destroyedUuid = result.data.namespacePacketStream.destroyedUuid;
+          console.log("Context destroyed:", destroyedUuid)
+          this.contexts._removeUUID(destroyedUuid);
+
+        } else if (result.data.namespacePacketStream.uuid) {
+
+          let context = result.data.namespacePacketStream;
+          console.log("Context created:", context)
+          this.contexts._add(new RemoteContext(this, context.uuid, context.name, context.type, context.headless, context.params));
+
+        } else {
+          console.log(result)
+        }
+      })
+    );
   }
 
   async create(name, type, params={}) {
