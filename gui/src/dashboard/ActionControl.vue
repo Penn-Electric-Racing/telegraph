@@ -1,13 +1,13 @@
 <template>
-	<div class="action-input">
-		<div class="number-input" v-if="this.node._argType.isNumber()">
+	<div>
+		<div class="action-input" v-if="this.node._argType.isNumber()">
 			<input v-model.number="input" type="number" class="number-box" />
 			<Button class="action-button" text="submit" @click="sendInput" />
 			<span v-if="has_value" class="action-response">{{
 				string_response
 			}}</span>
 		</div>
-		<div class="number-input" v-if="this.node._argType.isBoolean()">
+		<div class="action-input" v-if="this.node._argType.isBoolean()">
 			<Button class="action-button" text="true" @click="sendVal(true)"></Button>
 			<Button
 				class="action-button"
@@ -18,7 +18,7 @@
 				string_response
 			}}</span>
 		</div>
-		<div class="number-input" v-if="this.node._argType.isNone()">
+		<div class="action-input" v-if="this.node._argType.isNone()">
 			<Button
 				class="action-button"
 				text="send"
@@ -29,7 +29,7 @@
 			}}</span>
 		</div>
 		<div
-			class="number-input"
+			class="action-input"
 			v-if="
 				this.node._argType.isEnum() && this.node._argType._labels.length > 2
 			"
@@ -47,7 +47,7 @@
 			}}</span>
 		</div>
 		<div
-			class="number-input"
+			class="action-input"
 			v-if="
 				this.node._argType.isEnum() && this.node._argType._labels.length <= 2
 			"
@@ -127,6 +127,12 @@
 </script>
 
 <style>
+	.action-input {
+		border: 1px var(--main-text-color) solid;
+		border-radius: 0.5rem;
+		padding: 10px;
+		margin: 5px;
+	}
 	.action-button {
 		margin: 10px;
 	}
