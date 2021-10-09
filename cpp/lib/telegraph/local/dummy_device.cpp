@@ -38,10 +38,13 @@ namespace telegraph {
     }
 
     value
-    dummy_device::call(io::yield_ctx&, action* a,
+    dummy_device::call(io::yield_ctx& yield, action* a,
                             value arg, float timeout) {
-        return value::invalid();
+        auto it = handlers_.find(a);
+        if ( it == handlers_.end()) return value::invalid();
+        return it->second(yield, arg);
     }
+
    local_context_ptr 
     dummy_device::create(io::yield_ctx&, io::io_context& ioc,
             const std::string_view& name, const std::string_view& type,
@@ -53,7 +56,18 @@ namespace telegraph {
         auto status_type = value_type("Status", std::move(labels));
         auto childC = new variable(4, "c", "C", "", status_type);
 
-        std::vector<node*> children{childA, childB, childC};
+        std::vector<std::string> test_labels = {"option1", "option2", "option3"};
+        value_type test_enum = value_type("test_enum", test_labels);
+        std::vector<std::string> short_labels = {"first", "second"};
+        value_type short_enum = value_type("short_enum", short_labels);
+        // action
+        auto action1 = new action(1, "action1", "action1", "", value_type::Uint8, value_type::Uint8);
+        auto action2 = new action(2, "action2", "action2", "", value_type::Bool, value_type::Bool);
+        auto action3 = new action(3, "action3", "action3", "", value_type::None, value_type::Uint8);
+        auto action4 = new action(4, "action4", "action4", "", test_enum, test_enum);
+        auto action5 = new action(5, "action5", "action5", "", short_enum, short_enum);
+
+        std::vector<node*> children{childA, childB, childC, action1, action2, action3, action4, action5};
         auto root = std::make_unique<group>(1, "foo", "Foo", "", "", 1, std::move(children));
         auto dev = std::make_shared<dummy_device>(ioc, name, std::move(root));
 
@@ -64,6 +78,25 @@ namespace telegraph {
         dev->add_publisher(childA, a_publisher);
         dev->add_publisher(childB, b_publisher);
         dev->add_publisher(childC, c_publisher);
+
+        // add action
+        dev->add_handler(action1, [] (io::yield_ctx& yield, value val) -> value {
+            return value{(uint8_t)(unwrap<uint8_t>(val) * 2)};
+        });
+        dev->add_handler(action2, [] (io::yield_ctx& yield, value val) -> value {
+            return value{(bool) !unwrap<bool>(val)};
+        });
+        dev->add_handler(action3, [] (io::yield_ctx& yield, value val) -> value {
+            return value{(uint8_t) 42};
+        });
+        dev->add_handler(action4, [] (io::yield_ctx& yield, value val) -> value {
+            uint8_t num = unwrap<uint8_t>(val);
+            return value(value_type::Enum, num);
+        });
+        dev->add_handler(action5, [] (io::yield_ctx& yield, value val) -> value {
+            uint8_t num = unwrap<uint8_t>(val);
+            return value(value_type::Enum, num);
+        });
 
         // spawn data-pushing loop....
         std::weak_ptr<dummy_device> w{dev};

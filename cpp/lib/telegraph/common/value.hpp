@@ -19,11 +19,11 @@ namespace telegraph {
     public:
         union box {
             bool b;
-            uint8_t uint8;
+            uint8_t uint8; // also used for the enum type
             uint16_t uint16;
             uint32_t uint32;
             uint64_t uint64;
-            int8_t int8; // also used for the enum type
+            int8_t int8;
             int16_t int16;
             int32_t int32;
             int64_t int64;

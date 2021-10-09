@@ -130,9 +130,9 @@ export default {
 
 <style scoped>
 .dashboard >>> .vue-grid-placeholder {
-	background-color: var(--accent-color);
+	background-color: var(--hover-color);
 	opacity: 0.2;
-	border: 2px solid var(--accent-color);
+	border: 2px solid var(--hover-color);
 	border-radius: 3px;
 	opacity: 1;
 }

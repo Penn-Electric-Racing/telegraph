@@ -1,6 +1,6 @@
 /* inspired by theme http://demo.adminbootstrap.com/right/1.0.0/index.html */
 <template>
-	<div id="app">
+	<div id="app" :theme="theme">
 		<div id="popup-pane" :style="{ zIndex: numPopups > 0 ? 1 : -1 }">
 			<Popup
 				v-for="(popup, idx) in popups"
@@ -222,20 +222,13 @@ export default {
 		};
 	},
 	computed: {
-		// ...mapState("tabs", {
-		// 	activeTab: (state) => state.activeTab,
-		// 	tabs: (state) => state.tabs,
-		// }),
 		...mapGetters("tabs", {
 			activeTab: "getActiveTab",
 			tabs: "getTabs",
 		}),
-		// activeTab() {
-		// 	return this.$store.state.tabs.activeTab;
-		// },
-		// tabs() {
-		// 	return this.$store.state.tabs.tabs;
-		// },
+		...mapState("theme", {
+			theme: (state) => state.currentTheme,
+		}),
 		loadedTabs() {
 			let loaded = [];
 			for (let t of this.tabs) {
@@ -427,8 +420,7 @@ body {
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: var(--inverse-contrast-color);
-	opacity: 0.3;
+	background-color: var(--pane-background-color);
 }
 #popup-pane.darkened {
 	z-index: 1000000;

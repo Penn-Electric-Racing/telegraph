@@ -24,9 +24,6 @@
         node: null,
       }
     },
-    created() {
-      console.log('created!', this.data);
-    },
     methods: {
       updateNode(node) {
         this.node = node
