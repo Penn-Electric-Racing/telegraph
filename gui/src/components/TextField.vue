@@ -2,7 +2,7 @@
 	<input
 		class="text-field"
 		:placeholder="placeholder"
-		:value="value"
+		:value="inputValue"
 		@input="updateValue($event.target.value)"
 		@keyup.enter="submit"
 	/>
@@ -13,7 +13,7 @@ export default {
 	name: "TextField",
 	props: {
 		placeholder: { type: String, default: "Type Text..." },
-		value: String,
+		inputValue: String,
 	},
 	methods: {
 		updateValue(val) {
@@ -22,6 +22,10 @@ export default {
 		submit() {
 			this.$emit("submit");
 		},
+	},
+	mounted() {
+		// init setup with default values
+		this.$emit("input", this.inputValue);
 	},
 };
 </script>

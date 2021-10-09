@@ -2,13 +2,16 @@
     <div class="create-page">
         <Form>
             <FormItem label="Name">
-                <TextField v-model="name" placeholder=""/>
+                <TextField v-model="name" placeholder=""
+                :inputValue="formName" @input="setName"/>
             </FormItem>
             <FormItem label="Type">
-                <TextField v-model="type" placeholder=""/>
+                <TextField v-model="type" placeholder=""
+                :inputValue="formType" @input="setType"/>
             </FormItem>
             <FormItem label="Parameters">
-                <TextField v-model="params" placeholder=""/>
+                <TextField v-model="params" placeholder=""
+                :inputValue ="formParams" @input="setParams"/>
             </FormItem>
             <FormItem alignContent="center">
                 <Button text="Create" @click="create"/>
@@ -25,6 +28,7 @@ import TextField from '../components/TextField.vue'
 import Button from '../components/Button.vue'
 
 import { NamespaceQuery } from 'telegraph'
+import { mapGetters, mapSetters } from "vuex";
 
 export default {
     name: 'CreatePage',
@@ -37,8 +41,15 @@ export default {
         return {
             name: "",
             type: "",
-            params: ""
+            params: "",
         }
+    },
+    computed: {
+        ...mapGetters("popup", {
+            formName: "getName",
+            formType: "getType",
+            formParams: "getParameters"
+        }),
     },
     methods: {
         async create() {
@@ -58,6 +69,15 @@ export default {
             var ns = this.nsQuery.current;
             await ns.create(this.name, this.type, params);
             this.$bubble('close');
+        },
+        setName(newName) {
+            this.$store.dispatch("popup/editName", newName);
+        },
+        setType(newType) {
+            this.$store.dispatch("popup/editType", newType);
+        },
+        setParams(newParams) {
+            this.$store.dispatch("popup/editParams", newParams);
         }
     }
 }
