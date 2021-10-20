@@ -13,6 +13,16 @@
 					:class="{ controlActive: live }"
 					@click="live = !live"
 				/>
+				<FlatButton
+					icon="arrow-alt-circle-up"
+					:class="{ controlActive: live }"
+					@click="toggleMax"
+				/>
+				<FlatButton
+					icon="arrow-alt-circle-down"
+					:class="{ controlActive: live }"
+					@click="toggleMin"
+				/>
 			</div>
 		</template>
 		<div ref="chart-container" class="chart-container">
@@ -47,6 +57,10 @@ export default {
 			history: [],
 			maxVals: [],
 			maxVal: 0,
+			maxVisible: true,
+			minVals: [],
+			minVal: 0,
+			minVisible: true,
 			chart: null,
 
 			timespan: 20,
@@ -89,11 +103,13 @@ export default {
 			this.chart = new TimeChart(this.$refs["chart"], {
 				series: [
 					{ name : 'Series 1', data: this.history, color: 'blue' },
-					{ name : 'Max', data: this.maxVals, color: 'red' }
+					{ name : 'Max', data: this.maxVals, color: 'red', visible: this.maxVisible},
+					{ name : 'Min', data: this.minVals, color: 'green', visible: this.minVisible },
 				],
 				realTime: true,
 				baseTime: Date.now() - performance.now(),
 				xRange: { min: 0, max: 20 * 1000 },
+				legend: false,
 			});
 		},
 		relayout() {
@@ -106,6 +122,26 @@ export default {
 		updateScale() {
 		},
 		updateVariable(v) {
+		},
+		toggleMax(){
+			this.maxVisible = !this.maxVisible; 
+			for (const s of this.chart.options.series) {
+				if (s.name == 'Max') {
+					s.visible = !s.visible;
+				}
+			}
+			this.maxVal = 0;
+			this.chart.update();
+		},
+		toggleMin(){
+			this.minVisible = !this.minVisible; 
+			for (const s of this.chart.options.series) {
+				if (s.name == 'Min') {
+					s.visible = !s.visible;
+				}
+			}
+			this.minVal = 0;
+			this.chart.update();
 		},
 	},
 	watch: {
@@ -120,11 +156,14 @@ export default {
 			const time = performance.now();
 			var yVal = Math.sin(time * 0.002);
 			this.history.push({x: time, y: yVal});
-			if (this.maxVal < yVal) {
+			if (this.maxVisible && this.maxVal < yVal) {
 				this.maxVal = yVal;
 			}
+			if (this.minVisible && this.minVal > yVal) {
+				this.minVal = yVal;
+			}
 			this.maxVals.push({x: time, y: this.maxVal});
-			// this.maxVals.push({x: time, y: yVal-1});
+			this.minVals.push({x: time, y: this.minVal});
 
 			this.chart.update();
 		}, 100);
