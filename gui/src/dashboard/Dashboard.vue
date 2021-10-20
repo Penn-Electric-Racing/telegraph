@@ -46,6 +46,7 @@ import uuidv4 from "uuid";
 
 // the valid types
 import Graph from "./Graph.vue";
+import GraphMinMax from "./GraphMinMax.vue";
 import ControlPanel from "./ControlPanel.vue";
 import Placeholder from "./Placeholder.vue";
 
@@ -54,6 +55,7 @@ export default {
 	components: {
 		ControlPanel,
 		Graph,
+		GraphMinMax,
 		Placeholder,
 		GridLayout: VueGridLayout.GridLayout,
 		GridItem: VueGridLayout.GridItem,

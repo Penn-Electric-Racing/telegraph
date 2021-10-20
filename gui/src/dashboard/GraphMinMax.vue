@@ -34,7 +34,7 @@ import TimeChart from 'timechart'
 
 
 export default {
-	name: "Graph",
+	name: "GraphMinMax",
 	components: { Panel, FlatButton, NumberField },
 	props: {
 		id: String,
@@ -45,6 +45,8 @@ export default {
 		return {
 			variables: [],
 			history: [],
+			maxVals: [],
+			maxVal: 0,
 			chart: null,
 
 			timespan: 20,
@@ -59,7 +61,7 @@ export default {
 	computed: {
 		header() {
 			return (
-				"Graph: " + (this.variables[0] ? this.variables[0].getPretty() : "")
+				"GraphMinMax: " + (this.variables[0] ? this.variables[0].getPretty() : "")
 			);
 		},
 		nodeQuery() {
@@ -85,7 +87,10 @@ export default {
 	methods: {
 		setup() {
 			this.chart = new TimeChart(this.$refs["chart"], {
-				series: [{ name : 'Series 1', data: this.history, color: 'blue' }],
+				series: [
+					{ name : 'Series 1', data: this.history, color: 'blue' },
+					{ name : 'Max', data: this.maxVals, color: 'red' }
+				],
 				realTime: true,
 				baseTime: Date.now() - performance.now(),
 				xRange: { min: 0, max: 20 * 1000 },
@@ -115,6 +120,12 @@ export default {
 			const time = performance.now();
 			var yVal = Math.sin(time * 0.002);
 			this.history.push({x: time, y: yVal});
+			if (this.maxVal < yVal) {
+				this.maxVal = yVal;
+			}
+			this.maxVals.push({x: time, y: this.maxVal});
+			// this.maxVals.push({x: time, y: yVal-1});
+
 			this.chart.update();
 		}, 100);
 		this.nodeQuery.register(this.updateVariable);

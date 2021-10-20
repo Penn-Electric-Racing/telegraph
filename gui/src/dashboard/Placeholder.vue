@@ -3,6 +3,7 @@
 		<div
 			class="placeholder-option"
 			v-for="opt in options"
+			:key="opt.id"
 			:style="{ height: optionSize + 'px', width: optionSize + 'px' }"
 		>
 			<div class="icon-container noDrag" @click="select(opt.type)">
@@ -30,6 +31,7 @@ export default {
 			options: [
 				{ type: "ControlPanel", icon: "sliders-h" },
 				{ type: "Graph", icon: "chart-bar" },
+				{ type: "GraphMinMax", icon: "chart-line" },
 			],
 		};
 	},
