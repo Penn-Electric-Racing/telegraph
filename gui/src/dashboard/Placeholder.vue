@@ -10,6 +10,7 @@
 				<font-awesome-icon
 					:icon="opt.icon"
 					:style="{ width: '100%', height: '100%' }"
+					:title="opt.title"
 				/>
 			</div>
 		</div>
@@ -29,9 +30,9 @@ export default {
 			height: null,
 			// TODO: Make a registry
 			options: [
-				{ type: "ControlPanel", icon: "sliders-h" },
-				{ type: "Graph", icon: "chart-bar" },
-				{ type: "GraphMinMax", icon: "chart-line" },
+				{ type: "ControlPanel", icon: "sliders-h", title: "Control Panel"},
+				{ type: "Graph", icon: "chart-bar", title: "Graph"},
+				{ type: "GraphMinMax", icon: "chart-line", title: "Min/Max Graph"},
 			],
 		};
 	},

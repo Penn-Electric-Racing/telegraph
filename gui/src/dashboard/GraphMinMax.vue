@@ -7,21 +7,25 @@
 					icon="clock"
 					:class="{ controlActive: useTimespan }"
 					@click="useTimespan = !useTimespan"
+					title="Use Timespan"
 				/>
 				<FlatButton
 					icon="play"
 					:class="{ controlActive: live }"
 					@click="live = !live"
+					title="Play"
 				/>
 				<FlatButton
 					icon="arrow-alt-circle-up"
 					:class="{ controlActive: live }"
 					@click="toggleMax"
+					title="Reset Max Line"
 				/>
 				<FlatButton
 					icon="arrow-alt-circle-down"
 					:class="{ controlActive: live }"
 					@click="toggleMin"
+					title="Reset Min Line"
 				/>
 			</div>
 		</template>
@@ -124,23 +128,25 @@ export default {
 		updateVariable(v) {
 		},
 		toggleMax(){
-			this.maxVisible = !this.maxVisible; 
-			for (const s of this.chart.options.series) {
-				if (s.name == 'Max') {
-					s.visible = !s.visible;
-				}
-			}
+			// this.maxVisible = !this.maxVisible; 
+			// for (const s of this.chart.options.series) {
+			// 	if (s.name == 'Max') {
+			// 		s.visible = !s.visible;
+			// 	}
+			// }
 			this.maxVal = 0;
+			// this.maxVals = [];
 			this.chart.update();
 		},
 		toggleMin(){
-			this.minVisible = !this.minVisible; 
-			for (const s of this.chart.options.series) {
-				if (s.name == 'Min') {
-					s.visible = !s.visible;
-				}
-			}
+			// this.minVisible = !this.minVisible; 
+			// for (const s of this.chart.options.series) {
+			// 	if (s.name == 'Min') {
+			// 		s.visible = !s.visible;
+			// 	}
+			// }
 			this.minVal = 0;
+			// this.minVals = [];
 			this.chart.update();
 		},
 	},
