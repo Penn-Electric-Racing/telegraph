@@ -55,6 +55,9 @@ namespace telegraph {
         std::vector<std::string> labels{"On", "Off"};
         auto status_type = value_type("Status", std::move(labels));
         auto childC = new variable(4, "c", "C", "", status_type);
+        
+        auto childD = new variable(5, "d", "D", "", value_type::Bool);
+
 
         std::vector<std::string> test_labels = {"option1", "option2", "option3"};
         value_type test_enum = value_type("test_enum", test_labels);
@@ -67,17 +70,21 @@ namespace telegraph {
         auto action4 = new action(4, "action4", "action4", "", test_enum, test_enum);
         auto action5 = new action(5, "action5", "action5", "", short_enum, short_enum);
 
-        std::vector<node*> children{childA, childB, childC, action1, action2, action3, action4, action5};
+        std::vector<node*> children{childA, childB, childC, childD, action1, action2, action3, action4, action5};
         auto root = std::make_unique<group>(1, "foo", "Foo", "", "", 1, std::move(children));
         auto dev = std::make_shared<dummy_device>(ioc, name, std::move(root));
 
         auto a_publisher = std::make_shared<publisher>(ioc, value_type::Float);
         auto b_publisher = std::make_shared<publisher>(ioc, value_type::Int32);
         auto c_publisher= std::make_shared<publisher>(ioc, status_type);
+        auto d_publisher= std::make_shared<publisher>(ioc, value_type::Bool);
+
 
         dev->add_publisher(childA, a_publisher);
         dev->add_publisher(childB, b_publisher);
         dev->add_publisher(childC, c_publisher);
+        dev->add_publisher(childD, d_publisher);
+
 
         // add action
         dev->add_handler(action1, [] (io::yield_ctx& yield, value val) -> value {
@@ -131,6 +138,19 @@ namespace telegraph {
                 { auto dev = w.lock(); if (!dev) break; }
                 (*b_publisher) << value{val};
                 val++;
+            }
+        });
+
+        io::spawn(ioc, [&ioc, w, d_publisher](io::yield_context yield) {
+            // create a timer
+            io::deadline_timer timer{ioc};
+            bool val= false;
+            while (true) {
+                timer.expires_from_now(boost::posix_time::seconds(2));
+                timer.async_wait(yield);
+                { auto dev = w.lock(); if (!dev) break; }
+                (*d_publisher) << value{val};
+                val = !val;
             }
         });
         return dev;

@@ -1,6 +1,6 @@
 <template>
 	<div class="control-display" :class="{ horizontal: horizontal }">
-		<div v-if="this.node.isVariable()" class="node-value">{{ stateLabel }}</div>
+		<div v-if="this.node.isVariable()" class="node-value" v-bind:style="{ background: backgroundColor}">{{ stateLabel }}</div>
 		<ActionControl v-if="this.node.isAction()" :node="this.node" />
 		<div class="node-label">
 			{{ node.getPretty() }}
@@ -22,6 +22,7 @@
 			return {
 				sub: null,
 				state: null,
+				backgroundColor: null,
 			};
 		},
 		computed: {
@@ -29,6 +30,9 @@
 				var str = "" + this.state;
 				if (typeof this.state == "number" && this.state % 1 !== 0) {
 					str = this.state.toFixed(2);
+				}
+				if (typeof this.state == "boolean") {
+					this.backgroundColor = this.state? "#008000" : "#B22222"
 				}
 				return this.state == null ? "..." : "" + str;
 			},
