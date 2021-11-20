@@ -44,7 +44,7 @@ export default {
 	data() {
 		return {
 			variables: [],
-			history: [],
+			history: [[],[]],
 			chart: null,
 
 			timespan: 20,
@@ -64,7 +64,7 @@ export default {
 		},
 		nodeQuery() {
 			return this.nsQuery.contexts
-				.extract((x) => x.name == this.history.ctx)
+				.extract((x) => x.name == this.history[0].ctx)
 				.fetch()
 				.fromPath(this.data.node);
 		},
@@ -85,7 +85,9 @@ export default {
 	methods: {
 		setup() {
 			this.chart = new TimeChart(this.$refs["chart"], {
-				series: [{ name : 'Series 1', data: this.history, color: 'blue' }],
+				series: [
+					{ name : 'Series 1', data: this.history[0], color: 'blue' },
+					{ name : 'Series 2', data: this.history[1], color: 'red' }],
 				realTime: true,
 				baseTime: Date.now() - performance.now(),
 				xRange: { min: 0, max: 20 * 1000 },
@@ -114,7 +116,9 @@ export default {
 		setInterval(() => {
 			const time = performance.now();
 			var yVal = Math.sin(time * 0.002);
-			this.history.push({x: time, y: yVal});
+			this.history[0].push({x: time, y: yVal});
+			this.history[1].push({x: time, y: -yVal});
+
 			this.chart.update();
 		}, 100);
 		this.nodeQuery.register(this.updateVariable);
