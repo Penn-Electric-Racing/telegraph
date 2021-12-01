@@ -13,6 +13,11 @@
 					:class="{ controlActive: live }"
 					@click="live = !live"
 				/>
+				<FlatButton
+					icon="redo"
+					:class="{ controlActive: replay }"
+					@click="handleReplay"
+				/>
 			</div>
 		</template>
 		<div ref="chart-container" class="chart-container">
@@ -50,6 +55,7 @@ export default {
 			timespan: 20,
 			useTimespan: true,
 			live: true,
+			replay: true,
 
 			width: 0,
 			height: 0,
@@ -101,6 +107,25 @@ export default {
 		updateScale() {
 		},
 		updateVariable(v) {
+		},
+		handleReplay() {
+			// reset initial data
+			// graph stops, how to remove old data & redo new? 
+			this.variables = [];
+			this.history = []; 
+			this.chart = null; 
+
+			this.timespan = 20;
+			this.useTimespan = true;
+			this.live = true;
+			
+			// TODO: clear the old graph lines & x-axis 
+
+			//this.setup();
+			//this.created(); 
+			//this.mounted();
+			this.$forceUpdate();
+
 		},
 	},
 	watch: {
