@@ -108,24 +108,28 @@ export default {
 		},
 		updateVariable(v) {
 		},
+		graphData() {
+			setInterval(() => {
+				const time = performance.now();
+				this.history.push({x: time, y: Math.sin(time * 0.002)});
+				this.chart.update();
+			}, 100);
+			this.nodeQuery.register(this.updateVariable);
+		},
 		handleReplay() {
-			// reset initial data
-			// graph stops, how to remove old data & redo new? 
-			this.variables = [];
+			// TODO: made more of a clear button than a replay
+			
+			this.chart.dispose(); 
+
 			this.history = []; 
 			this.chart = null; 
-
 			this.timespan = 20;
 			this.useTimespan = true;
 			this.live = true;
 			
-			// TODO: clear the old graph lines & x-axis 
-
-			//this.setup();
-			//this.created(); 
-			//this.mounted();
-			this.$forceUpdate();
-
+			
+			this.graphData(); 
+			this.setup(); 
 		},
 	},
 	watch: {
@@ -135,13 +139,7 @@ export default {
 		},
 	},
 	created() {
-		// callback for adding data
-		setInterval(() => {
-			const time = performance.now();
-			this.history.push({x: time, y: Math.sin(time * 0.002)});
-			this.chart.update();
-		}, 100);
-		this.nodeQuery.register(this.updateVariable);
+		this.graphData(); 
 	},
 	destroyed() {
 		if (this.sub) this.sub.cancel();
