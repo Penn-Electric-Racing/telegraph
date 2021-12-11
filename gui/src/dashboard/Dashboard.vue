@@ -117,6 +117,8 @@ export default {
 				this.dragOver = false;
 			})
 			.on("drop", (event) => {
+				// if (event.target.type)
+				console.log(event.target);
 				var x = parseFloat(event.relatedTarget.getAttribute("data-x"));
 				var y = parseFloat(event.relatedTarget.getAttribute("data-y"));
 

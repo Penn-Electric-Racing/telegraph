@@ -31,6 +31,7 @@ import FlatButton from "../components/FlatButton.vue";
 import NumberField from "../components/NumberField.vue";
 import { NamespaceQuery, Variable } from "telegraph";
 import TimeChart from 'timechart'
+import interact from "interactjs";
 
 
 export default {
@@ -44,8 +45,10 @@ export default {
 	data() {
 		return {
 			variables: [],
-			history: [[],[]],
+			history: [[]],
 			chart: null,
+			srs: [],
+			currColor: 'blue',
 
 			timespan: 20,
 			useTimespan: true,
@@ -80,14 +83,29 @@ export default {
 		this.width = this.$refs["chart-container"].offsetWidth;
 		this.height = this.$refs["chart-container"].offsetHeight;
 		this.setup();
+		interact(this.$refs["chart-container"])
+			.dropzone({
+				overlap: "pointer",
+				accept: ".node-bubble",
+			})
+			.on("dragenter", (event) => {
+				this.dragOver = true;
+			})
+			.on("dragleave", (event) => {
+				this.dragOver = false;
+			})
+			.on("drop", (event) => {
+				this.drop(event.interaction.data);
+			});
 	},
 	unmounted() {},
 	methods: {
 		setup() {
+			this.srs.push({ name : 'Series 1', data: this.history[0], color: 'blue' });
 			this.chart = new TimeChart(this.$refs["chart"], {
-				series: [
-					{ name : 'Series 1', data: this.history[0], color: 'blue' },
-					{ name : 'Series 2', data: this.history[1], color: 'red' }],
+				// series: [
+				// 	{ name : 'Series 1', data: this.history[0], color: 'blue' }],
+				series: this.srs,
 				realTime: true,
 				baseTime: Date.now() - performance.now(),
 				xRange: { min: 0, max: 20 * 1000 },
@@ -104,6 +122,48 @@ export default {
 		},
 		updateVariable(v) {
 		},
+		drop(data) {
+			// var tile = Vue.observable({
+			// 	type: "Placeholder",
+			// 	ctx: data.getContext().name,
+			// 	node: data.path(),
+			// });
+			this.chart.dispose();
+			this.history.push([]);
+			// console.log(this.history.length);
+			this.nextColor();
+
+			this.srs.push({
+				name : ('Series '+(this.history.length)), 
+				data: this.history[this.history.length-1], 
+				color: this.currColor});
+			
+
+			this.chart = new TimeChart(this.$refs["chart"], {
+				series: this.srs,
+				realTime: true,
+				baseTime: Date.now() - performance.now(),
+				xRange: { min: 0, max: 20 * 1000 },
+			});
+
+			this.chart.update();
+		},
+		nextColor() {
+			switch (this.currColor) {
+				case 'blue':
+					this.currColor = 'red';
+					break;
+				case 'red':
+					this.currColor = 'yellow';
+					break;
+				case 'yellow':
+					this.currColor = 'blue';
+					break;
+				default:
+					this.currColor = 'red';
+			}
+		}
+
 	},
 	watch: {
 		nodeQuery(n, o) {
@@ -116,9 +176,10 @@ export default {
 		setInterval(() => {
 			const time = performance.now();
 			var yVal = Math.sin(time * 0.002);
-			this.history[0].push({x: time, y: yVal});
-			this.history[1].push({x: time, y: -yVal});
-
+			// this.history[0].push({x: time, y: yVal});
+			for (let i = 0; i < this.history.length; i++) {
+    		this.history[i].push({x : time, y : (yVal + i)});
+			}
 			this.chart.update();
 		}, 100);
 		this.nodeQuery.register(this.updateVariable);
