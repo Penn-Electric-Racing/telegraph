@@ -18,6 +18,11 @@
 					:class="{ controlActive: replay }"
 					@click="handleReplay"
 				/>
+				<FlatButton
+					icon="record-vinyl"
+					:class="{ controlActive: record }" 
+					@click="saveFile()"
+				/>
 			</div>
 		</template>
 		<div ref="chart-container" class="chart-container">
@@ -35,7 +40,8 @@ import Panel from "../components/Panel.vue";
 import FlatButton from "../components/FlatButton.vue";
 import NumberField from "../components/NumberField.vue";
 import { NamespaceQuery, Variable } from "telegraph";
-import TimeChart from 'timechart'
+import TimeChart from 'timechart';
+import { saveAs } from 'file-saver';
 
 
 export default {
@@ -50,12 +56,15 @@ export default {
 		return {
 			variables: [],
 			history: [],
+			timeArr: [],
 			chart: null,
+			interval: 0, 
 
 			timespan: 20,
 			useTimespan: true,
 			live: true,
 			replay: true,
+			record: true,
 
 			width: 0,
 			height: 0,
@@ -76,6 +85,8 @@ export default {
 		},
 	},
 	mounted() {
+		// this.graphData; 
+
 		new ResizeObserver(() => {
 			if (this.$refs["chart-container"]) {
 				this.width = this.$refs["chart-container"].offsetWidth;
@@ -97,6 +108,14 @@ export default {
 				xRange: { min: 0, max: 20 * 1000 },
 			});
 		},
+		setRecordedData() {
+				this.chart = new TimeChart(this.$refs["chart"], {
+				series: [{ name : 'Series 1', data: this.history, color: 'red' }],
+				realTime: true, 
+				baseTime: 0,
+				xRange: { min: 0, max: 20 * 1000 },
+			});
+		}, 
 		relayout() {
 			this.chart.model.resize(this.width, this.height);
 		},
@@ -109,27 +128,76 @@ export default {
 		updateVariable(v) {
 		},
 		graphData() {
-			setInterval(() => {
+			// Every 100 miliseconds, graph's a point (x, y)
+			this.interval = setInterval(() => {
 				const time = performance.now();
 				this.history.push({x: time, y: Math.sin(time * 0.002)});
+				// this.history.push({x: time, y: 0.5*time});
+				this.timeArr.push(time); 
+				// console.log("Current Time is:", this.timeArr); 
 				this.chart.update();
 			}, 100);
 			this.nodeQuery.register(this.updateVariable);
 		},
+		graphRecordedData(savedHistory, savedTimeArr) {
+			setInterval(() => {
+				// var new_time = savedTimeArr[0].shift(); 
+				// console.log(new_time); 
+				// this.history.push({x: new_time, y: savedHistory.shift()});
+				// // this.timeArr.push(time); 
+				// this.chart.update();
+			}, 100);
+			// TODO: this line doesn't do anything rn but will need for node data?
+			// this.nodeQuery.register(this.updateVariable);
+		},
+		
 		handleReplay() {
 			// TODO: made more of a clear button than a replay
-			
-			this.chart.dispose(); 
+			var savedHistory = [];
+			for (var i of this.history)
+			{
+				savedHistory.push(i); 
+			}
+			var savedTimeArr = [];
 
+			for (var j of this.timeArr)
+			{
+				savedTimeArr.push(i); 
+			}
+
+			this.chart.dispose();
+			clearInterval(this.interval); 
 			this.history = []; 
+			console.log("Cleared History is", this.history); 
 			this.chart = null; 
 			this.timespan = 20;
 			this.useTimespan = true;
 			this.live = true;
+
+
 			
-			
+			console.log("Old History is", savedHistory); 
+		
 			this.graphData(); 
-			this.setup(); 
+			// this.graphRecordedData(); 
+			this.setRecordedData(); 
+		},
+		saveFile() {
+			var FileSaver = require('file-saver');
+			// console.log("Saved history", this.history); 
+			// console.log("x: ", this.history[0].x); 
+			// console.log("y: ", this.history[0].y); 
+
+			var strArr = [];
+			for (var pt of this.history)
+			{
+				var str = JSON.stringify(pt, null, 2);
+				strArr.push(str); 
+			}
+			// console.log("String Array: ", strArr); 
+
+			var blob = new Blob(strArr, {type: "text/plain;charset=utf-8"});
+			FileSaver.saveAs(blob, "graph_data.txt");
 		},
 	},
 	watch: {
@@ -144,6 +212,7 @@ export default {
 	destroyed() {
 		if (this.sub) this.sub.cancel();
 	},
+
 };
 </script>
 

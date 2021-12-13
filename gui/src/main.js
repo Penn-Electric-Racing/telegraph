@@ -29,6 +29,7 @@ import {
 	faCircle,
 	faSquare,
 	faRedo,
+	faRecordVinyl,
 } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -58,7 +59,8 @@ library.add(
 	faSquare,
 	faPlay,
 	faClock, 
-	faRedo
+	faRedo,
+	faRecordVinyl,
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
