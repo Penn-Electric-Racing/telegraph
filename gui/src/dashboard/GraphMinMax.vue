@@ -12,7 +12,7 @@
 				<FlatButton
 					icon="play"
 					:class="{ controlActive: live }"
-					@click="live = !live"
+					@click="toggleLive"
 					title="Play"
 				/>
 				<FlatButton
@@ -120,6 +120,7 @@ export default {
 			this.chart.model.resize(this.width, this.height);
 		},
 		toggleLive() {
+			this.live = !this.live;
 		},
 		updateTimespan() {
 		},
@@ -128,25 +129,13 @@ export default {
 		updateVariable(v) {
 		},
 		toggleMax(){
-			// this.maxVisible = !this.maxVisible; 
-			// for (const s of this.chart.options.series) {
-			// 	if (s.name == 'Max') {
-			// 		s.visible = !s.visible;
-			// 	}
-			// }
+			// the choice of reset to 0 is arbitrary
+			// should change this to current y value
 			this.maxVal = 0;
-			// this.maxVals = [];
 			this.chart.update();
 		},
 		toggleMin(){
-			// this.minVisible = !this.minVisible; 
-			// for (const s of this.chart.options.series) {
-			// 	if (s.name == 'Min') {
-			// 		s.visible = !s.visible;
-			// 	}
-			// }
 			this.minVal = 0;
-			// this.minVals = [];
 			this.chart.update();
 		},
 	},

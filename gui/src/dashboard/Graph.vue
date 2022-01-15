@@ -7,11 +7,13 @@
 					icon="clock"
 					:class="{ controlActive: useTimespan }"
 					@click="useTimespan = !useTimespan"
+					title="Use Timespan"
 				/>
 				<FlatButton
 					icon="play"
 					:class="{ controlActive: live }"
-					@click="live = !live"
+					@click="toggleLive"
+					title="Play/Pause"
 				/>
 			</div>
 		</template>
@@ -115,6 +117,7 @@ export default {
 			this.chart.model.resize(this.width, this.height);
 		},
 		toggleLive() {
+			this.live = !this.live;
 		},
 		updateTimespan() {
 		},
@@ -123,11 +126,6 @@ export default {
 		updateVariable(v) {
 		},
 		drop(data) {
-			// var tile = Vue.observable({
-			// 	type: "Placeholder",
-			// 	ctx: data.getContext().name,
-			// 	node: data.path(),
-			// });
 			this.chart.dispose();
 			this.history.push([]);
 			// console.log(this.history.length);
@@ -177,8 +175,10 @@ export default {
 			const time = performance.now();
 			var yVal = Math.sin(time * 0.002);
 			// this.history[0].push({x: time, y: yVal});
-			for (let i = 0; i < this.history.length; i++) {
-    		this.history[i].push({x : time, y : (yVal + i)});
+			if (this.live) {
+				for (let i = 0; i < this.history.length; i++) {
+					this.history[i].push({x : time, y : (yVal + i)});
+				}
 			}
 			this.chart.update();
 		}, 100);
