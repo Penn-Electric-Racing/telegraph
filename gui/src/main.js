@@ -28,6 +28,7 @@ import {
 	faSatelliteDish,
 	faCircle,
 	faSquare,
+	fas,
 } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -56,7 +57,8 @@ library.add(
 	faCircle,
 	faSquare,
 	faPlay,
-	faClock
+	faClock,
+	fas
 );
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);

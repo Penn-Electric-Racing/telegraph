@@ -13,7 +13,19 @@
 					icon="play"
 					:class="{ controlActive: live }"
 					@click="toggleLive"
-					title="Play/Pause"
+					title="Play"
+				/>
+				<FlatButton
+					icon="arrow-alt-circle-up"
+					:class="{ controlActive: live }"
+					@click="toggleMax"
+					title="Reset Max Line"
+				/>
+				<FlatButton
+					icon="arrow-alt-circle-down"
+					:class="{ controlActive: live }"
+					@click="toggleMin"
+					title="Reset Min Line"
 				/>
 			</div>
 		</template>
@@ -33,11 +45,10 @@ import FlatButton from "../components/FlatButton.vue";
 import NumberField from "../components/NumberField.vue";
 import { NamespaceQuery, Variable } from "telegraph";
 import TimeChart from 'timechart'
-import interact from "interactjs";
 
 
 export default {
-	name: "Graph",
+	name: "GraphMinMax",
 	components: { Panel, FlatButton, NumberField },
 	props: {
 		id: String,
@@ -47,10 +58,14 @@ export default {
 	data() {
 		return {
 			variables: [],
-			history: [[]],
+			history: [],
+			maxVals: [],
+			maxVal: 0,
+			maxVisible: true,
+			minVals: [],
+			minVal: 0,
+			minVisible: true,
 			chart: null,
-			srs: [],
-			currColor: 'blue',
 
 			timespan: 20,
 			useTimespan: true,
@@ -64,12 +79,12 @@ export default {
 	computed: {
 		header() {
 			return (
-				"Graph: " + (this.variables[0] ? this.variables[0].getPretty() : "")
+				"GraphMinMax: " + (this.variables[0] ? this.variables[0].getPretty() : "")
 			);
 		},
 		nodeQuery() {
 			return this.nsQuery.contexts
-				.extract((x) => x.name == this.history[0].ctx)
+				.extract((x) => x.name == this.history.ctx)
 				.fetch()
 				.fromPath(this.data.node);
 		},
@@ -85,32 +100,20 @@ export default {
 		this.width = this.$refs["chart-container"].offsetWidth;
 		this.height = this.$refs["chart-container"].offsetHeight;
 		this.setup();
-		interact(this.$refs["chart-container"])
-			.dropzone({
-				overlap: "pointer",
-				accept: ".node-bubble",
-			})
-			.on("dragenter", (event) => {
-				this.dragOver = true;
-			})
-			.on("dragleave", (event) => {
-				this.dragOver = false;
-			})
-			.on("drop", (event) => {
-				this.drop(event.interaction.data);
-			});
 	},
 	unmounted() {},
 	methods: {
 		setup() {
-			this.srs.push({ name : 'Series 1', data: this.history[0], color: 'blue' });
 			this.chart = new TimeChart(this.$refs["chart"], {
-				// series: [
-				// 	{ name : 'Series 1', data: this.history[0], color: 'blue' }],
-				series: this.srs,
+				series: [
+					{ name : 'Series 1', data: this.history, color: 'blue' },
+					{ name : 'Max', data: this.maxVals, color: 'red', visible: this.maxVisible},
+					{ name : 'Min', data: this.minVals, color: 'green', visible: this.minVisible },
+				],
 				realTime: true,
 				baseTime: Date.now() - performance.now(),
 				xRange: { min: 0, max: 20 * 1000 },
+				legend: false,
 			});
 		},
 		relayout() {
@@ -125,43 +128,16 @@ export default {
 		},
 		updateVariable(v) {
 		},
-		drop(data) {
-			this.chart.dispose();
-			this.history.push([]);
-			// console.log(this.history.length);
-			this.nextColor();
-
-			this.srs.push({
-				name : ('Series '+(this.history.length)), 
-				data: this.history[this.history.length-1], 
-				color: this.currColor});
-			
-
-			this.chart = new TimeChart(this.$refs["chart"], {
-				series: this.srs,
-				realTime: true,
-				baseTime: Date.now() - performance.now(),
-				xRange: { min: 0, max: 20 * 1000 },
-			});
-
+		toggleMax(){
+			// the choice of reset to 0 is arbitrary
+			// should change this to current y value
+			this.maxVal = 0;
 			this.chart.update();
 		},
-		nextColor() {
-			switch (this.currColor) {
-				case 'blue':
-					this.currColor = 'red';
-					break;
-				case 'red':
-					this.currColor = 'yellow';
-					break;
-				case 'yellow':
-					this.currColor = 'blue';
-					break;
-				default:
-					this.currColor = 'red';
-			}
-		}
-
+		toggleMin(){
+			this.minVal = 0;
+			this.chart.update();
+		},
 	},
 	watch: {
 		nodeQuery(n, o) {
@@ -174,12 +150,16 @@ export default {
 		setInterval(() => {
 			const time = performance.now();
 			var yVal = Math.sin(time * 0.002);
-			// this.history[0].push({x: time, y: yVal});
-			if (this.live) {
-				for (let i = 0; i < this.history.length; i++) {
-					this.history[i].push({x : time, y : (yVal + i)});
-				}
+			this.history.push({x: time, y: yVal});
+			if (this.maxVisible && this.maxVal < yVal) {
+				this.maxVal = yVal;
 			}
+			if (this.minVisible && this.minVal > yVal) {
+				this.minVal = yVal;
+			}
+			this.maxVals.push({x: time, y: this.maxVal});
+			this.minVals.push({x: time, y: this.minVal});
+
 			this.chart.update();
 		}, 100);
 		this.nodeQuery.register(this.updateVariable);

@@ -3,12 +3,14 @@
 		<div
 			class="placeholder-option"
 			v-for="opt in options"
+			:key="opt.id"
 			:style="{ height: optionSize + 'px', width: optionSize + 'px' }"
 		>
 			<div class="icon-container noDrag" @click="select(opt.type)">
 				<font-awesome-icon
 					:icon="opt.icon"
 					:style="{ width: '100%', height: '100%' }"
+					:title="opt.title"
 				/>
 			</div>
 		</div>
@@ -28,8 +30,9 @@ export default {
 			height: null,
 			// TODO: Make a registry
 			options: [
-				{ type: "ControlPanel", icon: "sliders-h" },
-				{ type: "Graph", icon: "chart-bar" },
+				{ type: "ControlPanel", icon: "sliders-h", title: "Control Panel"},
+				{ type: "Graph", icon: "chart-bar", title: "Graph"},
+				{ type: "GraphMinMax", icon: "chart-line", title: "Min/Max Graph"},
 			],
 		};
 	},

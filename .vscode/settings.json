@@ -1,0 +1,25 @@
+{
+  "files.associations": {
+    "*.ipp": "cpp",
+    "array": "cpp",
+    "atomic": "cpp",
+    "complex": "cpp",
+    "deque": "cpp",
+    "list": "cpp",
+    "string": "cpp",
+    "unordered_map": "cpp",
+    "unordered_set": "cpp",
+    "vector": "cpp",
+    "iterator": "cpp",
+    "memory_resource": "cpp",
+    "optional": "cpp",
+    "string_view": "cpp",
+    "rope": "cpp",
+    "slist": "cpp",
+    "initializer_list": "cpp",
+    "stop_token": "cpp",
+    "type_traits": "cpp",
+    "utility": "cpp",
+    "valarray": "cpp"
+  }
+}
