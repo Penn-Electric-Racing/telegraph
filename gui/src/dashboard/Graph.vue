@@ -141,11 +141,12 @@ export default {
 		},
 		graphRecordedData(savedHistory, savedTimeArr) {
 			setInterval(() => {
+				// TODO: something wrong with shift 
 				// var new_time = savedTimeArr[0].shift(); 
-				// console.log(new_time); 
-				// this.history.push({x: new_time, y: savedHistory.shift()});
-				// // this.timeArr.push(time); 
-				// this.chart.update();
+				console.log(new_time); 
+				this.history.push({x: new_time, y: savedHistory.shift()});
+				// this.timeArr.push(time); 
+				this.chart.update();
 			}, 100);
 			// TODO: this line doesn't do anything rn but will need for node data?
 			// this.nodeQuery.register(this.updateVariable);
@@ -178,8 +179,8 @@ export default {
 			
 			console.log("Old History is", savedHistory); 
 		
-			this.graphData(); 
-			// this.graphRecordedData(); 
+			// this.graphData(); 
+			this.graphRecordedData(); 
 			this.setRecordedData(); 
 		},
 		saveFile() {
