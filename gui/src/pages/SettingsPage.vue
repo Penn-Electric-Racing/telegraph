@@ -9,9 +9,15 @@
 			<template v-slot:content>
 				<div class="items content-items">
 					<span class="content-type">
-						Theme (dark/light)
+						Change theme
 					</span>
-					<Toggle :onSwitch="switchTheme" />
+          <Dropdown :changeHandler="switchTheme">
+            <template v-slot:options>
+              <option value="dark">dark</option>
+              <option value="light">light</option>
+              <option value="red">red</option>
+            </template>
+          </Dropdown>
 				</div>
 				<div class="items content-items">
 					<span class="content-type">
@@ -35,9 +41,10 @@
 				</div>
 				<div class="items content-items">
 					<span class="content-type">
-						DON'T CLICK
+						New label
 					</span>
-					<Button text="button"></Button>
+					<Button v-tooltip="''" text="click me">
+          </Button>
 				</div>
 			</template>
 		</Bubble>
@@ -56,8 +63,8 @@ export default {
 	components: { ScrollArea, Bubble, Toggle, Dropdown, Button },
 	props: {},
 	methods: {
-		switchTheme() {
-			this.$store.dispatch("theme/swapTheme");
+		switchTheme(event) {
+			this.$store.dispatch("theme/editTheme", event.target.value);
 		},
 		onDropdownChange(event) {
 			alert(event.target.value);
@@ -65,6 +72,8 @@ export default {
 	},
 };
 </script>
+
+
 
 <style scoped>
 .header-items {
@@ -88,4 +97,5 @@ export default {
 	padding-right: 12px;
 	flex: 1;
 }
+
 </style>

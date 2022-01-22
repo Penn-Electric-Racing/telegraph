@@ -10,7 +10,7 @@
 	--secondary-background-color: #272c30;
 
 	--main-text-color: #88939c;
-	--secondary-text-color: #34393d;
+	--secondary-text-color: #ffffff;
 	--tab-color: #5e6870;
 
 	--textfield-color: #6f7981;
@@ -75,6 +75,46 @@
 	--graph-axes-color: #505050;
 
 	--dropdown-background: #ccdae6;
+
+	--content-hover: #555555;
+	--node-record-icon: #77848f;
+
+	--pane-background-color: rgba(0, 0, 0, 0.3);
+}
+
+[theme="red"] {
+	--contrast-color: #ffffff;
+	--inverse-contrast-color: #ffffff;
+	--main-box-shadow: #f5abb8;
+	--secondary-box-shadow: #c8c7c788;
+
+	--test-color: yellow;
+	--accent-color: #c5566b;
+	--main-background-color: #ffe3e3;
+	--secondary-background-color: #b93643;
+
+	--main-text-color: #ffffff;
+	--secondary-text-color: #ffffff;
+	--tab-color: #e7a9b0;
+
+	--textfield-color: #ec6868;
+	--textfield-border: #dec2c4;
+
+	--sidebar-background-color: #bc4758;
+	--panel-header-background: #b41d33;
+
+	--button-background-color: #5cb85c;
+
+	--combobox-hover: #8da5b8;
+	--button-text-color: #ffffff;
+	--button-hover-color: #84d584;
+	--button-active-color: #197519;
+	--flat-button-hover-color: rgba(0, 0, 0, 0.13);
+
+	--graph-border-color: #98adb8;
+	--graph-axes-color: #505050;
+
+	--dropdown-background: #dc495f;
 
 	--content-hover: #555555;
 	--node-record-icon: #77848f;

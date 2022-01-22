@@ -1,5 +1,6 @@
 /* inspired by theme http://demo.adminbootstrap.com/right/1.0.0/index.html */
 <template>
+
 	<div id="app" :theme="theme">
 		<div id="popup-pane" :style="{ zIndex: numPopups > 0 ? 1 : -1 }">
 			<Popup
@@ -61,7 +62,7 @@
 					/>
 				</div>
 				<div class="header-button-container">
-					<FlatButton id="new-tab" icon="plus" @click="newDashboard" />
+					<FlatButton id="new-tab" icon="plus" v-tooltip="'Add a new dashboard workspace'" @click="newDashboard" />
 				</div>
 			</div>
 
@@ -142,6 +143,18 @@
 					</div>
 				</ResSplitPane>
 			</div>
+      <floating-action-button
+          :position="'bottom-right'"
+          :icon-size="'medium'"
+          :position-type="'fixed'"
+          :bg-color="'#194d33'"
+          :main-icon="'add'"
+          :main-tooltip="'Quick menu'"
+          :actions="[{name: 'alertMe',icon: 'cached', tooltip: 'cached', color:'#d11014'},{name: 'alertMe',icon: 'add_alert', tooltip: 'add_alert'}]"
+          @alertMe="alert"
+          :fixed-tooltip="true"
+          :enable-rotation="true"
+      ></floating-action-button>
 		</div>
 	</div>
 </template>
@@ -152,6 +165,7 @@ import TabArea from "./components/TabArea.vue";
 import Popup from "./components/Popup.vue";
 import ResSplitPane from "vue-resize-split-pane";
 import FlatButton from "./components/FlatButton.vue";
+import FloatingActionButton from "./components/FloatingActionButton.vue";
 
 import LivePage from "./pages/LivePage.vue";
 import ComponentsPage from "./pages/ComponentsPage.vue";
@@ -163,6 +177,7 @@ import SettingsPage from "./pages/SettingsPage.vue";
 // interface components
 import Burger from "./Burger.vue";
 import Dashboard from "./dashboard/Dashboard.vue";
+
 
 import uuidv4 from "uuid/v4";
 import Vue from "vue";
@@ -184,6 +199,7 @@ export default {
 		FlatButton,
 		Popup,
 		ResSplitPane,
+    FloatingActionButton,
 
 		Burger,
 		Dashboard,
@@ -196,16 +212,16 @@ export default {
 			sidebarShowing: true,
 			sidebarWidth: null,
 			sidebarHeaders: [
-				{ icon: "wifi", id: "live" },
-				{ icon: "columns", id: "dashboards" },
-				{ icon: "edit", id: "logs" },
-				{ icon: "box", id: "contexts" },
-				{ icon: "tasks", id: "components" },
-				{ icon: "cogs", id: "settings" },
+				{ icon: "wifi", id: "live", description: "Live data" },
+				{ icon: "columns", id: "dashboards", description: "Dashboards"  },
+				{ icon: "edit", id: "logs", description: "Data logs" },
+				{ icon: "box", id: "contexts", description: "Data context" },
+				{ icon: "tasks", id: "components", description: "Connected components" },
+				{ icon: "cogs", id: "settings", description: "Settings" },
 			],
 			activeSidebar: "live",
 
-			// each tab must have a type, a name, and an id
+			// each tab must have a type, a name, an id, and a description
 			// the name and id will be passed to the component created
 			// according to the type specified
 			//
@@ -374,6 +390,9 @@ export default {
 				}
 			} catch (e) {}
 		},
+    alert(){
+      alert('You have clicked me :)');
+    }
 	},
 
 	created() {

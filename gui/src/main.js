@@ -3,6 +3,9 @@ import App from "./App.vue";
 
 import store from "./store";
 
+// import FloatingVue from 'floating-vue';
+// import 'floating-vue/dist/style.css';
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
 	faCogs,
@@ -31,6 +34,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faTrashAlt } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
 
 library.add(
 	faTimes,
@@ -61,6 +65,13 @@ library.add(
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
+// import VTooltip from "v-tooltip";
+// import vuetify from '@/plugins/vuetify'
+import FloatingVue from 'floating-vue';
+
+Vue.use(FloatingVue);
+import 'floating-vue/dist/style.css';
+
 Vue.use((Vue) => {
 	Vue.prototype.$bubble = function $bubble(eventName, ...args) {
 		// Emit the event on all parent components
@@ -72,9 +83,13 @@ Vue.use((Vue) => {
 	};
 });
 
+// Vue.use(VTooltip);
+
+
 Vue.config.productionTip = false;
 
 new Vue({
 	store,
 	render: (h) => h(App),
+	// vuetify,
 }).$mount("#app");

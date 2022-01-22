@@ -1,5 +1,5 @@
 <template>
-	<div class="tabSwitcher" ref="tabSwitcher">
+	<div class="tabSwitcher" ref="tabSwitcher" >
 		<ScrollArea horizontalWheel>
 			<div class="tabsList">
 				<TabElement

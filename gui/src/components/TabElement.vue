@@ -8,6 +8,7 @@
 		<span
 			class="tabName"
 			v-if="tab.name != undefined"
+
 			@dblclick="requestEdit"
 			@blur="
 				(e) => {
@@ -27,6 +28,7 @@
 			:icon="tab.icon"
 			class="tabIcon"
 			size="sm"
+      v-tooltip="tab.description"
 			v-if="tab.icon != undefined"
 		/>
 

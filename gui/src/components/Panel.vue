@@ -40,7 +40,7 @@ export default {
 .panel-header {
 	border-bottom: 2px solid var(--accent-color);
 	background-color: var(--panel-header-background);
-	opacity: 0.5;
+	opacity: 0.8;
 	color: var(--contrast-color);
 
 	display: flex;

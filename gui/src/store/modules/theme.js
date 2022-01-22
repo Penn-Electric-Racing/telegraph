@@ -22,7 +22,7 @@ const actions = {
 	},
 	swapTheme({ state, commit }) {
 		if (state.currentTheme == "dark") {
-			commit("pushNewTheme", "light");
+			commit("pushNewTheme", "red");
 		} else {
 			commit("pushNewTheme", "dark");
 		}
