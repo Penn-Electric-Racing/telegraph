@@ -14,11 +14,6 @@
 					@click="live = !live"
 				/>
 				<FlatButton
-					icon="redo"
-					:class="{ controlActive: replay }"
-					@click="handleReplay"
-				/>
-				<FlatButton
 					icon="record-vinyl"
 					:class="{ controlActive: record }" 
 					@click="saveFile()"
@@ -85,7 +80,6 @@ export default {
 		},
 	},
 	mounted() {
-
 		new ResizeObserver(() => {
 			if (this.$refs["chart-container"]) {
 				this.width = this.$refs["chart-container"].offsetWidth;
@@ -127,7 +121,7 @@ export default {
 		updateVariable(v) {
 		},
 		graphData() {
-			// Every 100 miliseconds, graph's a point (x, y)
+			// Every 100 miliseconds, graphs a point (x, y)
 			this.interval = setInterval(() => {
 				const time = performance.now();
 				this.history.push({x: time, y: Math.sin(time * 0.002)});
@@ -135,47 +129,6 @@ export default {
 				this.chart.update();
 			}, 100);
 			this.nodeQuery.register(this.updateVariable);
-		},
-		/* Do not use this function yet*/ 
-		graphRecordedData(savedHistory, savedTimeArr) {
-			setInterval(() => {
-				// TODO: something wrong with shift 
-				// var new_time = savedTimeArr[0].shift(); 
-				console.log(new_time); 
-				this.history.push({x: new_time, y: savedHistory.shift()});
-				// this.timeArr.push(time); 
-				this.chart.update();
-			}, 100);
-			// TODO: this line doesn't do anything rn but will need for node data?
-			// this.nodeQuery.register(this.updateVariable);
-		},
-		
-		/* Do not use this function yet: Currently redraws the graph but doesn't clear the data in history*/ 
-		handleReplay() {
-			/*
-			var savedHistory = [];
-			for (var i of this.history)
-			{
-				savedHistory.push(i); 
-			}
-			var savedTimeArr = [];
-			for (var j of this.timeArr)
-			{
-				savedTimeArr.push(i); 
-			}
-			this.chart.dispose();
-			clearInterval(this.interval); 
-			this.history = []; 
-			// console.log("Cleared History is", this.history); 
-			this.chart = null; 
-			this.timespan = 20;
-			this.useTimespan = true;
-			this.live = true;
-			// console.log("Old History is", savedHistory); 
-			// replace with: this.graphData() to debug below function
-			this.graphRecordedData(); 
-			this.setRecordedData(); 
-			*/ 
 		},
 		saveFile() {
 			var FileSaver = require('file-saver');
