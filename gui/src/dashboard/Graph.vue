@@ -51,14 +51,11 @@ export default {
 		return {
 			variables: [],
 			history: [],
-			timeArr: [],
 			chart: null,
-			interval: 0, 
 
 			timespan: 20,
 			useTimespan: true,
 			live: true,
-			replay: true,
 			record: true,
 
 			width: 0,
@@ -101,14 +98,6 @@ export default {
 				xRange: { min: 0, max: 20 * 1000 },
 			});
 		},
-		setRecordedData() {
-				this.chart = new TimeChart(this.$refs["chart"], {
-				series: [{ name : 'Series 1', data: this.history, color: 'red' }],
-				realTime: true, 
-				baseTime: 0,
-				xRange: { min: 0, max: 20 * 1000 },
-			});
-		}, 
 		relayout() {
 			this.chart.model.resize(this.width, this.height);
 		},
@@ -120,21 +109,10 @@ export default {
 		},
 		updateVariable(v) {
 		},
-		graphData() {
-			// Every 100 miliseconds, graphs a point (x, y)
-			this.interval = setInterval(() => {
-				const time = performance.now();
-				this.history.push({x: time, y: Math.sin(time * 0.002)});
-				this.timeArr.push(time); 
-				this.chart.update();
-			}, 100);
-			this.nodeQuery.register(this.updateVariable);
-		},
 		saveFile() {
 			var FileSaver = require('file-saver');
 			var strArr = [];
-			for (var pt of this.history)
-			{
+			for (var pt of this.history) {
 				var str = JSON.stringify(pt, null, 2);
 				strArr.push(str); 
 			} 
@@ -149,7 +127,14 @@ export default {
 		},
 	},
 	created() {
-		this.graphData(); 
+		// Every 100 miliseconds, graphs a point (x, y)
+		this.interval = setInterval(() => {
+			const time = performance.now();
+			this.history.push({x: time, y: Math.sin(time * 0.002)});
+			this.chart.update();
+		}, 100);
+		this.nodeQuery.register(this.updateVariable);
+		this.graphData();
 	},
 	destroyed() {
 		if (this.sub) this.sub.cancel();
