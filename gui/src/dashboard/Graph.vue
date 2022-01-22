@@ -13,6 +13,11 @@
 					:class="{ controlActive: live }"
 					@click="live = !live"
 				/>
+				<FlatButton
+					icon="record-vinyl"
+					:class="{ controlActive: record }" 
+					@click="saveFile()"
+				/>
 			</div>
 		</template>
 		<div ref="chart-container" class="chart-container">
@@ -30,7 +35,8 @@ import Panel from "../components/Panel.vue";
 import FlatButton from "../components/FlatButton.vue";
 import NumberField from "../components/NumberField.vue";
 import { NamespaceQuery, Variable } from "telegraph";
-import TimeChart from 'timechart'
+import TimeChart from 'timechart';
+import { saveAs } from 'file-saver';
 
 
 export default {
@@ -50,6 +56,7 @@ export default {
 			timespan: 20,
 			useTimespan: true,
 			live: true,
+			record: true,
 
 			width: 0,
 			height: 0,
@@ -102,25 +109,37 @@ export default {
 		},
 		updateVariable(v) {
 		},
+		saveFile() {
+			var FileSaver = require('file-saver');
+			var strArr = [];
+			for (var pt of this.history) {
+				var str = JSON.stringify(pt, null, 2);
+				strArr.push(str); 
+			} 
+			var blob = new Blob(strArr, {type: "text/plain;charset=utf-8"});
+			FileSaver.saveAs(blob, "graph_data.txt");
+		},
 	},
 	watch: {
 		nodeQuery(n, o) {
-			// if (o) o.unregister(this.updateVariable);
-			// n.updated.register(this.updateVariable);
+			if (o) o.unregister(this.updateVariable);
+			n.updated.register(this.updateVariable);
 		},
 	},
 	created() {
-		// callback for adding data
-		setInterval(() => {
+		// Every 100 miliseconds, graphs a point (x, y)
+		this.interval = setInterval(() => {
 			const time = performance.now();
 			this.history.push({x: time, y: Math.sin(time * 0.002)});
 			this.chart.update();
 		}, 100);
 		this.nodeQuery.register(this.updateVariable);
+		this.graphData();
 	},
 	destroyed() {
 		if (this.sub) this.sub.cancel();
 	},
+
 };
 </script>
 
