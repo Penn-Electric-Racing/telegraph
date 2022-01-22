@@ -132,13 +132,12 @@ export default {
 			this.interval = setInterval(() => {
 				const time = performance.now();
 				this.history.push({x: time, y: Math.sin(time * 0.002)});
-				// this.history.push({x: time, y: 0.5*time});
 				this.timeArr.push(time); 
-				// console.log("Current Time is:", this.timeArr); 
 				this.chart.update();
 			}, 100);
 			this.nodeQuery.register(this.updateVariable);
 		},
+		/* Do not use this function yet*/ 
 		graphRecordedData(savedHistory, savedTimeArr) {
 			setInterval(() => {
 				// TODO: something wrong with shift 
@@ -152,59 +151,49 @@ export default {
 			// this.nodeQuery.register(this.updateVariable);
 		},
 		
+		/* Do not use this function yet: Currently redraws the graph but doesn't clear the data in history*/ 
 		handleReplay() {
-			// TODO: made more of a clear button than a replay
+			/*
 			var savedHistory = [];
 			for (var i of this.history)
 			{
 				savedHistory.push(i); 
 			}
 			var savedTimeArr = [];
-
 			for (var j of this.timeArr)
 			{
 				savedTimeArr.push(i); 
 			}
-
 			this.chart.dispose();
 			clearInterval(this.interval); 
 			this.history = []; 
-			console.log("Cleared History is", this.history); 
+			// console.log("Cleared History is", this.history); 
 			this.chart = null; 
 			this.timespan = 20;
 			this.useTimespan = true;
 			this.live = true;
+			// console.log("Old History is", savedHistory); 
 
-
-			
-			console.log("Old History is", savedHistory); 
-		
-			// this.graphData(); 
 			this.graphRecordedData(); 
 			this.setRecordedData(); 
+			*/ 
 		},
 		saveFile() {
 			var FileSaver = require('file-saver');
-			// console.log("Saved history", this.history); 
-			// console.log("x: ", this.history[0].x); 
-			// console.log("y: ", this.history[0].y); 
-
 			var strArr = [];
 			for (var pt of this.history)
 			{
 				var str = JSON.stringify(pt, null, 2);
 				strArr.push(str); 
-			}
-			// console.log("String Array: ", strArr); 
-
+			} 
 			var blob = new Blob(strArr, {type: "text/plain;charset=utf-8"});
 			FileSaver.saveAs(blob, "graph_data.txt");
 		},
 	},
 	watch: {
 		nodeQuery(n, o) {
-			// if (o) o.unregister(this.updateVariable);
-			// n.updated.register(this.updateVariable);
+			if (o) o.unregister(this.updateVariable);
+			n.updated.register(this.updateVariable);
 		},
 	},
 	created() {
