@@ -18,11 +18,11 @@ export default {
       position: 'top-right',
       fabActions: [
         {
-          name: 'cache',
+          name: 'fun1',
           icon: 'cached'
         },
         {
-          name: 'alertMe',
+          name: 'fun2',
           icon: 'add_alert'
         }
       ]
@@ -30,10 +30,10 @@ export default {
   },
   methods:{
     fun1(){
-      //console.log('Cache Cleared');
+      //any arbitrary function
     },
     fun2(){
-      //alert('Clicked on alert icon');
+      //any arbitrary function
     }
   }
 }
