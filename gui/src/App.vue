@@ -178,7 +178,6 @@ import SettingsPage from "./pages/SettingsPage.vue";
 import Burger from "./Burger.vue";
 import Dashboard from "./dashboard/Dashboard.vue";
 
-
 import uuidv4 from "uuid/v4";
 import Vue from "vue";
 import { mapGetters, mapState } from "vuex";
@@ -222,6 +221,7 @@ export default {
 			activeSidebar: "live",
 
 			// each tab must have a type, a name, an id, and a description
+      // pass in empty string for description if no tooltip is wanted
 			// the name and id will be passed to the component created
 			// according to the type specified
 			//
@@ -390,9 +390,6 @@ export default {
 				}
 			} catch (e) {}
 		},
-    alert(){
-      alert('You have clicked me :)');
-    }
 	},
 
 	created() {

@@ -3,9 +3,6 @@ import App from "./App.vue";
 
 import store from "./store";
 
-// import FloatingVue from 'floating-vue';
-// import 'floating-vue/dist/style.css';
-
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
 	faCogs,
@@ -65,10 +62,7 @@ library.add(
 
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
-// import VTooltip from "v-tooltip";
-// import vuetify from '@/plugins/vuetify'
-import FloatingVue from 'floating-vue';
-
+import FloatingVue from 'floating-vue'; // library used for displaying tooltip
 Vue.use(FloatingVue);
 import 'floating-vue/dist/style.css';
 
@@ -82,9 +76,6 @@ Vue.use((Vue) => {
 		} while (component);
 	};
 });
-
-// Vue.use(VTooltip);
-
 
 Vue.config.productionTip = false;
 
