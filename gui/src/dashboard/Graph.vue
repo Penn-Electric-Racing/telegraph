@@ -85,7 +85,6 @@ export default {
 		},
 	},
 	mounted() {
-		// this.graphData; 
 
 		new ResizeObserver(() => {
 			if (this.$refs["chart-container"]) {
@@ -173,7 +172,7 @@ export default {
 			this.useTimespan = true;
 			this.live = true;
 			// console.log("Old History is", savedHistory); 
-
+			// replace with: this.graphData() to debug below function
 			this.graphRecordedData(); 
 			this.setRecordedData(); 
 			*/ 
