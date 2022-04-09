@@ -22,6 +22,8 @@ pub enum VariableNode {
         default: String,
         enum_values: String,
         description: String,
+        min: Option<u32>,
+        max: Option<u32>,
     },
     #[serde(rename_all = "PascalCase")]
     Variable {
@@ -72,11 +74,12 @@ pub enum VariableNode {
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Device {
     pub name: String,
+    pub names: Option<String>,
     pub identifier: String,
     pub uppercase_identifier: Option<String>,
     pub description: Option<String>,
     #[serde(rename = "ID")]
-    pub id: String,
+    pub id: u32,
     pub platform: String,
     pub include: String,
     pub read_only: String,
@@ -86,7 +89,7 @@ pub struct Device {
     pub can_frequency: Option<String>,
     pub can_configuration: String,
     pub update: String,
-    pub namespace: String,
+    pub namespace: Option<String>,
     pub using: Option<String>,
     pub can_handlers: Option<bool>,
     pub can_stagger: Option<bool>,
