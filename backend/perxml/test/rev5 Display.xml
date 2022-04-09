@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Devices>
+  <Device Name="Powertrain Control Module" Regex="pcm" Orientation="Horizontal" StartVisible="true" Hideable="false">
+    <Group Name="Mode">
+      <Value Regex="pcm\.error" FaultState="True"/>
+      <Value Regex="pcm\.recoveryStartup" FaultState="False"/>
+      <Value Regex="pcm\.mode"/>
+      <Value Regex="pcm\.driveMode"/>
+      <Value Regex="pcm\.lastRunningThreads"/>
+    </Group>
+    <Group Name="Faults" Orientation="Vertical">
+      <Value Regex="pcm\.clearFaults"/>
+      <Value Regex="pcm\.faults\." FaultState="True"/>
+    </Group>
+    <Group Name="Signals">
+      <Value Regex="pcm\.signals\."/>
+    </Group>
+    <Group Name="Connections">
+      <Value Regex="pcm\.i2c\."/>
+      <Value Regex="pcm\.connections"/>
+    </Group>
+    <Group Name="Drive Modes">
+      <Value Regex="pcm\.driveModes\."/>
+    </Group>
+    <Group Name="Pedals">
+      <Value Regex="pcm\.pedals\."/>
+    </Group>
+    <Group Name="Motor Controller">
+      <Value Regex="pcm\.moc\."/>
+    </Group>
+    <Group Name="Wheel Speeds" Orientation="Vertical">
+      <Value Regex="pcm\.fl\."/>
+      <Value Regex="pcm\.fr\."/>
+      <Value Regex="pcm\.rl\."/>
+      <Value Regex="pcm\.rr\."/>
+    </Group>
+    <Group Name="Cooling">
+      <Value Regex="pcm\.cooling\."/>
+    </Group>
+    <Group Name="IMU Data">
+      <Value Regex="pcm\.imu\."/>
+    </Group>
+    <Group Name="GPS" Orientation="Vertical">
+      <Value Regex="pcm\.frontGps\."/>
+      <Value Regex="pcm\.rearGps\."/>
+    </Group>
+    <Group Name="Misc" Orientation="Vertical">
+      <Value Regex="pcm\.time"/>
+      <Value Regex="pcm\.startTime"/>
+      <Value Regex="pcm\.analogVoltage"/>
+      <Value Regex="pcm\.supplyVoltage"/>
+      <Value Regex="pcm\.steerAngle"/>
+      <Value Regex="pcm\.loadCell"/>
+      <Value Regex="pcm\.resetCause"/>
+      <Value Regex="pcm\.threads"/>
+    </Group>
+    <Group Name="Parameters" Orientation="Vertical" Hideable="true" StartVisible="False">
+      <Value Regex="pcm\.param"/>
+    </Group>
+    <Group Name="Vectornav" Orientation="Vertical" Hideable="true" StartVisible="False">
+      <Value Regex="pcm\.nav"/>
+    </Group>
+    <Group Name="Commands" Orientation="Horizontal" Hideable="true" StartVisible="False">     
+    </Group>
+  </Device>
+  <Device Name="Power Distribution Unit" Regex="pdu" Orientation="Horizontal" StartVisible="true" Hideable="false">
+    <Group Name="Signals">
+      <Value Regex="pdu\.signals"/>
+    </Group>
+    <Group Name="Faults">
+      <Value Regex="pdu\.faults"/>
+    </Group>
+    <Group Name="Sensors">
+      <Value Regex="pdu\.sensors"/>
+    </Group>
+    <Group Name="Threads">
+      <Value Regex="pdu\.threads"/>
+    </Group>
+    <Group Name="Watchdog">
+      <Value Regex="pdu\.watchdog"/>
+    </Group>
+    <Group Name="Parameters">
+      <Value Regex="pdu\.param"/>
+    </Group>
+  </Device>
+  <Device Name="AMS" Regex="ams" Orientation="Horizontal" StartVisible="true" Hideable="false">
+    <Group Name="Success/Tries/Test" Orientation="Vertical">
+      <Value Regex="ams\.success"/>
+      <Value Regex="ams\.tries"/>
+      <Value Regex="ams\.test"/>
+    </Group>
+    <Group Name="Charging">
+      <Value Regex="ams\.newSoc"/>
+      <Value Regex="ams\.updateSoc"/>
+      <Value Regex="ams\.charging"/>
+    </Group>
+    <Group Name="Faults" Orientation="Vertical">
+      <Value Regex="ams\.clearFaults"/>
+      <Value Regex="ams\.faults\." FaultState="True"/>
+    </Group>
+    <Group Name="Signals">
+      <Value Regex="ams\.signals\."/>
+    </Group>
+    <Group Name="Mode">
+      <Value Regex="ams\.mode\."/>
+    </Group>
+    <Group Name="Misc" Orientation="Vertical">
+      <Value Regex="ams\.time"/>
+      <Value Regex="ams\.startTime"/>
+      <Value Regex="ams\.cellCount"/>
+      <Value Regex="ams\.probeCount"/>
+      <Value Regex="ams\.chipCount"/>
+      <Value Regex="ams\.fanSpeed"/>
+      <Value Regex="ams\.vSensorMismatch"/>
+      <Value Regex="ams\.updateSoc"/>
+      <Value Regex="ams\.newSoc"/>
+      <Value Regex="ams\.board"/>
+      <Value Regex="ams\.airsState"/>
+      <Value Regex="ams\.airCloseTime"/>
+      <Value Regex="ams\.airFinalVoltage"/>
+      <Value Regex="threads"/>
+      <Value Regex="watchdog"/>
+    </Group>
+    <Group Name="Pack">
+      <Value Regex="ams\.pack"/>
+      <Value Regex="ams\.stack.\voltage"/>
+    </Group>
+    <Group Name="IMD">
+      <Value Regex="ams\.imd"/>
+    </Group>
+    <Group Name="Cell Voltages" Hideable="true" StartVisible="false" >
+      <Value Regex="ams\.stack\.cells\.cellV"/>
+    </Group>
+    <Group Name="Balancing" Hideable="true" StartVisible="false" >
+      <Value Regex="ams\.stack\.cells\.balancing"/>
+    </Group>
+    <Group Name="Chips" Hideable="true" StartVisible="false" >
+      <Value Regex="ams\.stack\.chips" StartVisible="false" />
+    </Group>
+    <Group Name="Chips" Hideable="true" StartVisible="false" >
+      <Value Regex="ams\.stack\.mma"/>
+    </Group>
+    <Group Name="Chips" Hideable="true" StartVisible="false" >
+      <Value Regex="ams\.stack\.thermistors"/>
+    </Group>
+    <Group Name="Parameters" Hideable="true" StartVisible="false" >
+      <Value Regex="ams\.param"/>
+    </Group>
+    <Group Name="Connected" Orientation="Vertical">
+      <Value Regex="ams\.connections"/>
+      <Value Regex="slavesConnected"/>
+    </Group>
+  </Device>
+  <Device Name="Telemetry" Identifier="sdl" Orientation="Horizontal" StartVisible="true" Hideable="false">
+    <Group Name="Mode">
+      <Value Regex="sdl\.mode\."/>
+    </Group>
+    <Group Name="Time" Orientation="Vertical">
+      <Value Regex="sdl\.time"/>
+      <Value Regex="sdl\.startTime"/>
+    </Group>
+    <Group Name="Connected" Orientation="Vertical">
+      <Value Regex="sdl\.connections"/>
+    </Group>
+    <Group Name="Faults" Orientation="Vertical">
+      <Value Regex="sdl\.faults\." FaultState="True"/>
+    </Group>
+    <Group Name="Param" Orientation="Vertical">
+      <Value Regex="sdl\.param\."/>
+    </Group>
+    <Group Name="Xbees" Orientation="Vertical">
+      <Value Regex="sdl\.xb1\."/>
+      <Value Regex="sdl\.xb2\."/>
+    </Group>
+    <Group Name="Threads" Orientation="Vertical">
+      <Value Regex="sdl\.threads"/>
+    </Group>
+    <Group Name="SD Card" Orientation="Vertical">
+      <Value Regex="sdl\.sd"/>
+    </Group>
+  </Device>
+  <Device Name="Dashboard" Regex="dash" Orientation="Horizontal" StartVisible="true" Hideable="false">
+    <Group Name="Signals">
+      <Value Regex="dash\.signals\."/>
+    </Group>
+    <Group Name="Mode">
+      <Value Regex="dash\.mode"/>
+    </Group>
+    <Group Name="Faults">
+      <Value Regex="dash\.faults\." FaultState="True"/>
+    </Group>
+    <Group Name="Buttons">
+      <Value Regex="pressed"/>
+      <Value Regex="light"/>
+    </Group>
+    <Group Name="Misc" Orientation="Vertical">
+      <Value Regex="dash\.time"         />
+      <Value Regex="dash\.startTime"    />
+      <Value Regex="dash\.lightBarLevel"/>
+      <Value Regex="dash\.screen"       />
+    </Group>
+    <Group Name="Connected" Orientation="Vertical">
+      <Value Regex="dash\.connections"/>
+    </Group>
+    <Group Name="Connected" Orientation="Vertical">
+      <Value Regex="tireTemperature"/>
+    </Group>
+  </Device>
+  <Device Name="Charger" Identifier="charger" Orientation="Horizontal" StartVisible="true" Hideable="false">
+    <Group Name="Faults">
+      <Value Regex="charger\.faults\." FaultState="True"/>
+    </Group>
+    <Group Name="Data" Orientation="Vertical">
+      <Value Regex="charger\.maxPower"/>
+      <Value Regex="charger\.outletVoltage"/>
+      <Value Regex="charger\.outletCurrent"/>
+      <Value Regex="charger\.voltage"/>
+      <Value Regex="charger\.current"/>
+    </Group>
+    <Group Name="Connected" Orientation="Vertical">
+      <Value Regex="charger\.connections"/>
+    </Group>
+  </Device>
+</Devices>

@@ -1,0 +1,811 @@
+<?xml version="1.0"?>
+<Devices>
+  <Device Name="Power Distribution Unit" Identifier="pdu" ID="8" Platform="STM32" Include="MinMaxAvg.hpp, STM32.hpp, VN_300.hpp" ReadOnly="true"
+          UpdateFrequency="100" PerDosFrequency="10" PerDosUart="921600|PA11|PA12"
+          CanFrequency="Default:10" CanConfiguration="500000|PB12|PB13|Default" Update="ManualFunctions"
+          Namespace="per::embedded" Using="devices">
+    <Enum Name="Reset Cause" Identifier="resetCause" UppercaseIdentifier="per::embedded::ResetCause" CanFrequency="Default:10, Moc:0" Type="uint8" Default="PowerOn" EnumValues="LowPowerMgmt, WindowWatchdog, IndependentWatchdog, Software, PowerOn, NrstPin, Brownout" Description=""/>
+    <Variable Name="Start Time" Identifier="startTime" Type="uint32" Description="" PerDosFrequency=".5"/>
+    <Struct Name="Watchdog" Identifier="watchdog" CanFrequency="10" PerDosFrequency=".5">
+      <Variable Name="Update Thread Timeout" Identifier="updateTimeout" Type="bool" Description="" />
+      <Variable Name="Sensor Thread Timeout" Identifier="sensorTimeout" Type="bool" Description="" />
+      <Variable Name="Controller Thread Timeout" Identifier="controllerTimeout" Type="bool" Description="" />
+      <Variable Name="Parameter Thread Timeout" Identifier="parameterTimeout" Type="bool" Description="" />
+      <Variable Name="Startup Timeout" Identifier="startupTimeout" Type="bool" Description="" />
+    </Struct>
+    <Struct Name="Threads" Identifier="threads" PerDosFrequency=".5">
+      <Variable Name="Update Thread Loop Time" Identifier="updateTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Sensor Thread Loop Time" Identifier="sensorTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Controller Thread Loop Time" Identifier="controllerTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Parameter Thread Loop Time" Identifier="parameterTime" Type="uint16" Units="us" Description="" />
+    </Struct>
+    <Struct Name="Faults" Identifier="faults" PerDosFrequency="0.2">
+      <Variable Name="Overcurrent" Identifier="oc" Type="bool" Default="false" Description="True if there is an overcurrent on any channel"/>
+      <Variable Name="Undercurrent" Identifier="uc" Type="bool" Default="false" Description="True if there is an undercurrent on any channel"/>
+      <Variable Name="Channel Overcurrent" Identifier="ocChannel" ArrayDimensions="24" Type="bool" Default="false" Description="Generic output overcurrent."/>
+      <Variable Name="Channel Undercurrent" Identifier="ucChannel" ArrayDimensions="24" Type="bool" Default="false" Description="Generic output undercurrent."/>
+      <Variable Name="PCM Overcurrent" Identifier="ocPCM" Type="bool" Default="false" Description="PCM overcurrent."/>
+      <Variable Name="PCM Undercurrent" Identifier="ucPCM" Type="bool" Default="false" Description="PCM undercurrent."/>
+      <Variable Name="Cell undervoltage" Identifier="uvCell" Type="bool" Default="false" Description="Cell undervoltage."/>
+      <Variable Name="Cell overvoltage" Identifier="ovCell" Type="bool" Default="false" Description="Call overvoltage."/>
+      <Variable Name="Battery overcurrent" Identifier="ocBat" Type="bool" Default="false" Description="Battery overcurrent."/>
+      <Variable Name="Battery undercurrent" Identifier="ucBat" Type="bool" Default="false" Description="Battery undercurrent."/>
+      <Variable Name="DCDC overcurrent" Identifier="ocDCDC" Type="bool" Default="false" Description="DCDC overcurrent."/>
+      <Variable Name="DCDC undercurrent" Identifier="ucDCDC" Type="bool" Default="false" Description="DCDC undercurrent."/>
+      <Variable Name="Battery overtemperature" Identifier="otBat" Type="bool" Default="false" Description=""/>
+      <Variable Name="Battery undertemperature" Identifier="utBat" Type="bool" Default="false" Description=""/>
+      <Variable Name="Buck Converter" Identifier="buckConverter"  Type="bool" Default="false" Description=""/>
+    </Struct>
+    <Struct Name="Sensors" Identifier="sensors" PerDosFrequency="0.2">
+      <Variable Name="Current" Identifier="current" ArrayDimensions="24" Type="float" Units="A" Description="Generic output current."/>
+      <Variable Name="SHDN current" Identifier="currentSHDN" Type="float" Units="A" Description="SHDN current."/>
+      <Variable Name="PCM current" Identifier="currentPCM" Type="float" Units="A" Description="PCM current."/>
+      <Variable Name="Battery current" Identifier="currentBAT" Type="float" Units="A" Description="Battery current."/>
+      <Variable Name="Bus current" Identifier="currentBUS" Type="float" Units="A" Description="Bus current."/>
+      <Variable Name="DC/DC 12V current" Identifier="currentDCDC12V" Type="float" Units="A" Description="DC/DC 12V current."/>
+      <Variable Name="Temperature fault" Identifier="tempFault" Type="bool" Description="Battery temperature fault indicator."/>
+      <Variable Name="Board temperature" Identifier="boardTemp" Type="float" Units="C" Description="Board Temperature"/>
+      <Variable Name="Cell voltage" Identifier="cellV" Type="float" Units="V" ArrayDimensions="4" Description="Battery cell voltage"/>
+      <Variable Name="Battery voltage" Identifier="batV" Type="float" Units="V" Description="Total battery voltage"/>
+      <Variable Name="3.3V voltage" Identifier="pwrSense" Type="float" Units="V" Description="3.3V supply voltage."/>
+      <Variable Name="Power good" Identifier="pg" Type="bool" Description="5V power good indicator."/>
+    </Struct>
+    <Struct Name="Signals" Identifier="signals" ReadOnly="true" Description="Signals to other boards about PDU state.">
+      <Variable Name="Pdu ok" Identifier="pduOk" Type="bool" Description=""/>
+      <Variable Name="Pumps On" Identifier="pumps" Type="bool" Default="false" Description=""/>
+      <Variable Name="Fans On" Identifier="fans" Type="bool" Default="false" Description=""/>
+      <Variable Name="Charging from DCDC" Identifier="chargingBat" Type="bool" Default="false" Description=""/>
+      <Enum Name="Power State" Identifier="powerState" Type="uint8" Default="Battery" EnumValues="Battery, BatteryToDCDC, DCDC" Description="Which source is  the battery getting power from, or if its transitioning." PerDosFrequency=".5"/>
+    </Struct>
+    <Struct Name="Parameters" Identifier="param" ReadOnly="false" Description="The current parameters of the device" CanFrequency="0" PerDosFrequency="0.5">
+      <Variable Name="FRAM Configured" Identifier="framConfigured" Type="bool" Description="If true then FRAM values were already set to defaults" Default="false"/>
+      <Variable Name="Reset FRAM" Identifier="framReset" Type="bool" Default="false" Description="If true then FRAM will be reset after next restart."/>
+      <Variable Name="Save to Fram" Identifier="framSave" Type="bool" Default="false" Description="Write current parameter values to fram."/>
+      <Variable Name="DCDC Switch Timeout" Identifier="dcdcSwitchTimeout" Type="float" Default="1" Min="0" Max="10" Description="The maximum time it takes for the DCDC to turn on."/>
+      <Struct Name="Limits" Identifier="limits" Description="Limits on the state of the PDD (state voltage etc)">
+        <Struct Name="Low current limits" Identifier="lowCurrent" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="-0.05"  Min="-0.05" Max="7.5"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="4"   Min="0" Max="7.5"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="0.01" Min="0" Max="10" Units="s"/>
+        </Struct>
+        <Struct Name="High current limits" Identifier="highCurrent" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="-0.05"  Min="-0.05" Max="22.5"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="10"   Min="0" Max="22.5"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="0.01" Min="0" Max="10" Units="s"/>
+        </Struct>
+        <Variable Name="Max Current" Identifier="maxCurrent" ArrayDimensions="24" Type="float" Units="A" Default="4" Description="Generic output current maximum. Actual current max is the min of the general and channel specific limit."/>
+        <Variable Name="PCM Max Current" Identifier="maxCurrentPCM" Type="float" Units="A" Default="4" Description="PCM output current maximum. Actual current max is the min of the general and channel specific limit."/>
+        <Struct Name="Cell voltage limits" Identifier="cellVoltage" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="3.3"  Min="0" Max="5"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="4.2"   Min="0" Max="5"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="0.01" Min="0" Max="10" Units="s"/>
+        </Struct>
+        <Struct Name="Battery current limits" Identifier="batCurrent" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="-20"  Min="-20" Max="0"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="20"   Min="0" Max="20"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="0.01" Min="0" Max="10" Units="s"/>
+        </Struct>
+        <Struct Name="DCDC current limits" Identifier="busCurrent" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="0"  Min="0" Max="30"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="30"   Min="0" Max="30"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="0.01" Min="0" Max="10" Units="s"/>
+        </Struct>
+        <Struct Name="Battery temperature limits" Identifier="temp" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="10"  Min="0" Max="60"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="60"   Min="0" Max="60"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="0.01" Min="0" Max="10" Units="s"/>
+        </Struct>
+      </Struct>
+    </Struct>
+    <Struct Name="Connections" Identifier="connections" Description="" CanFrequency="10" PerDosFrequency=".2">
+      <Variable Name="Telemetry Connected over CAN" Identifier="sdlCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Accumulator Manangement System Connected over CAN" Identifier="amsCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Dashboard Connected over CAN" Identifier="dashCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Charger Connected over CAN" Identifier="chargerCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="0"/>
+      <Variable Name="Powertrain Control Module Connected over CAN" Identifier="pcmCanConnected" Type="bool" DefaultValue="false" Description=""/>
+    </Struct>
+  </Device>
+  <Device Name="Powertrain Control Module" Identifier="pcm" ID="2" Platform="STM32" Include="STM32.hpp, VN_300.hpp" ReadOnly="true"
+          UpdateFrequency="400" PerDosFrequency="10" PerDosUart="921600|PC7|PC6"
+          CanFrequency="Default:10" CanConfiguration="500000|PB12|PB13|Default" Update="ManualFunctions"
+          Namespace="per::embedded" Using="devices">
+    <Enum Name="Reset Cause" Identifier="resetCause" UppercaseIdentifier="per::embedded::ResetCause" CanFrequency="Default:10, Moc:0" Type="uint8" Default="PowerOn" EnumValues="LowPowerMgmt, WindowWatchdog, IndependentWatchdog, Software, PowerOn, NrstPin, Brownout" Description=""/>
+    <Variable Name="Start Time" Identifier="startTime" Type="uint32" Description="" PerDosFrequency=".5"/>
+    <Enum Name="Mode" Identifier="mode" Type="uint32" Default="Standby" EnumValues="Standby, Idle, Ready" Description="The current PCM mode" PerDosFrequency=".5"/>
+    <Struct Name="Threads" Identifier="threads" PerDosFrequency=".5">
+      <Variable Name="Update Thread Loop Time" Identifier="updateTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Sensor Thread Loop Time" Identifier="sensorTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Controller Thread Loop Time" Identifier="controllerTime" Type="uint16" Units="us" Description="" />
+    </Struct>
+    <Struct Name="Watchdog" Identifier="watchdog" CanFrequency="10" PerDosFrequency=".5">
+      <Variable Name="Update Thread Timeout" Identifier="updateTimeout" Type="bool" Description="" />
+      <Variable Name="Sensor Thread Timeout" Identifier="sensorTimeout" Type="bool" Description="" />
+      <Variable Name="Controller Thread Timeout" Identifier="controllerTimeout" Type="bool" Description="" />
+      <Variable Name="Startup Timeout" Identifier="startupTimeout" Type="bool" Description="" />
+    </Struct>
+    <Struct Name="Faults" Identifier="faults" PerDosFrequency=".2">
+      <Variable Name="CAN" Identifier="can" Type="bool" Description=""/>
+      <Variable Name="MOC CAN" Identifier="mocCan" Type="bool" Description=""/>
+      <Variable Name="MOC Timeout"            Identifier="mocTimeout"   Type="bool" Description=""/>
+      <Variable Name="Coolant NFlow"          Identifier="coolantNFlow" Type="bool" Description=""/>
+      <Variable Name="External Analog Supply" Identifier="extAnaSupply"  Type="bool" Description=""/>
+      <Variable Name="Fixed Supply"           Identifier="fixedSupply"  Type="bool" Description=""/>
+      <Variable Name="Buck Converter"         Identifier="buckConverter"  Type="bool" Description=""/>
+    </Struct>
+    <Struct Name="Signals" Identifier="signals" PerDosFrequency=".5" >
+      <Variable Name="Pcm OK"         Identifier="pcmOk"          Type="bool" Description=""/>
+      <Variable Name="Moc Ready"      Identifier="mocReady"       Type="bool" Description=""/>
+      <Variable Name="Rtds Beeping"   Identifier="rtdsBeeping"    Type="bool" Description=""/>
+      <Variable Name="Brake Light"    Identifier="brakeLight"     Type="bool" Description=""/>
+      <Variable Name="Bspd OK"        Identifier="bspdOk"         Type="bool" Description=""/>
+      <Variable Name="Start Request"  Identifier="startRequest"   Type="bool" Description=""/>
+      <Variable Name="Stop Request"   Identifier="stopRequest"    Type="bool" Description=""/>
+      <Variable Name="Limp Mode"      Identifier="limpMode"       Type="bool" Description=""/>
+    </Struct>
+    <Enum Name="Drive Modes" Identifier="driveMode" Type="uint32" Default="Autocross"
+          EnumValues="Autocross, Endurance, Acceleration, Skidpad, Easy, Autonomous, LastIndex" Description="" PerDosFrequency=".5"/>
+    <Struct Name="Pedal" Identifier="pedals" Description="pedal data"  PerDosFrequency=".5">
+      <Variable Name="Front Brake Pressure" Identifier="frontBrakePressure" Units="PSI" Type="float" Description="" CanFrequency="Default:100" PerDosFrequency="10"/>
+      <Variable Name="Rear Brake Pressure" Identifier="rearBrakePressure" Units="PSI" Type="float" Description="" CanFrequency="Default:100" PerDosFrequency="10"/>
+      <Variable Name="Accel" Identifier="accel" Type="float" Description="" CanFrequency="Default:100" PerDosFrequency="10"/>
+      <Variable Name="Accel Left" Identifier="accelLeft" Type="float" Description="" CanFrequency="0"/>
+      <Variable Name="Accel Right" Identifier="accelRight" Type="float" Description="" CanFrequency="0"/>
+      <Variable Name="Accel Left Raw" Identifier="accelLeftRaw" Type="float" Description="" CanFrequency="0"/>
+      <Variable Name="Accel Right Raw" Identifier="accelRightRaw" Type="float" Description="" CanFrequency="0"/>
+      <Variable Name="Brake Force" Identifier="brakeForce" Type="float" Description="" CanFrequency="Default:100" PerDosFrequency="10"/>
+      <Variable Name="Brake Force Raw" Identifier="brakeForceRaw" Type="float" Description="" CanFrequency="Default:100" PerDosFrequency="10"/>
+      <Variable Name="Any Implausibility" Identifier="anyImplausibility" Type="bool" Description="" CanFrequency="0"/>
+      <Struct Name="Implausibility" Identifier="implausibility" Description="" PerDosFrequency=".5">
+        <Variable Name="Front Brake Pressure Lower Limit"       Identifier="brakePressureFLlim"         Type="bool" Description=""/>
+        <Variable Name="Front Brake Pressure Upper Limit"       Identifier="brakePressureFUlim"         Type="bool" Description=""/>
+        <Variable Name="Rear Brake Pressure Lower Limit"        Identifier="brakePressureRLlim"         Type="bool" Description=""/>
+        <Variable Name="Rear Brake Pressure Upper Limit"        Identifier="brakePressureRUlim"         Type="bool" Description=""/>
+        <Variable Name="Accel Left Lower Limit"           Identifier="accelLeftLlim"         Type="bool" Description=""/>
+        <Variable Name="Accel Left Upper Limit"           Identifier="accelLeftUlim"         Type="bool" Description=""/>
+        <Variable Name="Accel Right Lower Limit"           Identifier="accelRightLlim"         Type="bool" Description=""/>
+        <Variable Name="Accel Right Upper Limit"           Identifier="accelRightUlim"         Type="bool" Description=""/>
+        <Variable Name="Brake Force Lower Limit"     Identifier="brakeForceLlim"         Type="bool" Description=""/>
+        <Variable Name="Brake Force Upper Limit"     Identifier="brakeForceUlim"         Type="bool" Description=""/>
+        <Variable Name="Accel Mismatch"                Identifier="accelMismatch"      Type="bool" Description=""/>
+        <Variable Name="Brake Pressure Mismatch"                Identifier="brakePressureMismatch"      Type="bool" Description=""/>
+        <Variable Name="Brake And Accel"               Identifier="brakeAndAccel"      Type="bool" Description=""/>
+      </Struct>
+    </Struct>
+    <Variable Name="Board Temperature" Identifier="boardTemperature" Type="float" Units="C" Description="" PerDosFrequency=".5"/>
+    <Variable Name="Distance Traveled" Identifier="distanceTraveled" Type="double" Default="0" Units="miles" Description="" CanFrequency="Default:10" PerDosFrequency=".5" />
+    <Struct Name="Motor Controller" Identifier="moc" PerDosFrequency="5">
+      <Variable Name="Timestamp" Identifier="timestamp" Type="uint32" Unit="microseconds" Description="timestamp the MOC state was last updated" Default="0"/>
+      <Variable Name="Device State" Identifier="deviceState" Type="uint8" Description="0 - initialization complete, 1 - initialization active, 3 - no data" Default="3"/>
+      <Variable Name="Precharged" Identifier="precharged" Type="uint8" Description="0 - precharge active, 1 - precharged complete, 3 - no data" Default="3" />
+      <Variable Name="Error Code" Identifier="errorCode" Type="uint16" Description="0 - no error, [1, 65535] - error message (look up in manual)" Default="0"/>
+      <Variable Name="DC Bus Voltage" Identifier="dcBusVoltage" Type="int16" Units="V" Default="0" Description="" />
+      <Variable Name="DC Bus Power" Identifier="dcBusPower" Type="float" Units="kW" Default="0" Description="" />
+      <Variable Name="Temperature" Identifier="temp" Type="int16" Units="C" Default="0" Description="" />
+      <Repeat Name="Motor" Identifier="motor" Prefixes="motorA, motorB" Description="data from motor controller about the motors">
+        <Variable Name="Timestamp" Identifier="timestamp" Type="uint32" Unit="microseconds" Description="timestamp the motor state was last updated" Default="0"/>
+
+        <!-- Read from the motor controller -->
+        <Variable Name="Inverter Status" Identifier="inverterStatus" Type="uint8" Description="0 - power section inhibited, 1 - power section enabled, 3 - no data" Default="3" />
+        <Variable Name="Inverter Ready" Identifier="inverterReady" Type="uint8" Description="0 - inverter not ready, 1 - inverter ready, 3 - no data" Default="3" />
+        <Variable Name="Error Status" Identifier="errorStatus" Type="uint8" Description="0 - no error, 1 - error, 2 - warning, 3 - no data" Default="3" />
+        <Variable Name="Angular Speed" Identifier="angularSpeed" Type="float" Units="RPM" Default="0" Description="[-32000, 32255] rpm"/>
+        <Variable Name="Torque" Identifier="torque" Type="int16" Units="Nm" Default="0" Description="[-6400, 6451] Nm"/>
+        <Variable Name="Power" Identifier="power" Type="float" Units="Nm" Default="0" Description="[-160, 161.275] kW"/>
+        <Variable Name="Temperature" Identifier="temp" Type="int16" Units="C" Default="0" Description="[-40, 210] °C"/>
+
+        <!-- Set by us -->
+        <Variable Name="Torque Requested" Identifier="requestedTorque" Type="float" Default="0" Description=""/>
+        <Variable Name="Linear Speed" Identifier="wheelSpeed" Type="float" Units="MPH" Default="0" Description=""/>
+      </Repeat>
+    </Struct>
+    <Struct Name="I2C Connections" Identifier="i2c" PerDosFrequency=".5">
+      <Variable Name="Fixed Pull Up/Down Connected" Identifier="fixedPullConnected" Type="bool" Description="" CanFrequency="Default:10"/>
+      <Variable Name="External Analog Pull Connected" Identifier="extAnaPullConnected" Type="bool" Description="" CanFrequency="Default:10"/>
+      <Variable Name="External Analog Filter Connected" Identifier="extAnaFilterConnected" Type="bool" Description="" CanFrequency="Default:10"/>
+    </Struct>
+    <Variable Name="Supply Voltage" Identifier="supplyVoltage" Type="float" Description="" CanFrequency="Default:10" PerDosFrequency=".5"/>
+    <Variable Name="5V Analog Voltage" Identifier="analogVoltage" Type="float" Description="" CanFrequency="Default:10" PerDosFrequency=".5"/>
+    <Variable Name="5V Ext Voltage" Identifier="extVoltage" Type="float" Description="" CanFrequency="Default:10" PerDosFrequency=".5"/>
+    <Variable Name="Front Load Cell" Identifier="frontLoadCell" Units="N" Type="float" Description="data from the front load cell" CanFrequency="Default:100" PerDosFrequency="5"/>
+    <Variable Name="Rear Load Cell" Identifier="rearLoadCell" Units="N" Type="float" Description="data from the rear load cell" CanFrequency="Default:100" PerDosFrequency="5"/>
+    <Variable Name="SteerAngle" Identifier="steerAngle" Type="float" Description="" CanFrequency="Default:100" PerDosFrequency="5"/>
+    <Struct Name="Cooling" Identifier="cooling" Description="" PerDosFrequency="5">
+      <Variable Name="Right Radiator Inlet" Identifier="radInletRight" Type="float" Description=""/>
+      <Variable Name="Right Radiator Outlet" Identifier="radOutletRight" Type="float" Description=""/>
+      <Variable Name="Left Radiator Inlet" Identifier="radInletLeft" Type="float" Description=""/>
+      <Variable Name="Left Radiator Outlet" Identifier="radOutletLeft" Type="float" Description=""/>
+      <Variable Name="Front Flow Rate" Identifier="frontFlow" Type="float" Units="L/min" Description=""/>
+      <Variable Name="Rear Flow Rate" Identifier="rearFlow" Type="float" Units="L/min" Description=""/>
+    </Struct>
+    <Struct Name="Vectornav VN-300" Identifier="nav" Description="" CanFrequency="0" PerDosFrequency=".5">
+      <Variable Name="Time" Identifier="time" Type="uint32" Units="s" Description="Calculated from TimeUTC field"/>
+      <Variable Name="Miliseconds" Identifier="millis" Type="uint16" Description=""/>
+      <Variable Name="Temperature" Identifier="temperature" Type="float" Units="C" Description=""/>
+      <Variable Name="Pressure" Identifier="pressure" Type="float" Units="kPa" Description=""/>
+      <Struct Name="Accelerometer" Identifier="accel" UppercaseIdentifier="VN_300::XYZ">
+        <Variable Name="X Acceleration" Identifier="x" Type="float" Units="m/s^2" Description=""/>
+        <Variable Name="Y Acceleration" Identifier="y" Type="float" Units="m/s^2" Description=""/>
+        <Variable Name="Z Acceleration" Identifier="z" Type="float" Units="m/s^2" Description=""/>
+      </Struct>
+      <Struct Name="Gyroscope" Identifier="gyro" UppercaseIdentifier="VN_300::XYZ">
+        <Variable Name="X Angular Velocity" Identifier="x" Type="float" Units="deg/s" Description=""/>
+        <Variable Name="Y Angular Velocity" Identifier="y" Type="float" Units="deg/s" Description=""/>
+        <Variable Name="Z Angular Velocity" Identifier="z" Type="float" Units="deg/s" Description=""/>
+      </Struct>
+      <Struct Name="Magnetometer" Identifier="mag" UppercaseIdentifier="VN_300::XYZ">
+        <Variable Name="X Magnetic Field" Identifier="x" Type="float" Units="gauss" Description=""/>
+        <Variable Name="Y Magnetic Field" Identifier="y" Type="float" Units="gauss" Description=""/>
+        <Variable Name="Z Magnetic Field" Identifier="z" Type="float" Units="gauss" Description=""/>
+      </Struct>
+      <Repeat Name="GPS" Identifier="gps" UppercaseIdentifier="Data" Prefixes="frontGps, rearGps">
+        <Variable Name="Number of Satellites" Identifier="numSats" Type="int8" Description=""/>
+        <Enum Name="Fix" Identifier="fix" Type="uint8" EnumValues="NoFix, TimeOnly, _2D, _3D" Default="NoFix" Description=""/>
+      </Repeat>
+      <Struct Name="Inertial Navigation System" Identifier="ins">
+        <Struct Name="Status" Identifier="status">
+          <Enum Name="Mode" Identifier="mode" Type="uint8" EnumValues="NotTracking, Aligning, Tracking, NoGPS" Default="NotTracking" Description=""/>
+          <Variable Name="GPS Fix" Identifier="gpsfix" Type="bool" Description=""/>
+          <Variable Name="IMU Error" Identifier="imuError" Type="bool" Description=""/>
+          <Variable Name="Magnetometer/Pressure Error" Identifier="magPresError" Type="bool" Description=""/>
+          <Variable Name="GPS Error" Identifier="gpsError" Type="bool" Description=""/>
+          <Variable Name="GPS Heading INS" Identifier="gpsHeadingIns" Type="bool" Description=""/>
+        </Struct>
+        <Struct Name="Position" Identifier="position"  UppercaseIdentifier="VN_300::LLA">
+          <Variable Name="Latitute" Identifier="latitude" Type="double" Units="deg" Description=""/>
+          <Variable Name="Longitude" Identifier="longitude" Type="double" Units="deg" Description=""/>
+          <Variable Name="Altitude" Identifier="altitude" Type="double" Units="m" Description=""/>
+        </Struct>
+        <Struct Name="Body Velocity" Identifier="velocity" UppercaseIdentifier="VN_300::XYZ">
+          <Variable Name="X Velocity" Identifier="x" Type="float" Units="m/s" Description=""/>
+          <Variable Name="Y Velocity" Identifier="y" Type="float" Units="m/s" Description=""/>
+          <Variable Name="Z Velocity" Identifier="z" Type="float" Units="m/s" Description=""/>
+        </Struct>
+        <Struct Name="Linear Acceleration" Identifier="acceleration" UppercaseIdentifier="VN_300::XYZ">
+          <Variable Name="X Acceleration" Identifier="x" Type="float" Units="m/s^2" Description=""/>
+          <Variable Name="Y Acceleration" Identifier="y" Type="float" Units="m/s^2" Description=""/>
+          <Variable Name="Z Acceleration" Identifier="z" Type="float" Units="m/s^2" Description=""/>
+        </Struct>
+        <Struct Name="Orientation" Identifier="orientation" UppercaseIdentifier="VN_300::YawPitchRoll">
+          <Variable Name="Yaw" Identifier="yaw" Type="float" Units="deg" Description=""/>
+          <Variable Name="Pitch" Identifier="pitch" Type="float" Units="deg" Description=""/>
+          <Variable Name="Roll" Identifier="roll" Type="float" Units="deg" Description=""/>
+        </Struct>
+        <Struct Name="Uncertainty" Identifier="uncertainty">
+          <Variable Name="Position Uncertainty" Identifier="position" Type="float" Description=""/>
+          <Variable Name="Velocity Uncertainty" Identifier="velocity" Type="float" Description=""/>
+          <Struct Name="Orientation" Identifier="ypr" UppercaseIdentifier="VN_300::YawPitchRoll" >
+            <Variable Name="Yaw Uncertainty" Identifier="yaw" Type="float" Units="deg" Description=""/>
+            <Variable Name="Pitch Uncertainty" Identifier="pitch" Type="float" Units="deg" Description=""/>
+            <Variable Name="Roll Uncertainty" Identifier="roll" Type="float" Units="deg" Description=""/>
+          </Struct>
+        </Struct>
+      </Struct>
+    </Struct>
+    <Struct Name="Profile" Identifier="param" ReadOnly="false" Description="The current parameters of the device" CanFrequency="Default:2" PerDosFrequency="0.5">
+      <Variable Name="Drive Test" Identifier="driveTest" Type="bool" Description=""/>
+      <Variable Name="Speed Override" Identifier="speedOverride" Type="bool" Description=""/>
+      <Variable Name="Override Speed" Identifier="overrideSpeed" Type="float" Units="mph" Description=""/>
+      <Variable Name="Steer Offset" Identifier="steerOffset" Type="float" Default="0" Units="deg" Description=""/>
+      <Struct Name="Pedals" Identifier="pedals">
+        <Variable Name="Test BSPD" Identifier="testBspd" Type="bool" Description="Disables the accel and brake implausibility, allowing the BSPD to trigger"/>
+        <Struct Name="Limits" Identifier="limits">
+          <Struct Name="Accelerator Left" Identifier="accelLeft">
+            <Variable Name="Absolute Low" Identifier="absLow" Type="float" Default=".05" Min="0" Max="1" Description="Implausibility if lower" />
+            <Variable Name="Absolute High" Identifier="absHigh" Type="float" Default=".95" Min="0" Max="1" Description="Implausibility if higher" />
+            <Variable Name="Range Low" Identifier="rangeLow" Type="float" Default="0.617" Min="0" Max="1" Description="Value when the accel pedal is released" />
+            <Variable Name="Range High" Identifier="rangeHigh" Type="float" Default="0.7354" Min="0" Max="1" Description="Value when the accel pedal is pressed" />
+          </Struct>
+          <Struct Name="Accelerator Right" Identifier="accelRight">
+            <Variable Name="Absolute Low" Identifier="absLow" Type="float" Default=".05" Min="0" Max="1" Description="Implausibility if lower" />
+            <Variable Name="Absolute High" Identifier="absHigh" Type="float" Default=".95" Min="0" Max="1" Description="Implausibility if higher" />
+            <Variable Name="Range Low" Identifier="rangeLow" Type="float" Default="0.205" Min="0" Max="1" Description="Value when the accel pedal is released" />
+            <Variable Name="Range High" Identifier="rangeHigh" Type="float" Default="0.128" Min="0" Max="1" Description="Value when the accel pedal is pressed" />
+          </Struct>
+          <Struct Name="Brake Force" Identifier="brakeForce">
+            <Variable Name="Absolute Low" Identifier="absLow" Type="float" Default=".05" Min="0" Max="1" Description="Implausibility if lower" />
+            <Variable Name="Absolute High" Identifier="absHigh" Type="float" Default=".95" Min="0" Max="1" Description="Implausibility if higher" />
+            <Variable Name="Range Low" Identifier="rangeLow" Type="float" Default="0" Min="0" Max="1" Description="Value when the brake pedal is released" />
+            <Variable Name="Range High" Identifier="rangeHigh" Type="float" Default="0" Min="0" Max="1" Description="Value when the brake pedal is pressed" />
+          </Struct>
+          <Struct Name="Brake Pressure" Identifier="brakePressure">
+            <Variable Name="Absolute Low" Identifier="absLow" Type="float" Default=".05" Min="0" Max="1" Description="Implausibility if lower" />
+            <Variable Name="Absolute High" Identifier="absHigh" Type="float" Default=".95" Min="0" Max="1" Description="Implausibility if higher" />
+            <Variable Name="Range Low" Identifier="rangeLow" Type="float" Default="0" Min="0" Max="1" Description="Value when the brake pedal is released" />
+            <Variable Name="Range High" Identifier="rangeHigh" Type="float" Default="0" Min="0" Max="1" Description="Value when the brake pedal is pressed" />
+          </Struct>
+        </Struct>
+        <Struct Name="Thresholds" Identifier="thresholds">
+          <Variable Name="Brake Actuated" Identifier="brakeActuated" Type="float" Default="100" Min="0" Max="1000" Description=""/>
+          <Variable Name="Accel Actuated" Identifier="accelActuated" Type="float" Default=".25" Min="0" Max="1" Description=""/>
+          <Variable Name="Accel Released" Identifier="accelReleased" Type="float" Default=".05" Min="0" Max="1" Description=""/>
+          <Variable Name="Mismatch Allowance" Identifier="mismatchAllowance" Type="float" Default=".3" Min="0" Max="1" Description=""/>
+          <Variable Name="Brake Start" Identifier="brakeStart" Type="float" Default="100" Min="0" Max="1000" Description="Must press brake this far to start the car"/>
+          <Variable Name="Brake Light" Identifier="brakeLight" Type="float" Default="100" Min="0" Max="1000" Description=""/>
+          <Variable Name="Brake Launch" Identifier="brakeLaunch" Type="float" Default="100" Min="0" Max="1000" Description=""/>
+        </Struct>
+      </Struct>
+      <Struct Name="Regenerative Braking" Identifier="regen">
+        <Variable Name="Regen Start Speed" Identifier="startSpeed" Type="float" Default="5" Min="0" Max="100" Description="when regen starts on the pedal"/>
+        <Variable Name="Regen End Speed" Identifier="endSpeed" Type="float" Default="35" Min="0" Max="100" Description="when regen is fully enabled"/>
+        <Variable Name="Regen Limit Zero" Identifier="limitZero" Type="float" Default=".4" Min="0" Max="1" Description=""/>
+        <Variable Name="Regen Limit NMax" Identifier="limitNmax" Type="float" Default=".65" Min="0" Max="1" Description="Maximum regen at NMax"/>
+        <Variable Name="Regen NMax" Identifier="nmax" Type="float" Units="mph" Default="80" Min="0" Max="100" Description=""/>
+        <Variable Name="Regen Exponent" Identifier="exponent" Type="float" Default="1.5" Min="0" Max="10" Description=""/>
+        <Variable Name="Regen Maximum SOC Threshold" Identifier="maxSocThreshold" Type="float" Default=".95" Min="0" Max="1" Description=""/>
+      </Struct>
+      <Variable Name="Accel Exponent" Identifier="accelExponent" Type="float" Default="1.5" Min="0" Max="10" Description="Raise accelerator to this power to make it drive better"/>
+      <Variable Name="Accel Limit" Identifier="accelLimit" Type="int16" Default="125" Min="0" Max="240" Units="Nm" Description="Motor torque limit"/>
+      <Variable Name="Vel Limit" Identifier="speedLimit" Type="int16" Default="5000" Min="0" Max="5500" Units="RPM" Description="Motor speed limit"/>
+      <Variable Name="Maximum Power" Identifier="maxPower" Type="float" Default="80" Min="0" Max="120" Units="kW" Description="The maximum power the PCM will try to command"/>
+      <Variable Name="Maximum Regen Power" Identifier="maxRegenPower" Type="float" Default="18" Min="0" Max="120" Units="kW" Description="The maximum regenerative power the PCM will try to command"/>
+      <Variable Name="Maximum Front Current" Identifier="maxFrontCurrent" Type="float" Default="177" Min="0" Max="275" Units="A" Description=""/>
+      <Variable Name="Maximum Rear Current" Identifier="maxRearCurrent" Type="float" Default="262" Min="0" Max="275" Units="A" Description=""/>
+      <Variable Name="Minimum Front Current" Identifier="minFrontCurrent" Type="float" Default="-140" Min="-275" Max="0" Units="A" Description=""/>
+      <Variable Name="Minimum Rear Current" Identifier="minRearCurrent" Type="float" Default="-75" Min="-275" Max="0" Units="A" Description=""/>
+      <Variable Name="Weight Transfer" Identifier="weightTransfer" Type="float" Default=".2" Min="0" Max=".5"
+                Description="A ratio of the amount of weight transfer at maximum acceleration. 0 for no weight transfer and .5 for all of the weight on the front/back. Should be CoG/wheel base, assuming 1g."/>
+      <Struct Name="Launch Control" Identifier="launchControl">
+        <Variable Name="Launch Control Max Torque Speed" Identifier="maxTorqueSpeed" Type="float" Default="15" Min="0" Max="100" Description="Launch full torque mph"/>
+        <Variable Name="Launch Control Start Torque" Identifier="startTorque" Type="float" Default="0.5" Min="0" Max="1" Description="Launch zero mph torque"/>
+      </Struct>
+      <!--<Struct Name="Traction Control" Identifier="tractionControl">
+        <Variable Name="Proportional Constant" Identifier="kp" Type="float" Default="25" Min="0" Max="100" Description=""/>
+        <Variable Name="Integral Constant" Identifier="ki" Type="float" Default=".2" Min="0" Max="10" Description=""/>
+        <Variable Name="Derivative Constant" Identifier="kd" Type="float" Default="1" Min="0" Max="10" Description=""/>
+        <Variable Name="Clamping Constant" Identifier="kb" Type="float" Default=".25" Min="0" Max="1" Description=""/>
+      </Struct>-->
+      <Variable Name="Gear Ratio" Identifier="gearRatio" Type="float" Default="3.5" Min="0" Max="100" Description="Overall gear ratio"/>
+      <Variable Name="Wheel Diameter" Identifier="wheelDiameter" Type="float" Units="in" Default="18" Min="0" Max="100" Description="The diameter of the wheels"/>
+      <Variable Name="Wheel Pulses" Identifier="wheelPulses" Type="float" Default="16" Min="0" Max="100" Description="Wheel pulses per rotation"/>
+      <Struct Name="Limp Mode" Identifier="limp">
+        <Variable Name="Limp Acceleration Limit" Identifier="accelLimit" Type="float" Default=".4" Min="0" Max="1" Description="The maximum acceleration for limp mode"/>
+        <Variable Name="Limp State of Charge Threshold" Identifier="socThreshold" Type="float" Default=".1" Min="0" Max="1" Description="Limp mode is active below this state of charge"/>
+      </Struct>
+        <Variable Name="Fan Temperature" Identifier="fanTemperature" Type="float" Units="C" Default="45" Min="0" Max="100" Description="Fan start threshold"/>
+      <Variable Name="Wheel Speed Time Constant" Identifier="wheelSpeedTimeConstant" Type="float" Default=".02" Min="0" Max="10" Description=""/>
+      <Variable Name="Ready To Drive Sound Start Beeps" Identifier="rtdsStartBeeps" Type="uint8"  Default="3" Min="0" Max="10" Description="The number of beeps in the ready to drive sound"/>
+      <Struct Name="GPS Position" Identifier="gpsAOffset">
+        <Variable Name="X" Identifier="x" Type="float" Units="m" Default="-1.2065" Description=""/>
+        <Variable Name="Y" Identifier="y" Type="float" Units="m" Default="0" Description=""/>
+        <Variable Name="Z" Identifier="z" Type="float" Units="m" Default="-1.19634" Description=""/>
+      </Struct>
+      <Struct Name="GPS Baseline" Identifier="gpsBaseline">
+        <Variable Name="X" Identifier="x" Type="float" Units="m" Default="2.298" Description=""/>
+        <Variable Name="Y" Identifier="y" Type="float" Units="m" Default="0" Description=""/>
+        <Variable Name="Z" Identifier="z" Type="float" Units="m" Default=".787" Description=""/>
+      </Struct>
+      <Struct Name="GPS Baseline Uncertainty" Identifier="gpsBaselineUncertainty">
+        <Variable Name="X" Identifier="x" Type="float" Units="m" Default=".0254" Description=""/>
+        <Variable Name="Y" Identifier="y" Type="float" Units="m" Default=".013" Description=""/>
+        <Variable Name="Z" Identifier="z" Type="float" Units="m" Default=".064" Description=""/>
+      </Struct>
+    </Struct>
+    <Struct Name="Connections" Identifier="connections" Description="" CanFrequency="100" PerDosFrequency=".5">
+      <Variable Name="Telemetry Connected over CAN" Identifier="sdlCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="Default:100"/>
+      <Variable Name="Accumulator Management System Connected over CAN" Identifier="amsCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="Default:100"/>
+      <Variable Name="Dashboard Connected over CAN" Identifier="dashCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="Default:100"/>
+      <Variable Name="Charger Connected over CAN" Identifier="chargerCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="0"/>
+      <Variable Name="Power Distribution Unit Connected over CAN" Identifier="pduCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="Default:100"/>
+    </Struct>
+  </Device>
+  <Device Name="Accumulator Management System" Identifier="ams" Include="MinMaxAvg.hpp, STM32.hpp" UppercaseIdentifier="AMS" ID="3" Platform="STM32"
+          ReadOnly="true" UpdateFrequency="100" PerDosFrequency=".5" PerDosUart="460800|PA10|PA9"
+          CanConfiguration="500000|PB12|PB13" CanFrequency="0" Update="ManualUpdate"
+          Namespace="per::embedded">
+    <Enum Name="Reset Cause" Identifier="resetCause" UppercaseIdentifier="per::embedded::ResetCause" CanFrequency="10" Type="uint8" Default="PowerOn" EnumValues="LowPowerMgmt, WindowWatchdog, IndependentWatchdog, Software, PowerOn, NrstPin, Brownout" Description=""/>
+    <Variable Name="Start Time" Identifier="startTime" Type="uint32" CanFrequency="10" Description="The last time the board reset"/>
+    <Variable Name="Update SOC"                 Identifier="updateSoc" Type="bool" Description="" ReadOnly="false"/>
+    <Variable Name="New SOC"                    Identifier="newSoc" Type="float" Description="" ReadOnly="false"/>
+    <Variable Name="Error" Identifier="error" Type="bool" Description="" CanFrequency="10"/>
+    <Variable Name="Slaves Connected" Identifier="slavesConnected" Type="bool" Description="" CanFrequency="10"/>
+    <Enum Name="AirsState" Type="uint8" Identifier="airsState" Default="AirsOpen" EnumValues="AirsOpen, NegativeAirClosed, Precharge, PrechargeAirsClosed, AirsClosed" Description="" CanFrequency="10"/>
+    <Variable Name="Cell Count" Identifier="cellCount" Type="uint32" Description="The number of cells in the pack" Default="72" CanFrequency="10"/>
+    <Variable Name="thermistor Count" Identifier="thermistorCount" Type="uint32" Description="The number of thermistors in the pack" Default="88" CanFrequency="10"/>
+    <Variable Name="Chip Count" Identifier="chipCount" Type="uint32" Description="The number of chips in the pack" Default="8" CanFrequency="10"/>
+    <Variable Name="AIR Close Time" Identifier="airCloseTime" Type="float" Description="" Default="0" CanFrequency="0"/>
+    <Variable Name="AIR Final Voltage" Identifier="airFinalVoltage" Type="float" Description="" Default="0" CanFrequency="0"/>
+    <Struct Name="Threads" Identifier="threads" CanFrequency="10">
+      <Variable Name="Sensor Thread Loop Time" Identifier="sensorTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Precharge Thread Loop Time" Identifier="prechargeTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Update Thread Loop Time" Identifier="updateTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Slave Thread Loop Time" Identifier="slaveTime" Type="uint16" Units="us" Description="" />
+    </Struct>
+    <Struct Name="Watchdog" Identifier="watchdog" CanFrequency="10" PerDosFrequency=".5">
+      <Variable Name="Sensor Thread Timeout" Identifier="sensorTimeout" Type="bool" Description="" />
+      <Variable Name="Precharge Thread Timeout" Identifier="prechargeTimeout" Type="bool" Description="" />
+      <Variable Name="Update Thread Timeout" Identifier="updateTimeout" Type="bool" Description="" />
+      <Variable Name="Slave Thread Timeout" Identifier="slaveTimeout" Type="bool" Description="" />
+      <Variable Name="Startup Timeout" Identifier="startupTimeout" Type="bool" Description="" />
+    </Struct>
+    <Struct Name="Faults" Identifier="faults" CanFrequency="10" PerDosFrequency=".2">
+      <Variable Name="Sensor"                      Identifier="sensor"            Type="bool" Description="Any of the pack errors has occurred (see pack errors below)"/>
+      <Variable Name="Precharge"                   Identifier="precharge"         Type="bool" Description="Precharging the tractive system failed"/>
+      <Variable Name="Comm"                        Identifier="comm"              Type="bool" Description="Communicating with the slaves timed out"/>
+      <Variable Name="Post"                        Identifier="post"              Type="bool" Description="An error occurred configuring the slaves"/>
+      <Variable Name="Ref"                         Identifier="ref"               Type="bool" Description="Reading from the slave analog pins failed"/>
+      <Variable Name="Selftest"                    Identifier="selftest"          Type="bool" Description="Slave selftesting failed"/>
+      <Variable Name="Cell 0V"                     Identifier="cell0v"            Type="bool" Description="Cell Over Voltage (rename to cellOverVoltage)"/>
+      <Variable Name="Cell UV"                     Identifier="celluv"            Type="bool" Description="Cell Under Voltage (rename to cellUnderVoltage)"/>
+      <Variable Name="Over Current"                Identifier="overCurrent"       Type="bool" Description="The tractive system was over current"/>
+      <Variable Name="Under Current"               Identifier="underCurrent"      Type="bool" Description="The tractive system was under current"/>
+      <Variable Name="Over Voltage"                Identifier="overVoltage"       Type="bool" Description="The tractive system was over voltage"/>
+      <Variable Name="Under Voltage"               Identifier="underVoltage"      Type="bool" Description="The tractive system was under voltage"/>
+      <Variable Name="Over Power"                  Identifier="overPower"         Type="bool" Description="The tractive system was over power"/>
+      <Variable Name="Under Power"                 Identifier="underPower"        Type="bool" Description="The tractive system was under power (this is negative when current flows into the pack)"/>
+      <Variable Name="Over Temperature"            Identifier="overPackTemp"      Type="bool" Description="A temperature thermistor is over temperature"/>
+      <Variable Name="Under Temperature"           Identifier="underPackTemp"     Type="bool" Description="A temperature thermistor is under temperature"/>
+      <Variable Name="Over GLV Board Temperature"  Identifier="overGlvTemp"       Type="bool" Description="The AMS PCB is over temperature"/>
+      <Variable Name="Under GLV Board Temperature" Identifier="underGlvTemp"      Type="bool" Description="The AMS PCB is under temperature"/>
+      <Variable Name="Over HV Board Temperature"   Identifier="overHvTemp"        Type="bool" Description="The AMS PCB is over temperature"/>
+      <Variable Name="Under HV Board Temperature"  Identifier="underHvTemp"       Type="bool" Description="The AMS PCB is under temperature"/>
+      <Variable Name="Over Die Temperature"        Identifier="overDieTemp"       Type="bool" Description="A slave IC is over temperature"/>
+      <Variable Name="Under Die Temperature"       Identifier="underDieTemp"      Type="bool" Description="A slave IC is under temperature"/>
+      <Variable Name="Vsense Mismatch"             Identifier="vsenseMismatch"    Type="bool" Description="The error between the stack sum and overall pack measurements is too large"/>
+      <Variable Name="Over Charge Current"         Identifier="overChargeCurrent" Type="bool" Description="The cells are charging too quickly"/>
+      <Variable Name="Discharge while Charging"    Identifier="discWhileChg"      Type="bool" Description="The cells are discharging while the charger is connected"/>
+      <Variable Name="External Power Fault"        Identifier="extFault"          Type="bool" Description=""/>
+    </Struct>
+    <Struct Name="Signals" Identifier="signals" CanFrequency="10" PerDosFrequency=".2">
+      <Variable Name="AMS OK"                Identifier="amsOk"          Type="bool" Description="The AMS has no faults"/>
+      <Variable Name="IMD OK"                Identifier="imdOk"          Type="bool" Description="The IMD has no faults"/>
+      <Variable Name="Precharge Relay"       Identifier="prechargeRelay" Type="bool" Description="The precharge relay is closed"/>
+      <Variable Name="Positive Contactor"    Identifier="posContactor"   Type="bool" Description="The HV+ contactor is closed"/>
+      <Variable Name="Negative Contactor"    Identifier="negContactor"   Type="bool" Description="The HV- contactor is closed"/>
+      <Variable Name="Tractive Enable Input" Identifier="tractiveEnIn"   Type="bool" Description="The shutdown circuit is enabled"/>
+      <Variable Name="DC DC On"              Identifier="dcDcOn"         Type="bool" Description="The DC-DC converter is on" Default="false"/>
+      <Variable Name="AMS Fault Latch"       Identifier="amsFltLat"      Type="bool" Description="The AMS fault latch has been set. The car must be restarted for this to clear."/>
+      <Variable Name="IMD Fault Latch"       Identifier="imdFltLat"      Type="bool" Description="The IMD fault latch has been set. The car must be restarted for this to clear."/>
+      <Variable Name="Fan On"                Identifier="fanOn"          Type="bool" Description="The AMS fans are on"/>
+      <Variable Name="Balance Mode"          Identifier="balanceMode"    Type="bool" Description=""/>
+      <Variable Name="AIR Supply" Identifier="airSupply" Type="bool" Description="" CanFrequency="10"/>
+      <Variable Name="Start Delay" Identifier="startDelay" Type="bool" Description="AMS Hardware fault start delay signal."/>
+    </Struct>
+    <!--<Struct Name="Mode" Identifier="mode" CanFrequency="10">
+      <Variable Name="Startup"     Identifier="startup"     Type="bool" Description="The AMS is still initializing"/>
+      <Variable Name="Precharge"   Identifier="precharge" Type="bool" Description=""/>
+      <Variable Name="Airs Closed" Identifier="airsClosed"  Type="bool" Description=""/>
+      <Variable Name="Running"     Identifier="running"     Type="bool" Description=""/>
+      <Variable Name="Error"       Identifier="error"       Type="bool" Description=""/>
+    </Struct>-->
+    <Struct Name="Pack" Identifier="pack" Description="Readings from pack sensors"  CanFrequency="10">
+      <Variable Name="Current" Identifier="current" Type="float" Units="A" Description="The current running through the pack" CanFrequency="100" PerDosFrequency="25"/>
+      <Variable Name="Voltage" Identifier="voltage" Type="float" Units="V" Description="The voltage on the other side of the AIRs" CanFrequency="100" PerDosFrequency="25"/>
+      <Variable Name="Power" Identifier="power" Type="float" Units="kW" Description="The power supplied by the pack" CanFrequency="100" PerDosFrequency="25"/>
+      <Variable Name="Capacity" Identifier="capacity" Type="double" Units="Ah" Description="Estimated capacity of the pack" Default="25"/>
+      <Variable Name="State of Charge" Identifier="soc" Type="float" Description="Pack state of charge"/>
+      <Variable Name="Remaining Capacity" Identifier="capacityLeft" Type="double" Units="Ah" Description="Pack capacity remaining"/>
+      <Struct Name="Errors" Identifier="errors" Description="" PerDosFrequency=".2">
+        <Variable Name="Current L"                Identifier="currentL"           Type="bool" Description="The currentL signal from the current sensor is out of range" />
+        <Variable Name="Current H"                Identifier="currentH"           Type="bool" Description="The currentH signal from the current sensor is out of range" />
+        <Variable Name="Voltage"                  Identifier="voltage"            Type="bool" Description="The measured pack voltage is out of range" />
+        <Variable Name="Capacity Init"            Identifier="capacityInit"       Type="bool" Description="The stored pack capacity is out of range" />
+        <Variable Name="Soc Init"                 Identifier="socInit"            Type="bool" Description="The stored state of charge is out of range" />
+        <Variable Name="Start"                    Identifier="start"              Type="bool" Description="One of the above errors occured during initialization (TODO: remove this)" />
+      </Struct>
+    </Struct>
+    <Struct Name="IMD" Identifier="imd" Description="The IMD status" >
+      <Variable Name="Resistance" Identifier="resistance" Type="float" Units="Ohm" Description="IMD measured isolation resistance" CanFrequency="10" />
+      <Enum Name="Status" Identifier="status" Description="" Type="uint8" CanFrequency="10" Default="Off" EnumValues="Off, Normal, UnderVoltage, SpeedStart, Error, GroundError, Invalid"/>
+      <Variable Name="OK" Identifier="ok" Type="bool" Description="IMD OK status output" />
+    </Struct>
+    <Struct Name="Board" Identifier="board" Description="Updates from sensors on the board" CanFrequency="10">
+      <Variable Name="GLV Board Temperature" Identifier="glvTemp" Type="float" Description="The temperature on the GLV part of the board" />
+      <Variable Name="HV Board Temperature" Identifier="hvTemp" Type="float" Description="The temperature of the HV part of the board" />
+    </Struct>
+    <Variable Name="Fan Speed" Identifier="fanSpeed" Type="float" Units="ratio" Description="" CanFrequency="10"/>
+    <Variable Name="Vsensor Mismatch" Identifier="vSensorMismatch" Type="float" Description="" CanFrequency="10"/>
+    <Struct Name="Stack" Identifier="stack" Description="Derived data from CellStack" >
+      <Variable Name="Voltage" Identifier="voltage" Type="float" Units="V" Description="The sum of the cell voltages" CanFrequency="10" PerDosFrequency=".5"/>
+      <Struct Name="thermistors" Identifier="thermistors">
+        <Variable Name="Temperature" Identifier="temperature" Type="float" ArrayDimensions="88" Units="C" Description="Temperature of the cell" />
+      </Struct>
+      <Struct Name="Cells" Identifier="cells">
+        <Variable Name="Cell Voltage" Identifier="cellV" Type="float" ArrayDimensions="72" Units="V" Description="Voltage of the cell" />
+        <Variable Name="Balancing" Identifier="balancing" Type="bool" ArrayDimensions="72" Description="Indicates whether cell balancing is occuring" />
+      </Struct>
+      <Struct Name="Chips" Identifier="chips">
+        <Variable Name="Die Temerature" Identifier="dieTemp" Type="float" ArrayDimensions="8" Units="C" Description="Temperature of the chip" />
+        <Variable Name="IC Fault Code" Identifier="icFault" Type="uint32" ArrayDimensions="8" Description="AMS slave chip fault code"/>
+        <Variable Name="Internal Reference Voltage" Identifier="intRef" Type="float" ArrayDimensions="8" Units="V" Description=""/>
+        <Variable Name="Analog Voltage" Identifier="Va" Type="float" ArrayDimensions="8" Units="V" Description=""/>
+        <Variable Name="Digital Voltage" Identifier="Vdd" Type="float" ArrayDimensions="8" Units="V" Description=""/>
+        <Variable Name="State of charge" Identifier="soc" Type="float" ArrayDimensions="8" Description="State of charge"/>
+        <Variable Name="Revision Code" Identifier="revCode" Type="uint8" ArrayDimensions="8" Description=""/>
+        <Variable Name="Heatsink temperature" Identifier="heatsinkTemp" Type="float" ArrayDimensions="8" Units="C" Description="heatsink temp"/>
+        <Variable Name="Total Voltage" Identifier="voltage" Type="float" ArrayDimensions="8" Units="V" Description=""/>
+      </Struct>
+      <Struct Name="MMA" Identifier="mma" Description="Holds min, max, average for each data field">
+        <Repeat Name="MinMaxAvg" Identifier="MinMaxAvg" UppercaseIdentifier="per::embedded::MinMaxAvg" Description="min, max, average values"
+                Prefixes="cellV, temp, intRef, dieTemp, Vana, Vdd, chipCellSum" CanFrequency="10" PerDosFrequency="10">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="min value"/>
+          <Variable Name="Minimum Index" Identifier="minIndex" Type="uint8" Description="min value index"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="max value"/>
+          <Variable Name="Maximum Index" Identifier="maxIndex" Type="uint8" Description="max value index"/>
+          <Variable Name="Average" Identifier="avg" Type="float" Description="average value"/>
+        </Repeat>
+        <Repeat Name="MinMaxAvg" Identifier="MinMaxAvg" UppercaseIdentifier="per::embedded::MinMaxAvg" Description="min, max, average values"
+                Prefixes="heatsinkTemp">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="min value"/>
+          <Variable Name="Minimum Index" Identifier="minIndex" Type="uint8" Description="min value index"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="max value"/>
+          <Variable Name="Maximum Index" Identifier="maxIndex" Type="uint8" Description="max value index"/>
+          <Variable Name="Average" Identifier="avg" Type="float" Description="average value"/>
+        </Repeat>
+      </Struct>
+    </Struct>
+    <Struct Name="Charging Requests" Identifier="charging" Description="Charger data" PerDosFrequency=".5">
+      <Variable Name="Charge Current" Identifier="chargeCurrent" Type="float" Units="A" Description="Time tracker on current during charging" />
+      <Variable Name="Voltage Command" Identifier="commandV" Type="float" CanFrequency="10" Units="V" Description="Voltage command to charger" />
+      <Variable Name="Current Command" Identifier="commandI" Type="float" CanFrequency="10" Units="A" Description="Current command to charger" />
+    </Struct>
+    <Struct Name="Profile" Identifier="param" ReadOnly="false" Description="The current parameters of the device">
+      <Struct Name="Cell Voltage Elapsed Time" Identifier="cellV" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="2.502"  Min="0" Max="5"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="4.248"   Min="0" Max="5"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="10" Min="0" Max="100"/>
+      </Struct>
+      <Struct Name="Pack Temperature" Identifier="packTemp" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="-5"     Min="-100" Max="100"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="TODO: Lower for competition" Default="75"    Min="-100" Max="100"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="10"   Min="0" Max="100"/>
+      </Struct>
+      <Struct Name="dieTemp" Identifier="dieTemp" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="-5"    Min="-100" Max="100"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="100"   Min="-100" Max="100"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="10"   Min="0" Max="100"/>
+      </Struct>
+      <Struct Name="current" Identifier="current" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="-200"  Min="-350" Max="350"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="300"   Min="-350" Max="350"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="0.5" Min="0" Max="100"/>
+      </Struct>
+      <Struct Name="voltage" Identifier="voltage" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="172.5"  Min="0" Max="300"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="300"   Min="0" Max="300"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="10"   Min="0" Max="100"/>
+      </Struct>
+      <Struct Name="power" Identifier="power" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="-50"   Min="-100" Max="100"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="85"    Min="-100" Max="100"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="1"   Min="0" Max="100"/>
+      </Struct>
+      <Struct Name="glvTemp" Identifier="glvTemp" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="0"     Min="-100" Max="100"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="TODO reduce to 60 after endurance" Default="80"   Min="-100" Max="100"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="1"  Min="0" Max="100"/>
+      </Struct>
+      <Struct Name="hvTemp" Identifier="hvTemp" Description="" UppercaseIdentifier="per::embedded::Limits">
+        <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="0"     Min="-100" Max="100"/>
+        <Variable Name="Maximum" Identifier="max" Type="float" Description="TODO reduce to 60 after endurance" Default="80"   Min="-100" Max="100"/>
+        <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="1"  Min="0" Max="100"/>
+      </Struct>
+      <Struct Name="chargeCurrent" Identifier="chargeCurrent" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="-35"   Min="-100" Max="1"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="5"     Min="-100" Max="1"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="1"   Min="0" Max="100"/>
+      </Struct>
+      <Struct Name="VsensorMismatch" Identifier="VsensorMismatch" Description="" UppercaseIdentifier="per::embedded::Limits">
+          <Variable Name="Minimum" Identifier="min" Type="float" Description="" Default="0"    Min="0" Max="1"/>
+          <Variable Name="Maximum" Identifier="max" Type="float" Description="" Default="0.2"  Min="0" Max="1"/>
+          <Variable Name="Timeout" Identifier="timeout" Type="float" Description="" Default="30"  Min="0" Max="100"/>
+      </Struct>
+      <Variable Name="balanceStart_v" Identifier="balanceStart_v" Type="float" Description="" Default="4.0" Min="2.5" Max="5"/>
+      <Variable Name="balanceWindow_v" Identifier="balanceWindow_v" Type="float" Description="" Default="0.002" Min="0" Max="5"/>
+      <Variable Name="maxBalanceTemp" Identifier="maxBalanceTemp" Type="float" Description="" Default="75" Min="0" Max="100"/>
+
+      <Variable Name="chargerMaxCurrent" Identifier="chargerMaxCurrent" Type="float" Description="" Default="-25.0" Min="-25" Max="0"/>
+      <Variable Name="chargerMaxVoltage" Identifier="chargerMaxVoltage" Type="float" Description="" Default="300.0" Min="0" Max="300"/>
+
+      <Variable Name="prechargeLimit" Identifier="prechargeLimit" Type="float" Description="" Default="0.95" Min="0" Max="1"/>
+      <Variable Name="prechargeTimeout" Identifier="prechargeTimeout" Type="float" Description="" Default="5" Min="0" Max="100"/>
+      <Variable Name="relayTractiveDisableTime" Identifier="relayTractiveDisableTime" Type="float" Default="1" Description="The amount of time the shutdown circuit is detected as low while the AIRs are drawing a lot of startup current" Min="0" Max="5"/>
+      <Variable Name="relayEnableDelayTime" Identifier="relayEnableDelayTime" Type="float" Description="" Default="0.2" Min="0" Max="5"/>
+      <Variable Name="tractiveEnableDebounceTime" Identifier="tractiveEnableDebounceTime" Type="float" Description="" Default="0.25" Min="0" Max="5"/>
+      <Variable Name="Fan Disable Temperature" Identifier="fanDisableTemperature" Type="float" Description="TODO after endurance raise to 35" Default="-5" Min="0" Max="100"/>
+      <Variable Name="Fan Enable Temperature" Identifier="fanEnableTemperature" Type="float" Description="TODO after endurance raise to 40" Default="0" Min="0" Max="100"/>
+    </Struct>
+    <Struct Name="Connections" Identifier="connections" Description="" CanFrequency="10" PerDosFrequency=".2">
+      <Variable Name="Telemetry Connected over CAN" Identifier="sdlCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Powertrain Control Module Connected over CAN" Identifier="pcmCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Dashboard Connected over CAN" Identifier="dashCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Charger Connected over CAN" Identifier="chargerCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Power Distribution Unit Connected over CAN" Identifier="pduCanConnected" Type="bool" DefaultValue="false" Description=""/>
+    </Struct>
+  </Device>
+  <Device Name="Telemetry" Identifier="sdl" ID="5" Platform="STM32" Include="STM32.hpp, VN_300.hpp" ReadOnly="true"
+          UpdateFrequency="100" PerDosFrequency=".5" PerDosUart="230400|PB15|PA9, 230400|PB8|PB9"
+          CanConfiguration="500000|PA8|PA15|Default, 1000000|PD0|PD1|Moc, 1000000|NC|NC|FakeVectornav" Update="ManualFunctions" CanHandlers="true" CanFrequency="Default:10, Moc:0"
+          Namespace="per::embedded" Using="devices">
+    <Enum Name="Reset Cause" Identifier="resetCause" UppercaseIdentifier="per::embedded::ResetCause" Type="uint8" Default="PowerOn" EnumValues="LowPowerMgmt, WindowWatchdog, IndependentWatchdog, Software, PowerOn, NrstPin, Brownout" Description=""/>
+    <Variable Name="Start Time" Identifier="startTime" Type="uint32" Description="The last time the board reset"/>
+    <Struct Name="Threads" Identifier="threads">
+      <Variable Name="Update Thread Loop Time" Identifier="updateTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Log Thread Loop Time" Identifier="logTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Receive Loop Time" Identifier="receiveTime" Type="uint16" Units="us" Description="" />
+    </Struct>
+    <Struct Name="Watchdog" Identifier="watchdog" CanFrequency="10" PerDosFrequency=".2">
+      <Variable Name="Update Thread Timeout" Identifier="updateTimeout" Type="bool" Description="" />
+      <Variable Name="Log Thread Timeout" Identifier="logTimeout" Type="bool" Description="" />
+      <Variable Name="Receive Thread Timeout" Identifier="receiveTimeout" Type="bool" Description="" />
+      <Variable Name="Startup Timeout" Identifier="startupTimeout" Type="bool" Description="" />
+    </Struct>
+    <Variable Name="Error"          Identifier="error"       Type="bool" Description=""/>
+    <Struct Name="Top Level Faults" Identifier="faults" Description="General Faults" PerDosFrequency=".2">
+      <Variable Name="No SD Card" Identifier="noSd" Type="bool" Description="CAN bus error"/>
+	  <Variable Name="SD Mount Fail" Identifier="noMount" Type="bool" Description="Error while mounting the SD card"/>
+	  <Variable Name="SD Open Fail" Identifier="openFail" Type="bool" Description="Error while opening file"/>
+	  <Variable Name="SD Full" Identifier="isFull" Type="bool" Description="Is SD card full"/>
+    </Struct>
+    <Struct Name="Connections" Identifier="connections" Description="" PerDosFrequency=".2">
+      <Variable Name="Powertrain Control Module Connected over CAN" Identifier="pcmCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Accumulator Management System Connected over CAN" Identifier="amsCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Dashboard Connected over CAN" Identifier="dashCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Charger Connected over CAN" Identifier="chargerCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="0"/>
+      <Variable Name="Power Distribution Unit Connected over CAN" Identifier="pduCanConnected" Type="bool" DefaultValue="false" Description=""/>
+    </Struct>
+    <Struct Name="Vectornav VN-300" Identifier="nav" Description="" CanFrequency="FakeVectornav:100" PerDosFrequency=".2">
+      <Variable Name="Time" Identifier="time" Type="uint32" Units="s" Description="Calculated from TimeUTC field"/>
+      <Variable Name="Miliseconds" Identifier="millis" Type="uint16" Description=""/>
+      <Variable Name="Temperature" Identifier="temperature" Type="float" Units="C" Description=""/>
+      <Variable Name="Pressure" Identifier="pressure" Type="float" Units="kPa" Description=""/>
+      <Struct Name="Accelerometer" Identifier="accel" UppercaseIdentifier="VN_300::XYZ">
+        <Variable Name="X Acceleration" Identifier="x" Type="float" Units="m/s^2" Description=""/>
+        <Variable Name="Y Acceleration" Identifier="y" Type="float" Units="m/s^2" Description=""/>
+        <Variable Name="Z Acceleration" Identifier="z" Type="float" Units="m/s^2" Description=""/>
+      </Struct>
+      <Struct Name="Gyroscope" Identifier="gyro" UppercaseIdentifier="VN_300::XYZ">
+        <Variable Name="X Angular Velocity" Identifier="x" Type="float" Units="deg/s" Description=""/>
+        <Variable Name="Y Angular Velocity" Identifier="y" Type="float" Units="deg/s" Description=""/>
+        <Variable Name="Z Angular Velocity" Identifier="z" Type="float" Units="deg/s" Description=""/>
+      </Struct>
+      <Struct Name="Magnetometer" Identifier="mag" UppercaseIdentifier="VN_300::XYZ">
+        <Variable Name="X Magnetic Field" Identifier="x" Type="float" Units="gauss" Description=""/>
+        <Variable Name="Y Magnetic Field" Identifier="y" Type="float" Units="gauss" Description=""/>
+        <Variable Name="Z Magnetic Field" Identifier="z" Type="float" Units="gauss" Description=""/>
+      </Struct>
+      <Repeat Name="GPS" Identifier="gps" UppercaseIdentifier="Data" Prefixes="frontGps, rearGps">
+        <Variable Name="Number of Satellites" Identifier="numSats" Type="int8" Description=""/>
+        <Enum Name="Fix" Identifier="fix" Type="uint8" EnumValues="NoFix, TimeOnly, _2D, _3D" Default="NoFix" Description=""/>
+      </Repeat>
+      <Struct Name="Inertial Navigation System" Identifier="ins">
+        <Struct Name="Status" Identifier="status">
+          <Enum Name="Mode" Identifier="mode" Type="uint8" EnumValues="NotTracking, Aligning, Tracking, NoGPS" Default="NotTracking" Description=""/>
+          <Variable Name="GPS Fix" Identifier="gpsfix" Type="bool" Description=""/>
+          <Variable Name="IMU Error" Identifier="imuError" Type="bool" Description=""/>
+          <Variable Name="Magnetometer/Pressure Error" Identifier="magPresError" Type="bool" Description=""/>
+          <Variable Name="GPS Error" Identifier="gpsError" Type="bool" Description=""/>
+          <Variable Name="GPS Heading INS" Identifier="gpsHeadingIns" Type="bool" Description=""/>
+        </Struct>
+        <Struct Name="Position" Identifier="position"  UppercaseIdentifier="VN_300::LLA">
+          <Variable Name="Latitute" Identifier="latitude" Type="double" Units="deg" Description=""/>
+          <Variable Name="Longitude" Identifier="longitude" Type="double" Units="deg" Description=""/>
+          <Variable Name="Altitude" Identifier="altitude" Type="double" Units="m" Description=""/>
+        </Struct>
+        <Struct Name="Body Velocity" Identifier="velocity" UppercaseIdentifier="VN_300::XYZ">
+          <Variable Name="X Velocity" Identifier="x" Type="float" Units="m/s" Description=""/>
+          <Variable Name="Y Velocity" Identifier="y" Type="float" Units="m/s" Description=""/>
+          <Variable Name="Z Velocity" Identifier="z" Type="float" Units="m/s" Description=""/>
+        </Struct>
+        <Struct Name="Linear Acceleration" Identifier="acceleration" UppercaseIdentifier="VN_300::XYZ">
+          <Variable Name="X Acceleration" Identifier="x" Type="float" Units="m/s^2" Description=""/>
+          <Variable Name="Y Acceleration" Identifier="y" Type="float" Units="m/s^2" Description=""/>
+          <Variable Name="Z Acceleration" Identifier="z" Type="float" Units="m/s^2" Description=""/>
+        </Struct>
+        <Struct Name="Orientation" Identifier="orientation" UppercaseIdentifier="VN_300::YawPitchRoll">
+          <Variable Name="Yaw" Identifier="yaw" Type="float" Units="deg" Description=""/>
+          <Variable Name="Pitch" Identifier="pitch" Type="float" Units="deg" Description=""/>
+          <Variable Name="Roll" Identifier="roll" Type="float" Units="deg" Description=""/>
+        </Struct>
+        <Struct Name="Uncertainty" Identifier="uncertainty">
+          <Variable Name="Position Uncertainty" Identifier="position" Type="float" Description=""/>
+          <Variable Name="Velocity Uncertainty" Identifier="velocity" Type="float" Description=""/>
+          <Struct Name="Orientation" Identifier="ypr" UppercaseIdentifier="VN_300::YawPitchRoll" >
+            <Variable Name="Yaw Uncertainty" Identifier="yaw" Type="float" Units="deg" Description=""/>
+            <Variable Name="Pitch Uncertainty" Identifier="pitch" Type="float" Units="deg" Description=""/>
+            <Variable Name="Roll Uncertainty" Identifier="roll" Type="float" Units="deg" Description=""/>
+          </Struct>
+        </Struct>
+      </Struct>
+    </Struct>
+	<Struct Name="SD" Identifier="sd" PerDosFrequency="0.2">
+      <Variable Name="Free blocks" Identifier="free_blocks" Type="uint64" Units="blocks" Description="Free space on SD card in blocks" />
+	    <Variable Name="Total blocks" Identifier="total_blocks" Type="uint64" Units="blocks" Description="Total space on SD card in blocks" />
+	    <Variable Name="Utilization" Identifier="utilization" Type="float" Units="" Description="Percentage of the SD used." />
+    </Struct>
+  </Device>
+  <Device Name="Dashboard" Identifier="dash" ID="6" Platform="STM32" Include="STM32.hpp, FT5306.hpp" ReadOnly="true"
+          UpdateFrequency="100" PerDosFrequency=".5" PerDosUart="230400|PC11|PC10"
+          CanConfiguration="500000|PA11|PA12" Update="ManualUpdate" CanStagger="true"
+          Namespace="per::embedded" Using="devices">
+    <Enum Name="Reset Cause" Identifier="resetCause" UppercaseIdentifier="per::embedded::ResetCause" CanFrequency="10" Type="uint8" Default="PowerOn" EnumValues="LowPowerMgmt, WindowWatchdog, IndependentWatchdog, Software, PowerOn, NrstPin, Brownout" Description=""/>
+    <Variable Name="StartTime"       Identifier="startTime"     Type="uint32" Description=""/>
+    <Variable Name="Current Screen"  Identifier="screen"        Type="uint8" Description="" CanFrequency="10"/>
+    <Struct Name="Threads" Identifier="threads" CanFrequency="10" PerDosFrequency=".2">
+      <Variable Name="Update Thread Loop Time" Identifier="updateTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Sensor Thread Loop Time" Identifier="sensorTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Display Thread Loop Time" Identifier="displayTime" Type="uint16" Units="us" Description="" />
+      <Variable Name="Button Thread Loop Time" Identifier="buttonTime" Type="uint16" Units="us" Description="" />
+    </Struct>
+    <Struct Name="Watchdog" Identifier="watchdog" CanFrequency="10" PerDosFrequency=".2">
+      <Variable Name="Update Thread Timeout" Identifier="updateTimeout" Type="bool" Description="" />
+      <Variable Name="Sensor Thread Timeout" Identifier="sensorTimeout" Type="bool" Description="" />
+      <Variable Name="Display Thread Timeout" Identifier="displayTimeout" Type="bool" Description="" />
+      <Variable Name="Button Thread Timeout" Identifier="buttonTimeout" Type="bool" Description="" />
+      <Variable Name="Startup Timeout" Identifier="startupTimeout" Type="bool" Description="" />
+    </Struct>
+    <Repeat Name="Wheel" Identifier="wheel" Prefixes="frontLeft, frontRight, backLeft, backRight" CanFrequency="4">
+      <Variable Name="Tire Temperatures" Identifier="tireTemperature" Type="float" ArrayDimensions="16" PerDosFrequency="0" Units="C" Description=""/>
+    </Repeat>
+    <Struct Name="Signals" Identifier="signals" Description="" CanFrequency="10">
+      <Variable Name="Next Screen"             Identifier="nextScreen"          Type="bool" Description=""/>
+      <Variable Name="Start Request"           Identifier="startRequest"        Type="bool" Description=""/>
+      <Variable Name="Stop Request"            Identifier="stopRequest"         Type="bool" Description=""/>
+      <Variable Name="Mode Change"             Identifier="modeChange"          Type="bool" Description=""/>
+      <Variable Name="Car Reset"               Identifier="carReset"            Type="bool" Description=""/>
+      <Variable Name="Clear Faults"            Identifier="clearFaults"         Type="bool" Description=""/>
+    </Struct>
+    <Struct Name="Faults" Identifier="faults" Description="" CanFrequency="10" PerDosFrequency=".2">
+      <Variable Name="Tire Temperature CAN"     Identifier="tireTempCan"       Type="bool" Description=""/>
+      <Variable Name="CAN"                      Identifier="can"               Type="bool" Description=""/>
+    </Struct>
+    <Repeat Name="Button State" Identifier="button" Prefixes="drive, mode, select, log" PerDosFrequency="10">
+      <Variable Name="Pressed" Identifier="pressed" Type="bool" Description="Whether the button is pressed" CanFrequency="10"/>
+      <Variable Name="Light" Identifier="light" Type="bool" Description="Whether the button light is on" CanFrequency="10"/>
+      <Variable Name="LastHold" Identifier="lastHold" Type="float" Description=""/>
+    </Repeat>
+    <Struct Name="Knob" Identifier="knob" Description="" CanFrequency="10">
+      <Variable Name="Pressed" Identifier="pressed" Type="bool" Description="True if the knob is pressed"/>
+      <Variable Name="Encoder Count" Identifier="count" Type="uint16" Description="The knob encoder count"/>
+    </Struct>
+    <Struct Name="Display" Identifier="display" Description=""  PerDosFrequency="0">
+      <Enum Name="Gesture" Identifier="gesture" EnumValues="None=0, ZoomIn=0x48, ZoomOut=0x49" Default="None" Type="uint8" UppercaseIdentifier="FT5306::Gesture" Description=""/>
+      <Variable Name="Point Count" Identifier="pointCount" Type="uint8" Description=""/>
+      <Struct Name="Touch Points" Identifier="touchPoints" ArrayDimensions="5">
+        <Enum Name="Event" Identifier="event" EnumValues="PutDown=0, PutUp=1, Contact=2" Default="Contact" Type="uint8" UppercaseIdentifier="FT5306::Event" Description=""/>
+        <Variable Name="X Coordinate" Identifier="x" Type="uint16" Description=""/>
+        <Variable Name="Y Coordinate" Identifier="y" Type="uint16" Description=""/>
+      </Struct>
+    </Struct>
+    <Struct Name="Connections" Identifier="connections" Description="" CanFrequency="10" PerDosFrequency=".2">
+      <Variable Name="Telemetry Connected over CAN" Identifier="sdlCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Powertrain Control Module Connected over CAN" Identifier="pcmCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Accumulator Management System Connected over CAN" Identifier="amsCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Charger Connected over CAN" Identifier="chargerCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="0"/>
+      <Variable Name="Power Distribution Unit Connected over CAN" Identifier="pduCanConnected" Type="bool" DefaultValue="false" Description=""/>
+    </Struct>
+  </Device>
+  <Device Name="Charger" Identifier="charger" ID="7" Platform="STM32" Include="STM32.hpp" ReadOnly="true"
+          UpdateFrequency="100" PerDosFrequency=".5" PerDosUart="230400|PC11|PC10" CanConfiguration="500000|PA11|PA12"
+          Update="ManualUpdate" CanStagger="true" CanFrequency="10"
+          Namespace="per::embedded">
+    <Enum Name="Reset Cause" Identifier="resetCause" Type="uint8" Description="" Default="PowerOn"
+          UppercaseIdentifier="per::embedded::ResetCause"
+          EnumValues="LowPowerMgmt, WindowWatchdog, IndependentWatchdog, Software, PowerOn, NrstPin, Brownout"/>
+    <Variable Name="Charger Ok"      Identifier="chargerOk" Type="bool" Description="" />
+    <Variable Name="Max Power"      Identifier="maxPower" Type="float" Units="W" Description="Max available power based on outlet and charger efficiency" />
+    <Variable Name="Outlet Voltage" Identifier="outletVoltage"  Type="float" Units="V" Description="AC outlet voltage" />
+    <Variable Name="Outlet Current" Identifier="outletCurrent"  Type="float" Units="A" Description="AC outlet current capability" />
+    <Variable Name="Max Voltage"      Identifier="maxVoltage" Type="float" Units="V" Description="" />
+    <Variable Name="Voltage"        Identifier="voltage"  Type="float" Units="V" Description="Voltage reading from charger's sensor" />
+    <Variable Name="Max Current"      Identifier="maxCurrent" Type="float" Units="A" Description="" />
+    <Variable Name="Current"        Identifier="current"  Type="float" Units="A" Description="Current reading from charger's sensor" />
+    <Struct Name="Faults" Identifier="faults" Description="Charging Faults">
+      <Variable Name="Hardware Fault"           Identifier="hardware"          Type="bool" Description=""/>
+      <Variable Name="Shutdown"                 Identifier="shutdown"          Type="bool" Description=""/>
+      <Variable Name="Overheating Fault"        Identifier="overheat"          Type="bool" Description=""/>
+      <Variable Name="Wrong Volt Fault"         Identifier="wrongVolt"         Type="bool" Description=""/>
+      <Variable Name="Battery Fault"            Identifier="battery"           Type="bool" Description=""/>
+      <Variable Name="Communication Timeout"    Identifier="timeout"           Type="bool" Description=""/>
+      <Variable Name="Power High"               Identifier="overPower"         Type="bool" Description=""/>
+      <Variable Name="Relay Power"              Identifier="relayOff"          Type="bool" Description=""/>
+      <Variable Name="Emergency Stop Pressed"   Identifier="estop"             Type="bool" Description=""/>
+    </Struct>
+    <Struct Name="Connections" Identifier="connections" Description="" CanFrequency="10" PerDosFrequency=".2">
+      <Variable Name="Telemetry Connected over CAN" Identifier="sdlCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="0"/>
+      <Variable Name="Powertrain Control Module Connected over CAN" Identifier="pcmCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="0"/>
+      <Variable Name="Accumulator Management System Connected over CAN" Identifier="amsCanConnected" Type="bool" DefaultValue="false" Description=""/>
+      <Variable Name="Charger Connected over CAN" Identifier="chargerCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="0"/>
+      <Variable Name="Power Distribution Unit Connected over CAN" Identifier="pduCanConnected" Type="bool" DefaultValue="false" Description="" CanFrequency="0"/>
+    </Struct>
+  </Device>
+</Devices>

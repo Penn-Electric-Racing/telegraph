@@ -1,0 +1,1065 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<CanIds>
+  <CanId Id="192" DeviceId="2" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="bool" AccessString="pcm.signals.pcmOk" Name="Pcm OK" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.signals.mocReady" Name="Moc Ready" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.signals.rtdsBeeping" Name="Rtds Beeping" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.signals.brakeLight" Name="Brake Light" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.signals.bspdOk" Name="Bspd OK" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.signals.startRequest" Name="Start Request" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.signals.stopRequest" Name="Stop Request" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.signals.limpMode" Name="Limp Mode" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="193" DeviceId="2" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint32" AccessString="pcm.mode" Name="Mode" Description="The current PCM mode"  Default="Standby" EnumValues="Standby = 0, Idle = 1, Ready = 2" PerDosFrequency="0.5" Min="0" Max="2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="194" DeviceId="6" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="bool" AccessString="dash.signals.nextScreen" Name="Next Screen" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.signals.startRequest" Name="Start Request" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.signals.stopRequest" Name="Stop Request" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.signals.modeChange" Name="Mode Change" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.signals.carReset" Name="Car Reset" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.signals.clearFaults" Name="Clear Faults" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="195" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="bool" AccessString="ams.signals.amsOk" Name="AMS OK" Description="The AMS has no faults"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.imdOk" Name="IMD OK" Description="The IMD has no faults"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.prechargeRelay" Name="Precharge Relay" Description="The precharge relay is closed"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.posContactor" Name="Positive Contactor" Description="The HV+ contactor is closed"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.negContactor" Name="Negative Contactor" Description="The HV- contactor is closed"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.tractiveEnIn" Name="Tractive Enable Input" Description="The shutdown circuit is enabled"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.amsFltLat" Name="AMS Fault Latch" Description="The AMS fault latch has been set. The car must be restarted for this to clear."  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.imdFltLat" Name="IMD Fault Latch" Description="The IMD fault latch has been set. The car must be restarted for this to clear."  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.fanOn" Name="Fan On" Description="The AMS fans are on"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.balanceMode" Name="Balance Mode" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.dcDcOn" Name="DC DC On" Description="The DC-DC converter is on"  Default="false" CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.airSupply" Name="AIR Supply" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.signals.startDelay" Name="Start Delay" Description="AMS Hardware fault start delay signal."  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="256" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:00:08">
+    <Value Type="float" AccessString="pcm.moc.motorA.requestedTorque" Name="Torque Requested" Description=""  Default="0" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="257" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:00:08">
+    <Value Type="float" AccessString="pcm.moc.motorA.wheelSpeed" Name="Linear Speed" Description=""  Default="0" Units="MPH" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="258" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:00:08">
+    <Value Type="float" AccessString="pcm.moc.motorB.requestedTorque" Name="Torque Requested" Description=""  Default="0" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="259" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:00:08">
+    <Value Type="float" AccessString="pcm.moc.motorB.wheelSpeed" Name="Linear Speed" Description=""  Default="0" Units="MPH" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="260" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:06:56">
+    <Value Type="uint16" AccessString="pcm.moc.errorCode" Name="Error Code" Description="0 - no error, [1, 65535] - error message (look up in manual)"  Default="0" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="261" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:14:24">
+    <Value Type="float" AccessString="pcm.moc.dcBusPower" Name="DC Bus Power" Description=""  Default="0" Units="kW" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="262" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:14:24">
+    <Value Type="int16" AccessString="pcm.moc.dcBusVoltage" Name="DC Bus Voltage" Description=""  Default="0" Units="V" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="263" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:14:24">
+    <Value Type="uint8" AccessString="pcm.moc.deviceState" Name="Device State" Description="0 - initialization complete, 1 - initialization active, 3 - no data"  Default="3" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="264" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:14:24">
+    <Value Type="uint8" AccessString="pcm.moc.precharged" Name="Precharged" Description="0 - precharge active, 1 - precharged complete, 3 - no data"  Default="3" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="265" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:14:24">
+    <Value Type="int16" AccessString="pcm.moc.temp" Name="Temperature" Description=""  Default="0" Units="C" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="266" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="uint8" AccessString="pcm.moc.motorA.errorStatus" Name="Error Status" Description="0 - no error, 1 - error, 2 - warning, 3 - no data"  Default="3" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="267" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="uint8" AccessString="pcm.moc.motorA.inverterReady" Name="Inverter Ready" Description="0 - inverter not ready, 1 - inverter ready, 3 - no data"  Default="3" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="268" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="uint8" AccessString="pcm.moc.motorA.inverterStatus" Name="Inverter Status" Description="0 - power section inhibited, 1 - power section enabled, 3 - no data"  Default="3" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="269" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="float" AccessString="pcm.moc.motorA.power" Name="Power" Description="[-160, 161.275] kW"  Default="0" Units="Nm" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="270" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="int16" AccessString="pcm.moc.motorA.temp" Name="Temperature" Description="[-40, 210] °C"  Default="0" Units="C" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="271" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="int16" AccessString="pcm.moc.motorA.torque" Name="Torque" Description="[-6400, 6451] Nm"  Default="0" Units="Nm" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="272" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="uint8" AccessString="pcm.moc.motorB.errorStatus" Name="Error Status" Description="0 - no error, 1 - error, 2 - warning, 3 - no data"  Default="3" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="273" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="uint8" AccessString="pcm.moc.motorB.inverterReady" Name="Inverter Ready" Description="0 - inverter not ready, 1 - inverter ready, 3 - no data"  Default="3" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="274" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="uint8" AccessString="pcm.moc.motorB.inverterStatus" Name="Inverter Status" Description="0 - power section inhibited, 1 - power section enabled, 3 - no data"  Default="3" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="275" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="float" AccessString="pcm.moc.motorB.power" Name="Power" Description="[-160, 161.275] kW"  Default="0" Units="Nm" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="276" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="int16" AccessString="pcm.moc.motorB.temp" Name="Temperature" Description="[-40, 210] °C"  Default="0" Units="C" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="277" DeviceId="2" CanFrequency="Default:10" CreationTime="03/25/2022 14:21:40">
+    <Value Type="int16" AccessString="pcm.moc.motorB.torque" Name="Torque" Description="[-6400, 6451] Nm"  Default="0" Units="Nm" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="278" DeviceId="2" CanFrequency="Default:10" CreationTime="03/26/2022 11:26:47">
+    <Value Type="float" AccessString="pcm.moc.motorA.angularSpeed" Name="Angular Speed" Description="[-32000, 32255] rpm"  Default="0" Units="RPM" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="279" DeviceId="2" CanFrequency="Default:10" CreationTime="03/26/2022 11:26:47">
+    <Value Type="float" AccessString="pcm.moc.motorB.angularSpeed" Name="Angular Speed" Description="[-32000, 32255] rpm"  Default="0" Units="RPM" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="280" DeviceId="2" CanFrequency="Default:10" CreationTime="03/26/2022 15:01:14">
+    <Value Type="uint32" AccessString="pcm.moc.motorA.timestamp" Name="Timestamp" Description="timestamp the motor state was last updated"  Default="0" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="281" DeviceId="2" CanFrequency="Default:10" CreationTime="03/26/2022 15:01:14">
+    <Value Type="uint32" AccessString="pcm.moc.motorB.timestamp" Name="Timestamp" Description="timestamp the motor state was last updated"  Default="0" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="282" DeviceId="2" CanFrequency="Default:10" CreationTime="03/26/2022 15:01:14">
+    <Value Type="uint32" AccessString="pcm.moc.timestamp" Name="Timestamp" Description="timestamp the MOC state was last updated"  Default="0" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="283" DeviceId="2" CanFrequency="Default:2" CreationTime="03/26/2022 15:53:34">
+    <Value Type="float" AccessString="pcm.param.accelExponent" Name="Accel Exponent" Description="Raise accelerator to this power to make it drive better"  Default="1.5" Max="10" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="284" DeviceId="2" CanFrequency="Default:2" CreationTime="03/26/2022 16:02:45">
+    <Value Type="int16" AccessString="pcm.param.speedLimit" Name="Vel Limit" Description="Motor speed limit"  Default="5000" Max="5500" Min="0" Units="RPM" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="381" DeviceId="2" CanFrequency="Default:2" CreationTime="05/24/2018 14:48:53">
+    <Value Type="float" AccessString="pcm.param.gpsAOffset.x" Name="X" Description=""  Default="-1.2065" Units="m" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.gpsAOffset.y" Name="Y" Description=""  Default="0" Units="m" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="382" DeviceId="2" CanFrequency="Default:2" CreationTime="05/24/2018 14:48:53">
+    <Value Type="float" AccessString="pcm.param.gpsAOffset.z" Name="Z" Description=""  Default="-1.19634" Units="m" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.gpsBaseline.x" Name="X" Description=""  Default="2.298" Units="m" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="383" DeviceId="2" CanFrequency="Default:2" CreationTime="05/24/2018 14:48:53">
+    <Value Type="float" AccessString="pcm.param.gpsBaseline.y" Name="Y" Description=""  Default="0" Units="m" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.gpsBaseline.z" Name="Z" Description=""  Default=".787" Units="m" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="384" DeviceId="2" CanFrequency="Default:2" CreationTime="05/24/2018 14:48:53">
+    <Value Type="float" AccessString="pcm.param.gpsBaselineUncertainty.x" Name="X" Description=""  Default=".0254" Units="m" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.gpsBaselineUncertainty.y" Name="Y" Description=""  Default=".013" Units="m" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="385" DeviceId="2" CanFrequency="Default:2" CreationTime="05/24/2018 14:48:53">
+    <Value Type="float" AccessString="pcm.param.gpsBaselineUncertainty.z" Name="Z" Description=""  Default=".064" Units="m" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="393" DeviceId="5" CanFrequency="Default:10,Moc:0" CreationTime="05/28/2018 22:12:40">
+    <Value Type="bool" AccessString="sdl.faults.isFull" Name="SD Full" Description="Is SD card full"  PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.faults.noMount" Name="SD Mount Fail" Description="Error while mounting the SD card"  PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.faults.noSd" Name="No SD Card" Description="CAN bus error"  PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.faults.openFail" Name="SD Open Fail" Description="Error while opening file"  PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="394" DeviceId="5" CanFrequency="Default:10,Moc:0" CreationTime="05/28/2018 22:12:40">
+    <Value Type="uint64" AccessString="sdl.sd.free_blocks" Name="Free blocks" Description="Free space on SD card in blocks"  Units="blocks" PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="395" DeviceId="5" CanFrequency="Default:10,Moc:0" CreationTime="05/28/2018 22:12:40">
+    <Value Type="uint64" AccessString="sdl.sd.total_blocks" Name="Total blocks" Description="Total space on SD card in blocks"  Units="blocks" PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="396" DeviceId="5" CanFrequency="Default:10,Moc:0" CreationTime="05/28/2018 22:12:40">
+    <Value Type="float" AccessString="sdl.sd.utilization" Name="Utilization" Description="Percentage of the SD used."  Units="" PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="401" DeviceId="2" CanFrequency="Default:10" CreationTime="06/14/2018 16:24:10">
+    <Value Type="bool" AccessString="pcm.watchdog.startupTimeout" Name="Startup Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="422" DeviceId="5" CanFrequency="Default:10,Moc:10,FakeVectornav:10" CreationTime="06/14/2018 16:43:12">
+    <Value Type="bool" AccessString="sdl.watchdog.startupTimeout" Name="Startup Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="431" DeviceId="2" CanFrequency="Default:2" CreationTime="06/20/2018 23:28:36">
+    <Value Type="float" AccessString="pcm.param.maxRegenPower" Name="Maximum Regen Power" Description="The maximum regenerative power the PCM will try to command"  Default="18" Max="120" Min="0" Units="kW" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="438" DeviceId="8" CanFrequency="Default:10,Moc:0" CreationTime="04/14/2019 18:27:08">
+    <Value Type="uint8" AccessString="pdu.resetCause" Name="Reset Cause" Description=""  CanFrequency="Default:10,Moc:0" Default="PowerOn" EnumValues="LowPowerMgmt = 0, WindowWatchdog = 1, IndependentWatchdog = 2, Software = 3, PowerOn = 4, NrstPin = 5, Brownout = 6" UppercaseIdentifier="per::embedded::ResetCause" Min="0" Max="6" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="440" DeviceId="7" CanFrequency="Default:10" CreationTime="06/11/2019 02:54:11">
+    <Value Type="bool" AccessString="charger.connections.amsCanConnected" Name="Accumulator Management System Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="442" DeviceId="8" CanFrequency="Default:10" CreationTime="04/14/2019 18:27:08">
+    <Value Type="uint32" AccessString="pdu.startTime" Name="Start Time" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="443" DeviceId="2" CanFrequency="Default:2" CreationTime="05/03/2019 11:03:16">
+    <Value Type="float" AccessString="pcm.param.pedals.limits.accelLeft.absHigh" Name="Absolute High" Description="Implausibility if higher"  Default=".95" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.limits.accelLeft.absLow" Name="Absolute Low" Description="Implausibility if lower"  Default=".05" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="444" DeviceId="7" CanFrequency="Default:100" CreationTime="06/12/2019 21:03:19">
+    <Value Type="bool" AccessString="charger.dashCanConnected" Name="Dashboard Connected over CAN" Description="True if the Dashboard is connected"  CanFrequency="100" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="445" DeviceId="2" CanFrequency="Default:2" CreationTime="05/03/2019 11:03:16">
+    <Value Type="float" AccessString="pcm.param.pedals.limits.accelLeft.rangeHigh" Name="Range High" Description="Value when the accel pedal is pressed"  Default="0.7354" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.limits.accelLeft.rangeLow" Name="Range Low" Description="Value when the accel pedal is released"  Default="0.617" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="456" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="float" AccessString="charger.current" Name="Current" Description="Current reading from charger's sensor"  Units="A" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="457" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="bool" AccessString="charger.faults.battery" Name="Battery Fault" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="458" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="bool" AccessString="charger.faults.estop" Name="Emergency Stop Pressed" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="459" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="bool" AccessString="charger.faults.hardware" Name="Hardware Fault" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="460" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="bool" AccessString="charger.faults.overPower" Name="Power High" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="461" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="bool" AccessString="charger.faults.overheat" Name="Overheating Fault" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="462" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="bool" AccessString="charger.faults.relayOff" Name="Relay Power" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="463" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="bool" AccessString="charger.faults.timeout" Name="Communication Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="464" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="bool" AccessString="charger.faults.wrongVolt" Name="Wrong Volt Fault" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="465" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="float" AccessString="charger.maxPower" Name="Max Power" Description="Max available power based on outlet and charger efficiency"  Units="W" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="466" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="float" AccessString="charger.outletCurrent" Name="Outlet Current" Description="AC outlet current capability"  Units="A" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="467" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="float" AccessString="charger.outletVoltage" Name="Outlet Voltage" Description="AC outlet voltage"  Units="V" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="468" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="uint8" AccessString="charger.resetCause" Name="Reset Cause" Description=""  Default="PowerOn" EnumValues="LowPowerMgmt = 0, WindowWatchdog = 1, IndependentWatchdog = 2, Software = 3, PowerOn = 4, NrstPin = 5, Brownout = 6" UppercaseIdentifier="per::embedded::ResetCause" Min="0" Max="6" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="469" DeviceId="7" CanFrequency="Default:10" CreationTime="12/05/2018 16:48:45">
+    <Value Type="float" AccessString="charger.voltage" Name="Voltage" Description="Voltage reading from charger's sensor"  Units="V" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="474" DeviceId="2" CanFrequency="Default:10" CreationTime="04/14/2019 12:11:52">
+    <Value Type="bool" AccessString="pcm.faults.can" Name="CAN" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="479" DeviceId="2" CanFrequency="Default:2" CreationTime="05/03/2019 11:03:16">
+    <Value Type="float" AccessString="pcm.param.pedals.limits.accelRight.absLow" Name="Absolute Low" Description="Implausibility if lower"  Default=".05" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.limits.accelRight.rangeHigh" Name="Range High" Description="Value when the accel pedal is pressed"  Default="0.128" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="486" DeviceId="2" CanFrequency="Default:2" CreationTime="05/03/2019 11:03:16">
+    <Value Type="float" AccessString="pcm.param.pedals.limits.accelRight.rangeLow" Name="Range Low" Description="Value when the accel pedal is released"  Default="0.205" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.limits.accelRight.absHigh" Name="Absolute High" Description="Implausibility if higher"  Default=".95" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="487" DeviceId="2" CanFrequency="Default:10" CreationTime="05/03/2019 11:03:16">
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.accelLeftLlim" Name="Accel Left Lower Limit" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="488" DeviceId="2" CanFrequency="Default:10" CreationTime="05/03/2019 11:03:16">
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.accelLeftUlim" Name="Accel Left Upper Limit" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.accelRightLlim" Name="Accel Right Lower Limit" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.accelRightUlim" Name="Accel Right Upper Limit" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.brakeForceLlim" Name="Brake Force Lower Limit" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.brakeForceUlim" Name="Brake Force Upper Limit" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="491" DeviceId="2" CanFrequency="Default:2" CreationTime="05/03/2019 11:09:33">
+    <Value Type="float" AccessString="pcm.param.pedals.limits.brakeForce.absHigh" Name="Absolute High" Description="Implausibility if higher"  Default=".95" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="492" DeviceId="2" CanFrequency="Default:2" CreationTime="05/03/2019 11:09:33">
+    <Value Type="float" AccessString="pcm.param.pedals.limits.brakeForce.absLow" Name="Absolute Low" Description="Implausibility if lower"  Default=".05" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="493" DeviceId="2" CanFrequency="Default:2" CreationTime="05/03/2019 11:09:33">
+    <Value Type="float" AccessString="pcm.param.pedals.limits.brakeForce.rangeHigh" Name="Range High" Description="Value when the brake pedal is pressed"  Default="0" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.limits.brakeForce.rangeLow" Name="Range Low" Description="Value when the brake pedal is released"  Default="0" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="497" DeviceId="2" CanFrequency="Default:100" CreationTime="05/03/2019 11:09:33">
+    <Value Type="float" AccessString="pcm.pedals.brakeForce" Name="Brake Force" Description=""  CanFrequency="Default:100" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pcm.pedals.brakeForceRaw" Name="Brake Force Raw" Description=""  CanFrequency="Default:100" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="499" DeviceId="2" CanFrequency="Default:2" CreationTime="05/03/2019 11:25:28">
+    <Value Type="float" AccessString="pcm.param.pedals.limits.brakePressure.absHigh" Name="Absolute High" Description="Implausibility if higher"  Default=".95" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.limits.brakePressure.absLow" Name="Absolute Low" Description="Implausibility if lower"  Default=".05" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="501" DeviceId="2" CanFrequency="Default:2" CreationTime="05/03/2019 11:25:28">
+    <Value Type="float" AccessString="pcm.param.pedals.limits.brakePressure.rangeHigh" Name="Range High" Description="Value when the brake pedal is pressed"  Default="0" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.limits.brakePressure.rangeLow" Name="Range Low" Description="Value when the brake pedal is released"  Default="0" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="509" DeviceId="7" CanFrequency="Default:10" CreationTime="02/15/2020 13:55:14">
+    <Value Type="bool" AccessString="charger.chargerOk" Name="Charger Ok" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="510" DeviceId="7" CanFrequency="Default:10" CreationTime="02/15/2020 13:55:14">
+    <Value Type="float" AccessString="charger.maxCurrent" Name="Max Current" Description=""  Units="A" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="511" DeviceId="7" CanFrequency="Default:10" CreationTime="02/15/2020 13:55:14">
+    <Value Type="float" AccessString="charger.maxVoltage" Name="Max Voltage" Description=""  Units="V" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="512" DeviceId="2" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="bool" AccessString="pcm.faults.mocCan" Name="MOC CAN" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.faults.mocTimeout" Name="MOC Timeout" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.faults.coolantNFlow" Name="Coolant NFlow" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.faults.extAnaSupply" Name="External Analog Supply" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.faults.fixedSupply" Name="Fixed Supply" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.faults.buckConverter" Name="Buck Converter" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="513" DeviceId="2" CanFrequency="Default:10" CreationTime="03/29/2019 18:38:38">
+    <Value Type="bool" AccessString="pcm.i2c.extAnaFilterConnected" Name="External Analog Filter Connected" Description=""  CanFrequency="Default:10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.i2c.extAnaPullConnected" Name="External Analog Pull Connected" Description=""  CanFrequency="Default:10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.i2c.fixedPullConnected" Name="Fixed Pull Up/Down Connected" Description=""  CanFrequency="Default:10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="514" DeviceId="7" CanFrequency="Default:10" CreationTime="02/15/2020 14:01:00">
+    <Value Type="bool" AccessString="charger.faults.shutdown" Name="Shutdown" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="515" DeviceId="8" CanFrequency="Default:10" CreationTime="04/08/2022 17:21:03">
+    <Value Type="float" AccessString="pdu.sensors.boardTemp" Name="Board temperature" Description="Board Temperature"  Units="C" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="544" DeviceId="2" CanFrequency="Default:100" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="pcm.pedals.frontBrakePressure" Name="Front Brake Pressure" Description=""  CanFrequency="Default:100" PerDosFrequency="10" Units="PSI" ReadOnly="True"/>
+    <Value Type="float" AccessString="pcm.pedals.rearBrakePressure" Name="Rear Brake Pressure" Description=""  CanFrequency="Default:100" PerDosFrequency="10" Units="PSI" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="546" DeviceId="2" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.brakePressureFLlim" Name="Front Brake Pressure Lower Limit" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.brakePressureFUlim" Name="Front Brake Pressure Upper Limit" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.brakePressureRLlim" Name="Rear Brake Pressure Lower Limit" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.brakePressureRUlim" Name="Rear Brake Pressure Upper Limit" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.accelMismatch" Name="Accel Mismatch" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.brakePressureMismatch" Name="Brake Pressure Mismatch" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.pedals.implausibility.brakeAndAccel" Name="Brake And Accel" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="549" DeviceId="2" CanFrequency="Default:100" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="pcm.pedals.accel" Name="Accel" Description=""  CanFrequency="Default:100" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pcm.steerAngle" Name="SteerAngle" Description=""  CanFrequency="Default:100" PerDosFrequency="5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="550" DeviceId="2" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint32" AccessString="pcm.driveMode" Name="Drive Modes" Description=""  Default="Autocross" EnumValues="Autocross = 0, Endurance = 1, Acceleration = 2, Skidpad = 3, Easy = 4, Autonomous = 5, LastIndex = 6" PerDosFrequency="0.5" Min="0" Max="6" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="560" DeviceId="2" CanFrequency="Default:10" CreationTime="05/29/2017 23:33:56">
+    <Value Type="float" AccessString="pcm.cooling.radInletRight" Name="Right Radiator Inlet" Description=""  PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pcm.cooling.radOutletRight" Name="Right Radiator Outlet" Description=""  PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="562" DeviceId="2" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="pcm.cooling.frontFlow" Name="Front Flow Rate" Description=""  Units="L/min" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pcm.cooling.rearFlow" Name="Rear Flow Rate" Description=""  Units="L/min" PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="563" DeviceId="2" CanFrequency="Default:100" CreationTime="10/07/2016 00:54:00">
+    <Value Type="float" AccessString="pcm.frontLoadCell" Name="Front Load Cell" Description="data from the front load cell"  CanFrequency="Default:100" PerDosFrequency="5" Units="N" ReadOnly="True"/>
+    <Value Type="float" AccessString="pcm.rearLoadCell" Name="Rear Load Cell" Description="data from the rear load cell"  CanFrequency="Default:100" PerDosFrequency="5" Units="N" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="564" DeviceId="2" CanFrequency="Default:10" CreationTime="05/29/2017 23:34:28">
+    <Value Type="float" AccessString="pcm.cooling.radInletLeft" Name="Left Radiator Inlet" Description=""  PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pcm.cooling.radOutletLeft" Name="Left Radiator Outlet" Description=""  PerDosFrequency="5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="570" DeviceId="2" CanFrequency="Default:10" CreationTime="04/07/2019 18:45:23">
+    <Value Type="double" AccessString="pcm.distanceTraveled" Name="Distance Traveled" Description=""  CanFrequency="Default:10" Default="0" PerDosFrequency="0.5" Units="miles" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="587" DeviceId="2" CanFrequency="Default:100" CreationTime="05/10/2017 14:02:00">
+    <Value Type="bool" AccessString="pcm.connections.dashCanConnected" Name="Dashboard Connected over CAN" Description=""  CanFrequency="Default:100" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.connections.amsCanConnected" Name="Accumulator Management System Connected over CAN" Description=""  CanFrequency="Default:100" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.connections.sdlCanConnected" Name="Telemetry Connected over CAN" Description=""  CanFrequency="Default:100" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.connections.pduCanConnected" Name="Power Distribution Unit Connected over CAN" Description=""  CanFrequency="Default:100" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="608" DeviceId="2" CanFrequency="Default:10" CreationTime="05/20/2018 17:00:37">
+    <Value Type="uint16" AccessString="pcm.threads.controllerTime" Name="Controller Thread Loop Time" Description=""  Units="us" PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="pcm.threads.sensorTime" Name="Sensor Thread Loop Time" Description=""  Units="us" PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="pcm.threads.updateTime" Name="Update Thread Loop Time" Description=""  Units="us" PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="610" DeviceId="2" CanFrequency="Default:10,Moc:0" CreationTime="05/20/2018 17:00:37">
+    <Value Type="uint8" AccessString="pcm.resetCause" Name="Reset Cause" Description=""  CanFrequency="Default:10,Moc:0" Default="PowerOn" EnumValues="LowPowerMgmt = 0, WindowWatchdog = 1, IndependentWatchdog = 2, Software = 3, PowerOn = 4, NrstPin = 5, Brownout = 6" UppercaseIdentifier="per::embedded::ResetCause" Min="0" Max="6" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="611" DeviceId="2" CanFrequency="Default:10" CreationTime="05/20/2018 17:00:37">
+    <Value Type="uint32" AccessString="pcm.startTime" Name="Start Time" Description=""  PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="613" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="int16" AccessString="pcm.param.accelLimit" Name="Accel Limit" Description="Motor torque limit"  Default="125" Max="240" Min="0" Units="Nm" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="bool" AccessString="pcm.param.driveTest" Name="Drive Test" Description=""  CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="614" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.fanTemperature" Name="Fan Temperature" Description="Fan start threshold"  Default="45" Max="100" Min="0" Units="C" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.gearRatio" Name="Gear Ratio" Description="Overall gear ratio"  Default="3.5" Max="100" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="615" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.launchControl.maxTorqueSpeed" Name="Launch Control Max Torque Speed" Description="Launch full torque mph"  Default="15" Max="100" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.launchControl.startTorque" Name="Launch Control Start Torque" Description="Launch zero mph torque"  Default="0.5" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="616" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.limp.accelLimit" Name="Limp Acceleration Limit" Description="The maximum acceleration for limp mode"  Default=".4" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.limp.socThreshold" Name="Limp State of Charge Threshold" Description="Limp mode is active below this state of charge"  Default=".1" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="617" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.maxPower" Name="Maximum Power" Description="The maximum power the PCM will try to command"  Default="80" Max="120" Min="0" Units="kW" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.overrideSpeed" Name="Override Speed" Description=""  Units="mph" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="624" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="bool" AccessString="pcm.param.pedals.testBspd" Name="Test BSPD" Description="Disables the accel and brake implausibility, allowing the BSPD to trigger"  CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.thresholds.accelActuated" Name="Accel Actuated" Description=""  Default=".25" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="625" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.pedals.thresholds.accelReleased" Name="Accel Released" Description=""  Default=".05" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.thresholds.brakeActuated" Name="Brake Actuated" Description=""  Default="100" Max="1000" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="626" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.pedals.thresholds.brakeLaunch" Name="Brake Launch" Description=""  Default="100" Max="1000" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.thresholds.brakeLight" Name="Brake Light" Description=""  Default="100" Max="1000" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="627" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.pedals.thresholds.brakeStart" Name="Brake Start" Description="Must press brake this far to start the car"  Default="100" Max="1000" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.pedals.thresholds.mismatchAllowance" Name="Mismatch Allowance" Description=""  Default=".3" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="628" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.regen.endSpeed" Name="Regen End Speed" Description="when regen is fully enabled"  Default="35" Max="100" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.regen.exponent" Name="Regen Exponent" Description=""  Default="1.5" Max="10" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="629" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.regen.limitNmax" Name="Regen Limit NMax" Description="Maximum regen at NMax"  Default=".65" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.regen.limitZero" Name="Regen Limit Zero" Description=""  Default=".4" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="630" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.regen.maxSocThreshold" Name="Regen Maximum SOC Threshold" Description=""  Default=".95" Max="1" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.regen.nmax" Name="Regen NMax" Description=""  Default="80" Max="100" Min="0" Units="mph" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="631" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.regen.startSpeed" Name="Regen Start Speed" Description="when regen starts on the pedal"  Default="5" Max="100" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="uint8" AccessString="pcm.param.rtdsStartBeeps" Name="Ready To Drive Sound Start Beeps" Description="The number of beeps in the ready to drive sound"  Default="3" Max="10" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="bool" AccessString="pcm.param.speedOverride" Name="Speed Override" Description=""  CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="632" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.weightTransfer" Name="Weight Transfer" Description="A ratio of the amount of weight transfer at maximum acceleration. 0 for no weight transfer and .5 for all of the weight on the front/back. Should be CoG/wheel base, assuming 1g."  Default=".2" Max=".5" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.wheelDiameter" Name="Wheel Diameter" Description="The diameter of the wheels"  Default="18" Max="100" Min="0" Units="in" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="633" DeviceId="2" CanFrequency="Default:2" CreationTime="05/21/2018 15:17:49">
+    <Value Type="float" AccessString="pcm.param.wheelPulses" Name="Wheel Pulses" Description="Wheel pulses per rotation"  Default="16" Max="100" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.wheelSpeedTimeConstant" Name="Wheel Speed Time Constant" Description=""  Default=".02" Max="10" Min="0" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="639" DeviceId="2" CanFrequency="Default:2" CreationTime="05/22/2018 00:14:04">
+    <Value Type="float" AccessString="pcm.param.steerOffset" Name="Steer Offset" Description=""  Default="0" Units="deg" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="640" DeviceId="2" CanFrequency="Default:10" CreationTime="05/22/2018 10:02:21">
+    <Value Type="float" AccessString="pcm.analogVoltage" Name="5V Analog Voltage" Description=""  CanFrequency="Default:10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="float" AccessString="pcm.boardTemperature" Name="Board Temperature" Description=""  PerDosFrequency="0.5" Units="C" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="643" DeviceId="2" CanFrequency="Default:10" CreationTime="05/22/2018 10:02:21">
+    <Value Type="float" AccessString="pcm.extVoltage" Name="5V Ext Voltage" Description=""  CanFrequency="Default:10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="float" AccessString="pcm.supplyVoltage" Name="Supply Voltage" Description=""  CanFrequency="Default:10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="646" DeviceId="2" CanFrequency="Default:10" CreationTime="06/11/2018 00:04:42">
+    <Value Type="bool" AccessString="pcm.watchdog.controllerTimeout" Name="Controller Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.watchdog.sensorTimeout" Name="Sensor Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pcm.watchdog.updateTimeout" Name="Update Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="647" DeviceId="2" CanFrequency="Default:2" CreationTime="03/31/2019 19:20:34">
+    <Value Type="float" AccessString="pcm.param.maxFrontCurrent" Name="Maximum Front Current" Description=""  Default="177" Max="275" Min="0" Units="A" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.minFrontCurrent" Name="Minimum Front Current" Description=""  Default="-140" Max="0" Min="-275" Units="A" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="648" DeviceId="2" CanFrequency="Default:2" CreationTime="03/31/2019 19:20:34">
+    <Value Type="float" AccessString="pcm.param.maxRearCurrent" Name="Maximum Rear Current" Description=""  Default="262" Max="275" Min="0" Units="A" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+    <Value Type="float" AccessString="pcm.param.minRearCurrent" Name="Minimum Rear Current" Description=""  Default="-75" Max="0" Min="-275" Units="A" CanFrequency="Default:2" PerDosFrequency="0.5" ReadOnly="False"/>
+  </CanId>
+  <CanId Id="768" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="bool" AccessString="ams.faults.sensor" Name="Sensor" Description="Any of the pack errors has occurred (see pack errors below)"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.precharge" Name="Precharge" Description="Precharging the tractive system failed"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.comm" Name="Comm" Description="Communicating with the slaves timed out"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.post" Name="Post" Description="An error occurred configuring the slaves"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.ref" Name="Ref" Description="Reading from the slave analog pins failed"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.selftest" Name="Selftest" Description="Slave selftesting failed"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.cell0v" Name="Cell 0V" Description="Cell Over Voltage (rename to cellOverVoltage)"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.celluv" Name="Cell UV" Description="Cell Under Voltage (rename to cellUnderVoltage)"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.overCurrent" Name="Over Current" Description="The tractive system was over current"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.underCurrent" Name="Under Current" Description="The tractive system was under current"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.overVoltage" Name="Over Voltage" Description="The tractive system was over voltage"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.underVoltage" Name="Under Voltage" Description="The tractive system was under voltage"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.overPower" Name="Over Power" Description="The tractive system was over power"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.underPower" Name="Under Power" Description="The tractive system was under power (this is negative when current flows into the pack)"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.overPackTemp" Name="Over Temperature" Description="A temperature thermistor is over temperature"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.underPackTemp" Name="Under Temperature" Description="A temperature thermistor is under temperature"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.overGlvTemp" Name="Over GLV Board Temperature" Description="The AMS PCB is over temperature"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.underGlvTemp" Name="Under GLV Board Temperature" Description="The AMS PCB is under temperature"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.overHvTemp" Name="Over HV Board Temperature" Description="The AMS PCB is over temperature"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.underHvTemp" Name="Under HV Board Temperature" Description="The AMS PCB is under temperature"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.overDieTemp" Name="Over Die Temperature" Description="A slave IC is over temperature"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.underDieTemp" Name="Under Die Temperature" Description="A slave IC is under temperature"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.vsenseMismatch" Name="Vsense Mismatch" Description="The error between the stack sum and overall pack measurements is too large"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.overChargeCurrent" Name="Over Charge Current" Description="The cells are charging too quickly"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.discWhileChg" Name="Discharge while Charging" Description="The cells are discharging while the charger is connected"  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.faults.extFault" Name="External Power Fault" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="769" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint8" AccessString="ams.airsState" Name="AirsState" Description=""  CanFrequency="10" Default="AirsOpen" EnumValues="AirsOpen = 0, NegativeAirClosed = 1, Precharge = 2, PrechargeAirsClosed = 3, AirsClosed = 4" Min="0" Max="4" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.error" Name="Error" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.slavesConnected" Name="Slaves Connected" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="782" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.imd.resistance" Name="Resistance" Description="IMD measured isolation resistance"  CanFrequency="10" Units="Ohm" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="783" DeviceId="3" CanFrequency="Default:10" CreationTime="05/14/2018 14:49:38">
+    <Value Type="uint8" AccessString="ams.imd.status" Name="Status" Description=""  CanFrequency="10" Default="Off" EnumValues="Off = 0, Normal = 1, UnderVoltage = 2, SpeedStart = 3, Error = 4, GroundError = 5, Invalid = 6" Min="0" Max="6" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="784" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="bool" AccessString="ams.pack.errors.currentL" Name="Current L" Description="The currentL signal from the current sensor is out of range"  PerDosFrequency="0.2" CanFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.pack.errors.currentH" Name="Current H" Description="The currentH signal from the current sensor is out of range"  PerDosFrequency="0.2" CanFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.pack.errors.voltage" Name="Voltage" Description="The measured pack voltage is out of range"  PerDosFrequency="0.2" CanFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.pack.errors.capacityInit" Name="Capacity Init" Description="The stored pack capacity is out of range"  PerDosFrequency="0.2" CanFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.pack.errors.socInit" Name="Soc Init" Description="The stored state of charge is out of range"  PerDosFrequency="0.2" CanFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.pack.errors.start" Name="Start" Description="One of the above errors occured during initialization (TODO: remove this)"  PerDosFrequency="0.2" CanFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="785" DeviceId="3" CanFrequency="Default:100" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.pack.current" Name="Current" Description="The current running through the pack"  CanFrequency="100" PerDosFrequency="25" Units="A" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="787" DeviceId="3" CanFrequency="Default:100" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.pack.voltage" Name="Voltage" Description="The voltage on the other side of the AIRs"  CanFrequency="100" PerDosFrequency="25" Units="V" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="788" DeviceId="3" CanFrequency="Default:100" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.pack.power" Name="Power" Description="The power supplied by the pack"  CanFrequency="100" PerDosFrequency="25" Units="kW" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="789" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="double" AccessString="ams.pack.capacity" Name="Capacity" Description="Estimated capacity of the pack"  Default="25" Units="Ah" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="790" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.pack.soc" Name="State of Charge" Description="Pack state of charge"  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="791" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="double" AccessString="ams.pack.capacityLeft" Name="Remaining Capacity" Description="Pack capacity remaining"  Units="Ah" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="793" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.board.glvTemp" Name="GLV Board Temperature" Description="The temperature on the GLV part of the board"  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="794" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.vSensorMismatch" Name="Vsensor Mismatch" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="795" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.fanSpeed" Name="Fan Speed" Description=""  CanFrequency="10" Units="ratio" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="796" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint32" AccessString="ams.cellCount" Name="Cell Count" Description="The number of cells in the pack"  CanFrequency="10" Default="72" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="uint32" AccessString="ams.thermistorCount" Name="thermistor Count" Description="The number of thermistors in the pack"  CanFrequency="10" Default="88" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="797" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint32" AccessString="ams.chipCount" Name="Chip Count" Description="The number of chips in the pack"  CanFrequency="10" Default="8" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="798" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.voltage" Name="Voltage" Description="The sum of the cell voltages"  CanFrequency="10" PerDosFrequency="0.5" Units="V" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="799" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.cellV.min" Name="Minimum" Description="min value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="float" AccessString="ams.stack.mma.cellV.max" Name="Maximum" Description="max value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="800" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.cellV.avg" Name="Average" Description="average value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="801" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint8" AccessString="ams.stack.mma.cellV.minIndex" Name="Minimum Index" Description="min value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="ams.stack.mma.cellV.maxIndex" Name="Maximum Index" Description="max value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="802" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.temp.min" Name="Minimum" Description="min value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="float" AccessString="ams.stack.mma.temp.max" Name="Maximum" Description="max value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="803" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.temp.avg" Name="Average" Description="average value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="804" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint8" AccessString="ams.stack.mma.temp.minIndex" Name="Minimum Index" Description="min value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="ams.stack.mma.temp.maxIndex" Name="Maximum Index" Description="max value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="805" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.intRef.min" Name="Minimum" Description="min value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="float" AccessString="ams.stack.mma.intRef.max" Name="Maximum" Description="max value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="806" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.intRef.avg" Name="Average" Description="average value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="807" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint8" AccessString="ams.stack.mma.intRef.minIndex" Name="Minimum Index" Description="min value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="ams.stack.mma.intRef.maxIndex" Name="Maximum Index" Description="max value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="808" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.dieTemp.min" Name="Minimum" Description="min value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="float" AccessString="ams.stack.mma.dieTemp.max" Name="Maximum" Description="max value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="809" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.dieTemp.avg" Name="Average" Description="average value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="810" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint8" AccessString="ams.stack.mma.dieTemp.minIndex" Name="Minimum Index" Description="min value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="ams.stack.mma.dieTemp.maxIndex" Name="Maximum Index" Description="max value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="811" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.Vana.min" Name="Minimum" Description="min value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="float" AccessString="ams.stack.mma.Vana.max" Name="Maximum" Description="max value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="812" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.Vana.avg" Name="Average" Description="average value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="813" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint8" AccessString="ams.stack.mma.Vana.minIndex" Name="Minimum Index" Description="min value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="ams.stack.mma.Vana.maxIndex" Name="Maximum Index" Description="max value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="814" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.Vdd.min" Name="Minimum" Description="min value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="float" AccessString="ams.stack.mma.Vdd.max" Name="Maximum" Description="max value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="815" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.Vdd.avg" Name="Average" Description="average value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="816" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint8" AccessString="ams.stack.mma.Vdd.minIndex" Name="Minimum Index" Description="min value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="ams.stack.mma.Vdd.maxIndex" Name="Maximum Index" Description="max value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="817" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.chipCellSum.min" Name="Minimum" Description="min value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="float" AccessString="ams.stack.mma.chipCellSum.max" Name="Maximum" Description="max value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="818" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.stack.mma.chipCellSum.avg" Name="Average" Description="average value"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="819" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint8" AccessString="ams.stack.mma.chipCellSum.minIndex" Name="Minimum Index" Description="min value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="ams.stack.mma.chipCellSum.maxIndex" Name="Maximum Index" Description="max value index"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="820" DeviceId="3" CanFrequency="Default:10" CreationTime="05/10/2017 14:02:00">
+    <Value Type="bool" AccessString="ams.connections.chargerCanConnected" Name="Charger Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.connections.dashCanConnected" Name="Dashboard Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.connections.pcmCanConnected" Name="Powertrain Control Module Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.connections.sdlCanConnected" Name="Telemetry Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.connections.pduCanConnected" Name="Power Distribution Unit Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="821" DeviceId="3" CanFrequency="Default:10" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="ams.board.hvTemp" Name="HV Board Temperature" Description="The temperature of the HV part of the board"  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="ams.resetCause" Name="Reset Cause" Description=""  CanFrequency="10" Default="PowerOn" EnumValues="LowPowerMgmt = 0, WindowWatchdog = 1, IndependentWatchdog = 2, Software = 3, PowerOn = 4, NrstPin = 5, Brownout = 6" UppercaseIdentifier="per::embedded::ResetCause" Min="0" Max="6" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="822" DeviceId="3" CanFrequency="Default:10" CreationTime="05/20/2018 17:00:37">
+    <Value Type="uint32" AccessString="ams.startTime" Name="Start Time" Description="The last time the board reset"  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="823" DeviceId="3" CanFrequency="Default:10" CreationTime="05/20/2018 17:00:37">
+    <Value Type="uint16" AccessString="ams.threads.prechargeTime" Name="Precharge Thread Loop Time" Description=""  Units="us" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="ams.threads.sensorTime" Name="Sensor Thread Loop Time" Description=""  Units="us" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="ams.threads.slaveTime" Name="Slave Thread Loop Time" Description=""  Units="us" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="ams.threads.updateTime" Name="Update Thread Loop Time" Description=""  Units="us" CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="824" DeviceId="3" CanFrequency="Default:10" CreationTime="06/10/2018 23:58:48">
+    <Value Type="bool" AccessString="ams.watchdog.prechargeTimeout" Name="Precharge Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.watchdog.sensorTimeout" Name="Sensor Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.watchdog.slaveTimeout" Name="Slave Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.watchdog.updateTimeout" Name="Update Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="ams.watchdog.startupTimeout" Name="Startup Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1024" DeviceId="8" CanFrequency="Default:10" CreationTime="12/04/2018 22:59:09">
+    <Value Type="bool" AccessString="pdu.connections.amsCanConnected" Name="Accumulator Manangement System Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.connections.dashCanConnected" Name="Dashboard Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.connections.pcmCanConnected" Name="Powertrain Control Module Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.connections.sdlCanConnected" Name="Telemetry Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1025" DeviceId="8" CanFrequency="Default:10" CreationTime="03/30/2019 16:56:53">
+    <Value Type="bool" AccessString="pdu.signals.fans" Name="Fans On" Description=""  Default="false" ReadOnly="True" CanFrequency="Default:10" PerDosFrequency="10"/>
+    <Value Type="bool" AccessString="pdu.signals.pumps" Name="Pumps On" Description=""  Default="false" ReadOnly="True" CanFrequency="Default:10" PerDosFrequency="10"/>
+    <Value Type="bool" AccessString="pdu.signals.chargingBat" Name="Charging from DCDC" Description=""  Default="false" ReadOnly="True" CanFrequency="Default:10" PerDosFrequency="10"/>
+    <Value Type="bool" AccessString="pdu.signals.pduOk" Name="Pdu ok" Description=""  ReadOnly="True" CanFrequency="Default:10" PerDosFrequency="10"/>
+    <Value Type="uint8" AccessString="pdu.signals.powerState" Name="Power State" Description="Which source is  the battery getting power from, or if its transitioning."  Default="Battery" EnumValues="Battery = 0, BatteryToDCDC = 1, DCDC = 2" PerDosFrequency="0.5" Min="0" Max="2" ReadOnly="True" CanFrequency="Default:10"/>
+  </CanId>
+  <CanId Id="1026" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="bool" AccessString="pdu.faults.oc" Name="Overcurrent" Description="True if there is an overcurrent on any channel"  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.uc" Name="Undercurrent" Description="True if there is an undercurrent on any channel"  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.uvCell" Name="Cell undervoltage" Description="Cell undervoltage."  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ovCell" Name="Cell overvoltage" Description="Call overvoltage."  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocPCM" Name="PCM Overcurrent" Description="PCM overcurrent."  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucPCM" Name="PCM Undercurrent" Description="PCM undercurrent."  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.otBat" Name="Battery overtemperature" Description=""  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.utBat" Name="Battery undertemperature" Description=""  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocDCDC" Name="DCDC overcurrent" Description="DCDC overcurrent."  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucDCDC" Name="DCDC undercurrent" Description="DCDC undercurrent."  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocBat" Name="Battery overcurrent" Description="Battery overcurrent."  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucBat" Name="Battery undercurrent" Description="Battery undercurrent."  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.buckConverter" Name="Buck Converter" Description=""  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocBat" Name="Battery overcurrent" Description="Battery overcurrent."  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocDCDC" Name="DCDC overcurrent" Description="DCDC overcurrent."  Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1028" DeviceId="8" CanFrequency="Default:10" CreationTime="03/30/2019 13:34:54">
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[0]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[10]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[11]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[12]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[13]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[14]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[15]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[16]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[17]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[18]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[19]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[1]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[20]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[21]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[22]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[23]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[2]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[3]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[4]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[5]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[6]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[7]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[8]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ocChannel[9]" Name="Channel Overcurrent" Description="Generic output overcurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[0]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[10]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[11]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[12]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[13]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[14]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[15]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[16]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[17]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[18]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[19]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[1]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[20]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[21]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[22]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[23]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[2]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[3]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[4]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[5]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[6]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[7]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[8]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.faults.ucChannel[9]" Name="Channel Undercurrent" Description="Generic output undercurrent."  ArrayDimensions="24" Default="false" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1029" DeviceId="8" CanFrequency="Default:10" CreationTime="03/29/2019 16:46:48">
+    <Value Type="float" AccessString="pdu.sensors.cellV[0]" Name="Cell voltage" Description="Battery cell voltage"  ArrayDimensions="4" Units="V" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.cellV[1]" Name="Cell voltage" Description="Battery cell voltage"  ArrayDimensions="4" Units="V" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1030" DeviceId="8" CanFrequency="Default:10" CreationTime="03/29/2019 16:46:48">
+    <Value Type="float" AccessString="pdu.sensors.cellV[2]" Name="Cell voltage" Description="Battery cell voltage"  ArrayDimensions="4" Units="V" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.cellV[3]" Name="Cell voltage" Description="Battery cell voltage"  ArrayDimensions="4" Units="V" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1031" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.currentBAT" Name="Battery current" Description="Battery current."  Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.currentBUS" Name="Bus current" Description="Bus current."  Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1032" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.currentPCM" Name="PCM current" Description="PCM current."  Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.currentSHDN" Name="SHDN current" Description="SHDN current."  Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1033" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[0]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[10]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1034" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[11]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[12]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1035" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[13]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[14]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1036" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[15]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[16]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1037" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[17]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[18]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1038" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[19]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[1]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1039" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[20]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[21]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1040" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[22]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[23]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1041" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[2]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[3]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1042" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[4]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[5]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1043" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[6]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[7]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1044" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="float" AccessString="pdu.sensors.current[8]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.current[9]" Name="Current" Description="Generic output current."  ArrayDimensions="24" Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1045" DeviceId="8" CanFrequency="Default:10" CreationTime="12/04/2021 12:25:17">
+    <Value Type="float" AccessString="pdu.sensors.pwrSense" Name="3.3V voltage" Description="3.3V supply voltage."  Units="V" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="float" AccessString="pdu.sensors.currentDCDC12V" Name="DC/DC 12V current" Description="DC/DC 12V current."  Units="A" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1049" DeviceId="8" CanFrequency="Default:10" CreationTime="12/04/2021 12:20:12">
+    <Value Type="float" AccessString="pdu.sensors.batV" Name="Battery voltage" Description="Total battery voltage"  Units="V" PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.sensors.pg" Name="Power good" Description="5V power good indicator."  PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.sensors.tempFault" Name="Temperature fault" Description="Battery temperature fault indicator."  PerDosFrequency="0.2" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1050" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="uint16" AccessString="pdu.threads.controllerTime" Name="Controller Thread Loop Time" Description=""  Units="us" PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="pdu.threads.sensorTime" Name="Sensor Thread Loop Time" Description=""  Units="us" PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="pdu.threads.updateTime" Name="Update Thread Loop Time" Description=""  Units="us" PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="pdu.threads.parameterTime" Name="Parameter Thread Loop Time" Description=""  Units="us" PerDosFrequency="0.5" CanFrequency="Default:10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1051" DeviceId="8" CanFrequency="Default:10" CreationTime="03/07/2019 17:13:22">
+    <Value Type="bool" AccessString="pdu.watchdog.controllerTimeout" Name="Controller Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.watchdog.sensorTimeout" Name="Sensor Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.watchdog.startupTimeout" Name="Startup Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.watchdog.updateTimeout" Name="Update Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="pdu.watchdog.parameterTimeout" Name="Parameter Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1280" DeviceId="5" CanFrequency="Default:10,Moc:0" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint32" AccessString="sdl.startTime" Name="Start Time" Description="The last time the board reset"  CanFrequency="Default:10,Moc:0" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="sdl.resetCause" Name="Reset Cause" Description=""  Default="PowerOn" EnumValues="LowPowerMgmt = 0, WindowWatchdog = 1, IndependentWatchdog = 2, Software = 3, PowerOn = 4, NrstPin = 5, Brownout = 6" UppercaseIdentifier="per::embedded::ResetCause" Min="0" Max="6" CanFrequency="Default:10,Moc:0" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1281" DeviceId="5" CanFrequency="Default:10,Moc:0" CreationTime="05/20/2018 17:00:37">
+    <Value Type="bool" AccessString="sdl.error" Name="Error" Description=""  CanFrequency="Default:10,Moc:0" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.connections.dashCanConnected" Name="Dashboard Connected over CAN" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.connections.pcmCanConnected" Name="Powertrain Control Module Connected over CAN" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.connections.amsCanConnected" Name="Accumulator Management System Connected over CAN" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.connections.pduCanConnected" Name="Power Distribution Unit Connected over CAN" Description=""  PerDosFrequency="0.2" CanFrequency="Default:10,Moc:0" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="sdl.threads.logTime" Name="Log Thread Loop Time" Description=""  Units="us" CanFrequency="Default:10,Moc:0" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="sdl.threads.updateTime" Name="Update Thread Loop Time" Description=""  Units="us" CanFrequency="Default:10,Moc:0" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="sdl.threads.receiveTime" Name="Receive Loop Time" Description=""  Units="us" CanFrequency="Default:10,Moc:0" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1301" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.accel.x" Name="X Acceleration" Description=""  Units="m/s^2" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.accel.y" Name="Y Acceleration" Description=""  Units="m/s^2" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1302" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.accel.z" Name="Z Acceleration" Description=""  Units="m/s^2" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.temperature" Name="Temperature" Description=""  Units="C" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1303" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.gyro.x" Name="X Angular Velocity" Description=""  Units="deg/s" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.gyro.y" Name="Y Angular Velocity" Description=""  Units="deg/s" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1304" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.gyro.z" Name="Z Angular Velocity" Description=""  Units="deg/s" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.ins.acceleration.x" Name="X Acceleration" Description=""  Units="m/s^2" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1305" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.ins.acceleration.y" Name="Y Acceleration" Description=""  Units="m/s^2" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.ins.acceleration.z" Name="Z Acceleration" Description=""  Units="m/s^2" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1306" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.ins.orientation.pitch" Name="Pitch" Description=""  Units="deg" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.ins.orientation.roll" Name="Roll" Description=""  Units="deg" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1307" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.ins.orientation.yaw" Name="Yaw" Description=""  Units="deg" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.pressure" Name="Pressure" Description=""  Units="kPa" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1308" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="double" AccessString="sdl.nav.ins.position.altitude" Name="Altitude" Description=""  Units="m" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1309" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="double" AccessString="sdl.nav.ins.position.latitude" Name="Latitute" Description=""  Units="deg" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1310" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="double" AccessString="sdl.nav.ins.position.longitude" Name="Longitude" Description=""  Units="deg" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1311" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="bool" AccessString="sdl.nav.ins.status.gpsError" Name="GPS Error" Description=""  CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.nav.ins.status.gpsHeadingIns" Name="GPS Heading INS" Description=""  CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.nav.ins.status.gpsfix" Name="GPS Fix" Description=""  CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.nav.ins.status.imuError" Name="IMU Error" Description=""  CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.nav.ins.status.magPresError" Name="Magnetometer/Pressure Error" Description=""  CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="sdl.nav.ins.status.mode" Name="Mode" Description=""  Default="NotTracking" EnumValues="NotTracking = 0, Aligning = 1, Tracking = 2, NoGPS = 3" Min="0" Max="3" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.ins.uncertainty.ypr.yaw" Name="Yaw Uncertainty" Description=""  Units="deg" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1312" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.ins.uncertainty.position" Name="Position Uncertainty" Description=""  CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.ins.uncertainty.velocity" Name="Velocity Uncertainty" Description=""  CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1313" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.ins.uncertainty.ypr.roll" Name="Roll Uncertainty" Description=""  Units="deg" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.ins.uncertainty.ypr.pitch" Name="Pitch Uncertainty" Description=""  Units="deg" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1314" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.ins.velocity.x" Name="X Velocity" Description=""  Units="m/s" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.ins.velocity.y" Name="Y Velocity" Description=""  Units="m/s" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1315" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.ins.velocity.z" Name="Z Velocity" Description=""  Units="m/s" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.mag.x" Name="X Magnetic Field" Description=""  Units="gauss" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1316" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="float" AccessString="sdl.nav.mag.y" Name="Y Magnetic Field" Description=""  Units="gauss" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="float" AccessString="sdl.nav.mag.z" Name="Z Magnetic Field" Description=""  Units="gauss" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1317" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="uint8" AccessString="sdl.nav.frontGps.fix" Name="Fix" Description=""  Default="NoFix" EnumValues="NoFix = 0, TimeOnly = 1, _2D = 2, _3D = 3" Min="0" Max="3" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="int8" AccessString="sdl.nav.frontGps.numSats" Name="Number of Satellites" Description=""  CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="uint8" AccessString="sdl.nav.rearGps.fix" Name="Fix" Description=""  Default="NoFix" EnumValues="NoFix = 0, TimeOnly = 1, _2D = 2, _3D = 3" Min="0" Max="3" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="int8" AccessString="sdl.nav.rearGps.numSats" Name="Number of Satellites" Description=""  CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1318" DeviceId="5" CanFrequency="FakeVectornav:100" CreationTime="05/20/2018 17:21:00">
+    <Value Type="uint16" AccessString="sdl.nav.millis" Name="Miliseconds" Description=""  CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="uint32" AccessString="sdl.nav.time" Name="Time" Description="Calculated from TimeUTC field"  Units="s" CanFrequency="FakeVectornav:100" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1319" DeviceId="5" CanFrequency="Default:10,Moc:10,FakeVectornav:10" CreationTime="06/11/2018 00:04:42">
+    <Value Type="bool" AccessString="sdl.watchdog.logTimeout" Name="Log Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.watchdog.receiveTimeout" Name="Receive Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="sdl.watchdog.updateTimeout" Name="Update Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1536" DeviceId="6" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint8" AccessString="dash.resetCause" Name="Reset Cause" Description=""  CanFrequency="10" Default="PowerOn" EnumValues="LowPowerMgmt = 0, WindowWatchdog = 1, IndependentWatchdog = 2, Software = 3, PowerOn = 4, NrstPin = 5, Brownout = 6" UppercaseIdentifier="per::embedded::ResetCause" Min="0" Max="6" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.faults.can" Name="CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.faults.tireTempCan" Name="Tire Temperature CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1537" DeviceId="6" CanFrequency="Default:10" CreationTime="06/11/2018 00:04:42">
+    <Value Type="bool" AccessString="dash.watchdog.buttonTimeout" Name="Button Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.watchdog.displayTimeout" Name="Display Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.watchdog.sensorTimeout" Name="Sensor Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.watchdog.updateTimeout" Name="Update Thread Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.watchdog.startupTimeout" Name="Startup Timeout" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1552" DeviceId="6" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="uint8" AccessString="dash.screen" Name="Current Screen" Description=""  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1553" DeviceId="6" CanFrequency="Default:10" CreationTime="05/20/2018 17:00:37">
+    <Value Type="uint16" AccessString="dash.knob.count" Name="Encoder Count" Description="The knob encoder count"  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.knob.pressed" Name="Pressed" Description="True if the knob is pressed"  CanFrequency="10" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1554" DeviceId="6" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="bool" AccessString="dash.drive.pressed" Name="Pressed" Description="Whether the button is pressed"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.drive.light" Name="Light" Description="Whether the button light is on"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.mode.pressed" Name="Pressed" Description="Whether the button is pressed"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.mode.light" Name="Light" Description="Whether the button light is on"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.select.pressed" Name="Pressed" Description="Whether the button is pressed"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.select.light" Name="Light" Description="Whether the button light is on"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.log.pressed" Name="Pressed" Description="Whether the button is pressed"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.log.light" Name="Light" Description="Whether the button light is on"  CanFrequency="10" PerDosFrequency="10" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1555" DeviceId="6" CanFrequency="Default:10" CreationTime="05/20/2018 17:00:37">
+    <Value Type="uint16" AccessString="dash.threads.buttonTime" Name="Button Thread Loop Time" Description=""  Units="us" CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="dash.threads.displayTime" Name="Display Thread Loop Time" Description=""  Units="us" CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="dash.threads.sensorTime" Name="Sensor Thread Loop Time" Description=""  Units="us" CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="uint16" AccessString="dash.threads.updateTime" Name="Update Thread Loop Time" Description=""  Units="us" CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1562" DeviceId="6" CanFrequency="Default:10" CreationTime="05/10/2017 14:02:00">
+    <Value Type="bool" AccessString="dash.connections.amsCanConnected" Name="Accumulator Management System Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.connections.pcmCanConnected" Name="Powertrain Control Module Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.connections.sdlCanConnected" Name="Telemetry Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+    <Value Type="bool" AccessString="dash.connections.pduCanConnected" Name="Power Distribution Unit Connected over CAN" Description=""  CanFrequency="10" PerDosFrequency="0.2" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1563" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[0]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[1]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1564" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[2]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[3]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1565" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[4]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[5]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1566" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[6]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[7]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1567" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[8]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[9]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1568" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[10]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[11]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1569" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[12]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[13]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1570" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[14]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backLeft.tireTemperature[15]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1571" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[0]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[1]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1572" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[2]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[3]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1573" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[4]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[5]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1574" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[6]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[7]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1575" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[8]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[9]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1576" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[10]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[11]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1577" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[12]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[13]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1578" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[14]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.backRight.tireTemperature[15]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1579" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[0]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[1]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1580" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[2]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[3]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1581" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[4]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[5]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1582" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[6]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[7]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1583" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[8]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[9]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1584" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[10]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[11]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1585" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[12]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[13]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1586" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[14]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontLeft.tireTemperature[15]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1587" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[0]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[1]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1588" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[2]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[3]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1589" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[4]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[5]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1590" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[6]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[7]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1591" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[8]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[9]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1592" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[10]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[11]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1593" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[12]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[13]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1594" DeviceId="6" CanFrequency="Default:4" CreationTime="05/20/2018 17:00:37">
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[14]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+    <Value Type="float" AccessString="dash.frontRight.tireTemperature[15]" Name="Tire Temperatures" Description=""  ArrayDimensions="16" PerDosFrequency="0" Units="C" CanFrequency="4" ReadOnly="True"/>
+  </CanId>
+  <CanId Id="1920" DeviceId="3" CanFrequency="Default:10" CreationTime="06/12/2016 05:01:03">
+    <Value Type="float" AccessString="ams.charging.commandV" Name="Voltage Command" Description="Voltage command to charger"  CanFrequency="10" Units="V" PerDosFrequency="0.5" ReadOnly="True"/>
+    <Value Type="float" AccessString="ams.charging.commandI" Name="Current Command" Description="Current command to charger"  CanFrequency="10" Units="A" PerDosFrequency="0.5" ReadOnly="True"/>
+  </CanId>
+</CanIds>
