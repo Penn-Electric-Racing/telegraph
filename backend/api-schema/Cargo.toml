@@ -1,0 +1,16 @@
+[package]
+name = "api-schema"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+uuid = "0.8.2"
+futures-core = "0.3.21"
+futures-lite = "1.12"
+bytes = "1.0.1"
+
+[dependencies.async-graphql]
+version = "3.0"
+features = ["uuid"]
