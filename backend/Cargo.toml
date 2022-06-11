@@ -1,0 +1,5 @@
+[workspace]
+
+members = [
+    "perxml", "server", "api-schema", "percan"
+]
