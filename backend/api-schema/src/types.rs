@@ -4,27 +4,44 @@ use super::value::Type;
 
 #[derive(SimpleObject)]
 pub struct Tree {
-    id: Uuid,
-    name: String,
-    root: Node
+    pub id: Uuid,
+    pub name: String,
+    pub root: Node
 }
 
 #[derive(SimpleObject)]
 pub struct NodeInfo {
-    id: Uuid,
-    name: String
+    pub id: Uuid,
+    pub name: String, // variable name (in code)
+    pub pretty: String, // name, but pretty
+    pub description: String,
+}
+
+impl NodeInfo {
+    pub fn new(name: String, pretty: String, desc: String) -> NodeInfo {
+        NodeInfo { id: Uuid::new_v4(), name, pretty, description: desc }
+    }
 }
 
 #[derive(SimpleObject)]
 pub struct Group {
-    info: NodeInfo,
-    children: Vec<Node>
+    pub info: NodeInfo,
+    pub children: Vec<Node>
+}
+
+impl Group {
+    pub fn root() -> Self {
+        Group { info: NodeInfo::new("".to_string(), "".to_string(), "".to_string()), children: Vec::new() }
+    }
+    pub fn new(name: String) -> Self {
+        Group { info: NodeInfo::new(name, "".to_string(), "".to_string()), children: Vec::new() }
+    }
 }
 
 #[derive(SimpleObject)]
 pub struct Variable {
-    info: NodeInfo,
-    data_type: Type
+    pub info: NodeInfo,
+    pub data_type: Type
 }
 
 #[derive(SimpleObject)]
@@ -43,6 +60,8 @@ pub enum Node {
 
 #[derive(SimpleObject)]
 pub struct Source {
-    id: Uuid,
-    name: String
+    pub provider_id: Uuid,
+    pub source_id: Uuid,
+    pub dev_type: String,
+    pub name: String
 }

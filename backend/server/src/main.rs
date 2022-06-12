@@ -1,73 +1,60 @@
-use quicli::prelude::*;
-use structopt::StructOpt;
-use tokio::io::{AsyncReadExt, AsyncWriteExt};
-use tokio_serial::SerialPortBuilderExt;
+use clap::Parser;
+use clap_verbosity_flag::{Verbosity, InfoLevel};
+use api_schema::api::{ApiSchema, Query, Mutation, Subscription, TreeManager};
+use perxml::AssignedCanIds;
+use server::backend::{Backend, CanProvider, SourceProvider};
+use warp::Filter;
+use std::convert::Infallible;
+use std::sync::Arc;
 
-#[derive(Debug, StructOpt)]
+
+#[derive(Debug, Parser)]
+#[clap(author, version, about, long_about = None)]
 struct Cli {
-    #[structopt(flatten)]
-    verbosity: Verbosity,
-
-    /// Print all of the available serial devices and then quit
-    #[structopt(long = "browse", short = "b")]
-    browse: bool,
+    #[clap(long)]
+    percan_xml: Option<String>,
+    #[clap(long)]
+    perdos_xml: Option<String>,
+    // For connecting to can
+    #[clap(long)]
+    connect_can: Vec<String>,
+    #[clap(long)]
+    connect_serial: Vec<String>,
+    #[clap(flatten)]
+    verbosity: Verbosity<InfoLevel>,
 }
 
 #[tokio::main]
-async fn main() -> CliResult {
-    let args = Cli::from_args();
-    args.verbosity.setup_env_logger("server")?;
+async fn main() {
+    let args = Cli::parse();
+    env_logger::Builder::new()
+        .filter_level(args.verbosity.log_level_filter())
+        .init();
 
-    info!("Hello, world!");
+    log::info!("Starting server...");
 
-    if args.browse {
-        browse()?
-    } else {
-        // let mut serial = tokio_serial::new("/dev/ttyACM0", 115200)
-        //     .timeout(std::time::Duration::from_secs(30))
-        //     .parity(tokio_serial::Parity::None)
-        //     .open()?;
-        let mut serial: tokio_serial::SerialStream = tokio_serial::new("/dev/ttyACM0", 921600)
-            .timeout(std::time::Duration::from_secs(30))
-            .parity(tokio_serial::Parity::None)
-            .open_native_async()?;
+    let mut connections = Vec::new();
+    let xml = std::fs::read_to_string(args.percan_xml.unwrap()).unwrap();
+    let canids = AssignedCanIds::parse(xml).unwrap();
+    let mut provider = CanProvider::new(canids);
+    for can in args.connect_can {
+        let sid = provider.add_source(&can);
+        connections.push((provider.uuid(), sid))
+    }
+    let backend = Backend::new(vec![Arc::new(provider)]);
 
-        // TODO: investigate what happens when we open the serial port twice. I
-        // think that it might make sense, for the keep-alive messages, to try
-        // to open the serial port in non-exclusive mode? Idk, I don't want all
-        // of the messages to get interleaved and clobbered, so the question is
-        // how this operation mode is implemented on the host OS.
-
-        info!("Writing the start message");
-        // TODO: this isn't a "start message", it just extends the timeout a little
-        // bit. A better solution will be to create a thread that repeatedly
-        // updates the timeout, like
-        // https://github.com/Penn-Electric-Racing/Penn-Electric-Racing/blob/rev7/desktop/csharp/DataServer/Communications/Client.cs,
-        // but for now I just want to see *some* CAN messages, and hopefully
-        // setting this once will allow me to read some before the connection
-        // timeout expires.
-        serial.write(&[0x02]).await?;
-        info!("Start byte written, trying to read a response...");
-        let mut buffer = [0; 1];
-        while serial.read(&mut buffer).await? > 0 {
-            println!("{:02x}", buffer[0]);
-            // std::io::stdout().flush()?
-        }
+    for (pid, sid) in connections {
+        backend.create_tree(pid, sid).await.unwrap();
     }
 
-    Ok(())
-}
+    let schema = ApiSchema::build(Query, Mutation, Subscription)
+                        .data(backend).finish();
+    let filter = async_graphql_warp::graphql(schema).and_then(|(schema, request): (ApiSchema, async_graphql::Request)| async move {
+        // Execute query
+        let resp = schema.execute(request).await;
 
-async fn serial_task(device_path: &impl AsRef<str>) {}
-
-// async fn update_thread(&serial_device) {
-
-// }
-
-fn browse() -> CliResult {
-    for port in tokio_serial::available_ports()? {
-        println!("{}, which is of type {:?}", port.port_name, port.port_type);
-    }
-
-    Ok(())
+        // Return result
+        Ok::<_, Infallible>(async_graphql_warp::GraphQLResponse::from(resp))
+    });
+    warp::serve(filter).run(([0, 0, 0, 0], 8000)).await;
 }

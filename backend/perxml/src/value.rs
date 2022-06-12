@@ -4,19 +4,19 @@ use serde::{Deserialize, Serialize};
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct Value {
     #[serde(rename = "Type")]
-    ty: String,
-    access_string: String,
-    name: String,
-    description: String,
-    uppercase_identifier: Option<String>,
+    pub ty: String,
+    pub access_string: String,
+    pub name: String,
+    pub description: String,
+    pub uppercase_identifier: Option<String>,
     #[serde(alias = "Units")]
-    unit: Option<String>,
-    can_frequency: Option<String>,
-    default: Option<String>,
-    enum_values: Option<String>,
-    min: Option<String>,
-    max: Option<String>,
-    per_dos_frequency: String,
-    read_only: bool,
-    array_dimensions: Option<u32>,
+    pub unit: Option<String>,
+    pub can_frequency: Option<String>,
+    pub default: Option<String>,
+    pub enum_values: Option<String>,
+    pub min: Option<String>,
+    pub max: Option<String>,
+    pub per_dos_frequency: String,
+    pub read_only: bool,
+    pub array_dimensions: Option<u32>,
 }

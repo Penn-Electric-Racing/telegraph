@@ -10,6 +10,8 @@ uuid = "0.8.2"
 futures-core = "0.3.21"
 futures-lite = "1.12"
 bytes = "1.0.1"
+async-trait = "0.1.56"
+byteorder = "1.4.3"
 
 [dependencies.async-graphql]
 version = "3.0"

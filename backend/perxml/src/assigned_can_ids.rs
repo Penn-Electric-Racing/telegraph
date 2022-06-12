@@ -4,12 +4,12 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Deserialize, Serialize, PartialEq)]
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
 pub struct CanId {
-    id: u32,
-    device_id: u32,
-    can_frequency: String,
-    creation_time: String,
+    pub id: u32,
+    pub device_id: u32,
+    pub can_frequency: String,
+    pub creation_time: String,
     #[serde(rename = "Value")]
-    values: Vec<Value>,
+    pub values: Vec<Value>,
 }
 
 #[derive(Debug, Deserialize, Serialize, PartialEq)]
@@ -19,10 +19,23 @@ pub struct AssignedCanIds {
     pub ids: Vec<CanId>,
 }
 
+use quick_xml::de::Deserializer;
+use serde_path_to_error;
+use eyre::Result;
+
+impl AssignedCanIds {
+    pub fn parse(s: String) -> Result<Self> {
+        let mut assigned_can_ids_deserializer =
+            Deserializer::from_reader(s.as_bytes());
+        let assigned_can_ids: AssignedCanIds =
+            serde_path_to_error::deserialize(&mut assigned_can_ids_deserializer)?;
+        Ok(assigned_can_ids)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-    use eyre::Result;
     use quick_xml::de::Deserializer;
     use serde_path_to_error;
 
