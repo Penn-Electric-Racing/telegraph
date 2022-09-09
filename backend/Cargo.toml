@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "codegen",
+    "core",
+    "server",
+    "perdat2"
+]

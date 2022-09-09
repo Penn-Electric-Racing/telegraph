@@ -2,7 +2,7 @@ use std::cmp::min;
 
 /// Calculate the Fletcher32 checksum of the first `words` 16-bit words of
 /// `data` starting at `start_index`.
-pub fn fletcher32(data: &[u8], mut start_index: usize, mut words: u32) -> u32 {
+pub fn fletcher32(data: &[u8], mut start_index: usize, mut words: usize) -> u32 {
     // Based on the C# code from the old CDP
     // Originally based on https://en.wikipedia.org/wiki/Fletcher%27s_checksum
 
@@ -10,7 +10,7 @@ pub fn fletcher32(data: &[u8], mut start_index: usize, mut words: u32) -> u32 {
     let mut sum2: u32 = 0xffff;
 
     while words > 0 {
-        let mut tlen: u32 = min(359, words);
+        let mut tlen = min(359, words);
         words -= tlen;
 
         loop {

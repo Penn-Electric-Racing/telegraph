@@ -1,76 +1,141 @@
 pub mod fletcher32;
 mod util;
-pub mod values;
+// pub mod values;
 pub mod varint;
 
-pub use values::*;
-pub use varint::perdat_int;
+use bytes::{Buf, BytesMut};
+use std::io::ErrorKind;
+use tokio_util::codec::{Decoder, Encoder};
 
-/// See https://confluence.pennelectricracing.com/display/SOFT/.PERDAT2 for the
-/// documentation of the format.
-pub struct Packet<'a> {
-    pub data_length: u8,
-    pub data: &'a [u8],
-    pub checksum: u32,
+#[derive(Debug)]
+pub struct PerDosMessage {
+    pub id: u32,
+    pub payload: Vec<u8>,
 }
 
-// i(id) type(data type) L(ticks between data (0 to use timestamps)) s(name) s(access string) s(description) s(units)
-pub struct CAddChannel {
-    pub id: perdat_int,
-    pub ty: Type,
-    /// Set to 0 to use timestamps
-    pub ticks_between_data: i64,
-    pub name: String,
-    pub access_string: String,
-    pub description: String,
-    pub units: String,
+const HEADER_SIZE: usize = 4;
+const FOOTER_SIZE: usize = 4;
+const MAX_PERDOS_LENGTH: usize = 262;
+const PADDING_BYTE: u8 = 0x10;
+
+pub struct PerDos;
+impl Decoder for PerDos {
+    type Item = Vec<PerDosMessage>;
+    type Error = std::io::Error;
+    fn decode(&mut self, buf: &mut BytesMut) -> std::io::Result<Option<Self::Item>> {
+        if buf.len() < HEADER_SIZE {
+            // Not enough bytes to even read the header
+            return Ok(None);
+        }
+
+        if !buf.starts_with(&[0xFF, 0xFF, 0xFF]) {
+            return Err(std::io::Error::new(
+                ErrorKind::InvalidData,
+                "Missing start bytes",
+            ));
+        }
+        let len = buf[3] as usize;
+        if buf.len() < HEADER_SIZE + len + FOOTER_SIZE {
+            return Ok(None);
+        }
+
+        let buf = buf.split_to(HEADER_SIZE + len + FOOTER_SIZE);
+
+        let actual_checksum = fletcher32::fletcher32(&buf, HEADER_SIZE, len / 2);
+        let expected_checksum = (&buf[HEADER_SIZE + len..]).get_u32_le();
+        if expected_checksum != actual_checksum {
+            return Err(std::io::Error::new(
+                ErrorKind::InvalidData,
+                "Checksum did not match",
+            ));
+        }
+
+        let mut idx = 4;
+        let mut output = vec![];
+
+        while idx < HEADER_SIZE + len {
+            let (code, skip) = match varint::read_from(&buf, idx) {
+                Some(o) => o,
+                None => return Ok(None),
+            };
+            idx += skip;
+
+            if code == PADDING_BYTE as u32 {
+                continue;
+            }
+
+            let (data_len, skip) = match varint::read_from(&buf, idx) {
+                Some(o) => o,
+                None => return Ok(None),
+            };
+            idx += skip;
+
+            let data_len = data_len as usize;
+
+            if data_len + idx > HEADER_SIZE + len {
+                return Err(std::io::Error::new(
+                    ErrorKind::InvalidData,
+                    "Data was too long",
+                ));
+            }
+            output.push(PerDosMessage {
+                id: code,
+                payload: (&buf[idx..idx + data_len]).iter().cloned().collect(),
+            });
+            idx += data_len;
+        }
+
+        Ok(Some(output))
+    }
 }
 
-// i(property id) s(property) type(data type) s(description) s(units)
-pub struct CRegisterProperty {
-    pub id: perdat_int,
-    pub property: String,
-    pub ty: Type,
-    pub description: String,
-    pub units: String,
-}
+impl Encoder<Vec<PerDosMessage>> for PerDos {
+    type Error = std::io::Error;
 
-// i(property id) i(related channel/command id (0 for global)) t(value) s(description) s(units)
-pub struct CSetProperty {
-    pub id: perdat_int,
-    /// Related channel or command ID; set to 0 for global
-    pub related_id: perdat_int,
+    fn encode(&mut self, items: Vec<PerDosMessage>, dst: &mut BytesMut) -> Result<(), Self::Error> {
+        let mut body = BytesMut::new();
 
-    // TODO: to parse this, I think we need to already know what type the property is.
-    pub value: Value,
-}
+        for item in items {
+            if item.payload.len() > 255 {
+                return Err(std::io::Error::new(
+                    std::io::ErrorKind::InvalidData,
+                    format!("Item of length {} is too large.", item.payload.len()),
+                ));
+            }
+            let id_bytes = varint::to_bytes(item.id);
+            body.extend_from_slice(&id_bytes);
+            body.extend_from_slice(&[item.payload.len() as u8]);
+            body.extend_from_slice(&item.payload);
+        }
 
-// L(time)
-pub struct CSetTime {
-    pub timestamp: i64,
-}
+        if body.len() % 2 != 0 {
+            body.extend_from_slice(&[PADDING_BYTE])
+        }
 
-// L(time)
-pub struct CAddTime {
-    pub offset: i64,
-}
+        // TODO: check for max length
+        // We have to check at the end because of all of the variable-length nonsense
+        // // Don't send a string if it is longer than the other end will
+        // // accept.
+        let total_len = body.len() + HEADER_SIZE + FOOTER_SIZE;
+        if total_len > MAX_PERDOS_LENGTH {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                format!("Frame of length {} is too large.", total_len),
+            ));
+        }
 
-// i(time)
-pub struct CAddShorterTime {
-    pub offset: perdat_int,
-}
+        // Reserve space in the buffer.
+        dst.reserve(total_len);
 
-pub enum Command {
-    End,
-    AddChannel(CAddChannel),
-    RegisterProperty(CRegisterProperty),
-    SetProperty(CSetProperty),
-    SetTime(CSetTime),
-    AddTime(CAddTime),
-    AddShorterTime(CAddShorterTime),
-    IncrementTick,
-    PushTime,
-    PopTime,
-    Padding,
-    Reserved,
+        // Write the results to the target buffer
+        dst.extend_from_slice(&[0xFF, 0xFF, 0xFF, body.len() as u8]);
+        dst.extend(&body);
+        dst.extend(u32::to_le_bytes(fletcher32::fletcher32(
+            &body,
+            0,
+            body.len() / 2,
+        )));
+
+        Ok(())
+    }
 }
