@@ -158,8 +158,6 @@ async fn main() -> CliResult {
         }
     }
 
-    loop {}
-
     Ok(())
 }
 

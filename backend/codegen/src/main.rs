@@ -268,6 +268,9 @@ fn main() -> eyre::Result<()> {
     //         }
     //     });
 
+    // TODO
+    warn!("Generating code is not yet implemented... ignoring new PerDOS ids");
+
     info!("Code generation completed successfully!");
 
     Ok(())

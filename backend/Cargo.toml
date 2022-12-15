@@ -3,5 +3,6 @@ members = [
     "codegen",
     "core",
     "server",
-    "perdat2"
+    "perdat2",
+    "tiresias/src-tauri"
 ]

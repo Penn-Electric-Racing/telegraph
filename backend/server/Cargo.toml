@@ -14,4 +14,4 @@ structopt = "0.2"
 bytes = "1"
 perdat2 = { path = "../perdat2" }
 futures-util = "0.3"
-core = {path = "../core"}
+per = {package = "core", path = "../core"}

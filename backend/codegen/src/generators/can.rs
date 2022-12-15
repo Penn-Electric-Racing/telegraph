@@ -8,84 +8,91 @@ use super::CodeGenerator;
 
 pub struct CanCodeGenerator {}
 
+impl CanCodeGenerator {
+    fn get_update_timeouts(&self, d: &Device) -> Vec<String> {
+        todo!()
+    }
+}
+
 impl CodeGenerator for CanCodeGenerator {
     fn is_used_by(&self, d: &Device) -> bool {
-        d.can_configuration.is_some()
+        !d.can_configuration.is_empty()
     }
 
     fn to_header(&self, d: &Device) -> String {
-        todo!()
+        let update_type = &d.update;
+
+        match update_type {
+            UpdateType::ManualUpdate => "".to_owned(),
+            UpdateType::ManualFunctions => d
+                .can_configuration
+                .configs()
+                .keys()
+                .map(|k| format!("void ReceiveCan{k}();\nvoid TransmitCan{k}();"))
+                .collect::<Vec<_>>()
+                .join("\n"),
+        }
     }
-    fn get_header_includes(&self, d: &Device) -> String {
-        todo!()
+
+    fn get_header_includes(&self, _: &Device) -> String {
+        "#include <Can.hpp>".to_owned()
     }
 
     fn to_cpp(&self, d: &Device, values: &HashSet<Value>) -> String {
         todo!()
     }
     fn get_cpp_includes(&self, d: &Device) -> String {
-        todo!()
+        "".to_owned()
     }
 
     fn to_update(&self, d: &Device, indent: &str) -> String {
         d.can_configuration
             .configs()
             .into_iter()
-            .enumerate()
-            .map(|(n, uart)| match d.update {
-                UpdateType::ManualFunctions => {
-                    format!(
-                        "\
-void ReceivePerDos{n}(){{
-{indent}perdos{n}.Receive();
+            .map(|(name, can)| -> String {
+                let id = d.id;
+                let timeouts = self
+                    .get_update_timeouts(d)
+                    .iter()
+                    .map(|t| "{indent}{indent}{t}")
+                    .collect::<Vec<_>>()
+                    .join("\n");
+
+                match d.update {
+                    UpdateType::ManualFunctions => {
+                        format!(
+                            "\
+void ReceiveCan{name}(){{
+    perdos{name}.Receive();
+{indent}if(DeviceId == {id}){{
+{indent}{indent}perdoc{id}{name}.Receive();
+{indent}}} else Breakpoint();
+{timeouts}
 }}
-void TransmitPerDos{n}(bool alwaysTransmit){{
-{indent}perdos{n}.Transmit(alwaysTransmit);
+void TransmitCan{name}(){{
+{indent}if(DeviceId == {id}){{
+{indent}{indent}perdoc{id}{name}.Transmit();
+{indent}}} else Breakpoint();
 }}"
-                    );
-                }
-                UpdateType::ManualUpdate => {
-                    format!("{indent}perdos{n}.Receive();\n{indent}perdos{n}.Transmit(false);")
+                        )
+                    }
+                    UpdateType::ManualUpdate => {
+                        todo!()
+                        // device.Settings.Get<CanConfigurationSetting>().Cans
+                        // .Select(c =>
+                        //     string.Concat(device.Ids.Select(id =>
+                        //             $"if(DeviceId == {id}){{\r\n" +
+                        //             $"{indent}    perdoc{id}{c.BusName}.Receive();\r\n" +
+                        //             $"{indent}    perdoc{id}{c.BusName}.Transmit();\r\n" +
+                        //             $"{indent}}}\r\n" +
+                        //             $"{indent}else "))
+                        //     + "Breakpoint();")
+                        // .Concat(UpdateTimeouts(device))
+                    }
                 }
             })
             .collect::<Vec<_>>()
             .join("\n")
-
-        // return indent + string.Join("\r\n" + indent,
-        //             updateType != UpdateSetting.UpdateType.ManualFunctions
-        //                 ? device.Settings.Get<CanConfigurationSetting>().Cans
-        //                     .Select(c =>
-        //                         string.Concat(device.Ids.Select(id =>
-        //                                 $"if(DeviceId == {id}){{\r\n" +
-        //                                 $"{indent}    perdoc{id}{c.BusName}.Receive();\r\n" +
-        //                                 $"{indent}    perdoc{id}{c.BusName}.Transmit();\r\n" +
-        //                                 $"{indent}}}\r\n" +
-        //                                 $"{indent}else "))
-        //                         + "Breakpoint();")
-        //                     .Concat(UpdateTimeouts(device))
-        //                 : device.Settings.Get<CanConfigurationSetting>().Cans
-        //                     .Select(c =>
-        //                         $"\r\nvoid ReceiveCan{c.BusName}(){{\r\n    " +
-        //                         string.Concat(device.Ids.Select(id =>
-        //                             $"{indent}if(DeviceId == {id}){{\r\n" +
-        //                             $"{indent}        perdoc{id}{c.BusName}.Receive();\r\n" +
-        //                             $"{indent}    }}\r\n" +
-        //                             $"{indent}    else "
-        //                         )) +
-        //                         "Breakpoint();\r\n\r\n" +
-        //                         string.Concat(UpdateTimeouts(device).Select(t =>$"{indent}    {t}\r\n")) +
-        //                         "}\r\n" +
-        //                         $"void TransmitCan{c.BusName}(){{\r\n    " +
-        //                         string.Concat(device.Ids.Select(id =>
-        //                             $"{indent}if(DeviceId == {id}){{\r\n" +
-        //                             $"{indent}        perdoc{id}{c.BusName}.Transmit();\r\n" +
-        //                             $"{indent}    }}\r\n" +
-        //                             $"{indent}    else "
-        //                         )) +
-        //                         "Breakpoint();\r\n" +
-        //                         "}"));
-
-        // todo!()
     }
 }
 
@@ -137,33 +144,6 @@ void TransmitPerDos{n}(bool alwaysTransmit){{
 //             return device.Platform == Platform.LPC1768 || device.Platform == Platform.External
 //                  ? device.Settings.Get<CanBaseFrequencySetting>().BaseFrequency
 //                  : device.Settings.Get<UpdateFrequencySetting>().Frequency;
-//         }
-//         private string ToLookupTableLpc1768(Device device, ICollection<Value> storedValues)
-//         {
-//             var relevantIds = CanIds.Where(canId => canId.ContainsAny(storedValues)).ToList();
-//             string result = string.Concat(relevantIds.Select(canId => canId.ToCppAccessArray(storedValues)));
-//             uint previousId = 0x100 - 1;
-
-//             result += "\r\nconst CanId canIds[] = {\r\n";
-//             foreach (CanId canId in relevantIds)
-//             {
-//                 result += string.Concat(Enumerable.Repeat("EID,\r\n", (int)(canId.Id - previousId - 1)));
-//                 previousId = canId.Id;
-//                 result += $"{{{canId.Values.Count}, {canId.DeviceId}, canId{canId.Id}}},\r\n";
-//             }
-//             result += "};\r\n\r\n";
-
-//             int controller = device.Settings.Get<CanControllerSetting>().ControllerNumber;
-//             PinBaud configuration = device.Settings.Get<CanConfigurationSetting>().Cans[0];
-//             string speed = configuration.Baud == 1000000 ? "HIGH" : configuration.Baud == 250000 ? "LOW" : "MEDIUM";
-//             string pinsController = configuration.Rx == "_" && configuration.Tx == "_"
-//                                   ? "CAN" + controller
-//                                   : configuration.Rx + ", " + configuration.Tx;
-//             string silent = device.Settings.Get<CanSilentSetting>()?.Pin ?? "NC";
-
-//             result += $"CANBuffer canBuffer({pinsController}, {speed}, {silent}, {5 + CanIds.Select(i => i.DeviceId).Count(device.Ids.Contains)}, " +
-//                       $"{5 + (int) Math.Ceiling(configuration.Baud / 76.0 / CanFrequency(device))});\r\n\r\n";
-//             return result;
 //         }
 
 //         private string ToLookupTableStm32(Device device, ICollection<Value> storedValues)
@@ -297,100 +277,6 @@ void TransmitPerDos{n}(bool alwaysTransmit){{
 
 //             function += "}\r\n";
 //             return function;
-//         }
-
-//         public override string HeaderIncludes(Platform platform)
-//         {
-//             return platform == Platform.LPC1768 ? CppFunctions.CanIncludes : "#include <Can.hpp>";
-//         }
-//         public override string CppIncludes(Platform platform)
-//         {
-//             return "";
-//         }
-
-//         public override string ToHeader(Device device)
-//         {
-//             UpdateSetting.UpdateType updateType =
-//                 device.Settings.Get<UpdateSetting>()?.Update ?? UpdateSetting.UpdateType.AutoUpdate;
-
-//             IEnumerable<string> canHandlers = device.Settings.Get<CanHandlersSetting>()?.CanHandlers ?? false
-//                 ? device.Settings.Get<CanConfigurationSetting>().Cans
-//                     .Select(c => c.BusName)
-//                     .Select(b => $"void ReceivedCan{b}(CanMessage& message);\r\nbool TransmittedCan{b}(CanMessage& message);")
-//                 : Enumerable.Empty<string>();
-
-//             return device.Platform == Platform.LPC1768
-//                  ? CppFunctions.CanFunctionPrototypes
-//                  : updateType != UpdateSetting.UpdateType.ManualFunctions
-//                  ? string.Join("\r\n", canHandlers)
-//                  : string.Join("\r\n", device.Settings.Get<CanConfigurationSetting>().Cans
-//                         .Select(c => c.BusName)
-//                         .Select(b => $"void ReceiveCan{b}();\r\nvoid TransmitCan{b}();")
-//                         .Concat(canHandlers));
-//         }
-
-//         public override Dictionary<string, string> ToOtherFiles(Device device, HashSet<Value> storedValues)
-//         {
-//             if(device.Platform == Platform.LPC1768)
-//             {
-//                 return new Dictionary<string, string>
-//                 {
-//                     {"CAN_Filter_LUT.h", ToCanFilter(device, storedValues) }
-//                 };
-//             }
-//             return new Dictionary<string, string>();
-//         }
-
-//         private string ToCanFilter(Device device, HashSet<Value> storedValues)
-//         {
-//             List<uint> relevantIds = CanIds.Where(canId => canId.ContainsAny(storedValues))
-//                                            .Where(canId => !device.Ids.Contains(canId.DeviceId))
-//                                            .Select(canId => canId.Id).ToList();
-//             relevantIds.Sort();
-
-//             CanControllerSetting controller = device.Settings.Get<CanControllerSetting>();
-//             if (relevantIds.Count == 0 || controller == null)
-//             {
-//                 return CppFunctions.CanFilters();
-//             }
-
-//             Range<uint> range = new Range<uint>(relevantIds[0], relevantIds[0]);
-//             List<Range<uint>> completeRanges = new List<Range<uint>>();
-//             foreach (uint id in relevantIds.Skip(1))
-//             {
-//                 if (id == range.Max + 1)
-//                 {
-//                     range = new Range<uint>(range.Min, range.Max + 1);
-//                     continue;
-//                 }
-//                 completeRanges.Add(range);
-//                 range = new Range<uint>(id, id);
-//             }
-//             completeRanges.Add(range);
-
-//             List<Range<uint>> ranges = new List<Range<uint>>();
-//             List<uint> individuals = new List<uint>();
-//             foreach (Range<uint> r in completeRanges)
-//             {
-//                 if (r.Min == r.Max)
-//                 {
-//                     individuals.Add(r.Min);
-//                 }
-//                 else
-//                 {
-//                     ranges.Add(r);
-//                 }
-//             }
-
-//             switch (controller.ControllerNumber)
-//             {
-//                 case 1:
-//                     return CppFunctions.CanFilters(standardC1: individuals, standardRangeC1: ranges);
-//                 case 2:
-//                     return CppFunctions.CanFilters(standardC2: individuals, standardRangeC2: ranges);
-//                 default:
-//                     throw new ArgumentException($"Invalid {nameof(controller)}");
-//             }
 //         }
 
 //         public override string ToCpp(Device device, HashSet<Value> storedValues)

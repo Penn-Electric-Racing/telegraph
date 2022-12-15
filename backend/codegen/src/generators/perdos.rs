@@ -215,7 +215,7 @@ void ReceivePerDos{n}(){{
 void TransmitPerDos{n}(bool alwaysTransmit){{
     perdos{n}.Transmit(alwaysTransmit);
 }}"
-                    );
+                    )
                 }
                 UpdateType::ManualUpdate => {
                     format!("{indent}perdos{n}.Receive();\n{indent}perdos{n}.Transmit(false);")

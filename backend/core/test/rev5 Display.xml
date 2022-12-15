@@ -60,8 +60,6 @@
     <Group Name="Vectornav" Orientation="Vertical" Hideable="true" StartVisible="False">
       <Value Regex="pcm\.nav"/>
     </Group>
-    <Group Name="Commands" Orientation="Horizontal" Hideable="true" StartVisible="False">     
-    </Group>
   </Device>
   <Device Name="Power Distribution Unit" Regex="pdu" Orientation="Horizontal" StartVisible="true" Hideable="false">
     <Group Name="Signals">

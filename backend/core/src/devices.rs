@@ -1,6 +1,7 @@
 use std::hash::{Hash, Hasher};
 
 use serde::{de, ser, Deserialize, Deserializer, Serialize, Serializer};
+use std::collections::HashMap;
 
 use super::value::Type;
 
@@ -141,60 +142,75 @@ impl Serialize for UartConfig {
     }
 }
 
-// #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Hash)]
-// pub struct CanConfig(Vec<PinBaud>);
+#[derive(Debug, PartialEq, Eq)]
+pub struct CanConfig(HashMap<String, PinBaud>);
 
-// impl CanConfig {
-//     pub fn is_empty(&self) -> bool {
-//         self.0.len() == 0
-//     }
+impl CanConfig {
+    pub fn is_empty(&self) -> bool {
+        self.0.len() == 0
+    }
 
-//     pub fn num_devices(&self) -> usize {
-//         self.0.len()
-//     }
+    pub fn num_devices(&self) -> usize {
+        self.0.len()
+    }
 
-//     pub fn configs(&self) -> &Vec<PinBaud> {
-//         &self.0
-//     }
-// }
+    pub fn configs(&self) -> &HashMap<String, PinBaud> {
+        &self.0
+    }
+}
 
-// impl<'de> Deserialize<'de> for CanConfig {
-//     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-//     where
-//         D: Deserializer<'de>,
-//     {
-//         let config_str = String::deserialize(deserializer)?;
+impl<'de> Deserialize<'de> for CanConfig {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let config_str = String::deserialize(deserializer)?;
 
-//         let configs = config_str.split(',').map(|pin_and_baud: &str| {
-//             let parts = pin_and_baud.trim().split('|').collect::<Vec<_>>();
-//             if parts.len() != 3 {
-//                 return Err(serde::de::Error::custom("Invalid pin and baud specification. Expected format: 115200|PA9|PB2, 115200|PC4|PD3"))
-//             }
-//             let baud = u32::from_str_radix(parts[0], 10).map_err(|e| de::Error::custom(e))?;
-//             Ok(PinBaud {
-//                 baud,
-//                 rx_pin: parts[1].to_owned(),
-//                 tx_pin: parts[2].to_owned(),
-//             })
-//         }).collect::<Result<Vec<_>, _>>()?;
-//         Ok(UartConfig(configs))
-//     }
-// }
+        let mut configs = HashMap::new();
 
-// impl Serialize for UartConfig {
-//     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-//     where
-//         S: Serializer,
-//     {
-//         let config_str = (&self.0)
-//             .into_iter()
-//             .map(|pb| format!("{}|{}|{}", pb.baud, pb.rx_pin, pb.tx_pin))
-//             .collect::<Vec<_>>()
-//             .join(", ");
+        for pin_and_baud in config_str.split(',') {
+            let parts = pin_and_baud.trim().split('|').collect::<Vec<_>>();
 
-//         config_str.serialize(serializer)
-//     }
-// }
+            if parts.len() != 3 && parts.len() != 4 {
+                return Err(serde::de::Error::custom("Invalid pin and baud specification. Expected format: 500000|PA8|PA15|Default, 1000000|PD0|PD1|Moc"));
+            }
+
+            let baud = u32::from_str_radix(parts[0], 10).map_err(|e| de::Error::custom(e))?;
+
+            let name = parts.get(3).unwrap_or(&"Default").to_string();
+            if configs.get(&name).is_some() {
+                return Err(serde::de::Error::custom(
+                    "Two CAN busses are configured with the same name",
+                ));
+            }
+
+            configs.insert(
+                name,
+                PinBaud {
+                    baud,
+                    rx_pin: parts[1].to_owned(),
+                    tx_pin: parts[2].to_owned(),
+                },
+            );
+        }
+        Ok(CanConfig(configs))
+    }
+}
+
+impl Serialize for CanConfig {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let config_str = (&self.0)
+            .into_iter()
+            .map(|(name, v)| format!("{}|{}|{}|{}", v.baud, v.rx_pin, v.tx_pin, name))
+            .collect::<Vec<_>>()
+            .join(", ");
+
+        config_str.serialize(serializer)
+    }
+}
 
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields, rename_all = "PascalCase")]
@@ -213,7 +229,7 @@ pub struct Device {
     pub per_dos_frequency: Option<String>,
     pub per_dos_uart: UartConfig,
     pub can_frequency: Option<String>,
-    pub can_configuration: Option<String>,
+    pub can_configuration: CanConfig,
     pub update: UpdateType,
     pub namespace: Option<String>,
     pub using: Option<String>,

@@ -23,17 +23,22 @@ impl Decoder for PerDos {
     type Item = Vec<PerDosMessage>;
     type Error = std::io::Error;
     fn decode(&mut self, buf: &mut BytesMut) -> std::io::Result<Option<Self::Item>> {
-        if buf.len() < HEADER_SIZE {
+        let mut ok = false;
+        // Skip ahead until we find the start of message frame
+        while buf.len() >= HEADER_SIZE {
+            if buf.starts_with(&[0xFF, 0xFF, 0xFF]) {
+                ok = true;
+                break;
+            }
+
+            let _ = buf.split_to(1);
+        }
+
+        if !ok {
             // Not enough bytes to even read the header
             return Ok(None);
         }
 
-        if !buf.starts_with(&[0xFF, 0xFF, 0xFF]) {
-            return Err(std::io::Error::new(
-                ErrorKind::InvalidData,
-                "Missing start bytes",
-            ));
-        }
         let len = buf[3] as usize;
         if buf.len() < HEADER_SIZE + len + FOOTER_SIZE {
             return Ok(None);
@@ -44,10 +49,8 @@ impl Decoder for PerDos {
         let actual_checksum = fletcher32::fletcher32(&buf, HEADER_SIZE, len / 2);
         let expected_checksum = (&buf[HEADER_SIZE + len..]).get_u32_le();
         if expected_checksum != actual_checksum {
-            return Err(std::io::Error::new(
-                ErrorKind::InvalidData,
-                "Checksum did not match",
-            ));
+            // Checksum did not match, just skip this frame
+            return Ok(None);
         }
 
         let mut idx = 4;
